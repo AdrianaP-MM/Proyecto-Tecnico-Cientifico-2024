@@ -164,11 +164,11 @@ class TrabajadoresHandler
         return Database::getRow($sql, $params); //Ejecución de la consulta SQL
     }
 
-    public function readCombobox()
+    public function readEspecializaciones()
     {
         // Consulta SQL para seleccionar los campos del combo box
         $sql = 'SELECT id_especializacion_trabajador, nombre_especializacion_trabajador FROM tb_especializaciones_trabajadores';
-        return Database::getRow($sql); //Ejecución de la consulta SQL
+        return Database::getRows($sql); //Ejecución de la consulta SQL
     }
 
 

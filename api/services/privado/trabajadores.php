@@ -34,8 +34,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen trabajadores para mostrar';
                 }
                 break;
-            case 'readCombobox':
-                if ($result['dataset'] = $trabajador->readCombobox()) {
+            case 'readEspecializaciones':
+                if ($result['dataset'] = $trabajador->readEspecializaciones()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No datos que mostrar';
