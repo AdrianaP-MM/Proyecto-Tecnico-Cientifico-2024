@@ -129,7 +129,7 @@ class CitasHandler
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
     public function checkDuplicate($value)
     {
-        $sql = 'SELECT fecha_hora_cita FROM tb_citas WHERE fecha_hora_cita = ?';
+        $sql = 'SELECT fecha_hora_cita FROM tb_citas WHERE fecha_hora_cita = ? AND estado_cita == "Aceptado" OR estado_cita == "En espera"';
         // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
         $params = array(
             $value

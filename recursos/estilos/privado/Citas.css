@@ -15,13 +15,153 @@ body {
     /* Apila los elementos verticalmente */
 }
 
+/* TODO AGREGADOS PARA LOS SERVICIOS EN PROCESO------------------------------------- */
+.contenedorTotalServicios {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: grid;
+    grid-row: auto;
+    row-gap: 20px;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.serviciosHeader {
+    width: 100%;
+    min-height: 7vh;
+    max-height: 7vh;
+    background-color: #1E1E1E;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.serviciosBody {
+    width: 100%;
+    height: 100%;
+}
+
+.serviciosScroll {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    display: grid;
+    grid-column: auto;
+    column-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnAgregarServicio {
+    background-color: white;
+    width: 250px;
+    height: 60%;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    cursor: pointer;
+    border-bottom: 1px solid gray;
+}
+
+.btnAgregarServicio:hover {
+    background-color: #E5383B;
+}
+.btnAgregarServicio:hover>h6 {
+    color: white;
+}
+.servicioCard {
+    background-color: white;
+    border-radius: 5px;
+
+    width: 400px;
+    height: 40vh;
+}
+
+.servicioCardHeader {
+    min-width: 100%;
+    height: 12%;
+
+    background-color: black;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.servicioCardBody {
+    flex: 1;
+}
+
+.imagenCitaServiciosCarro {
+    max-inline-size: 100%;
+
+    block-size: auto;
+    object-fit: cover;
+
+    object-position: top center;
+
+    min-width: 100%;
+    min-height: 35vh;
+    margin-top: -5px;
+}
+
+/* Contenido de la tarjeta */
+.scrollVServicios {
+    min-width: 100%;
+    min-height: 35vh;
+    max-height: 35vh;
+    position: absolute;
+    margin-top: -5px;
+    opacity: 0; /* Inicialmente oculto */
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: grid;
+    grid-row: auto;
+    row-gap: 25px;
+}
+
+.cardItemServicio {
+    width: 90%;
+    height: 60px;
+    background-color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suaviza la transición */
+}
+
+.cardItemServicio>p{
+    color: black;
+}
+
+.cardItemServicio:hover {
+    background-color: #E5383B;
+    transform: scale(1.05) translateY(-5px); /* Crece un poco y se mueve hacia arriba */
+}
+
+.cardItemServicio:hover>p {
+    color: white;
+
+}
+
+/* Botón de retorno */
+.btnReturn {
+    cursor: pointer;
+    width: fit-content;
+    /* Ancho ajustado al contenido */
+}
 
 /****Aqui empiesa el css de info cita****/
 .contenedorDetalles {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
     width: 100%;
     z-index: 3;
@@ -41,20 +181,21 @@ body {
     border-top-right-radius: 20px;
 }
 
-.rowGap{
+.rowGap {
     min-height: 50vh;
 }
 
-.colIzqrd{
+.colIzqrd {
     display: grid;
     row-gap: 20px;
     justify-content: center;
     align-items: center;
 }
 
-.containerImg{
+.containerImg {
     height: 30vh;
     width: 30vh;
+    border-radius: 10px;
 }
 
 .imagenCitaCarro {
@@ -70,141 +211,7 @@ body {
     height: 100%;
     min-width: 100%;
     aspect-ratio: 2/1;
-}
-
-#containerExpandServicios {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: none;
-    background-color: white;
-    overflow-x: scroll;
-    height: 380px;
-}
-
-.Titulo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1E1E1E;
-    color: white;
-}
-
-.cardsServicios {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 15px;
-}
-
-
-/*Al hacer hover a este div aparecera el contenedor contenidoSer*/
-.cardServicio {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    background-image: url(../../imagenes/img_citas/imagenServicio.png);
-    height: 250px;
-    width: 250px;
-    margin-bottom: 20px;
-}
-
-.contenidoSer {
-    display: none;
-    /* Ocultar el contenido por defecto */
-}
-
-/* Mostrar el contenido cuando se hace hover en .cardServicio */
-.cardServicio:hover .contenidoSer {
-    display: block;
-}
-
-.bottomCardSer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: row;
-    background-color: #1E1E1E;
-    color: white;
-    width: 100%;
-    height: 30px;
-}
-
-.bottomCardSer img {
-    width: 20px;
-    height: 20px;
-}
-
-.bottomCardSer h6 {
-    margin-bottom: 0;
-}
-
-/*Este es el contenedor que deplegado*/
-.contenidoSer {
-    height: 70%;
-    background-color: rgba(0, 0, 0, 0.4);
-    overflow-x: hidden;
-    width: 100%;
-    color: white;
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-    padding: 5px;
-    padding-left: 0;
-    display: none;
-}
-
-.contenidoSer::-webkit-scrollbar {
-    width: 10px;
-    background-color: #D9D9D9;
-}
-
-.contenidoSer::-webkit-scrollbar-thumb {
-    background-color: #BA181B;
-    border: 3px solid #D9D9D9;
-    border-radius: 5px;
-}
-
-.contenidoSer strong p {
-    font-size: 15px;
-}
-
-.contAcSer {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.contAcSer p {
-    font-size: 12px;
-}
-
-.contAcSer img {
-    width: 20px;
-    height: 20px;
-}
-
-
-.contenedorInfoSer {
-    padding: 5px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
-
-
-.contenedorInfoSer:hover {
-    background-color: rgba(186, 24, 27, 0.9);
-}
-
-.bottomServicio {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
+    border-radius: 10px;
 }
 
 /* Etiqueta flotante enfocada o con contenido */
@@ -214,218 +221,6 @@ body {
     /* Color rojo */
     /* Color rojo */
 }
-
-#Cerrar {
-    background-color: #000000;
-    color: white;
-    width: 175px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-}
-
-.campos {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    width: 100%;
-    flex-wrap: wrap;
-}
-
-
-/***css del modal***/
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.contenidoModal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-}
-
-
-
-.imagenModal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.imagenModal img {
-    height: 50%;
-    width: 50%;
-}
-
-.botonesModal {
-    display: flex;
-    margin-top: 20px;
-    width: 100%;
-    justify-content: space-around;
-}
-
-.botonesModal a {
-    width: 40%;
-}
-
-.btnModal {
-    background-color: #E5383B;
-    width: 100%;
-    font-size: 12px;
-    color: white;
-    border: none;
-    height: 50px;
-    border-radius: 5px;
-}
-
-
-
-@media screen and (max-width: 530px) {
-
-    .btnModal {
-        font-size: 12px;
-    }
-
-}
-
-@media screen and (max-width: 425px) {
-
-    .btnModal {
-        font-size: 10px;
-    }
-
-    .contenidoModal {
-        flex-direction: column;
-    }
-
-}
-
-
-
-@media screen and (max-width: 328px) {
-
-    .btnModal {
-        font-size: 8px;
-    }
-
-    .contentModal h2 {
-        font-size: 15px;
-    }
-}
-
-/**Modal agregar servicios***/
-
-.contenidoModalSer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.camposServicios {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.input-fieldS {
-    position: relative;
-    margin-right: 15px;
-    margin-bottom: 15px;
-}
-
-.input-fieldS input {
-    width: 250px;
-    height: 40px;
-    border-radius: 6px;
-    font-size: 15px;
-    padding: 0 15px;
-    border: solid 2px #000000;
-    background: transparent;
-    color: #000000;
-    outline: none;
-}
-
-.input-fieldS select {
-    width: 250px;
-    height: 40px;
-    border-radius: 6px;
-    font-size: 15px;
-    padding: 0 15px;
-    border: solid 2px #000000;
-    background: transparent;
-    color: #000000;
-    outline: none;
-}
-
-.botonesModalSer {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    flex-wrap: wrap;
-}
-
-#btnAceptar {
-    border: none;
-    background-color: #E5383B;
-    width: 35%;
-    color: white;
-    height: 35px;
-    border-radius: 5px;
-}
-
-#btnCancelar {
-    border: none;
-    background-color: #161A1D;
-    width: 35%;
-    color: white;
-    height: 35px;
-    border-radius: 5px;
-}
-
-
-@media screen and (max-width: 700px) {
-    .input-fieldS {
-        margin-right: 0;
-    }
-}
-
-@media screen and (max-width: 375px) {
-    .input-fieldS input {
-        width: 200px;
-    }
-
-    .input-fieldS select {
-        width: 200px;
-    }
-
-}
-
-.bottomModalSer {
-    width: 100%;
-    height: 15px;
-    border-top: 4px solid #E5383B;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    /* Cambia el color y aumenta el grosor */
-}
-
 
 /* TODO AGREGADOS ------------------------------------- */
 
@@ -613,24 +408,19 @@ hr {
     /* Ancho del scrollbar */
 }
 
-.contenedor-total-cards::-webkit-scrollbar-thumb {
+.contenedor-total-cards::-webkit-scrollbar-thumb,
+.scrollVServicios::-webkit-scrollbar-thumb{
     background-color: #BA181B;
     /* Color del thumb del scrollbar */
     border-radius: 8px;
     /* Borde redondeado del thumb */
 }
 
-.contenedor-total-cards::-webkit-scrollbar {
+.contenedor-total-cards::-webkit-scrollbar,
+.scrollVServicios::-webkit-scrollbar {
     width: 10px;
     /* Ancho del scrollbar */
 
-}
-
-.contenedor-total-cards::-webkit-scrollbar-thumb {
-    background-color: #BA181B;
-    /* Color del scrollbar thumb */
-    border-radius: 8px;
-    /* Borde redondeado del thumb */
 }
 
 /* Tarjeta */
@@ -848,10 +638,11 @@ hr {
         /* Ancho máximo */
         border: 0px;
         /* Borde */
-        border: 1px solid #1E1E1E;
+        border: 1px solid #1e1e1e99;
         /* Borde */
         min-height: 320px;
         max-height: 320px;
+        
     }
 
     /* Columna derecha de la tarjeta */
@@ -887,7 +678,9 @@ hr {
 
 
 /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
-.card::after {
+.card::after,
+.containerImg::after,
+.servicioCardBody::after{
     content: "";
     position: absolute;
     inset: 0;
@@ -898,8 +691,14 @@ hr {
     opacity: 0;
 }
 
+.servicioCardBody::after{
+    margin-top: -5px;
+}
+
 /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
-.card:hover::after {
+.card:hover::after,
+.containerImg:hover::after,
+.servicioCardBody:hover::after {
     opacity: 1;
     cursor: pointer;
 }
@@ -914,6 +713,11 @@ hr {
     text-align: center;
 }
 
+/* Hacer visible el contenido al pasar el ratón */
+.servicioCardBody:hover .scrollVServicios {
+    opacity: 1;
+}
+
 /* Título del contenido de la tarjeta */
 .content h4 {
     opacity: 0;
@@ -924,7 +728,9 @@ hr {
 }
 
 /* Efecto de crecimiento al pasar el ratón por el contenido */
-.card:hover .content h4 {
+.card:hover .content h4,
+.containerImg:hover .content h4,
+.scrollVServicios:hover h4 {
     scale: 1;
     opacity: 1;
 }
@@ -965,6 +771,12 @@ hr {
     height: 50px;
     width: 300px;
     background-color: #161A1D;
+}
+
+.btnSave2 {
+    height: 50px;
+    width: 300px;
+    background-color: #E5383B;
 }
 
 /* Etiqueta flotante */

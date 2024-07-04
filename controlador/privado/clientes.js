@@ -494,7 +494,7 @@ document.getElementById('input_nrf').addEventListener('input', function (event) 
     inputValue = inputValue.replace(/[^\d-]/g, '');
 
     // Asegurar que no haya más de 100 caracteres
-    inputValue = inputValue.slice(0, 100);
+    inputValue = inputValue.slice(0, 11);
 
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue;

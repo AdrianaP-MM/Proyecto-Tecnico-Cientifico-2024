@@ -1,9 +1,12 @@
 // Constante para completar la ruta de la API.
 const CITAS_API = 'services/privado/citas.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
+const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
 // Constantes para establecer los elementos del componente Modal.
 const MODAL = new bootstrap.Modal('#modalAgregarCita');
+// Constantes para establecer los elementos del componente Modal.
+const MODAL_SERVICIOS = new bootstrap.Modal('#modalAgregarServicio');
 
 const INPUT_FECHA_LLEGADA = document.getElementById('datepicker_llegada');
 const INPUT_AUTOMOVIL = document.getElementById('input_automovil');
@@ -23,9 +26,16 @@ const INPUT_DIRECCION_IDA_UPDATE = document.getElementById('input_ida_UPDATE');
 
 const ADD_FORM = document.getElementById('addForm');
 const UPDATE_FORM = document.getElementById('updateForm');
+const SERVICES_FORM = document.getElementById('servicesForm');
 
-const BUTTONS_EN_ESPERA = document.getElementById('acccionBtnEspera');
-const BUTTONS_EN_ESPERA_FORM = document.getElementById('btnUpdateEspera');
+const BUTTON_CANCELAR_CITA = document.getElementById('btnCancelarCita');
+const BUTTON_ACEPTAR_CITA = document.getElementById('btnAceptarCita');
+const BUTTON_UPDATE_CITA = document.getElementById('btnUpdateCita');
+const BUTTON_SERVICIOS_CITA = document.getElementById('btnOpenServicios');
+
+const CONTENEDOR_EXPAND = document.getElementById('containerExpand');
+const CONTENEDOR_EXPAND_INFO = document.getElementById('infoCita');
+const CONTENEDOR_EXPAND_SERVICIOS = document.getElementById('infoCitaServicios');
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -33,32 +43,42 @@ document.addEventListener('DOMContentLoaded', async () => {
   fillData();
   fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil');
   fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil_UPDATE');
-
-  $('#datepicker_llegada').datepicker({
-    autoclose: true, // Cierra automáticamente después de seleccionar
-    uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
-    minDate: new Date() // Establece la fecha máxima como hoy
-  });
-  $('#datepicker_llegada_UPDATE').datepicker({
-    autoclose: true, // Cierra automáticamente después de seleccionar
-    uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
-    minDate: new Date() // Establece la fecha máxima como hoy
-  });
 });
 
 let id_citaW;
 
+function accionDinamic(estado_cita) {
+  BUTTON_CANCELAR_CITA.classList.add('d-none');
+  BUTTON_ACEPTAR_CITA.classList.add('d-none');
+  BUTTON_UPDATE_CITA.classList.add('d-none');
+  BUTTON_SERVICIOS_CITA.classList.add('d-none');
+
+  switch (estado_cita) {
+    case 'En espera':
+      BUTTON_CANCELAR_CITA.classList.remove('d-none');
+      BUTTON_ACEPTAR_CITA.classList.remove('d-none');
+      BUTTON_UPDATE_CITA.classList.remove('d-none');
+      break;
+    case 'Aceptado':
+      BUTTON_CANCELAR_CITA.classList.remove('d-none');
+      BUTTON_UPDATE_CITA.classList.remove('d-none');
+      BUTTON_SERVICIOS_CITA.classList.remove('d-none');
+      break;
+    case 'Cancelado':
+      // 
+      break;
+    case 'Finalizada':
+      // 
+      break;
+    default:
+      break;
+  }
+}
+
 function clicCita(id_cita, estado_cita) {
-  if (estado_cita == 'En espera') {
-    BUTTONS_EN_ESPERA.classList.remove('d-none');
-    BUTTONS_EN_ESPERA_FORM.classList.remove('d-none');
-  }
-  else {
-    BUTTONS_EN_ESPERA.classList.add('d-none');
-    BUTTONS_EN_ESPERA_FORM.classList.add('d-none');
-  }
+  accionDinamic(estado_cita);
   readOne(id_cita);
-  document.getElementById('containerExpand').classList.remove('d-none');
+  verInfo();
 }
 
 const readOne = async (id_cita) => {
@@ -90,27 +110,6 @@ function formSetValues(row) {
   INPUT_DIRECCION_IDA_UPDATE.value = row.direccion_ida;
 }
 
-
-/* Abre los servicios en proceso
-document.getElementById("btnRevisarServicio").addEventListener("click", function () {
-  // Mostrar el contenedor containerExpand
-  var detalles = document.getElementById("containerExpandServicios");
-  detalles.style.display = "block";
-
-  var detallesExpand = document.getElementById("containerExpand");
-  detallesExpand.style.display = "none";
-});
-
-document.getElementById("btnRegresar").addEventListener("click", function () {
-  // Mostrar el contenedor containerExpand
-  var detallesServicios = document.getElementById("containerExpandServicios");
-  detallesServicios.style.display = "none";
-
-  var detallesExpand = document.getElementById("containerExpand");
-  detallesExpand.style.display = "block";
-});*/
-
-
 // Método del evento para cuando se envía el formulario de guardar.
 ADD_FORM.addEventListener('submit', async (event) => {
   // Se evita recargar la página web después de enviar el formulario.
@@ -127,27 +126,44 @@ UPDATE_FORM.addEventListener('submit', async (event) => {
 
 
 const updateEstado = async (estado_cita) => {
-  const FORM = new FormData();
-  FORM.append('estado_cita', estado_cita)
-  FORM.append('id_cita', id_citaW)
+  let TITLE, MESSAGE;
+  if (estado_cita === 'Cancelado') {
+    TITLE = '¿Seguro que quieres cancelar la cita?';
+    MESSAGE = 'Una vez cancelada solo se podrá eliminar';
+  } else if (estado_cita === 'Aceptado') {
+    TITLE = '¿Seguro que quieres aceptar la cita?';
+    MESSAGE = 'Una vez aceptada no podrás agendar citas con la misma fecha y hora';
+  } else {
+    TITLE = '¿Seguro que quieres realizar esta acción?';
+    MESSAGE = '';
+  }
 
-  // Petición para guardar los datos del formulario.
-  const DATA = await fetchData(CITAS_API, 'updateEstado', FORM);
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2(TITLE, MESSAGE);
+  if (RESPONSE.isConfirmed) {
+    const FORM = new FormData();
+    FORM.append('estado_cita', estado_cita)
+    FORM.append('id_cita', id_citaW)
 
-  // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-  if (DATA.status) {
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(CITAS_API, 'updateEstado', FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
       sweetAlert(1, 'Se ha actualizado el estado de la cita con éxito', 300);
       reload();
       document.getElementById('containerExpand').classList.add('d-none');
-  } else {
-    if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-      await sweetAlert(4, DATA.error, true); location.href = 'index.html'
-    }
-    else {
-      sweetAlert(4, DATA.error, true);
+    } else {
+      if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      }
+      else {
+        sweetAlert(4, DATA.error, true);
+      }
     }
   }
-
+  else {
+  }
 }
 
 const addSave = async (action, form, fecha, hora) => {
@@ -157,6 +173,7 @@ const addSave = async (action, form, fecha, hora) => {
     //Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(form);
     FORM.append('fecha_hora_cita', convertToMySQLDatetime(fecha, hora));
+    FORM.append('fecha_registro', getDateToMysql())
     FORM.append('id_cita', id_citaW)
 
     // Petición para guardar los datos del formulario.
@@ -168,15 +185,12 @@ const addSave = async (action, form, fecha, hora) => {
         sweetAlert(1, 'Se ha guardado con éxito', 300);
         reload();
         MODAL.hide();
-        resetForm(); // Resetea el formulario
         ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
       }
       else {
         sweetAlert(1, 'Se ha actualizado con éxito', 300);
         reload();
-        BUTTONS_EN_ESPERA.classList.add('d-none');
-        BUTTONS_EN_ESPERA_FORM.classList.add('d-none');
-        document.getElementById('containerExpand').classList.add('d-none');
+        noVerNada();
         UPDATE_FORM.classList.remove('was-validated'); // Quita la clase de validación
       }
     } else {
@@ -193,7 +207,8 @@ const addSave = async (action, form, fecha, hora) => {
 };
 
 function reload() {
-  resetForm();
+  ADD_FORM.reset();
+  UPDATE_FORM.reset();
   fillData('readAll');
 }
 
@@ -227,9 +242,18 @@ const search = async (value) => {
 *   Parámetros: form (objeto opcional con los datos de búsqueda).
 *   Retorno: ninguno.
 */
-const fillData = async (action = 'readAll', form = null) => {
 
+function openServicios() {
+  const FORM = new FormData();
+  FORM.append('id_cita', id_citaW)
+  fillData('readServiciosCita', FORM);
+  verServicios();
+}
+
+const fillData = async (action = 'readAll', form = null) => {
+  noVerNada();
   CITAS_CARDS_CONTAINER.innerHTML = '';
+  SERVICIOS_CARDS_CONTAINER.innerHTML = '';
   const FORM = form ?? new FormData();
   const DATA = await fetchData(CITAS_API, action, FORM);
 
@@ -322,6 +346,68 @@ function createCardCita(row) {
   `;
 }
 
+function verInfo() {
+  CONTENEDOR_EXPAND.classList.remove('d-none');
+  CONTENEDOR_EXPAND_SERVICIOS.classList.add('d-none');
+  CONTENEDOR_EXPAND_INFO.classList.remove('d-none');
+}
+
+function verServicios() {
+  CONTENEDOR_EXPAND.classList.remove('d-none');
+  CONTENEDOR_EXPAND_SERVICIOS.classList.remove('d-none');
+  CONTENEDOR_EXPAND_INFO.classList.add('d-none');
+}
+
+function noVerNada() {
+  CONTENEDOR_EXPAND.classList.add('d-none');
+  CONTENEDOR_EXPAND_INFO.classList.add('d-none');
+  CONTENEDOR_EXPAND_SERVICIOS.classList.add('d-none');
+}
+
+const openClose = async () => {
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+  if (RESPONSE.isConfirmed) {
+    MODAL.hide();
+    ADD_FORM.reset();
+  }
+}
+
+const openCloseUpdate = async () => {
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2('¿Seguro qué quieres cerrar?', 'Los datos ingresados no serán actualizados');
+  if (RESPONSE.isConfirmed) {
+    UPDATE_FORM.reset();
+    noVerNada();
+  }
+}
+
+const openCloseServicios = async () => {
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+  if (RESPONSE.isConfirmed) {
+    MODAL_SERVICIOS.hide();
+    SERVICES_FORM.reset();
+  }
+}
+
+// Desactivar la edición directa del input
+document.getElementById('datepicker_llegada').addEventListener('keydown', function (event) {
+  event.preventDefault(); // Prevenir la entrada de texto
+});
+
+$('#datepicker_llegada').datepicker({
+  autoclose: true, // Cierra automáticamente después de seleccionar
+  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
+  minDate: new Date() // Establece la fecha máxima como hoy
+});
+$('#datepicker_llegada_UPDATE').datepicker({
+  autoclose: true, // Cierra automáticamente después de seleccionar
+  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
+  minDate: new Date() // Establece la fecha máxima como hoy
+});
+
+
 function convertToMySQLDatetime(fecha, hora) {
   // Separar la fecha en mes, día y año
   let [mes, dia, anio] = fecha.split('/');
@@ -350,141 +436,3 @@ function convertToMySQLDatetime(fecha, hora) {
 
   return datetimeMySQL;
 }
-
-const openClose = async () => {
-  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-  const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
-  if (RESPONSE.isConfirmed) {
-    MODAL.hide();
-    resetForm();
-  }
-}
-
-const openCloseUpdate = async () => {
-  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-  const RESPONSE = await confirmAction2('¿Seguro qué quieres cerrar?', 'Los datos ingresados no serán actualizados');
-  if (RESPONSE.isConfirmed) {
-    resetForm();
-    document.getElementById('containerExpand').classList.add('d-none');
-  }
-}
-
-function resetForm() {
-  // Resetea el formulario y los mensajes de validación
-  ADD_FORM.reset(); // Resetea el formulario
-  UPDATE_FORM.reset();
-}
-
-// Desactivar la edición directa del input
-document.getElementById('datepicker_llegada').addEventListener('keydown', function (event) {
-  event.preventDefault(); // Prevenir la entrada de texto
-});
-
-
-
-/* Abre el agregar cita closeServiciosA
-document.getElementById("btnAgregar").addEventListener("click", function () {
-  // Ocultar el contenedor containerExpand
-  var AgregarSer = document.getElementById("modalAgregarServicio");
-  AgregarSer.style.display = "block";
-
-});*/
-/*
-var closeButton = document.getElementsByClassName("closeServiciosA")[0];
-
-// Agregar el evento de clic al botón de cierre
-closeButton.addEventListener("click", function () {
-  // Ocultar el contenedor modalAgregarServicio
-  var modalAgregarServicio = document.getElementById("modalAgregarServicio");
-  modalAgregarServicio.style.display = "none";
-});*/
-
-
-/* Obtener el primer elemento con la clase closeServiciosA
-var closeButton = document.getElementsByClassName("closeServiciosB")[0];
-
-// Agregar el evento de clic al botón de cierre
-closeButton.addEventListener("click", function () {
-  // Ocultar el contenedor modalAgregarServicio
-  var modalAgregarServicio = document.getElementById("modalAgregarCita");
-  modalAgregarServicio.style.display = "none";
-});*/
-
-/*
-document.getElementById("btnAgregar").addEventListener("click", function () {
-  // Ocultar el contenedor containerExpand
-  var AgregarSer = document.getElementById("modalAgregarServicio");
-  AgregarSer.style.display = "block";
-
-});*/
-
-
-/* Agregar event listener al botón finalizarCita
-document.getElementById("finalizarCita").addEventListener("click", function () {
-  // Ocultar el contenedor containerExpand
-  var detalles = document.getElementById("containerExpand");
-  detalles.style.display = "none";
-
-});*/
-
-/*
-document.getElementById("Cerrar").addEventListener("click", function () {
-  // Ocultar el contenedor containerExpand
-  var detalles = document.getElementById("containerExpandAgregar");
-  detalles.style.display = "none";
-
-
-});*/
-
-/* Obtener el primer elemento con la clase closeServiciosA
-var closeButton = document.getElementsByClassName("close")[0];
-
-// Agregar el evento de clic al botón de cierre
-closeButton.addEventListener("click", function () {
-  // Ocultar el contenedor modalAgregarServicio
-  var RevisarFac = document.getElementById("myModal");
-  RevisarFac.style.display = "none";
-});*/
-
-
-
-/* Obtener elementos del DOM
-var modal = document.getElementById("myModal");
-var btn = document.getElementById("btnRevisarFactura");
-var span = document.getElementsByClassName("close")[0];
-
-// Abrir el modal cuando se hace clic en el botón
-btn.onclick = function () {
-  modal.style.display = "block";
-}
-
-// Cerrar el modal cuando se hace clic en la "x"
-span.onclick = function () {
-  modal.style.display = "none";
-}
-
-// Cerrar el modal cuando se hace clic fuera del modal
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-// Obtener referencia a la imagen con el ID "btnAgregarServicio"
-const btnAgregarServicio = document.getElementById('btnAgregarServicio');
-var spanServicio = document.getElementsByClassName("closeServicios")[0];
-
-// Obtener referencia al modal con el ID "modalServicios"
-const modalServicios = document.getElementById('modalServicios');
-
-spanServicio.onclick = function () {
-  modalServicios.style.display = "none";
-}
-
-// Agregar un evento "click" a la imagen
-btnAgregarServicio.addEventListener('click', () => {
-  // Mostrar el modal
-  modalServicios.style.display = 'block';
-});
-
-*/

@@ -154,24 +154,38 @@
                 <!--Contenedor total del cuerpo de la página-->
                 <div class="contenedor-total-cards col-12" id="cards_citas_container"></div>
                 <!--Contenedor de detalles citas-->
-                <div class="contenedorDetalles container-fluid pb-0 m-0 d-flex justify-content-center col-12 d-none"
-                    id="containerExpand">
+                <div class="contenedorDetalles container-fluid p-0 m-0 d-flex col-12" id="containerExpand">
                     <!--Container infomacion y campos form-->
-                    <div class="d-flex col-11 rowGap">
+                    <div class="d-flex col-11 rowGap d-none" id="infoCita">
                         <div class="d-flex col-5 flex-column colIzqrd">
-                            <div class="containerImg col-6">
+                            <div class="containerImg col-6 position-relative z-2">
+                                <div class="content z-3">
+                                    <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                                </div>
                                 <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg"
                                     class="imagenCitaCarro">
                             </div>
-                            <div class="containerBtns col-12" id="acccionBtnEspera">
+                            <div class="containerBtns col-12">
                                 <div
                                     class="modal-footer d-flex flex-column justify-content-center align-items-center col-lg-12 col-12">
-                                    <button type="button" class="btn btn-secondary btnCancel2 col-11" onclick="updateEstado('Aceptado')">
-                                        Aceptar cita
+                                    <button type="button" class="btn btn-secondary btnSave2 col-11"
+                                        onclick="updateEstado('Aceptado')" id="btnAceptarCita">
+                                        <h5 class="open-sans-light m-0 p-0">
+                                            Aceptar cita
+                                        </h5>
                                     </button>
-                                        <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3" onclick="updateEstado('Cancelado')">
+                                    <button type="button" class="btn btn-secondary btnSave2 col-11"
+                                        onclick="openServicios()" id="btnOpenServicios">
+                                        <h5 class="open-sans-regular m-0 p-0">
+                                            Servicios en proceso
+                                        </h5>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
+                                        onclick="updateEstado('Cancelado')" id="btnCancelarCita">
+                                        <h5 class="open-sans-regular m-0 p-0">
                                             Cancelar cita
-                                        </button>
+                                        </h5>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -192,8 +206,9 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <label class="form-label px-2 pt-0 p-0 m-0">Automóvil</label>
-                                                <select class="form-select pt-4 open-sans-regular" id="input_automovil_UPDATE"
-                                                    name="input_automovil_UPDATE" aria-label="Default select example" required>
+                                                <select class="form-select pt-4 open-sans-regular"
+                                                    id="input_automovil_UPDATE" name="input_automovil_UPDATE"
+                                                    aria-label="Default select example" required>
                                                 </select>
                                                 <div class="invalid-feedback">Por favor selecciona un automovil para
                                                     la cita.</div>
@@ -202,8 +217,9 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <label class="form-label px-2 pt-0 p-0 m-0">Zona habilitada</label>
-                                                <select class="form-select pt-4 open-sans-regular" id="input_zona_UPDATE"
-                                                    name="input_zona_UPDATE" aria-label="Default select example" required>
+                                                <select class="form-select pt-4 open-sans-regular"
+                                                    id="input_zona_UPDATE" name="input_zona_UPDATE"
+                                                    aria-label="Default select example" required>
                                                     <option value="" selected>Seleccione una opción</option>
                                                     <option value="Ayutuxtepeque">Ayutuxtepeque</option>
                                                     <option value="Aguilares">Aguilares</option>
@@ -215,7 +231,8 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="input_regreso_UPDATE"
-                                                    name="input_regreso_UPDATE" placeholder="..." required maxlength="250">
+                                                    name="input_regreso_UPDATE" placeholder="..." required
+                                                    maxlength="250">
                                                 <label for="input_regreso_UPDATE">Direcciòn de regreso</label>
                                                 <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                     que se regresará el automovil.</div>
@@ -229,7 +246,8 @@
                                                 <input type="time" class="form-control" id="input_hora_UPDATE"
                                                     name="input_hora_UPDATE" placeholder="HH:MM" required min="10:00"
                                                     max="15:00">
-                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:00 PM)</label>
+                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:00
+                                                    PM)</label>
                                                 <div class="invalid-feedback">Por favor ingresa una hora válida se
                                                     aceptan desde las 10AM hasta las 3PM</div>
                                             </div>
@@ -254,8 +272,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
-                                                <input type="text" class="form-control" id="input_ida_UPDATE" name="input_ida_UPDATE"
-                                                    placeholder="..." required maxlength="250">
+                                                <input type="text" class="form-control" id="input_ida_UPDATE"
+                                                    name="input_ida_UPDATE" placeholder="..." required maxlength="250">
                                                 <label for="input_ida_UPDATE">Direcciòn de ida</label>
                                                 <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                     que se traerá el automovil.</div>
@@ -265,94 +283,82 @@
                                 </div>
                                 <div class="modal-footer justify-content-end">
                                     <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
-                                        onclick="openCloseUpdate()">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5 d-none" id="btnUpdateEspera">
-                                        Actualizar</button>
+                                        onclick="openCloseUpdate()">
+                                        <h6 class="open-sans-regular m-0 p-0">
+                                            Cerrar
+                                        </h6>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5"
+                                        id="btnUpdateCita">
+                                        <h6 class="open-sans-regular m-0 p-0">
+                                            Actualizar
+                                        </h6>
+                                    </button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div>
-
-                <!--Agregar servicios-->
-                <div id="modalAgregarServicio" class="modal">
-                    <div class="modal-content">
-                        <span class="closeServiciosA">&times;</span>
-                        <div class="contenidoModalSer">
-                            <div class="titulo">
-                                <h4>Agregar Cita</h4>
+                    <div id="infoCitaServicios">
+                        <div class="contenedorTotalServicios">
+                            <div class="serviciosHeader d-flex justify-content-between align-items-end">
+                                <div class="h-100 d-flex align-items-center px-4">
+                                    <div class="btnReturn" onclick="verInfo()"> <!-- Boton regresar -->
+                                        <img src="../../recursos/imagenes/icons/IconGoBack.svg" width="30px"
+                                            height="30px">
+                                    </div>
+                                    <h5 class="open-sans-semibold m-0 p-0 text-white">
+                                        Servicios en proceso de la cita
+                                    </h5>
+                                </div>
+                                <div class="btnAgregarServicio d-flex justify-content-center align-items-center"
+                                    data-bs-toggle="modal" data-bs-target="#modalAgregarServicio">
+                                    <h6 class="open-sans-semibold m-0 p-0 text-center">
+                                        Agregar servicio
+                                    </h6>
+                                </div>
                             </div>
-
-                            <div class="camposServicios">
-                                <div class="form-floating mb-0 p-0">
-                                    <label for="inputFechaRegistro" class="form-label px-2 pt-1 p-0 m-0">Fecha de
-                                        registro</label>
-                                    <input type="date" class="form-control" id="inputFechaRegistro" placeholder=""
-                                        required>
+                            <div class="serviciosBody">
+                                <div class="serviciosScroll px-4" id="serviciosScroll">
+                                    <div class="servicioCard">
+                                        <div
+                                            class="servicioCardHeader d-flex justify-content-center align-items-center">
+                                            <h6 class="open-sans-semibold m-0 p-0 text-white">
+                                                Cambio de aceite
+                                            </h6>
+                                        </div>
+                                        <div class="servicioCardBody position-relative">
+                                            <div class="scrollVServicios z-3 py-4 px-3">
+                                                <div
+                                                    class="cardItemServicio justify-content-center align-items-center d-flex z-4">
+                                                    <p class=" open-sans-regular m-0 p-0">
+                                                        Reparado de llanta x2 + llenado
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="cardItemServicio justify-content-center align-items-center d-flex z-4">
+                                                    <p class="open-sans-regular m-0 p-0">
+                                                        Reparado de llanta x2 + llenado
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="cardItemServicio justify-content-center align-items-center d-flex z-4">
+                                                    <p class="open-sans-regular m-0 p-0">
+                                                        Reparado de llanta x2 + llenado
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="cardItemServicio justify-content-center align-items-center d-flex z-4">
+                                                    <p class="open-sans-regular m-0 p-0">
+                                                        Reparado de llanta x2 + llenado
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg"
+                                                class="imagenCitaServiciosCarro">
+                                        </div>
+                                    </div>
                                 </div>
-
-
-                                <div class="form-floating mb-2 p-0">
-                                    <input type="text" class="form-control" id="inputFechaHoraCita" placeholder="...">
-                                    <label for="inputFechaHoraCita">Fecha y hora cita</label>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <input type="text" class="form-control" id="inputPlacaAutomovilA" placeholder="...">
-                                    <label for="inputPlacaAutomovilA">Placa de automovil</label>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Movilizacion</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example" id="selectMovilizacion">
-                                        <option value="1">Yo lo traigo y retiro</option>
-                                        <option value="2">Yo solo lo traigo</option>
-                                        <option value="3">Yo solo retiro</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Zona habilitada</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example" id="selectZonaHabilitadaA">
-                                        <option selected>Sansalvador Centro</option>
-                                        <option value="1">San Salvador Oeste</option>
-                                        <option value="2">San Salvador Este</option>
-                                        <option value="3">San Salvador Sur</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <input type="text" class="form-control" id="inputDireccionDada" placeholder="...">
-                                    <label for="inputDireccionDada">Direccion ida</label>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <input type="text" class="form-control" id="inputDireccionRegreso"
-                                        placeholder="...">
-                                    <label for="inputDireccionRegreso">Direccion regreso</label>
-                                </div>
-
-                                <div class="form-floating mb-2 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Estado cita</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example" id="selectEstadoCita">
-                                        <option value="1">Aceptada</option>
-                                        <option value="2">En espera</option>
-                                        <option value="3">Finalizadas</option>
-                                    </select>
-                                </div>
-
                             </div>
-
-                            <hr class="bottomModalSer">
-
-                            <div class="botonesModalSer">
-                                <button id="btnCancelar">Cancelar</button>
-                                <button id="btnAceptar">Aceptar</button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -375,7 +381,7 @@
                                                     <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada</h6>
                                                     <input id="datepicker_llegada"
                                                         class="open-sans-regular datepickerA form-control"
-                                                        name="datepicker_llegada" required/>
+                                                        name="datepicker_llegada" required />
                                                     <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                                 </div>
                                             </div>
@@ -465,260 +471,47 @@
                         </div>
                     </div>
                 </div>
+                <!--Modal para los servicios de la cita-->
+                <div class="modal fade" id="modalAgregarServicio" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="modalAgregarServicioLabel" aria-hidden="true">
+                    <!-- Contenedor del modal dialog-->
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <!-- Contenedor del modal content-->
+                        <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                            <!-- Contenedor del modal body-->
+                            <div class="modal-body">
+                                <form id="servicesForm" name="addFormServicio" class="needs-validation" novalidate>
+                                    <!-- Columna izquierda -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="form-floating mb-0 p-0">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Columna derecha -->
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="form-floating mb-0 p-0">
 
-                <!--Container Servicios en proceso-->
-                <div class="ContainerDetalles container-fluid" id="containerExpandServicios">
-
-                    <div class="Titulo">
-                        <h4>Servicios en proceso</h4>
-                    </div>
-
-                    <div class="cardsServicios">
-
-                        <div class="cardServicio">
-
-                            <div class="contenidoSer">
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                            onclick="openCloseServicios()">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
+                                            Aceptar</button>
                                     </div>
-                                </div>
-
+                                </form>
                             </div>
-
-                            <div class="bottomCardSer">
-                                <h6>Servicio 1</h6>
-                                <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                            </div>
-
-                        </div>
-
-
-                        <div class="cardServicio">
-
-                            <div class="contenidoSer">
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="bottomCardSer">
-                                <h6>Servicio 1</h6>
-                                <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                            </div>
-
-                        </div>
-
-                        <div class="cardServicio">
-
-                            <div class="contenidoSer">
-
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="bottomCardSer">
-                                <h6>Servicio 1</h6>
-                                <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                            </div>
-
-                        </div>
-
-                        <div class="cardServicio">
-
-                            <div class="contenidoSer">
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                                <div class="contenedorInfoSer">
-                                    <strong>
-                                        <p>
-                                            Reparador de llanta
-                                        </p>
-                                    </strong>
-                                    <div class="contAcSer">
-                                        <p>Este servicio sirve para verificar y repara la integridad de las llantas del
-                                            vehiculo del cliente</p>
-                                        <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="bottomCardSer">
-                                <h6>Servicio 1</h6>
-                                <img src="../../recursos/imagenes/img_citas/eliminarIcono.png" alt="">
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="bottomServicio">
-                        <h4 id="btnRegresar">
-                            < Regresar </h4>
-                                <img src="../../recursos/imagenes/img_citas/SignoMas.png" alt=""
-                                    id="btnAgregarServicio">
-                    </div>
-
-                </div>
-
-                <!--Modal para elegir tipo de factura-->
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <div class="contenidoModal">
-                            <div class="imagenModal">
-                                <img src="../../recursos/imagenes/img_citas/factura.png" alt="">
-                            </div>
-                            <div class="contentModal">
-                                <h2>¿Que clase de factura desea realizar?</h2>
-                                <div class="botonesModal">
-                                    <a href="../privado/factura_persona_juridica.html"><button class="btnModal">Credito
-                                            Fiscal</button></a>
-                                    <a href="../privado/factura_persona_natural.html"><button
-                                            class="btnModal">Consumidor
-                                            final</button></a>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!--Modal de la parte de agregar servicio-->
-            <div id="modalServicios" class="modal">
-                <div class="modal-content">
-                    <span class="closeServicios">&times;</span>
-                    <div class="contenidoModalSer">
-                        <div class="titulo">
-                            <h4>Cita Axel Garcia</h4>
-                        </div>
-
-                        <div class="camposServicios">
-                            <div class="form-floating mb-0 p-0">
-                                <label for="inputFechaAproxFinS" class="form-label px-2 pt-1 p-0 m-0">Fecha aprox
-                                    fin</label>
-                                <input type="date" class="form-control" id="inputFechaAproxFinS" placeholder=""
-                                    required>
-                            </div>
-
-
-                            <div class="form-floating mb-2 p-0">
-                                <input type="text" class="form-control" id="inputHoraAproxS" placeholder="...">
-                                <label for="inputHoraAproxS">hora aprox fin</label>
-                            </div>
-
-                            <div class="form-floating mb-0 p-0">
-                                <label for="inputFechaFinS" class="form-label px-2 pt-1 p-0 m-0">Fecha fin</label>
-                                <input type="date" class="form-control" id="inputFechaFinS" placeholder="" required>
-                            </div>
-
-                            <div class="form-floating mb-2 p-0">
-                                <input type="text" class="form-control" id="inputHoraFinS" placeholder="...">
-                                <label for="inputHoraFinS">Hora fin</label>
-                            </div>
-
-                            <div class="form-floating mb-2 p-0">
-                                <label class="form-label px-2 pt-0 p-0 m-0">Servicio</label>
-                                <select class="form-select pt-4 open-sans-regular" aria-label="Default select example">
-                                    <option selected>Mantenimiento aire acondicionado</option>
-                                    <option value="1">Mantenimiento aire acondicionado</option>
-                                    <option value="2">Servicio1</option>
-                                    <option value="3">Servicio2</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <hr class="bottomModalSer">
-
-                        <div class="botonesModalSer">
-                            <button id="btnCancelar">Cancelar</button>
-                            <button id="btnAceptar">Aceptar</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+        </div>
     </main>
 
 
