@@ -263,7 +263,7 @@ CREATE TABLE tb_trabajadores
 	NIT_trabajador VARCHAR(18) NULL, #N U
 	fecha_contratacion DATE NOT NULL, 
 	salario_base DECIMAL(5, 2) NOT NULL,
-    Fto_trabajador LONGBLOB
+    Fto_trabajador VARCHAR(100)
 );
 
 SELECT * FROM tB_trabajadores;
@@ -288,6 +288,9 @@ CREATE TABLE tb_usuarios
 
 INSERT tb_usuarios(correo_usuario, clave_usuario, telefono_usuario, tipo_usuario) VALUES
 ('administradorTRG@gmail.com', '$2y$10$ncU49f8wAQpdC0p5X4DCr.EcZWXBA1Pdrn12x/adOXkGlFilfc7uq', '2222-2222', 'Administrador');
+
+INSERT tb_usuarios(correo_usuario, clave_usuario, telefono_usuario, tipo_usuario) VALUES
+('20220127@ricaldone.edu.sv', '$2y$10$wlHXzkyMEcidweWkd1SSMumEmCiar5QvFxPSH5Me0QJuVrY8jtWiW', '2222-2222', 'Administrador');
 
 CREATE TABLE tb_formas_pagos_consumidores_finales
 (
@@ -381,6 +384,15 @@ VALUES
     ('Crossover'),
     ('Electric');
 
+-- Inserts para tipos de automóviles
+INSERT INTO tb_especializaciones_trabajadores (nombre_especializacion_trabajador, pago_por_especializacion)
+VALUES 
+    ('Electrico', 999.99),
+    ('Motores', 999.99),
+    ('Electronico', 999.99);
+
+
+
 -- Inserts para colores de automóviles
 INSERT INTO tb_colores (nombre_color)
 VALUES 
@@ -464,3 +476,16 @@ VALUES
     ('2023-01-08', '2023-01-17 17:00:00', 8, 'Yo solo regreso el auto', 'Aguilares', 'Calle 8, San Salvador', 'Calle 8, San Salvador', 'Finalizada'),
     ('2023-01-09', '2023-01-18 18:00:00', 9, 'Yo solo llevo el auto', 'Ayutuxtepeque', 'Calle 9, San Salvador', NULL, 'En espera'),
     ('2023-01-10', '2023-01-19 19:00:00', 10, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 10, San Salvador', 'Calle 10, San Salvador', 'Aceptado');
+
+INSERT INTO tb_trabajadores (id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, Fto_trabajador)
+VALUES
+(1, '12345678', '7890-1234', 'juan.perez@example.com', 'Juan', 'Pérez', 'San Salvador', '1234-567890-123', '2020-01-01', 500.00, 'Foto Juan Pérez'),
+(2, '23456789', '9012-3456', 'maria.rodriguez@example.com', 'María', 'Rodríguez', 'La Libertad', '2345-678901-234', '2019-06-01', 600.00, 'Foto María Rodríguez'),
+(3, '34567890', '1111-2222', 'jose.garcia@example.com', 'José', 'García', 'Santa Ana', '3456-789012-345', '2018-03-01', 700.00, 'Foto José García'),
+(3, '45678901', '3333-4444', 'ana.hernandez@example.com', 'Ana', 'Hernández', 'San Miguel', '4567-890123-456', '2017-09-01', 800.00, 'Foto Ana Hernández'),
+(2, '56789012', '5555-6666', 'luis.gomez@example.com', 'Luis', 'Gómez', 'La Unión', '5678-901234-567', '2016-12-01', 900.00, 'Foto Luis Gómez'),
+(1, '67890123', '7777-8888', 'carlos.martinez@example.com', 'Carlos', 'Martínez', 'Cuscatlán', '6789-012345-678', '2015-06-01', 1000.00, 'Foto Carlos Martínez'),
+(1, '78901234', '9999-0000', 'diana.sanchez@example.com', 'Diana', 'Sánchez', 'Chalatenango', '7890-123456-789', '2014-03-01', 1100.00, 'Foto Diana Sánchez'),
+(2, '89012345', '2222-3333', 'roberto.hernandez@example.com', 'Roberto', 'Hernández', 'Ahuachapán', '8901-234567-890', '2013-09-01', 1200.00, 'Foto Roberto Hernández'),
+(3, '90123456', '4444-5555', 'luisa.gonzalez@example.com', 'Luisa', 'González', 'Sonsonate', '9012-345678-901', '2012-12-01', 1300.00, 'Foto Luisa González'),
+(1, '01234567', '6666-7777', 'jorge.lopez@example.com', 'Jorge', 'López', 'Morazán', '0123-456789-012', '2011-06-01', 1400.00, 'Foto Jorge López');
