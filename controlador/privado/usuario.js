@@ -36,13 +36,16 @@ async function readUsuarios() {
 
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const formData = new FormData(SAVE_FORM);
-    const responseData = await fetchData(USER_API, 'editProfile', formData);
-    if (responseData.status) {
-        sweetAlert(1, 'Datos actualizados correctamente', true);
-        readUsuarios();
-    } else {
-        sweetAlert(2, responseData.error, false);
+    const isValid = await checkFormValidity(SAVE_FORM);
+    if (isValid) {
+        const formData = new FormData(SAVE_FORM);
+        const responseData = await fetchData(USER_API, 'editProfile', formData);
+        if (responseData.status) {
+            sweetAlert(1, 'Datos actualizados correctamente', true);
+            readUsuarios();
+        } else {
+            sweetAlert(2, responseData.error, false);
+        }
     }
 });
 
@@ -146,3 +149,6 @@ const openPassword = async () => {
     // Se abre el modal para cambiar la info de
     SAVE_MODAL.show();
 }
+
+
+
