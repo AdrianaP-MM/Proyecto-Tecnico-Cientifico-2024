@@ -92,11 +92,17 @@ main,
     border-radius: 10px; /* Radio de borde */
   }
 
+  .btnRegistro{
+    height: 45px; /* Altura */
+    border-radius: 10px; /* Radio de borde */
+    border-bottom: 1px solid black;
+    width: fit-content;
+  }
+
 /* Botón de olvido */
 .btnForgot {
     background-color: #007CD7; /* Color de fondo */
-    border-top-left-radius: 0px; /* Radio de borde superior izquierdo */
-    border-top-right-radius: 0px; /* Radio de borde superior derecho */
+    border-radius: 10px;
   }
 
 /* Ondas */

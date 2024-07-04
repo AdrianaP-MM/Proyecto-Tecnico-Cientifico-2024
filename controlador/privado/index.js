@@ -31,21 +31,46 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+
 // Método del evento para cuando se envía el formulario de inicio de sesión.
 FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(FORM_LOGIN_INPUTS);
-    // Petición para iniciar sesión.
-    const DATA = await fetchData(USER_API, 'logIn', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-       // sweetAlert(1, DATA.message, true, 'panel_principal.html');
-        location.href = 'panel_principal.html';
-    } else {
-        sweetAlert(2, DATA.error, false);
+    const isValid = await checkFormValidity(FORM_LOGIN_INPUTS);
+    if (isValid) {
+        // Constante tipo objeto con los datos del formulario.
+        const FORM = new FormData(FORM_LOGIN_INPUTS);
+        // Petición para iniciar sesión.
+        const DATA = await fetchData(USER_API, 'logIn', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // sweetAlert(1, DATA.message, true, 'panel_principal.html');
+            location.href = 'panel_principal.html';
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
     }
+    else { }
 });
 
 //Funcion para mostrar el formulario de recuperar contraseña
