@@ -75,7 +75,9 @@
 /* Buscador */
 .buscador {
     margin-top: 30px; /* Margen superior */
-    padding: 15px; /* Relleno */
+    background-color: #F8F8F8;
+    border: 0px;
+    border-radius: 10px;
   }
 
 #searchInput{

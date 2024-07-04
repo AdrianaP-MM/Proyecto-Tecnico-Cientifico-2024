@@ -32,7 +32,7 @@
             <div class="flex-fill col-12">
                 <div class="container">
                     <form id="searchForm">
-                        <div class="input-group mb-3 buscador"> <!--Buscador-->
+                        <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
                             <input type="search" name="search" class="form-control "  placeholder="Buscar..."
                                 aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton">
                                 
@@ -63,7 +63,7 @@
 
                             <div class="modal-dialog modal-dialog-centered modal-xl">
                                 <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                                    <form id="saveForm"> <!--Formulario de guardado-->
+                                    <form id="saveForm" novalidate> <!--Formulario de guardado-->
                                         <!--input para el id del trabajador-->
                                         <input type="number" class="" id="idTrabajador" name="idTrabajador">
 
@@ -88,38 +88,44 @@
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_dui_empleados"
-                                                        name="input_dui_empleados" placeholder="name@example.com">
+                                                        name="input_dui_empleados" placeholder="name@example.com" required>
                                                     <label for="input_dui_empleados">DUI</label> <!--DUI-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nit_empleados"
-                                                        name="input_nit_empleados" placeholder="name@example.com">
+                                                        name="input_nit_empleados" placeholder="name@example.com" required>
                                                     <label for="input_nit_empleados">NIT</label> <!--NIT-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nombre_empleados"
-                                                        name="input_nombre_empleados" placeholder="name@example.com">
+                                                        name="input_nombre_empleados" placeholder="name@example.com" required>
                                                     <label for="input_nombre_empleados">Nombres</label> <!--Nombres-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_apellido_empleados"
-                                                        name="input_apellido_empleados" placeholder="name@example.com">
+                                                        name="input_apellido_empleados" placeholder="name@example.com" required>
                                                     <label for="input_apellido_empleados">Apellidos</label> <!--Apellidos-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_telefono_empleados"
-                                                        name="input_telefono_empleados" placeholder="name@example.com">
+                                                        name="input_telefono_empleados" placeholder="name@example.com" required>
                                                     <label for="input_telefono_empleados">Teléfono</label> <!--Telefono-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_correo_empleados"
-                                                        name="input_correo_empleados" placeholder="name@example.com">
+                                                        name="input_correo_empleados" placeholder="name@example.com" required>
                                                     <label for="input_correo_empleados">Correo electrónico</label> <!--Correo-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -128,7 +134,7 @@
                                                     <!--Departamento-->
                                                     <select class="form-select pt-4 open-sans-regular"
                                                         id="departamento_trabajador" name="departamento_trabajador"
-                                                        aria-label="Default select example">
+                                                        aria-label="Default select example" required>
                                                         <option selected>Seleccione un departamento</option>
                                                         <option value="1">Ahuachapán</option> <!--Opción 1-->
                                                         <option value="2">Cabañas</option> <!--Opción 2-->
@@ -145,6 +151,7 @@
                                                         <option value="13">Sonsonate</option> <!--Opción 12-->
                                                         <option value="14">Usulután</option> <!--Opción 13-->
                                                     </select>
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -152,11 +159,11 @@
                                                         class="form-label px-2 pt-0  p-0 m-0">Especialización</label>
                                                     <!--Especialización-->
                                                     <select class="form-select pt-4 open-sans-regular"
-                                                        id="especializacion_trabajador"
+                                                        id="especializacion_trabajador" 
                                                         name="especializacion_trabajador"
-                                                        aria-label="Default select example">
-
+                                                        aria-label="Default select example" required>
                                                     </select>
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
                                                 <div class="form-floating mb-0 p-0">
                                                     <label for="fecha_contratacion"
@@ -164,12 +171,14 @@
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
                                                         name="fecha_contratacion" placeholder="" required>
+                                                        <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_salario_empleados"
-                                                        name="input_salario_empleados" placeholder="name@example.com">
+                                                        name="input_salario_empleados" placeholder="name@example.com" required>
                                                     <label for="input_salario_empleados">Salario Base</label> <!--Salario-->
+                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                             </div>
