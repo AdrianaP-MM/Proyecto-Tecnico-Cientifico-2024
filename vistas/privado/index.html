@@ -16,7 +16,7 @@
     <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/iconLogin.svg">
 
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
-        <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
+    <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
@@ -70,17 +70,20 @@
                         <!--Contenedor de inputs para llenar los campos para poder ingresar al sistema-->
                         <div class="contenedor-inputs text-center col-11 col-lg-8 col-md-10">
                             <form id="FormLoginInputs" class="needs-validation" novalidate>
-                                <div class="form-floating mb-0">
-                                    <input type="email" class="form-control" id="correoLogin" name="correoLogin"
-                                        placeholder="name@example.com" required>
-                                    <label for="correoLogin">Correo Electrónico</label>
-                                    <div class="invalid-feedback text-white">Por favor ingresa tu correo electrónico.</div>
-                                </div>
-                                <div class="form-floating z-2">
-                                    <input type="password" class="form-control" id="claveLogin" name="claveLogin"
-                                        placeholder="Password" required>
-                                    <label for="claveLogin">Contraseña</label>
-                                    <div class="invalid-feedback text-white">Por favor ingresa tu contraseña.</div>
+                                <div class="inputsGrap">
+                                    <div class="form-floating mb-0">
+                                        <input type="email" class="form-control" id="correoLogin" name="correoLogin"
+                                            placeholder="name@example.com" required>
+                                        <label for="correoLogin">Correo Electrónico</label>
+                                        <div class="invalid-feedback text-white">Por favor ingresa tu correo
+                                            electrónico.</div>
+                                    </div>
+                                    <div class="form-floating z-2">
+                                        <input type="password" class="form-control" id="claveLogin" name="claveLogin"
+                                            placeholder="Password" required>
+                                        <label for="claveLogin">Contraseña</label>
+                                        <div class="invalid-feedback text-white">Por favor ingresa tu contraseña.</div>
+                                    </div>
                                 </div>
 
                                 <div class="contenedorBotones">
@@ -89,7 +92,8 @@
                                             Iniciar Sesión
                                         </h6>
                                     </button>
-                                    <button type="button" class="btn btnRegistro col-10 col-lg-8">
+                                    <button type="button" class="btn btnRegistro col-10 col-lg-8" data-bs-toggle="modal"
+                                        data-bs-target="#modalRegistrarUsuario">
                                         <h6 class="open-sans-regular p-0 m-0 text-white">
                                             Registrarse
                                         </h6>
@@ -111,10 +115,8 @@
                     <div class="contenedor-form d-flex flex-column align-items-center col-12 col-md-10 col-lg-6 p-3 d-none"
                         id="RecForm">
                         <div class="grupo_1 col-11 col-lg-8 col-md-10 open-sans-regular">
-
                             <!--Formulario con inputs para enviar el correo al usuario-->
                             <form id="forgetpasswordstepone">
-
                                 <h6 class="text-white">Ingrese el correo electrónico con el cual registró su cuenta.
                                 </h6>
 
@@ -209,7 +211,77 @@
                         </div>
                     </div>
 
-                    <div class="contenedor-imagen col-12 col-lg-6 text-center d-none d-lg-block">
+                    <div class="modal fade" id="modalRegistrarUsuario" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegistrarUsuarioLabel"
+                        aria-hidden="true">
+                        <!-- Contenedor del modal dialog-->
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <!-- Contenedor del modal content-->
+                            <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                                <!-- Contenedor del modal body-->
+                                <div class="modal-body">
+                                    <form id="addForm" name="addForm" class="needs-validation" novalidate>
+                                        <!-- Columna izquierda -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <div class="form-floating formRegistroU mb-0 p-0">
+                                                        <input type="email" class="form-control" id="input_correo"
+                                                            name="input_correo" placeholder="..." required>
+                                                        <label for="input_correo">Correo electrònico</label>
+                                                        <div class="invalid-feedback">Por favor ingresa un correo
+                                                            válido.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-floating formRegistroU  mb-0 p-0">
+                                                        <input type="password" class="form-control"
+                                                            id="input_contrasena" placeholder="Password"
+                                                            name="input_contrasena" required>
+                                                        <label for="input_contrasena">Contraseña</label>
+                                                        <div class="invalid-feedback">Por favor ingresa una contraseña
+                                                            válida.</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <!-- Columna derecha -->
+                                            <div class="col-md-6">
+                                                <div class="mb-3">
+                                                    <div class="form-floating formRegistroU  mb-0 p-0">
+                                                        <input type="phone" class="form-control"
+                                                            id="input_telefono" placeholder="Password"
+                                                            name="input_telefono" required>
+                                                        <label for="input_telefono">Nùmero telefònonico</label>
+                                                        <div class="invalid-feedback">Por favor ingresa un nùmero telefònico vàlido.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-floating formRegistroU  mb-0 p-0">
+                                                        <input type="password" class="form-control"
+                                                            id="input_contrasena2" placeholder="Password"
+                                                            name="input_contrasena2" required>
+                                                        <label for="input_contrasena2">Confirmar contraseña</label>
+                                                        <div class="invalid-feedback">Por favor ingresa tu contraseña.</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button"
+                                                class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                                onclick="openClose()">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
+                                                Aceptar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contenedor-imagen col-12 col-lg-5 text-center d-none d-lg-block">
                         <img src="../../recursos/imagenes/img-index/img-woman-1.svg">
                     </div>
                 </div>

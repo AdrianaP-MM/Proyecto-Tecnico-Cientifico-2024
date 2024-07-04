@@ -26,13 +26,14 @@ main,
     min-height: 600px; /* Altura mínima */
     border-radius: 10px; /* Radio de borde */
     justify-content: center; /* Justificar contenido */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
   }
 
 /* Contenedor de formulario */
 .contenedor-form {
     /*GRID*/
     display: grid; /* Mostrar como grid */
-    gap: 55px; /* Espacio entre elementos */
+    gap: 45px; /* Espacio entre elementos */
     height: fit-content; /* Altura ajustada al contenido */
   }
 
@@ -54,8 +55,13 @@ main,
   /* Contenedor de inputs */
   .contenedor-inputs {
     display: grid; /* Mostrar como grid */
-    gap: 40px; /* Espacio entre elementos */
+    gap: 0px; /* Espacio entre elementos */
     height: fit-content; /* Altura ajustada al contenido */
+  }
+
+  .inputsGrap{
+    display: grid; /* Mostrar como grid */
+    gap: 25px;
   }
 
   /*Contenedor con etiqueta form*/
@@ -87,15 +93,14 @@ main,
   
   /* Botón de inicio */
   .btnInicio {
-    background-color: black; /* Color de fondo */
+    background-color: #292929; /* Color de fondo */
     height: 55px; /* Altura */
     border-radius: 10px; /* Radio de borde */
   }
 
   .btnRegistro{
-    height: 45px; /* Altura */
+    height: 40px; /* Altura */
     border-radius: 10px; /* Radio de borde */
-    border-bottom: 1px solid black;
     width: fit-content;
   }
 
@@ -205,3 +210,37 @@ main,
     height: fit-content; /* Altura ajustada al contenido */
     width: fit-content; /* Ancho ajustado al contenido */
   }
+
+  /* Estilos para el botón de cancelar */
+.btnCancel {
+  background-color: black;
+}
+
+/* Estilos para el botón de guardar */
+.btnSave {
+  background-color: #E5383B;
+}
+
+/* Estilos para los botones de guardar y cancelar */
+.btnSave,
+.btnCancel {
+  height: 50px;
+  width: 200px;
+}
+/* Etiqueta flotante enfocada o con contenido */
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label {
+    color: red;
+    /* Color rojo */
+    /* Color rojo */
+}
+
+/* Etiqueta flotante */
+.formRegistroU>label {
+  color: red;
+}
+
+/* Estilo para el diálogo modal */
+.modal-dialog {
+  min-width: 50vw;
+}

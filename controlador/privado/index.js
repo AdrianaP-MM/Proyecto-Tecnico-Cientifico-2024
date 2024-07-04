@@ -1,14 +1,17 @@
+
+//Constante donde esta la ruta del archivo php
+const USER_API = 'services/privado/usuarios.php';
 const LOGIN_FORM = document.getElementById('LoginForm');
 const CONREC_FORM = document.getElementById('RecForm');
 const CONREST_FORM = document.getElementById('RestForm');
 
 const textREC = document.getElementById('textREC');
 const textREST = document.getElementById('textREST');
+const MODAL = new bootstrap.Modal('#modalRegistrarUsuario');
 
-//Constante donde esta la ruta del archivo php
-const USER_API = 'services/privado/usuarios.php';
 //Constante para llamar al form de inicio de sesion
 const FORM_LOGIN_INPUTS = document.getElementById('FormLoginInputs');
+const ADD_FORM = document.getElementById('addForm');
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -84,9 +87,7 @@ function showRecCon() {
 
 //Funcion para mostrar el formulario de recuperacion de contraseña cuando se ha verificado la direccion de correo electronico
 function showRestCon() {
-
     sweetAlert(1, 'Seguridad aprobada para recuperar contraseña', 250);
-
     LOGIN_FORM.classList.add('d-none');
     CONREC_FORM.classList.add('d-none');
     textREC.classList.add('d-none');
@@ -108,6 +109,15 @@ const openNoti1 = async () => {
     // Llamada a la función para mostrar una notificación
     sweetAlert(1, 'El <span class="open-sans-bold-italic">código de verificación</span> ha sido enviado a su direcciòn de corrreo electrónico', 250);
 }
+
+const openClose = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+    if (RESPONSE.isConfirmed) {
+      MODAL.hide();
+      ADD_FORM.reset();
+    }
+  }
 
 document.getElementById('Input_Contra2').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
