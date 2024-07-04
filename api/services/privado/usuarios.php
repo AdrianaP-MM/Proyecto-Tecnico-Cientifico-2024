@@ -115,20 +115,17 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 // Ejemplo básico de manejo de datos en PHP
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    if (isset($_POST['correoUsuario'])) {
-                        $correoUsuario = $_POST['correoUsuario'];
-                        // Procesar $correoUsuario y otros datos aquí
-                        $response['status'] = 1;
-                        $response['message'] = 'Datos actualizados correctamente';
-                        echo json_encode($response);
-                        exit();
-                    } else {
-                        $response['status'] = 0;
-                        $response['error'] = 'Ingrese un correo válido';
-                        echo json_encode($response);
-                        exit();
-                    }
+                if (
+                    !$usuario->setCorreo($_POST['correoUsuario']) or
+                    !$usuario->setNumeroTelefonico($_POST['telefonoUsuario'])
+                ) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->editProfile()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil modificado correctamente';
+                    $_SESSION['correoUsuario'] = $_POST['correoUsuario'];
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
 
