@@ -53,19 +53,26 @@ if (isset($_GET['action'])) {
                 break;
                 // Acción para agregar a un trabajador a la base.
             case 'createRow':
+                
+                // Verifica el contenido de $_POST antes de la validación
+                error_log('Antes de la validación: ' . print_r($_POST, true));
+
                 $_POST = Validator::validateForm($_POST);
 
+                // Verifica el contenido de $_POST después de la validación
+                error_log('Después de la validación: ' . print_r($_POST, true));
+
                 if (
-                    !$trabajador->setDUI($_POST['input_dui']) or
-                    !$trabajador->setNIT($_POST['input_nit']) or
-                    !$trabajador->setNombre($_POST['input_nombre']) or
-                    !$trabajador->setApellido($_POST['input_apellido']) or
-                    !$trabajador->setTelefono($_POST['input_telefono']) or
-                    !$trabajador->setCorreo($_POST['input_correo']) or
+                    !$trabajador->setDUI($_POST['input_dui_empleados']) or
+                    !$trabajador->setNIT($_POST['input_nit_empleados']) or
+                    !$trabajador->setNombre($_POST['input_nombre_empleados']) or
+                    !$trabajador->setApellido($_POST['input_apellido_empleados']) or
+                    !$trabajador->setTelefono($_POST['input_telefono_empleados']) or
+                    !$trabajador->setCorreo($_POST['input_correo_empleados']) or
                     !$trabajador->setDepartamento($_POST['departamento_trabajador']) or
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
-                    !$trabajador->setSalarioBase($_POST['input_salario']) or
+                    !$trabajador->setSalarioBase($_POST['input_salario_empleados']) or
                     !$trabajador->setFtoTrabajador($_FILES['fto_trabajador'])
 
                 ) {
@@ -82,16 +89,16 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$trabajador->setDUIUpdate($_POST['input_dui']) or
-                    !$trabajador->setNITUpdate($_POST['input_nit']) or
-                    !$trabajador->setNombre($_POST['input_nombre']) or
-                    !$trabajador->setApellido($_POST['input_apellido']) or
-                    !$trabajador->setTelefonoUpdate($_POST['input_telefono']) or
-                    !$trabajador->setCorreoUpdate($_POST['input_correo']) or
+                    !$trabajador->setDUI($_POST['input_dui_empleados']) or
+                    !$trabajador->setNIT($_POST['input_nit_empleados']) or
+                    !$trabajador->setNombre($_POST['input_nombre_empleados']) or
+                    !$trabajador->setApellido($_POST['input_apellido_empleados']) or
+                    !$trabajador->setTelefono($_POST['input_telefono_empleados']) or
+                    !$trabajador->setCorreo($_POST['input_correo_empleados']) or
                     !$trabajador->setDepartamento($_POST['departamento_trabajador']) or
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
-                    !$trabajador->setSalarioBase($_POST['input_salario']) or
+                    !$trabajador->setSalarioBase($_POST['input_salario_empleados']) or
                     !$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
                     !$trabajador->setIdTrabajador($_POST['idTrabajador'])
                 ) {

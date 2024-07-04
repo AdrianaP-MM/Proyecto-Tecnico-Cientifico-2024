@@ -12,16 +12,16 @@ const SAVE_MODAL = new bootstrap.Modal('#staticBackdrop');
 
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    DUI = document.getElementById('input_dui'),
-    NIT = document.getElementById('input_nit'),
-    NOMBRES = document.getElementById('input_nombre'),
-    APELLIDOS = document.getElementById('input_apellido'),
-    TELEFONO = document.getElementById('input_telefono'),
-    CORREO = document.getElementById('input_correo'),
+    DUI = document.getElementById('input_dui_empleados'),
+    NIT = document.getElementById('input_nit_empleados'),
+    NOMBRES = document.getElementById('input_nombre_empleados'),
+    APELLIDOS = document.getElementById('input_apellido_empleados'),
+    TELEFONO = document.getElementById('input_telefono_empleados'),
+    CORREO = document.getElementById('input_correo_empleados'),
     DEPARTAMENTO = document.getElementById('departamento_trabajador'),
     ESPECIALIZACION = document.getElementById('especializacion_trabajador'),
     FECHA = document.getElementById('fecha_contratacion'),
-    SALARIO = document.getElementById('input_salario'),
+    SALARIO = document.getElementById('input_salario_empleados'),
     FTO_TRABAJADOR = document.getElementById('fto_trabajador'),
     ID_EMPLEADO = document.getElementById('idTrabajador');
 // *Método del evento para cuando el documento ha cargado.
@@ -166,20 +166,21 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 
     // Petición para guardar los datos del formulario.
-    const responseData = await fetchData(TRABAJADORES_API, action, formData);
+    const DATA = await fetchData(TRABAJADORES_API, action, formData);
 
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (responseData.status) {
+    if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_FORM.hide();
         // Se muestra un mensaje de éxito.
-        sweetAlert(1, responseData.message, true);
+        sweetAlert(1, DATA.message, true); // Aquí usa DATA.message
         // Se carga nuevamente la tabla para visualizar los cambios.
         readTrabajadores();
     } else {
-        sweetAlert(2, responseData.error, false);
+        sweetAlert(2, DATA.error, false); // Aquí usa DATA.error
     }
 });
+
 
 
 
@@ -355,7 +356,7 @@ function displaySelectedImage(event, elementId) {
 }
 
 
-document.getElementById('input_dui').addEventListener('input', function (event) {
+document.getElementById('input_dui_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -374,7 +375,7 @@ document.getElementById('input_dui').addEventListener('input', function (event) 
     event.target.value = inputValue;
 });
 
-document.getElementById('input_nit').addEventListener('input', function (event) {
+document.getElementById('input_nit_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -412,7 +413,7 @@ document.getElementById('input_nit').addEventListener('input', function (event) 
 });
 
 
-document.getElementById('input_nombre').addEventListener('input', function (event) {
+document.getElementById('input_nombre_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -426,7 +427,7 @@ document.getElementById('input_nombre').addEventListener('input', function (even
     event.target.value = inputValue;
 });
 
-document.getElementById('input_apellido').addEventListener('input', function (event) {
+document.getElementById('input_apellido_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -440,7 +441,7 @@ document.getElementById('input_apellido').addEventListener('input', function (ev
     event.target.value = inputValue;
 });
 
-document.getElementById('input_telefono').addEventListener('input', function (event) {
+document.getElementById('input_telefono_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -459,7 +460,7 @@ document.getElementById('input_telefono').addEventListener('input', function (ev
     event.target.value = inputValue;
 });
 
-document.getElementById('input_correo').addEventListener('input', function (event) {
+document.getElementById('input_correo_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
@@ -473,7 +474,7 @@ document.getElementById('input_correo').addEventListener('input', function (even
     event.target.value = inputValue;
 });
 
-document.getElementById('input_salario').addEventListener('input', function (event) {
+document.getElementById('input_salario_empleados').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
