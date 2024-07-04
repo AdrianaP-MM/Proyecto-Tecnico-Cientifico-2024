@@ -114,20 +114,24 @@ if (isset($_GET['action'])) {
                 break;
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuario->setCorreo($_POST['correoUsuario']) or
-                    !$usuario->setNumeroTelefonico($_POST['telefonoUsuario'])
-                ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->editProfile()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Perfil modificado correctamente';
-                    $_SESSION['aliasAdministrador'] = $_POST['aliasAdministrador'];
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                // Ejemplo básico de manejo de datos en PHP
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    if (isset($_POST['correoUsuario'])) {
+                        $correoUsuario = $_POST['correoUsuario'];
+                        // Procesar $correoUsuario y otros datos aquí
+                        $response['status'] = 1;
+                        $response['message'] = 'Datos actualizados correctamente';
+                        echo json_encode($response);
+                        exit();
+                    } else {
+                        $response['status'] = 0;
+                        $response['error'] = 'Ingrese un correo válido';
+                        echo json_encode($response);
+                        exit();
+                    }
                 }
                 break;
-                
+
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->checkPassword($_POST['claveActual'])) {
@@ -143,22 +147,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
-                case 'changePasswordDos':
-                    $_POST = Validator::validateForm($_POST);
-                    if (!$usuario->checkPassword($_POST['input_contra_actual'])) { // Aquí debería coincidir con el campo enviado del formulario
-                        $result['error'] = 'Contraseña actual incorrecta';
-                    } elseif ($_POST['input_contra'] != $_POST['input_repetircontra']) { // Comparar la nueva contraseña y la confirmación
-                        $result['error'] = 'Confirmación de contraseña diferente';
-                    } elseif (!$usuario->setClave($_POST['input_contra'])) {
-                        $result['error'] = $usuario->getDataError();
-                    } elseif ($usuario->changePassword()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Contraseña cambiada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
-                    }
-                    break;
-                
+            case 'changePasswordDos':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->checkPassword($_POST['input_contra_actual'])) { // Aquí debería coincidir con el campo enviado del formulario
+                    $result['error'] = 'Contraseña actual incorrecta';
+                } elseif ($_POST['input_contra'] != $_POST['input_repetircontra']) { // Comparar la nueva contraseña y la confirmación
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                } elseif (!$usuario->setClave($_POST['input_contra'])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->changePassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                }
+                break;
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

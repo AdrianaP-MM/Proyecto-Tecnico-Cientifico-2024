@@ -21,7 +21,7 @@ class TrabajadoresHandler
     protected $Fto_trabajador = null;
 
     //Aqui se guardaran las imagenes 
-    const RUTA_IMAGEN = '../../helpers/images/trabajadores';
+    const RUTA_IMAGEN = '../../../api/images/traabajadores/';
 
     //Método para buscar trabajadores dependiendo de su nombre o dui 
     public function searchRows()
@@ -120,26 +120,13 @@ class TrabajadoresHandler
     }
 
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
-    public function checkDuplicate($value)
+    public function checkDuplicated($value)
     {
-        // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
-        $sql = 'SELECT id_trabajador FROM tb_trabajadores 
-        WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
-        // Parámetros para la consulta SQL
-        $params = array(
-            $value,
-            $value,
-            $value,
-            $value,
-        );
-
-        //Parametro a agregar si id trabajador es correcto
-        if ($this->id_trabajador) {
-            $sql .= ' AND id_trabajador <> ?;';
-            $params[] = $this->id_trabajador;
-        }
-
-        return Database::getRows($sql, $params); //Ejecución de la consulta SQL
+        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
+        $params = array($value);
+        $result = Database::getRow($sql, $params);
+        // Retorna true si el count es mayor que 0, de lo contrario, false.
+        return $result['count'] > 0;
     }
 
     // Método para campos de todos los trabajadores

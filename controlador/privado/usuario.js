@@ -7,6 +7,7 @@ SAVE_FORM = document.getElementById('inputUsuario');
 CONTRASEÑA = document.getElementById('input_contra');
 REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 PASSWORD_FORM = document.getElementById('saveForm');
+ID_USUARIO = document.getElementById('id_usuario');
 
 
 // Constantes para establecer los elementos del componente Modal.
@@ -38,7 +39,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     const formData = new FormData(SAVE_FORM);
     const responseData = await fetchData(USER_API, 'editProfile', formData);
     if (responseData.status) {
-        sweetAlert(1, 'Correo o teléfono cambiados exitosamente', true);
+        sweetAlert(1, 'Datos actualizados correctamente', true);
         readUsuarios();
     } else {
         sweetAlert(2, responseData.error, false);
@@ -68,23 +69,57 @@ const openLogout = async () => {
     }
 }
 
-// Método del evento para cuando se envía el formulario de guardar.
-SAVE_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Constante tipo objeto con los datos del formulario.
-    const formData = new FormData(SAVE_FORM);
-    // Petición para guardar los datos del formulario.
-    const responseData = await fetchData(USER_API, 'editProfile', formData);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (responseData.status) {
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, responseData.message, true);
-        // Se carga nuevamente la tabla para visualizar los cambios.
-        readUsuarios();
-    } else {
-        sweetAlert(2, responseData.error, false);
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+
+document.getElementById('telefonoUsuario').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 8 dígitos
+    inputValue = inputValue.slice(0, 8);
+
+    // Formatear el número agregando el guión
+    if (inputValue.length > 4) {
+        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
     }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
+
+document.getElementById('correoUsuario').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar espacios en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Asegurar que el correo electrónico no supere los 50 caracteres
+    inputValue = inputValue.slice(0, 50);
+
+    // Actualizar el valor del campo de texto con la entrada limitada
+    event.target.value = inputValue;
 });
 
 // Método del evento para cuando se envía el formulario de cambiar contraseña.

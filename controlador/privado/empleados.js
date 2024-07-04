@@ -28,7 +28,8 @@ const SAVE_FORM = document.getElementById('saveForm'),
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     readTrabajadores();
-    fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador');
+    await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador');
+    
 });
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
@@ -293,6 +294,7 @@ const openDelete = async (id) => {
 
 // Función principal para abrir el formulario de creación
 async function openCreate() {
+
     // Se prepara el formulario.
     SAVE_FORM.reset();
     // Se muestra la caja de diálogo con su título.
