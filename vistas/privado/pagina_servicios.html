@@ -29,88 +29,12 @@
 <body>
     <!-- *Contenido principal del documento -->
     <main class="open">
+    
         <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
-            <div class="contenedor-scroll col-11 p-3">
-                <div class="add-auto-card d-flex align-items-center justify-content-center">
+            <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
+                <div  class="add-auto-card d-flex align-items-center justify-content-center">
                     <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
-                </div>
-                <div class="card-red shadow-sm z-2" onclick="gotoDetail()">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
-                </div>
-                <div class="card-red shadow-sm z-2">
-                    <div class="content z-3">
-                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                    </div>
-                    <div class="img-container p-3">
-                        <img src="../../recursos/imagenes/img_servicios/mecanica.png">
-                    </div>
-                    <div class="text-container d-flex justify-content-center p-2">
-                        <h3 class="open-sans-regular text-white">Mécanica General</h3>
-                    </div>
                 </div>
             </div>
         </div>
@@ -118,46 +42,35 @@
 
     <!--TODO -------------------------------MODAL ADD---------------------->
     <!-- Contenedor del modal de agregar automovil-->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <!-- Contenedor del modal dialog-->
-        <div class="modal-dialog modal-dialog-centered">
-            <!-- Contenedor del modal content-->
-            <div class="modal-content p-lg-4 p-2">
-                <!-- Contenedor del modal body-->
-                <div class="modal-body col-12">
-                    <!-- Contenedor de la izquierda, adjuntar imagen del automovil-->
-                    <div
-                        class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">  
-                        <!-- Elemento input de Nombre-->
-                        <div class="form-floating mb-0 p-0 col-12 mb-4">
-                            <input type="text" class="form-control" id="input_nombre" placeholder="...">
-                            <label for="input_nombre">Nombre de la categoria</label>
+   <!-- Formulario en el modal para agregar servicio -->
+<div class="modal fade" id="staticBackdrop" ...>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-lg-4 p-2">
+            <div class="modal-body col-12">
+                <div class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">
+                    <form id="addForm" enctype="multipart/form-data">
+                        <input type="number" id="id_tipo_servicio" name="idCategoria" class="invisible">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="input_nombre" placeholder="Nombre del servicio">
+                            <label for="input_nombre">Nombre del servicio</label>
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" class="form-control" id="input_imagen" onchange="displaySelectedImage(event, 'selectedImageW')">
+                            <label class="form-label" for="input_imagen">Seleccionar imagen</label>
                         </div>
 
-                        <h6>Imagen de la categoría</h6>
-                        <!-- Imagen seleccionada y botón para elegir imagen -->
-                        <img id="selectedImageW" class="col-10 "
-                            src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" alt="example placeholder" />
-                        <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
-                            <label class="form-label text-white m-1" for="customFileW">Seleccionar
-                                imagen</label>
-                            <input type="file" class="form-control d-none" id="customFileW" readonly
-                                onchange="displaySelectedImage(event, 'selectedImageW')" />
+                        <div class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                            <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3" onclick="openClose()">Cancelar</button>
+                            <button id="btnGuardar" type="button" class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3" onclick="addSave()">Guardar</button>
                         </div>
-
-                        
-                    </div>
-                </div>
-                <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                <div class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                    <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
-                        onclick="openClose()">Cancelar</button>
-                    <button type="button" class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3" onclick="openNoti()">
-                        Guardar</button>
+                    </form>
                 </div>
             </div>
+           
         </div>
+    </div>
+</div>
+
     </div>
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->
