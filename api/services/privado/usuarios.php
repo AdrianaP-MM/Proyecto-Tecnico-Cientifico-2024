@@ -127,6 +127,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
+                
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->checkPassword($_POST['claveActual'])) {
@@ -142,6 +143,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
                 }
                 break;
+                case 'changePasswordDos':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$usuario->checkPassword($_POST['input_contra_actual'])) { // Aquí debería coincidir con el campo enviado del formulario
+                        $result['error'] = 'Contraseña actual incorrecta';
+                    } elseif ($_POST['input_contra'] != $_POST['input_repetircontra']) { // Comparar la nueva contraseña y la confirmación
+                        $result['error'] = 'Confirmación de contraseña diferente';
+                    } elseif (!$usuario->setClave($_POST['input_contra'])) {
+                        $result['error'] = $usuario->getDataError();
+                    } elseif ($usuario->changePassword()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña cambiada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

@@ -1,34 +1,21 @@
 <!DOCTYPE html>
-<!-- Declaración del idioma para el documento -->
 <html lang="es">
 
 <head>
-    <!-- Título del documento -->
-    <title>Usuario - DARG</title> <!--Cambiarlo por el titulo de la página en cuestion-->
-
-    <!-- Metadatos de la página web -->
+    <title>Usuario - DARG</title>
     <meta charset="utf-8">
     <meta name="author" content="DARG_Company">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- *IMPORTACIÓN DE RECURSOS EXTERNOS -->
-    <!-- Llamada al icono de la página web -->
     <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/icono_usuario.svg">
-
-    <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-
-    <!-- *Llamada a las hojas de estilos propios de css (CREADOS)-->
     <link href="../../recursos/estilos/privado/usuario.css" rel="stylesheet">
-    <!--Cambiarlo por el css de la página en cuestion-->
-    <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
-    <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
+    <link href="../../recursos/estilos/fuentes.css" rel="stylesheet">
+    <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- *Contenido principal del documento -->
     <main class="open">
         <div class="contenedor-total d-flex flex-wrap">
             <div class="contenedor-blanco shadow col-lg-6 col-md-10 col-12 d-flex">
@@ -50,37 +37,25 @@
                             <form id="inputUsuario">
                                 <div class="form-floating mb-0">
                                     <input type="email" class="form-control" id="correoUsuario" name="correoUsuario"
-                                        placeholder="name@example.com"
-                                        value="correoelectrionico@gmail.com                                    ">
+                                        placeholder="name@example.com" value="correoelectrionico@gmail.com">
                                     <label for="correoUsuario">Correo Electrónico</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input type="tel" class="form-control" id="telefonoUsuario" placeholder="0000-0000">
+                                    <input type="tel" class="form-control" id="telefonoUsuario" name="telefonoUsuario" placeholder="0000-0000">
                                     <label for="telefonoUsuario">Teléfono</label>
                                 </div>
-                                <div
-                                    class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap">
-                                    <button type="button" class="btn btn-dark btnCancelar col-lg-5 col-md-5 col-10"
-                                        onclick="openClose()">
-                                        <h6 class="open-sans-bold p-0 m-0 z-3">
-                                            Cancelar
-                                        </h6>
+                                <div class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap">
+                                    <button type="button" class="btn btn-dark btnCancelar col-lg-5 col-md-5 col-10" onclick="openClose()">
+                                        <h6 class="open-sans-bold p-0 m-0 z-3">Cancelar</h6>
                                     </button>
                                     <button type="submit" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10">
-                                        <h6 class="open-sans-bold p-0 m-0 z-3">
-                                            Guardar
-                                        </h6>
+                                        <h6 class="open-sans-bold p-0 m-0 z-3">Guardar</h6>
                                     </button>
-                                    <button type="button" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10"
-                                        onclick="openPassword()">
-                                        <h6 class="open-sans-bold p-0 m-0 z-3">
-                                            Cambiar contraseña
-                                        </h6>
+                                    <button type="button" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10" onclick="openPassword()">
+                                        <h6 class="open-sans-bold p-0 m-0 z-3">Cambiar contraseña</h6>
                                     </button>
                                 </div>
-
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -88,42 +63,34 @@
             <div class="contenedor-imagen col-lg-5 col-md-0 col-0 d-flex justify-content-end align-items-end">
                 <img src="../../recursos/imagenes/img-usuario/img-woman-2.svg" class="d-none d-lg-block">
             </div>
-            <!--Modal-->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3 text-center">
-                        <form id="saveForm"> <!--Formulario de guardado-->
-
+                        <form id="saveForm">
                             <div class="modal-body row justify-content-center">
-
                                 <div class="content-add-info col-md-7">
-
                                     <div class="form-floating mb-0 p-0">
-                                        <input type="text" class="form-control" id="input_contra" name="input_contra"
-                                            placeholder="name@example.com">
-                                        <label for="input_contra">Nueva contraseña</label> <!--Contraseña antigua-->
+                                        <input type="password" class="form-control" id="input_contra_actual" name="input_contra_actual" placeholder="Contraseña actual">
+                                        <label for="input_contra_actual">Contraseña actual</label>
                                     </div>
-
                                 </div>
                                 <div class="content-add-info col-md-7">
-
                                     <div class="form-floating mb-0 p-0">
-                                        <input type="text" class="form-control" id="input_repetircontra"
-                                            name="input_repetircontra" placeholder="name@example.com">
-                                        <label for="input_repetircontra">Repetir contraseña</label>
-                                        <!--Contraseña nueva-->
+                                        <input type="password" class="form-control" id="input_contra" name="input_contra" placeholder="Nueva contraseña">
+                                        <label for="input_contra">Nueva contraseña</label>
                                     </div>
-
+                                </div>
+                                <div class="content-add-info col-md-7">
+                                    <div class="form-floating mb-0 p-0">
+                                        <input type="password" class="form-control" id="input_repetircontra" name="input_repetircontra" placeholder="Repetir contraseña">
+                                        <label for="input_repetircontra">Repetir contraseña</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
-                                    onclick="openClose()">Cancelar</button>
-                                <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
-                                    Aceptar
-                                </button>   
+                                <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5" onclick="openClose()">Cancelar</button>
+                                <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
                             </div>
                         </form>
                     </div>
@@ -131,19 +98,10 @@
             </div>
         </div>
     </main>
-
-    <!-- *Llamada a las hojas de estilos del framework e iconos -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!--Dejarlo NOQUITAR-->
-    <!--*Libreria de mensajes-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!--Dejarlo NOQUITAR-->
-    <!-- *Llamada al controlador del sitio publico -->
-    <script type="text/javascript" src="../../controlador/utilidades/privado.js"></script> <!--Dejarlo NOQUITAR-->
-    <!-- *Llamada al controlador de la página web -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="../../controlador/utilidades/privado.js"></script>
     <script type="text/javascript" src="../../controlador/privado/usuario.js"></script>
-    <!--Cambiarlo por el js de la página en cuestion-->
-    <!-- Llamada al controlador del componente -->
     <script type="text/javascript" src="../../controlador/utilidades/components.js"></script>
 </body>
-
 </html>
