@@ -54,6 +54,7 @@ if (isset($_GET['action'])) {
                 // Acción para agregar a un trabajador a la base.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
+
                 if (
                     !$trabajador->setDUI($_POST['input_dui']) or
                     !$trabajador->setNIT($_POST['input_nit']) or
@@ -72,7 +73,7 @@ if (isset($_GET['action'])) {
                 } elseif ($trabajador->createRow()) {
                     $result['status'] = 1;
                     $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
-                    $result['message'] = 'trabajador creado correctamente';
+                    $result['message'] = 'Trabajador creado correctamente';
                 } else {
                     $result['error'] = 'Ocurrio un problema con ingresar un trabajador';
                 }
@@ -91,12 +92,13 @@ if (isset($_GET['action'])) {
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
                     !$trabajador->setSalarioBase($_POST['input_salario']) or
-                    !$trabajador->setFtoTrabajador($_POST['fto_trabajador']) or
+                    !$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
                     !$trabajador->setIdTrabajador($_POST['idTrabajador'])
                 ) {
                     $result['error'] = $trabajador->getDataError();
                 } elseif ($trabajador->updateRow()) {
                     $result['status'] = 1;
+                    $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
                     $result['message'] = 'Trabajador modificado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar un trabajador';
