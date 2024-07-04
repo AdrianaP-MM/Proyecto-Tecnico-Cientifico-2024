@@ -42,7 +42,7 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validateDUI($value)) {
             $this->data_error = 'El DUI debe tener el formato (2, 6, 7)########-#';
             return false;
-        } elseif ($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicatedDui($value)) {
             $this->data_error = 'El DUI ingresado ya existe';
             return false;
         } else {
@@ -69,7 +69,7 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validatePhone($value)) {
             $this->data_error = 'El telèfono no es válido';
             return false;
-        } elseif ($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicatedTelefono($value)) {
             $this->data_error = 'El telèfono ingresado ya existe';
             return false;
         } else {
@@ -99,7 +99,7 @@ class TrabajadoresData extends TrabajadoresHandler
         } elseif (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
-        } elseif ($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicatedCorreo($value)) {
             $this->data_error = 'El correo ingresado ya existe';
             return false;
         } else {
@@ -174,7 +174,7 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El NIT debe tener una longitud de entre ' . $min . ' y ' . $max;
             return false;
-        } elseif ($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicatedNit($value)) {
             $this->data_error = 'El NIT ingresado ya existe';
             return false;
         } else {

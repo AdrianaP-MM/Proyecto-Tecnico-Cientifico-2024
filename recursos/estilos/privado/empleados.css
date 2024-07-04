@@ -116,7 +116,7 @@
 /* Tarjeta para agregar automóvil */
 .add-auto-card {
     background-color: #F5F3F4; /* Color de fondo */
-    border: #E00D11 3px solid; /* Borde */
+    border: #232323 3px solid; /* Borde */
 
     position: relative;
     width: 100%; /* Ancho completo */

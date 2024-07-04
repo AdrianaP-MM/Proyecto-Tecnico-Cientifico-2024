@@ -53,14 +53,7 @@ if (isset($_GET['action'])) {
                 break;
                 // Acción para agregar a un trabajador a la base.
             case 'createRow':
-                
-                // Verifica el contenido de $_POST antes de la validación
-                error_log('Antes de la validación: ' . print_r($_POST, true));
-
                 $_POST = Validator::validateForm($_POST);
-
-                // Verifica el contenido de $_POST después de la validación
-                error_log('Después de la validación: ' . print_r($_POST, true));
 
                 if (
                     !$trabajador->setDUI($_POST['input_dui_empleados']) or

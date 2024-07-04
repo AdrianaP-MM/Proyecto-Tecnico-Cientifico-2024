@@ -120,9 +120,36 @@ class TrabajadoresHandler
     }
 
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
-    public function checkDuplicated($value)
+    public function checkDuplicatedDui($value)
     {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
+        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE dui_trabajador = ?';
+        $params = array($value);
+        $result = Database::getRow($sql, $params);
+        // Retorna true si el count es mayor que 0, de lo contrario, false.
+        return $result['count'] > 0;
+    }
+
+    public function checkDuplicatedCorreo($value)
+    {
+        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE correo_trabajador = ?';
+        $params = array($value);
+        $result = Database::getRow($sql, $params);
+        // Retorna true si el count es mayor que 0, de lo contrario, false.
+        return $result['count'] > 0;
+    }
+
+    public function checkDuplicatedTelefono($value)
+    {
+        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE telefono_trabajador = ?';
+        $params = array($value);
+        $result = Database::getRow($sql, $params);
+        // Retorna true si el count es mayor que 0, de lo contrario, false.
+        return $result['count'] > 0;
+    }
+
+    public function checkDuplicatedNit($value)
+    {
+        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE NIT_trabajador = ?';
         $params = array($value);
         $result = Database::getRow($sql, $params);
         // Retorna true si el count es mayor que 0, de lo contrario, false.

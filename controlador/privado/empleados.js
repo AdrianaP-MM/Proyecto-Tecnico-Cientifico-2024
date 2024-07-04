@@ -185,30 +185,33 @@ SAVE_FORM.addEventListener("submit", async (event) => {
 
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
+    formData.append('fto_trabajador', FTO_TRABAJADOR.value);
 
     // Mostrar los valores de los campos del FormData en la consola.
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     }
 
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(TRABAJADORES_API, action, formData);
+    try {
+      // Petición para guardar los datos del formulario.
+      const DATA = await fetchData(TRABAJADORES_API, action, formData);// Petición para guardar los datos del formulario
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-      // Se cierra la caja de diálogo.
-      SAVE_FORM.hide();
-      // Se muestra un mensaje de éxito.
-      sweetAlert(1, DATA.message, true); // Aquí usa DATA.message
-      // Se carga nuevamente la tabla para visualizar los cambios.
-      readTrabajadores();
-    } else {
-      sweetAlert(2, DATA.error, false); // Aquí usa DATA.error
+      if (DATA.status) { // Se comprueba si la respuesta es satisfactoria
+        SAVE_FORM.hide(); // Se cierra la caja de diálogo
+        sweetAlert(1, DATA.message, true); // Se muestra un mensaje de éxito
+        readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
+      } else {
+        sweetAlert(2, DATA.error, false); // Se muestra un mensaje de error
+      }
+    } catch (error) {
+      console.error('Error al guardar al trabajador: ', error);
+      sweetAlert(4, 'No se pudo guardar al trabajador', false);
     }
+
   } else {
     console.log("Que paso?: Formulario no válido");
   }
-  
+
 });
 
 /*
@@ -252,7 +255,6 @@ const openUpdate = async (id) => {
     CORREO.value = row.correo_trabajador;
     FECHA.value = row.fecha_contratacion;
     SALARIO.value = row.salario_base;
-    FTO_TRABAJADOR.value = row.Fto_trabajador;
 
     CONTAINER_BOTONES.innerHTML += `
             <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
