@@ -201,14 +201,21 @@ const pieGraph = (canvas, legends, values, title) => {
 */
 const logOut = async () => {
     // Se muestra un mensaje de confirmación y se captura la respuesta en una constante.
-    const confirmed = await Swal.fire({
+    /*const confirmed = await Swal.fire({
         title: '¿Está seguro de cerrar la sesión?',
-        icon: 'question',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Sí',
-        cancelButtonText: 'Cancelar'
-    });
+        cancelButtonText: 'Cancelar',
+        confirmButtonClass: 'btn btn-danger', // Clase para el botón "Sí" (rojo)
+        cancelButtonClass: 'btn btn-secondary', // Clase para el botón "Cancelar" (negro)
+        customClass: {
+            confirmButton: "btn btn-success",   // Estilo del botón "Sí".
+            cancelButton: "btn btn-danger"      // Estilo del botón "No".
+        }
+    });*/
 
+    confirmed= await confirmAction2('Advertencia', '¿Está seguro de cerrar la sesión?')
     // Se verifica si el usuario confirmó la acción.
     if (confirmed.isConfirmed) {
         // Petición para eliminar la sesión.

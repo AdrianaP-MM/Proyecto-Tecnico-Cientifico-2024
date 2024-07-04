@@ -1,69 +1,93 @@
 /* Estilo para el fondo del cuerpo */
 body {
-    background-color: #ECECEC; /* Color de fondo gris claro */
+    background-color: #ECECEC;
+    /* Color de fondo gris claro */
 }
 
 /* Estilo para el contenedor total */
 .contenedor-total {
-    display: grid; /* Utiliza un layout de cuadrícula */
-    gap: 50px; /* Espacio entre elementos de 50 píxeles */
+    display: grid;
+    /* Utiliza un layout de cuadrícula */
+    gap: 50px;
+    /* Espacio entre elementos de 50 píxeles */
 }
 
 /* Estilo para el contenedor blanco */
 .contenedor-blanco {
-    background-color: white; /* Color de fondo blanco */
-    max-height: 85vh; /* Altura máxima del 85% del viewport */
+    background-color: white;
+    /* Color de fondo blanco */
+    max-height: 85vh;
+    /* Altura máxima del 85% del viewport */
 }
 
 /* Estilo para el contenedor de la barra roja */
 .contenedor-ralla {
-    background-color: #E5383B; /* Color de fondo rojo */
+    background-color: #E5383B;
+    /* Color de fondo rojo */
 }
 
 /* Estilo para la imagen dentro del contenedor de la barra roja */
-.contenedor-ralla > img {
-    width: 100%; /* Ancho completo */
-    height: 85vh; /* Altura del 85% del viewport */
-    object-fit: cover; /* Ajuste de la imagen para cubrir el contenedor */
-    object-position: bottom; /* Posición de la imagen en la parte inferior */
+.contenedor-ralla>img {
+    width: 100%;
+    /* Ancho completo */
+    height: 85vh;
+    /* Altura del 85% del viewport */
+    object-fit: cover;
+    /* Ajuste de la imagen para cubrir el contenedor */
+    object-position: bottom;
+    /* Posición de la imagen en la parte inferior */
 }
 
 /* Estilo para el contenedor de formularios */
 .contenedor-form {
-    display: grid; /* Utiliza un layout de cuadrícula */
-    gap: 60px; /* Espacio entre elementos de 60 píxeles */
-    height: fit-content; /* Altura ajustada al contenido */
+    display: grid;
+    /* Utiliza un layout de cuadrícula */
+    gap: 60px;
+    /* Espacio entre elementos de 60 píxeles */
+    height: fit-content;
+    /* Altura ajustada al contenido */
 }
 
 /* Estilo para la línea divisoria R3 */
 .lineR3 {
-    width: 100%; /* Ancho completo */
-    height: 2px; /* Altura de 2 píxeles */
-    background-color: #BA181B; /* Color de fondo rojo oscuro */
+    width: 100%;
+    /* Ancho completo */
+    height: 2px;
+    /* Altura de 2 píxeles */
+    background-color: #BA181B;
+    /* Color de fondo rojo oscuro */
 }
 
 /* Estilo para el contenedor de inputs */
 .contenedor-inputs {
-    display: grid; /* Utiliza un layout de cuadrícula */
-    gap: 30px; /* Espacio entre elementos de 30 píxeles */
+    display: grid;
+    /* Utiliza un layout de cuadrícula */
+    gap: 30px;
+    /* Espacio entre elementos de 30 píxeles */
 }
 
 /* Estilos para los botones Cancelar y Aceptar */
 .btnCancelar,
 .btnAceptar {
-    background-color: black; /* Color de fondo negro */
-    height: 55px; /* Altura de 55 píxeles */
-    border-radius: 5px; /* Borde redondeado de 5 píxeles */
+    background-color: black;
+    /* Color de fondo negro */
+    height: 55px;
+    /* Altura de 55 píxeles */
+    border-radius: 5px;
+    /* Borde redondeado de 5 píxeles */
 }
 
 .btnAceptar {
-    background-color: #E5383B; /* Color de fondo rojo */
+    background-color: #E5383B;
+    /* Color de fondo rojo */
 }
 
 /* Estilo para el contenedor de botones */
 .contenedor_botones {
-    display: grid; /* Utiliza un layout de cuadrícula */
-    gap: 30px; /* Espacio entre elementos de 30 píxeles */
+    display: grid;
+    /* Utiliza un layout de cuadrícula */
+    gap: 30px;
+    /* Espacio entre elementos de 30 píxeles */
 }
 
 .contenedor-imagen>img {
@@ -74,19 +98,24 @@ body {
 
 /* Estilo para la imagen dentro del contenedor de salida */
 .btnExit {
-    height: fit-content; /* Altura ajustada al contenido */
-    width: 100%; /* Ancho completo */
+    height: fit-content;
+    /* Altura ajustada al contenido */
+    width: 100%;
+    /* Ancho completo */
 }
 
-.btnExit > a > img {
-    height: 100%; /* Altura del 100% */
-    width: 100%; /* Ancho del 100% */
+.btnExit>a>img {
+    height: 100%;
+    /* Altura del 100% */
+    width: 100%;
+    /* Ancho del 100% */
 }
 
 /* Estilo para la etiqueta de los inputs cuando están enfocados o no están vacíos */
-.form-floating .form-control:focus ~ label,
-.form-floating .form-control:not(:placeholder-shown) ~ label {
-    color: red; /* Color rojo */
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label {
+    color: red;
+    /* Color rojo */
 }
 
 
@@ -97,17 +126,20 @@ body {
     display: flex;
     align-items: center;
 }
+
 /* Estilos para separar los inputs y centrarlos */
 
 /* Estilo para los inputs */
 .content-add-info {
-    margin-bottom: 15px; /* Espacio entre los inputs */
+    margin-bottom: 15px;
+    /* Espacio entre los inputs */
 }
 
 /* Ajustes adicionales según tu diseño específico */
 .form-floating {
-    width: 100%; /* Ancho completo del input */
-}   
+    width: 100%;
+    /* Ancho completo del input */
+}
 
 /* Estilos para los botones de guardar y cancelar */
 .btnSave,
@@ -131,14 +163,12 @@ body {
     background-color: #E5383B;
 }
 
-/* Estilo para el botón "Cancelar" */
-.swal2-cancel {
-    background-color: black !important;
-    color: white !important;
-}
 
-/* Estilo para el botón "Aceptar" */
-.swal2-confirm {
-    background-color: #e5383b !important;
-    color: white !important;
+
+/* Etiqueta flotante enfocada o con contenido */
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label {
+    color: red;
+    /* Color rojo */
+    /* Color rojo */
 }

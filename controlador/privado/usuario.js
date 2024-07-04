@@ -8,6 +8,7 @@ CONTRASEÑA = document.getElementById('input_contra');
 REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 PASSWORD_FORM = document.getElementById('saveForm');
 ID_USUARIO = document.getElementById('id_usuario');
+EMAIL = document.getElementById('emailMostrado');   
 
 
 // Constantes para establecer los elementos del componente Modal.
@@ -41,7 +42,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         const formData = new FormData(SAVE_FORM);
         const responseData = await fetchData(USER_API, 'editProfile', formData);
         if (responseData.status) {
-            sweetAlert(1, 'Datos actualizados correctamente', true);
+            sweetAlert(1, 'Datos actualizados correctamente', true);redirigir
             readUsuarios();
         } else {
             sweetAlert(2, responseData.error, false);
@@ -125,6 +126,9 @@ document.getElementById('correoUsuario').addEventListener('input', function (eve
     event.target.value = inputValue;
 });
 
+
+
+
 // Método del evento para cuando se envía el formulario de cambiar contraseña.
 PASSWORD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -143,6 +147,8 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, responseData.error, false);
     }
 });
+
+
 
 
 const openPassword = async () => {
