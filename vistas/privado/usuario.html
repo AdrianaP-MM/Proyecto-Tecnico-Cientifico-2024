@@ -35,23 +35,28 @@
                         </div>
                         <div class="contenedor-inputs text-center col-12">
                             <form id="inputUsuario">
-                                <div class="form-floating mb-0">
+                                <div class="form-floating mb-3">
                                     <input type="email" class="form-control" id="correoUsuario" name="correoUsuario"
                                         placeholder="name@example.com" value="correoelectrionico@gmail.com">
                                     <label for="correoUsuario">Correo Electrónico</label>
                                 </div>
-                                <div class="form-floating">
-                                    <input type="tel" class="form-control" id="telefonoUsuario" name="telefonoUsuario" placeholder="0000-0000">
+                                <div class="form-floating mb-4">
+                                    <input type="tel" class="form-control" id="telefonoUsuario" name="telefonoUsuario"
+                                        placeholder="0000-0000">
                                     <label for="telefonoUsuario">Teléfono</label>
                                 </div>
-                                <div class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap">
-                                    <button type="button" class="btn btn-dark btnCancelar col-lg-5 col-md-5 col-10" onclick="openClose()">
+                                <div
+                                    class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap">
+                                    <button type="button" class="btn btn-dark btnCancelar col-lg-5 col-md-5 col-10"
+                                        onclick="openClose()">
                                         <h6 class="open-sans-bold p-0 m-0 z-3">Cancelar</h6>
                                     </button>
                                     <button type="submit" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10">
                                         <h6 class="open-sans-bold p-0 m-0 z-3">Guardar</h6>
                                     </button>
-                                    <button type="button" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10" onclick="openPassword()">
+                                    <button type="button"
+                                        class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10 mt-3"
+                                        onclick="openPassword()">
                                         <h6 class="open-sans-bold p-0 m-0 z-3">Cambiar contraseña</h6>
                                     </button>
                                 </div>
@@ -71,26 +76,31 @@
                             <div class="modal-body row justify-content-center">
                                 <div class="content-add-info col-md-7">
                                     <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_contra_actual" name="input_contra_actual" placeholder="Contraseña actual">
+                                        <input type="password" class="form-control" id="input_contra_actual"
+                                            name="input_contra_actual" placeholder="Contraseña actual">
                                         <label for="input_contra_actual">Contraseña actual</label>
                                     </div>
                                 </div>
                                 <div class="content-add-info col-md-7">
                                     <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_contra" name="input_contra" placeholder="Nueva contraseña">
+                                        <input type="password" class="form-control" id="input_contra"
+                                            name="input_contra" placeholder="Nueva contraseña">
                                         <label for="input_contra">Nueva contraseña</label>
                                     </div>
                                 </div>
                                 <div class="content-add-info col-md-7">
                                     <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_repetircontra" name="input_repetircontra" placeholder="Repetir contraseña">
+                                        <input type="password" class="form-control" id="input_repetircontra"
+                                            name="input_repetircontra" placeholder="Repetir contraseña">
                                         <label for="input_repetircontra">Repetir contraseña</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5" onclick="openClose()">Cancelar</button>
-                                <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
+                                <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                    onclick="openClose()">Cancelar</button>
+                                <button type="submit"
+                                    class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
                             </div>
                         </form>
                     </div>
@@ -104,4 +114,5 @@
     <script type="text/javascript" src="../../controlador/privado/usuario.js"></script>
     <script type="text/javascript" src="../../controlador/utilidades/components.js"></script>
 </body>
+
 </html>
