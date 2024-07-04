@@ -33,7 +33,7 @@ class TiposServiciosData extends TipoServicioHandler
         } elseif (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El nombre del tipo de servicio debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
-        } elseif ($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicated($value)) {
             $this->data_error = 'El nombre del tipo de servicio ingresado ya existe';
             return false;
         } else {
@@ -45,7 +45,7 @@ class TiposServiciosData extends TipoServicioHandler
     // Método para establecer la imagen del servicio
     public function setImagenServicio($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
+        if (Validator::validateImageFile($file, 150)) {
             $this->imagen_servicio = Validator::getFileName();
             return true;
         } elseif (Validator::getFileError()) {
@@ -73,26 +73,7 @@ class TiposServiciosData extends TipoServicioHandler
         return $this->filename;
     }
 
-    // Método para verificar duplicados (debes implementar la lógica de verificación)
-    private function checkDuplicate($value)
-    {
-        // Aquí deberás implementar la lógica para verificar si el nombre del tipo de servicio ya existe en la base de datos.
-        // Este es un ejemplo básico, deberás adaptarlo a tus necesidades específicas.
 
-        // Suponiendo que $this->nombre_tipo_servicio es el campo que estás verificando:
-        $query = 'SELECT COUNT(*) FROM tb_tipos_servicios WHERE nombre_tipo_servicio = ?';
-        $params = array($value);
-        
-        if ($result = Database::getRow($query, $params)) {
-            if ($result[0] > 0) {
-                return true; // El nombre ya existe
-            } else {
-                return false; // El nombre no existe
-            }
-        } else {
-            return false; // Error en la consulta o el nombre no existe
-        }
-    }
 }
 
 ?>

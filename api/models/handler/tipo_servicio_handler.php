@@ -13,6 +13,8 @@ class TipoServicioHandler
     protected $imagen_servicio = null;
     protected $search_value = null;
 
+    const RUTA_IMAGEN = '../../../api/images/tipoServicio/';
+
     // Método para leer todos los registros.
     public function readAll()
     {
@@ -31,7 +33,9 @@ class TipoServicioHandler
     // Método para crear un nuevo registro.
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_tipos_servicios (nombre_tipo_servicio, imagen_servicio) VALUES (?, ?)';
+        $sql = 'INSERT INTO 
+        tb_tipos_servicios 
+        (nombre_tipo_servicio, imagen_servicio) VALUES (?, ?)';
         $params = array($this->nombre_tipo_servicio, $this->imagen_servicio);
         return Database::executeRow($sql, $params);
     }
@@ -58,6 +62,15 @@ class TipoServicioHandler
         $sql = 'SELECT id_tipo_servicio, nombre_tipo_servicio, imagen_servicio FROM tb_tipos_servicios WHERE nombre_tipo_servicio LIKE ?';
         $params = array("%$this->search_value%");
         return Database::getRows($sql, $params);
+    }
+
+    public function checkDuplicated($value)
+    {
+        $sql = 'SELECT COUNT(*) as count FROM tb_tipos_servicios WHERE nombre_tipo_servicio = ?';
+        $params = array($value);
+        $result = Database::getRow($sql, $params);
+        // Retorna true si el count es mayor que 0, de lo contrario, false.
+        return $result['count'] > 0;
     }
 }
 ?>

@@ -34,16 +34,18 @@ if (isset($_GET['action'])) {
                     $_POST = Validator::validateForm($_POST);
                     if (
                         !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio']) or
-                        !$tipoServicio->setImagenServicio($_FILES['imagen_servicio'])
+                        !$tipoServicio->setImagenServicio($_FILES['customFileW'])
                     ) {
                         $result['error'] = $tipoServicio->getDataError();
                     } elseif ($tipoServicio->createRow()) {
                         $result['status'] = 1;
+                        $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN);
                         $result['message'] = 'Tipo de servicio creado correctamente';
                     } else {
                         $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
                     }
                     break;
+                
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
