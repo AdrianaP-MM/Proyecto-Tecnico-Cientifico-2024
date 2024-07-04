@@ -131,3 +131,14 @@ body {
     background-color: #E5383B;
 }
 
+/* Estilo para el botón "Cancelar" */
+.swal2-cancel {
+    background-color: black !important;
+    color: white !important;
+}
+
+/* Estilo para el botón "Aceptar" */
+.swal2-confirm {
+    background-color: #e5383b !important;
+    color: white !important;
+}
