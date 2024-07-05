@@ -42,7 +42,7 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validateDUI($value)) {
             $this->data_error = 'El DUI debe tener el formato (2, 6, 7)########-#';
             return false;
-        } elseif ($this->checkDuplicatedDui($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El DUI ingresado ya existe';
             return false;
         } else {
@@ -51,17 +51,6 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
 
-    // Método para establecer el DUI a la hora de hacer un update
-    public function setDUIUpdate($value)
-    {
-        if (!Validator::validateDUI($value)) {
-            $this->data_error = 'El DUI debe tener el formato (2, 6, 7)########-#';
-            return false;
-        } else {
-            $this->dui_trabajador = $value;
-            return true;
-        }
-    }
 
     // Método para establecer el teléfono del trabajador
     public function setTelefono($value)
@@ -69,7 +58,7 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validatePhone($value)) {
             $this->data_error = 'El telèfono no es válido';
             return false;
-        } elseif ($this->checkDuplicatedTelefono($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El telèfono ingresado ya existe';
             return false;
         } else {
@@ -78,17 +67,6 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
 
-    // Método para establecer el telefono del trabajador a la hora de hacer un update
-    public function setTelefonoUpdate($value)
-    {
-        if (!Validator::validatePhone($value)) {
-            $this->data_error = 'El telèfono no es válido';
-            return false;
-        } else {
-            $this->telefono_trabajador = $value;
-            return true;
-        }
-    }
 
     // Método para establecer el correo del cliente
     public function setCorreo($value, $min = 8, $max = 50)
@@ -99,7 +77,7 @@ class TrabajadoresData extends TrabajadoresHandler
         } elseif (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
-        } elseif ($this->checkDuplicatedCorreo($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El correo ingresado ya existe';
             return false;
         } else {
@@ -108,20 +86,6 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
 
-    // Método para establecer el correo del trabajador a la hora de hacer un update
-    public function setCorreoUpdate($value, $min = 8, $max = 50)
-    {
-        if (!Validator::validateEmail($value)) {
-            $this->data_error = 'El correo no es válido';
-            return false;
-        } elseif (!Validator::validateLength($value, $min, $max)) {
-            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        } else {
-            $this->correo_trabajador = $value;
-            return true;
-        }
-    }
 
     //Metodo para establecer el departamento del trabajador
     public function setDepartamento($value, $min = 2, $max = 50)
@@ -174,20 +138,8 @@ class TrabajadoresData extends TrabajadoresHandler
         if (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El NIT debe tener una longitud de entre ' . $min . ' y ' . $max;
             return false;
-        } elseif ($this->checkDuplicatedNit($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El NIT ingresado ya existe';
-            return false;
-        } else {
-            $this->NIT_trabajador = $value;
-            return true;
-        }
-    }
-
-    // Método que se utilizara para hacer un cambio al NIT
-    public function setNITUpdate($value, $min = 17, $max = 17)
-    {
-        if (!Validator::validateLength($value, $min, $max)) {
-            $this->data_error = 'El NIT debe tener una longitud de entre ' . $min . ' y ' . $max;
             return false;
         } else {
             $this->NIT_trabajador = $value;

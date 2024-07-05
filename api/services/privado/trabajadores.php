@@ -92,13 +92,13 @@ if (isset($_GET['action'])) {
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
                     !$trabajador->setSalarioBase($_POST['input_salario_empleados']) or
-                    !$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
+                //!$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
                     !$trabajador->setIdTrabajador($_POST['idTrabajador'])
                 ) {
                     $result['error'] = $trabajador->getDataError();
                 } elseif ($trabajador->updateRow()) {
                     $result['status'] = 1;
-                    $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
+                  //  $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
                     $result['message'] = 'Trabajador modificado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar un trabajador';

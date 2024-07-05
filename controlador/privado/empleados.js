@@ -26,6 +26,14 @@ const SAVE_FORM = document.getElementById("saveForm"),
   ID_EMPLEADO = document.getElementById("idTrabajador");
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
+
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl, {
+      trigger: 'hover'
+    });
+  });
+
   fillSelect(
     TRABAJADORES_API,
     'readEspecializaciones',
@@ -34,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadTemplate();
   readTrabajadores();
 });
+
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (() => {
@@ -57,7 +66,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   });
 })();
-/*
+
+
+
 // Método del evento para cuando se envía el formulario de buscar.
 document
   .getElementById("searchForm")
@@ -130,7 +141,7 @@ document
       console.error("Error al buscar trabajadores:", error);
       // Puedes mostrar un mensaje de error al usuario si lo deseas.
     }
-  });*/
+  });
 
 //Método para hacer el select a la base de los trabajadores disponibles
 async function readTrabajadores() {
@@ -214,6 +225,40 @@ SAVE_FORM.addEventListener("submit", async (event) => {
 
 });
 
+function findNumberValue(value) {
+  if (value == 'Ahuachapán') {
+    return 'Ahuachapán';
+  } if (value == 'Cabañas') {
+    return 'Cabañas';
+  } if (value == 'Chalatenango') {
+    return 'Chalatenango';
+  } if (value == 'Cuscatlán') {
+    return 'Cuscatlán';
+  } if (value == 'La Libertad') {
+    return 'La Libertad';
+  } if (value == 'La Paz') {
+    return 'La Paz';
+  } if (value == 'La Unión') {
+    return 'La Unión';
+  } if (value == 'Morazán') {
+    return 'Morazán';
+  } if (value == 'San Miguel') {
+    return 'San Miguel';
+  } if (value == 'San Salvador') {
+    return 'San Salvador';
+  } if (value == 'San Vicente') {
+    return 'San Vicente';
+  } if (value == 'Santa Ana') {
+    return 'Santa Ana';
+  } if (value == 'Sonsonate') {
+    return 'Sonsonate';
+  } if (value == 'Usulután') {
+    return 'Usulután';
+  }
+  return ''; // Default case
+}
+
+
 /*
  *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
  *   Parámetros: id (identificador del registro seleccionado).
@@ -234,34 +279,46 @@ const openUpdate = async (id) => {
   // Petición para obtener los datos del registro solicitado.
   const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
 
-  // Mostrar los valores de los campos del FormData en la consola.
-  for (let pair of formData.entries()) {
-    console.log(pair[0] + ": " + pair[1]);
-  }
-
   if (DATA.status) {
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    // Se inicializan los campos con los datos.
-    const row = DATA.dataset;
-    ID_EMPLEADO.value = row.id_trabajador;
-    DUI.value = row.dui_trabajador;
-    NIT.value = row.NIT_trabajador;
-    NOMBRES.value = row.nombres_trabajador;
-    APELLIDOS.value = row.apellidos_trabajador;
-    TELEFONO.value = row.telefono_trabajador;
-    CORREO.value = row.correo_trabajador;
-    FECHA.value = row.fecha_contratacion;
-    SALARIO.value = row.salario_base;
+      // Se muestra la caja de diálogo con su título.
+      SAVE_MODAL.show();
+      // Se prepara el formulario.
+      SAVE_FORM.reset();
 
-    CONTAINER_BOTONES.innerHTML += `
-            <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
-                                                onclick="openDelete(${row.id_trabajador})">Eliminar</button> <!--Boton de cancelar-- >
-            `;
+      // Se inicializan los campos con los datos.
+      const row = DATA.dataset;
+      ID_EMPLEADO.value = row.id_trabajador;
+      DUI.value = row.dui_trabajador;
+      NIT.value = row.NIT_trabajador;
+      NOMBRES.value = row.nombres_trabajador;
+      APELLIDOS.value = row.apellidos_trabajador;
+      TELEFONO.value = row.telefono_trabajador;
+      CORREO.value = row.correo_trabajador;
+      DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
+      
+      // Buscar y marcar el `option` correspondiente como seleccionado
+      const departamentoValue = findNumberValue(row.departamento_trabajador);
+      const options = DEPARTAMENTO.options;
+      for (let i = 0; i < options.length; i++) {
+          if (options[i].text === departamentoValue) {
+              options[i].selected = true;
+              break;
+          }
+      }
+
+      // Debugging log
+      console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
+      
+      fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
+      FECHA.value = row.fecha_contratacion;
+      SALARIO.value = row.salario_base;
+
+      CONTAINER_BOTONES.innerHTML += `
+              <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
+                                                  onclick="openDelete(${row.id_trabajador})">Eliminar</button> <!--Boton de cancelar-- >
+              `;
   } else {
-    sweetAlert(2, DATA.error, false);
+      sweetAlert(2, DATA.error, false);
   }
 
   // Se asigna la variable para cambiar el dialogo de la alerta
@@ -296,8 +353,9 @@ const openDelete = async (id) => {
       // Se carga nuevamente la tabla para visualizar los cambios.
       // Se abre el modal para cambiar la info del trabajador
       SAVE_MODAL.hide();
+      location.reload();
       readTrabajadores();
-
+      
       // Eliminar el botón con id BotonTres
       const botonTres = document.getElementById("btnTres");
       if (botonTres) {
@@ -515,3 +573,5 @@ document
     // Validar y agregar la clase 'invalid' si es necesario
     event.target.classList.toggle("invalid", !/^[\d.,]*$/.test(inputValue));
   });
+
+

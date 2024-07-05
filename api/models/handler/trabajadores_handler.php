@@ -115,41 +115,24 @@ class TrabajadoresHandler
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
-    // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
-    public function checkDuplicatedDui($value)
+    public function checkDuplicate($value)
     {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE dui_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
+        $sql = 'SELECT id_trabajador FROM tb_trabajadores 
+        WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
+        // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
+        $params = array(
+            $value,
+            $value,
+            $value,
+            $value,
+        ); // Parámetros para la consulta SQL
 
-    public function checkDuplicatedCorreo($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE correo_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
+        if ($this->id_trabajador) {
+            $sql .= ' AND id_trabajador <> ?;';
+            $params[] = $this->id_trabajador;
+        }
 
-    public function checkDuplicatedTelefono($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE telefono_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
-
-    public function checkDuplicatedNit($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE NIT_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
+        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
     // Método para campos de todos los trabajadores
