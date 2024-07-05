@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- *IMPORTACIÓN DE RECURSOS EXTERNOS -->
+    <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/IconEmpleados.svg">
 
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -33,12 +34,12 @@
                 <div class="container">
                     <form id="searchForm">
                         <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
-                            <input type="search" name="search" class="form-control "  placeholder="Buscar..."
+                            <input type="search" name="search" class="form-control " placeholder="Buscar..."
                                 aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton">
-                                
+
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline"  id="searchInput"><i class="bi-search"><img
-                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                                <button type="submit" class="btn btn-outline" id="searchInput"><i class="bi-search"><img
+                                            src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                             </div>
                         </div>
                     </form>
@@ -52,8 +53,7 @@
                     <div class="contenedor-total-cards col-12" id="cardsTrabajadores">
                         <!--Card de agregado de empleados-->
                         <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
-                            <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-                                onclick="openCreate()">
+                            <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
                         </div>
 
 
@@ -63,68 +63,78 @@
 
                             <div class="modal-dialog modal-dialog-centered modal-xl">
                                 <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                                    <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
+                                    <form id="saveForm" class="needs-validation" novalidate>
+                                        <!--Formulario de guardado-->
                                         <!--input para el id del trabajador-->
                                         <input type="number" class="" id="idTrabajador" name="idTrabajador">
 
                                         <div class="modal-body row">
-                                            <div
+                                            <!--<div
                                                 class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
-                                                <h6>Imagen del empleado</h6> <!--Imagen del empleado-->
-                                                <img id="selectedImageF" class="sizeCard col-10 "
+                                                <h6>Imagen del empleado</h6> 
+                                                <--! <img id="selectedImageW" class="col-10 z-3"
                                                     src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
                                                     alt="example placeholder" />
-                                                <button type="button"
-                                                    class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
+                                                <div
+                                                    class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
                                                     <label class="form-label text-white m-1"
-                                                        for="fto_trabajador">Seleccionar
-                                                        imagen</label></button>
-                                                <input type="file" class="form-control d-none" id="fto_trabajador"
-                                                    readonly onchange="displaySelectedImage(event, 'selectedImageF')" />
-                                                <!--Boton de seleccion de imagen-->
-                                            </div>
+                                                        for="fto_trabajador">Seleccionar imagen</label>
+                                                    <input type="file" class="form-control d-none" id="fto_trabajador"
+                                                        name="fto_trabajador"
+                                                        onchange="displaySelectedImage(event, 'selectedImageW')" />
+                                                </div>
+                                            </div> -->
 
                                             <div class="content-add-info col-md-7">
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_dui_empleados"
-                                                        name="input_dui_empleados" placeholder="name@example.com" required>
+                                                        name="input_dui_empleados" placeholder="name@example.com"
+                                                        required>
                                                     <label for="input_dui_empleados">DUI</label> <!--DUI-->
                                                     <div class="invalid-feedback">Por favor ingrese su DUI.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nit_empleados"
-                                                        name="input_nit_empleados" placeholder="name@example.com" required>
+                                                        name="input_nit_empleados" placeholder="name@example.com"
+                                                        required>
                                                     <label for="input_nit_empleados">NIT</label> <!--NIT-->
                                                     <div class="invalid-feedback">Por favor ingresa tu NIT.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nombre_empleados"
-                                                        name="input_nombre_empleados" placeholder="name@example.com" required>
+                                                        name="input_nombre_empleados" placeholder="name@example.com"
+                                                        required>
                                                     <label for="input_nombre_empleados">Nombres</label> <!--Nombres-->
                                                     <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_apellido_empleados"
-                                                        name="input_apellido_empleados" placeholder="name@example.com" required>
-                                                    <label for="input_apellido_empleados">Apellidos</label> <!--Apellidos-->
+                                                    <input type="text" class="form-control"
+                                                        id="input_apellido_empleados" name="input_apellido_empleados"
+                                                        placeholder="name@example.com" required>
+                                                    <label for="input_apellido_empleados">Apellidos</label>
+                                                    <!--Apellidos-->
                                                     <div class="invalid-feedback">Por favor ingresa tu apellido.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_telefono_empleados"
-                                                        name="input_telefono_empleados" placeholder="name@example.com" required>
-                                                    <label for="input_telefono_empleados">Teléfono</label> <!--Telefono-->
+                                                    <input type="text" class="form-control"
+                                                        id="input_telefono_empleados" name="input_telefono_empleados"
+                                                        placeholder="name@example.com" required>
+                                                    <label for="input_telefono_empleados">Teléfono</label>
+                                                    <!--Telefono-->
                                                     <div class="invalid-feedback">Por favor ingresa tu telefono.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_correo_empleados"
-                                                        name="input_correo_empleados" placeholder="name@example.com" required>
-                                                    <label for="input_correo_empleados">Correo electrónico</label> <!--Correo-->
+                                                        name="input_correo_empleados" placeholder="name@example.com"
+                                                        required>
+                                                    <label for="input_correo_empleados">Correo electrónico</label>
+                                                    <!--Correo-->
                                                     <div class="invalid-feedback">Por favor ingresa tu correo.</div>
                                                 </div>
 
@@ -135,23 +145,24 @@
                                                     <select class="form-select pt-4 open-sans-regular"
                                                         id="departamento_trabajador" name="departamento_trabajador"
                                                         aria-label="Default select example" required>
-                                                        <option selected value="">Seleccione un departamento</option>
-                                                        <option value="1">Ahuachapán</option> <!--Opción 1-->
-                                                        <option value="2">Cabañas</option> <!--Opción 2-->
-                                                        <option value="3">Chalatenango</option> <!--Opción 3-->
-                                                        <option value="4">Cuscatlán</option> <!--Opción 3-->
-                                                        <option value="5">La Libertad</option> <!--Opción 4-->
-                                                        <option value="6">La Paz</option> <!--Opción 5-->
-                                                        <option value="7">La Unión</option> <!--Opción 6-->
-                                                        <option value="8">Morazán</option> <!--Opción 7-->
-                                                        <option value="9">San Miguel</option> <!--Opción 8-->
-                                                        <option value="10">San Salvador</option> <!--Opción 9-->
-                                                        <option value="11">San Vicente</option> <!--Opción 10-->
-                                                        <option value="12">Santa Ana</option> <!--Opción 11-->
-                                                        <option value="13">Sonsonate</option> <!--Opción 12-->
-                                                        <option value="14">Usulután</option> <!--Opción 13-->
+                                                        <option selected value="0">Seleccione un departamento</option>
+                                                        <option value="Ahuachapán">Ahuachapán</option>
+                                                        <option value="Cabañas">Cabañas</option>
+                                                        <option value="Chalatenango">Chalatenango</option>
+                                                        <option value="Cuscatlán">Cuscatlán</option>
+                                                        <option value="La Libertad">La Libertad</option>
+                                                        <option value="La Paz">La Paz</option>
+                                                        <option value="La Unión">La Unión</option>
+                                                        <option value="Morazán">Morazán</option>
+                                                        <option value="San Miguel">San Miguel</option>
+                                                        <option value="San Salvador">San Salvador</option>
+                                                        <option value="San Vicente">San Vicente</option>
+                                                        <option value="Santa Ana">Santa Ana</option>
+                                                        <option value="Sonsonate">Sonsonate</option>
+                                                        <option value="Usulután">Usulután</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor ingresa un departamento.</div>
+                                                    <div class="invalid-feedback">Por favor ingresa un departamento.
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -159,11 +170,11 @@
                                                         class="form-label px-2 pt-0  p-0 m-0">Especialización</label>
                                                     <!--Especialización-->
                                                     <select class="form-select pt-4 open-sans-regular"
-                                                        id="especializacion_trabajador" 
-                                                        name="especializacion_trabajador"
-                                                        aria-label="Default select example" required>
+                                                        id="especializacion_trabajador"
+                                                        name="especializacion_trabajador" required>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+                                                    <div class="invalid-feedback">Por favor ingresa tu especialización.
+                                                    </div>
                                                 </div>
                                                 <div class="form-floating mb-0 p-0">
                                                     <label for="fecha_contratacion"
@@ -171,25 +182,28 @@
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
                                                         name="fecha_contratacion" placeholder="" required>
-                                                        <div class="invalid-feedback">Por favor ingresa la fecha de contratacion.</div>
+                                                    <div class="invalid-feedback">Por favor ingresa la fecha de
+                                                        contratacion.</div>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_salario_empleados"
-                                                        name="input_salario_empleados" placeholder="name@example.com" required>
-                                                    <label for="input_salario_empleados">Salario Base</label> <!--Salario-->
+                                                        name="input_salario_empleados" placeholder="name@example.com"
+                                                        required>
+                                                    <label for="input_salario_empleados">Salario Base</label>
+                                                    <!--Salario-->
                                                     <div class="invalid-feedback">Por favor ingresa un salario.</div>
                                                 </div>
 
                                             </div>
                                         </div>
-                                        <div
-                                            class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5" id="containerBotones">
+                                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5"
+                                            id="containerBotones">
                                             <button type="button" id="btnUno" class="btn btn-secondary btnCancel mx-5"
                                                 onclick="openClose()">Cancelar</button> <!--Boton de cancelar-->
                                             <button type="submit" id="btnDos"
                                                 class="btn btn-primary btnSave">Aceptar</button> <!--Boton de aceptar-->
-                                            
+
                                         </div>
                                     </form>
                                 </div>

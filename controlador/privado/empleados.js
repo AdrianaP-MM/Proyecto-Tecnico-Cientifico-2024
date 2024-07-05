@@ -26,13 +26,13 @@ const SAVE_FORM = document.getElementById("saveForm"),
   ID_EMPLEADO = document.getElementById("idTrabajador");
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
+  fillSelect(
+    TRABAJADORES_API,
+    'readEspecializaciones',
+    'especializacion_trabajador'
+  );
   loadTemplate();
   readTrabajadores();
-  await fillSelect(
-    TRABAJADORES_API,
-    "readEspecializaciones",
-    "especializacion_trabajador"
-  );
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
   });
 })();
-
+/*
 // Método del evento para cuando se envía el formulario de buscar.
 document
   .getElementById("searchForm")
@@ -119,7 +119,7 @@ document
           });
         } else {
           // Mostrar un mensaje si no se encontraron resultados.
-          PRODUCTOS.innerHTML = "<p>No se encontraron trabajadores.</p>";
+          //PRODUCTOS.innerHTML = "<p>No se encontraron trabajadores.</p>";
         }
       } else {
         // Mostrar un mensaje si ocurrió un error durante la búsqueda.
@@ -130,7 +130,7 @@ document
       console.error("Error al buscar trabajadores:", error);
       // Puedes mostrar un mensaje de error al usuario si lo deseas.
     }
-  });
+  });*/
 
 //Método para hacer el select a la base de los trabajadores disponibles
 async function readTrabajadores() {
@@ -185,21 +185,21 @@ SAVE_FORM.addEventListener("submit", async (event) => {
 
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
-    formData.append('fto_trabajador', FTO_TRABAJADOR.value);
+    //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
 
-    // Mostrar los valores de los campos del FormData en la consola.
+    /* Mostrar los valores de los campos del FormData en la consola.
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
-    }
+    }*/
 
     try {
       // Petición para guardar los datos del formulario.
       const DATA = await fetchData(TRABAJADORES_API, action, formData);// Petición para guardar los datos del formulario
 
       if (DATA.status) { // Se comprueba si la respuesta es satisfactoria
-        SAVE_FORM.hide(); // Se cierra la caja de diálogo
+        SAVE_MODAL.hide(); // Se cierra la caja de diálogo
         sweetAlert(1, DATA.message, true); // Se muestra un mensaje de éxito
-        readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
+        //readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
       } else {
         sweetAlert(2, DATA.error, false); // Se muestra un mensaje de error
       }
@@ -354,25 +354,16 @@ const openClose = async () => {
   }
 };
 
-// Función para mostrar la imagen seleccionada en un elemento de imagen.
+// Función para mostrar la imagen seleccionada en un elemento de imagen
 function displaySelectedImage(event, elementId) {
-  // Obtiene el elemento de imagen según su ID.
   const selectedImage = document.getElementById(elementId);
-  // Obtiene el elemento de entrada de archivo del evento.
   const fileInput = event.target;
 
-  // Verifica si hay archivos seleccionados y al menos uno.
   if (fileInput.files && fileInput.files[0]) {
-    // Crea una instancia de FileReader para leer el contenido del archivo.
     const reader = new FileReader();
-
-    // Define el evento que se ejecutará cuando la lectura sea exitosa.
     reader.onload = function (e) {
-      // Establece la fuente de la imagen como el resultado de la lectura (base64).
       selectedImage.src = e.target.result;
     };
-
-    // Inicia la lectura del contenido del archivo como una URL de datos.
     reader.readAsDataURL(fileInput.files[0]);
   }
 }

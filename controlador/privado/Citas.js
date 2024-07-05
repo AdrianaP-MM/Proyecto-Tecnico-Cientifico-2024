@@ -53,6 +53,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+SERVICES_FORM.addEventListener('submit', async (event) => {
+  // Se evita recargar la página web después de enviar el formulario.
+  event.preventDefault();
+  addSave('createRow', UPDATE_FORM, INPUT_FECHA_LLEGADA_UPDATE.value, INPUT_HORA_UPDATE.value);
+});
+
+
 let id_citaW;
 
 function accionDinamic(estado_cita) {
@@ -118,6 +125,7 @@ function formSetValues(row) {
   INPUT_DIRECCION_IDA_UPDATE.value = row.direccion_ida;
 }
 
+
 // Método del evento para cuando se envía el formulario de guardar.
 ADD_FORM.addEventListener('submit', async (event) => {
   // Se evita recargar la página web después de enviar el formulario.
@@ -132,6 +140,48 @@ UPDATE_FORM.addEventListener('submit', async (event) => {
   addSave('updateRow', UPDATE_FORM, INPUT_FECHA_LLEGADA_UPDATE.value, INPUT_HORA_UPDATE.value);
 });
 
+
+
+const updateEstado = async (estado_cita) => {
+  let TITLE, MESSAGE;
+  if (estado_cita === 'Cancelado') {
+    TITLE = '¿Seguro que quieres cancelar la cita?';
+    MESSAGE = 'Una vez cancelada solo se podrá eliminar';
+  } else if (estado_cita === 'Aceptado') {
+    TITLE = '¿Seguro que quieres aceptar la cita?';
+    MESSAGE = 'Una vez aceptada no podrás agendar citas con la misma fecha y hora';
+  } else {
+    TITLE = '¿Seguro que quieres realizar esta acción?';
+    MESSAGE = '';
+  }
+
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2(TITLE, MESSAGE);
+  if (RESPONSE.isConfirmed) {
+    const FORM = new FormData();
+    FORM.append('estado_cita', estado_cita)
+    FORM.append('id_cita', id_citaW)
+
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(CITAS_API, 'updateEstado', FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      sweetAlert(1, 'Se ha actualizado el estado de la cita con éxito', 300);
+      reload();
+      document.getElementById('containerExpand').classList.add('d-none');
+    } else {
+      if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      }
+      else {
+        sweetAlert(4, DATA.error, true);
+      }
+    }
+  }
+  else {
+  }
+}
 
 const updateEstado = async (estado_cita) => {
   let TITLE, MESSAGE;
@@ -259,27 +309,83 @@ function openServicios() {
 }
 
 const fillData = async (action = 'readAll', form = null) => {
-  noVerNada();
-  CITAS_CARDS_CONTAINER.innerHTML = '';
-  SERVICIOS_CARDS_CONTAINER.innerHTML = '';
   const FORM = form ?? new FormData();
   const DATA = await fetchData(CITAS_API, action, FORM);
 
-  createCitaAdd(CITAS_CARDS_CONTAINER);
-
-  if (DATA.status) {
-    DATA.dataset.forEach(row => {
-      CITAS_CARDS_CONTAINER.innerHTML += createCardCita(row);
-    });
-  } else {
-    if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-      //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+  if (action === 'readServiciosCita') {
+    SERVICIOS_CARDS_CONTAINER.innerHTML = '';
+    if (DATA.status) {
+      SERVICIOS_CARDS_CONTAINER.innerHTML = createCardServicio(DATA.dataset);
+    } else {
+      SERVICIOS_CARDS_CONTAINER.innerHTML = '<h5 class="open-sans-semibold"> No existen servicios en proceso </h5>'
     }
-    else {
-      sweetAlert(4, DATA.error, true);
+  } else {
+    noVerNada();
+    CITAS_CARDS_CONTAINER.innerHTML = '';
+    createCitaAdd(CITAS_CARDS_CONTAINER);
+
+    if (DATA.status) {
+      DATA.dataset.forEach(row => {
+        CITAS_CARDS_CONTAINER.innerHTML += createCardCita(row);
+      });
+    } else {
+      if (DATA.error === 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      } else {
+        sweetAlert(4, DATA.error, true);
+      }
     }
   }
 }
+
+
+function createCardServicio(data) {
+  const serviciosPorTipo = {};
+
+  // Agrupar servicios por tipo
+  data.forEach(row => {
+    const tipoServicio = row.nombre_tipo_servicio;
+    if (!serviciosPorTipo[tipoServicio]) {
+      serviciosPorTipo[tipoServicio] = [];
+    }
+    serviciosPorTipo[tipoServicio].push(row);
+  });
+
+  // Generar HTML para cada tipo de servicio
+  let html = '';
+  for (const tipo in serviciosPorTipo) {
+    if (serviciosPorTipo.hasOwnProperty(tipo)) {
+      html += `
+        <div class="servicioCard">
+          <div class="servicioCardHeader d-flex justify-content-center align-items-center">
+            <h6 class="open-sans-semibold m-0 p-0 text-white">${tipo}</h6>
+          </div>
+          <div class="servicioCardBody position-relative">
+            <div class="scrollVServicios z-3 py-4 px-3">
+      `;
+
+      serviciosPorTipo[tipo].forEach(servicio => {
+        html += `
+          <div class="cardItemServicio justify-content-center align-items-center d-flex z-4">
+            <p class="open-sans-regular m-0 p-0">${servicio.nombre_servicio}</p>
+          </div>
+        `;
+      });
+
+      const imagenServicio = serviciosPorTipo[tipo][0].imagen_servicio;
+      html += `
+            </div>
+            <img src="${SERVER_URL}/images/tipoServicio/${imagenServicio}" class="imagenCitaServiciosCarro">
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  return html;
+}
+
+
 
 // Función para agregar la card de agregar cliente
 function createCitaAdd(container) {

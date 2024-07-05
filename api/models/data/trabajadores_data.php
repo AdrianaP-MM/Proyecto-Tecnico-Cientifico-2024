@@ -127,13 +127,13 @@ class TrabajadoresData extends TrabajadoresHandler
     public function setDepartamento($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'El departamento debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->departamento_trabajador = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El departamento debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
@@ -222,7 +222,7 @@ class TrabajadoresData extends TrabajadoresHandler
     //Ver si se puede dejar esta validacion de imagen
     public function setFtoTrabajador($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
+        if (Validator::validateImageFile($file, 150)) {
             $this->Fto_trabajador = Validator::getFileName();
             return true;
         } elseif (Validator::getFileError()) {
@@ -236,7 +236,6 @@ class TrabajadoresData extends TrabajadoresHandler
             return true;
         }
     }
-
 
     // Función para validar el nombre del archivo
     public function setFilename()

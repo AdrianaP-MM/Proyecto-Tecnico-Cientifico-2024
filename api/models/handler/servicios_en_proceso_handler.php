@@ -5,7 +5,7 @@ require_once('../../helpers/database.php');
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
 
-class CitasHandler
+class ServiciosProcesoHandler
 {
     protected $id_cita = null;
     protected $fecha_registro = null;
