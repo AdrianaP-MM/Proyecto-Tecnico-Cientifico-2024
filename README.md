@@ -18,7 +18,7 @@ Aunque la empresa es muy completa, poseen algunas limitantes, como por ejemplo, 
 
 # Estandares / Buenas practicas
 
-## Variables en JavaScript (sitio web privado)
+## Variables (sitio web privado)
 
 * NOMBRE_DE_VARIABLE: Nombre descriptivo en mayúsculas con guiones bajos para separar palabras.
 Clases
