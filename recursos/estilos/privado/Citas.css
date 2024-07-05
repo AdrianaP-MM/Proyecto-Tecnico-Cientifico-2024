@@ -17,7 +17,7 @@ body {
 
 /* TODO AGREGADOS PARA LOS SERVICIOS EN PROCESO------------------------------------- */
 .contenedorTotalServicios {
-    width: 100%;
+    max-width: 100vw;
     height: 100%;
     background-color: white;
     display: grid;
@@ -44,15 +44,15 @@ body {
 }
 
 .serviciosScroll {
-    width: 100%;
+    min-width: 95vw;
+    max-width: 95vw;
     height: 100%;
 
     overflow-y: hidden;
     overflow-x: auto;
 
     display: grid;
-    grid-column: auto;
-    column-gap: 20px;
+    column-gap: 70px;
     justify-content: center;
     align-items: center;
 }
@@ -771,6 +771,18 @@ hr {
     height: 50px;
     width: 300px;
     background-color: #161A1D;
+}
+
+/* Segundo botón de cancelar */
+.btnCancel3 {
+    background-color: white;
+    /* Color de fondo */
+    border: solid 2px #ECECEC;
+    /* Borde */
+    color: black;
+    width: 200px;
+    height: 50px;
+    /* Color del texto */
 }
 
 .btnSave2 {

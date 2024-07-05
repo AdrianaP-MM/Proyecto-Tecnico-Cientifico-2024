@@ -21,7 +21,7 @@ class TrabajadoresHandler
     protected $Fto_trabajador = null;
 
     //Aqui se guardaran las imagenes 
-    const RUTA_IMAGEN = '../../../api/images/traabajadores/';
+    const RUTA_IMAGEN = '../../../api/images/empleados/';
 
     //Método para buscar trabajadores dependiendo de su nombre o dui 
     public function searchRows()
@@ -54,8 +54,7 @@ class TrabajadoresHandler
         departamento_trabajador = ?,
         id_especializacion_trabajador = ?,
         fecha_contratacion = ?,
-        salario_base = ?,
-        Fto_trabajador = ?
+        salario_base = ?
         WHERE id_trabajador = ?';
         //Parametros a enviar a los campos de tabla
         $params = array(
@@ -69,7 +68,6 @@ class TrabajadoresHandler
             $this->id_especializacion_trabajador,
             $this->fecha_contratacion,
             $this->salario_base,
-            $this->Fto_trabajador,
             $this->id_trabajador
         );
         return Database::executeRow($sql, $params); //Ejecución de la consulta SQL
@@ -100,8 +98,7 @@ class TrabajadoresHandler
             departamento_trabajador,
             id_especializacion_trabajador,
             fecha_contratacion,
-            salario_base,
-            Fto_trabajador) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            salario_base) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
         // Parámetros para la consulta SQL
         $params = array(
             $this->dui_trabajador,
@@ -113,47 +110,29 @@ class TrabajadoresHandler
             $this->departamento_trabajador,
             $this->id_especializacion_trabajador,
             $this->fecha_contratacion,
-            $this->salario_base,
-            $this->Fto_trabajador
+            $this->salario_base
         );
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
-    // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
-    public function checkDuplicatedDui($value)
+    public function checkDuplicate($value)
     {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE dui_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
+        $sql = 'SELECT id_trabajador FROM tb_trabajadores 
+        WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
+        // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
+        $params = array(
+            $value,
+            $value,
+            $value,
+            $value,
+        ); // Parámetros para la consulta SQL
 
-    public function checkDuplicatedCorreo($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE correo_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
+        if ($this->id_trabajador) {
+            $sql .= ' AND id_trabajador <> ?;';
+            $params[] = $this->id_trabajador;
+        }
 
-    public function checkDuplicatedTelefono($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE telefono_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
-    }
-
-    public function checkDuplicatedNit($value)
-    {
-        $sql = 'SELECT COUNT(*) as count FROM tb_trabajadores WHERE NIT_trabajador = ?';
-        $params = array($value);
-        $result = Database::getRow($sql, $params);
-        // Retorna true si el count es mayor que 0, de lo contrario, false.
-        return $result['count'] > 0;
+        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
     // Método para campos de todos los trabajadores
@@ -181,7 +160,7 @@ class TrabajadoresHandler
     public function readEspecializaciones()
     {
         // Consulta SQL para seleccionar los campos del combo box
-        $sql = 'SELECT id_especializacion_trabajador, nombre_especializacion_trabajador FROM tb_especializaciones_trabajadores';
+        $sql = 'SELECT id_especializacion_trabajador, nombre_especializacion_trabajador FROM tb_especializaciones_trabajadores;';
         return Database::getRows($sql); //Ejecución de la consulta SQL
     }
 

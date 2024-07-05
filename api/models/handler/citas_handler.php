@@ -108,6 +108,20 @@ class CitasHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readServiciosCita()
+    {
+        $sql = 'SELECT s.*, ts.*, sp.*, c.*
+            FROM tb_servicios_en_proceso sp
+            INNER JOIN tb_servicios s ON s.id_servicio = sp.id_servicio
+            INNER JOIN tb_tipos_servicios ts ON ts.id_tipo_servicio = s.id_tipo_servicio
+            LEFT JOIN tb_citas c ON sp.id_cita = c.id_cita
+            WHERE c.id_cita = ?;';
+        $params = array(
+            $this->id_cita
+        );
+        return Database::getRows($sql, $params);
+    }
+
     public function searchRows()
     {
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c

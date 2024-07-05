@@ -28,13 +28,13 @@
     <!-- *Llamada a las hojas de estilos propios de css (CREADOS)-->
     <link href="../../recursos/estilos/privado/clientes.css" rel="stylesheet">
     <!--Cambiarlo por el css de la página en cuestion-->
-    <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
 
     <!-- *Llamada a las hojas de estilos del DatePicker-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
 </head>
 
 <body>
@@ -45,7 +45,7 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
-                    <div class="input-group search shadow-sm"> <!-- Contenedor del los input de entrada -->
+                    <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Buscador habilitado para: nombres, apellidos, dui, telefono, correo, NIT, NRC, NRF."> <!-- Contenedor del los input de entrada -->
                         <input type="text" class="form-control search" placeholder="Buscar..." id="input_buscar"
                             name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()">
                         <button type="button" class="btn btn-outline" onclick="search()"><i class="bi-search"><img
@@ -245,7 +245,7 @@
                         <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab" id="personaJuridica-tab"
                             type="button" data-bs-target="#personaJuridica" role="tab" aria-controls="personaJuridica"
                             aria-selected="true" onclick="showPersonaJuridica(this)">
-                            Persona juridica
+                            Persona jurídica
                         </button>
                     </li>
                 </ul>

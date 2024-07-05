@@ -8,8 +8,9 @@ CONTRASEÑA = document.getElementById('input_contra');
 REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 PASSWORD_FORM = document.getElementById('saveForm');
 ID_USUARIO = document.getElementById('id_usuario');
-EMAIL = document.getElementById('emailMostrado');   
-
+EMAIL = document.getElementById('userEmail'); 
+LOGIN_FORM = document.getElementById('loginForm');
+CONTENEDOR_CORREO = document.getElementById('userEmaill');
 
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal('#staticBackdrop');
@@ -30,6 +31,10 @@ async function readUsuarios() {
         const row = DATA.dataset;
         CORREO.value = row.correo_usuario;
         TELEFONO.value = row.telefono_usuario;
+        CONTENEDOR_CORREO.innerHTML += `
+       <h3 id="userEmail"  class="email">${row.correo_usuario}</h3>
+        <div class="lineR3"></div>
+        `;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -42,8 +47,13 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         const formData = new FormData(SAVE_FORM);
         const responseData = await fetchData(USER_API, 'editProfile', formData);
         if (responseData.status) {
-            sweetAlert(1, 'Datos actualizados correctamente', true);redirigir
-            readUsuarios();
+            // Mostrar modal de éxito
+            sweetAlert(1, 'Datos actualizados correctamente', true);
+            
+            // Agregar un pequeño retardo antes de recargar la página (opcional)
+            setTimeout(() => {
+                location.reload();
+            }, 1000); // 1000 milisegundos = 1 segundo
         } else {
             sweetAlert(2, responseData.error, false);
         }
@@ -92,7 +102,7 @@ const openLogout = async () => {
     })
 })()
 
-
+// Validación del campo teléfono
 document.getElementById('telefonoUsuario').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
@@ -112,6 +122,7 @@ document.getElementById('telefonoUsuario').addEventListener('input', function (e
     event.target.value = inputValue;
 });
 
+// Validación del campo correo
 document.getElementById('correoUsuario').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
@@ -125,9 +136,6 @@ document.getElementById('correoUsuario').addEventListener('input', function (eve
     // Actualizar el valor del campo de texto con la entrada limitada
     event.target.value = inputValue;
 });
-
-
-
 
 // Método del evento para cuando se envía el formulario de cambiar contraseña.
 PASSWORD_FORM.addEventListener('submit', async (event) => {
@@ -147,9 +155,6 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, responseData.error, false);
     }
 });
-
-
-
 
 const openPassword = async () => {
     // Se abre el modal para cambiar la info de

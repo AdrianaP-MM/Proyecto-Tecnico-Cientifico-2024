@@ -1,6 +1,7 @@
 // Constante para completar la ruta de la API.
 const CITAS_API = 'services/privado/citas.php';
 const USER_API = 'services/privado/usuarios.php';
+const SERVICES_API = 'services/privado/servicios_en_proceso.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
 const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
@@ -38,20 +39,57 @@ const CONTENEDOR_EXPAND = document.getElementById('containerExpand');
 const CONTENEDOR_EXPAND_INFO = document.getElementById('infoCita');
 const CONTENEDOR_EXPAND_SERVICIOS = document.getElementById('infoCitaServicios');
 
+const INPUT_FECHA_APROX_FINALIZACION = document.getElementById('fecha_aprox_finalizacion');
+const INPUT_HORA_APROX_FINALIZACION = document.getElementById('hora_aprox_finalizacion');
+const INPUT_FECHA_FINALIZACION = document.getElementById('fecha_finalizacion');
+const INPUT_HORA_FINALIZACION = document.getElementById('hora_finalizacion');
+
+const CONTENEDOR_FECHA_FINALIZACION = document.getElementById('contenedorFechaFin');
+const CONTENEDOR_HORA_FINALIZACION = document.getElementById('contenedorHoraFin');
+
+const BTN_DELETE = document.getElementById('btnDelete');
+
+const INPUT_CANTIDAD = document.getElementById('cantidad_servicio');
+const INPUT_SERVICIOS = document.getElementById('input_servicios');
+
+const CONTENEDOR_SERVICIO = document.getElementById('contenedorServicio');
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
   loadTemplate();
+  id_serviciow = 0;
   const DATA = await fetchData(USER_API, 'readUsers');
   if (DATA.session) {
     // Acciones si la sesión SI está activa
     fillData();
     fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil');
     fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil_UPDATE');
+    fillSelect(SERVICES_API, 'readAll', 'input_servicios');
+    hideCamposActualizarServicios();
   } else { // Acciones si la sesión NO está activa
     await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
   }
 
 });
+
+function hideCamposActualizarServicios() {
+  INPUT_SERVICIOS.removeAttribute('disabled');;
+  INPUT_FECHA_FINALIZACION.classList.add('d-none');
+  INPUT_HORA_FINALIZACION.classList.add('d-none');
+  CONTENEDOR_FECHA_FINALIZACION.classList.add('d-none');
+  CONTENEDOR_HORA_FINALIZACION.classList.add('d-none');
+  BTN_DELETE.classList.add('d-none');
+}
+
+function showCamposActualizarServicios() {
+  INPUT_SERVICIOS.setAttribute('disabled', 'disabled');
+  INPUT_FECHA_FINALIZACION.classList.remove('d-none');
+  INPUT_HORA_FINALIZACION.classList.remove('d-none');
+  CONTENEDOR_FECHA_FINALIZACION.classList.remove('d-none');
+  CONTENEDOR_HORA_FINALIZACION.classList.remove('d-none');
+  BTN_DELETE.classList.remove('d-none');
+}
+
 
 let id_citaW;
 
@@ -132,6 +170,134 @@ UPDATE_FORM.addEventListener('submit', async (event) => {
   addSave('updateRow', UPDATE_FORM, INPUT_FECHA_LLEGADA_UPDATE.value, INPUT_HORA_UPDATE.value);
 });
 
+SERVICES_FORM.addEventListener('submit', async (event) => {
+  // Se evita recargar la página web después de enviar el formulario.
+  event.preventDefault();
+  const action = id_serviciow != 0 ? 'updateRow' : 'createRow';
+  addServicioProceso(SERVICES_FORM, action);
+});
+
+const addServicioProceso = async (form, action = 'createRow') => {
+  console.log(id_serviciow);
+  const isValid = await checkFormValidity(form);
+  if (isValid) {
+    console.log('TodoGud'); // Código a ejecutar después de la validación
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(form);
+    FORM.append('fecha_registro', getDateToMysql());
+    FORM.append('fecha_aprox_finalizacion', convertToMySQLDatetime(INPUT_FECHA_APROX_FINALIZACION.value, INPUT_HORA_APROX_FINALIZACION.value));
+    FORM.append('id_cita', id_citaW);
+    FORM.append('id_Servicio', id_serviciow);
+
+    if (action == 'updateRow') {
+      FORM.append('fecha_finalizacion', convertToMySQLDatetime(INPUT_FECHA_FINALIZACION.value, INPUT_HORA_FINALIZACION.value));
+    }
+
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(SERVICES_API, action, FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      handleSuccess(action, form);
+    } else {
+      handleError(DATA);
+    }
+  } else {
+    console.log('Que paso?: Formulario no válido');
+  }
+};
+
+const openDelete = async () => {
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar el servicio?', 'No podras deshacer la acción');
+  if (RESPONSE.isConfirmed) {
+    const FORM = new FormData();
+    FORM.append('id_cita', id_citaW);
+    FORM.append('id_servicio', id_serviciow);
+
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(SERVICES_API, 'deleteRow', FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      sweetAlert(1, 'Se ha eliminado con exito', 300);
+      const FORM = new FormData();
+      FORM.append('id_cita', id_citaW);
+      fillData('readServiciosCita', FORM);
+      MODAL_SERVICIOS.hide();
+      SERVICES_FORM.classList.remove('was-validated');
+      id_serviciow = 0; // Quita la clase de validación
+    } else {
+      await sweetAlert(2, DATA.error, false);
+    }
+  }
+}
+
+const handleSuccess = (action, form) => {
+  const message = action === 'createRow' ? 'Se ha guardado con éxito' : 'Se ha actualizado con éxito';
+  sweetAlert(1, message, 300);
+  form.reset();
+  const FORM = new FormData();
+  FORM.append('id_cita', id_citaW);
+  fillData('readServiciosCita', FORM);
+  MODAL_SERVICIOS.hide();
+  form.classList.remove('was-validated');
+  id_serviciow = 0; // Quita la clase de validación
+};
+
+const handleError = async (DATA) => {
+  if (DATA.error === 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+    await sweetAlert(4, DATA.error, true);
+    location.href = 'index.html';
+  } else {
+    sweetAlert(4, DATA.error, true);
+  }
+};
+
+
+let id_serviciow = 0;
+
+//Constante para abrir detalles cuando se le de doble click a la tabla
+const openUpdate = async (id_Servicio) => {
+  console.log(id_Servicio)
+  id_serviciow = id_Servicio;
+  const FORM_ID = new FormData();
+  FORM_ID.append('id_servicio', id_Servicio);
+  FORM_ID.append('id_cita', id_citaW);
+  // Petición para obtener los datos del registro solicitado.
+  const DATA = await fetchData(SERVICES_API, 'readOne', FORM_ID);
+  if (DATA.status) {
+    // Se prepara el formulario.
+    SERVICES_FORM.reset();
+    // Se muestra la caja de diálogo con su título.
+    MODAL_SERVICIOS.show();
+    const ROW = DATA.dataset;
+
+    const [date, time] = ROW.fecha_aproximada_finalizacion.split(" ");
+    const formattedDate = convertMySQLDateToJSDate(date);
+    const formattedTime = convertMySQLTimeToHTMLTime(time);
+
+    if (ROW.fecha_finalizacion) {
+      const [date2, time2] = ROW.fecha_finalizacion.split(" ");
+      const formattedDate2 = convertMySQLDateToJSDate(date2);
+      const formattedTime2 = convertMySQLTimeToHTMLTime(time2);
+
+      INPUT_FECHA_FINALIZACION.value = formattedDate2;
+      INPUT_HORA_FINALIZACION.value = formattedTime2;
+
+    }
+    
+    INPUT_FECHA_APROX_FINALIZACION.value = formattedDate;
+    INPUT_HORA_APROX_FINALIZACION.value = formattedTime;
+
+    INPUT_CANTIDAD.value = ROW.cantidad_servicio;
+    INPUT_SERVICIOS.value = ROW.id_servicio;
+    showCamposActualizarServicios();
+  }
+  else {
+    sweetAlert(2, DATA.error, false);
+  }
+};
 
 const updateEstado = async (estado_cita) => {
   let TITLE, MESSAGE;
@@ -259,27 +425,85 @@ function openServicios() {
 }
 
 const fillData = async (action = 'readAll', form = null) => {
-  noVerNada();
-  CITAS_CARDS_CONTAINER.innerHTML = '';
-  SERVICIOS_CARDS_CONTAINER.innerHTML = '';
   const FORM = form ?? new FormData();
   const DATA = await fetchData(CITAS_API, action, FORM);
 
-  createCitaAdd(CITAS_CARDS_CONTAINER);
-
-  if (DATA.status) {
-    DATA.dataset.forEach(row => {
-      CITAS_CARDS_CONTAINER.innerHTML += createCardCita(row);
-    });
-  } else {
-    if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-      //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+  if (action === 'readServiciosCita') {
+    SERVICIOS_CARDS_CONTAINER.innerHTML = '';
+    if (DATA.status) {
+      SERVICIOS_CARDS_CONTAINER.innerHTML = createCardServicio(DATA.dataset);
+    } else {
+      SERVICIOS_CARDS_CONTAINER.innerHTML = '<h5 class="open-sans-semibold"> No existen servicios en proceso </h5>'
     }
-    else {
-      sweetAlert(4, DATA.error, true);
+  } else {
+    noVerNada();
+    CITAS_CARDS_CONTAINER.innerHTML = '';
+    createCitaAdd(CITAS_CARDS_CONTAINER);
+
+    if (DATA.status) {
+      DATA.dataset.forEach(row => {
+        CITAS_CARDS_CONTAINER.innerHTML += createCardCita(row);
+      });
+    } else {
+      if (DATA.error === 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      } else {
+        sweetAlert(4, DATA.error, true);
+      }
     }
   }
 }
+
+function createCardServicio(data) {
+  const serviciosPorTipo = {};
+
+  // Agrupar servicios por tipo
+  data.forEach(row => {
+    const tipoServicio = row.nombre_tipo_servicio;
+    if (!serviciosPorTipo[tipoServicio]) {
+      serviciosPorTipo[tipoServicio] = [];
+    }
+    serviciosPorTipo[tipoServicio].push(row);
+  });
+
+  // Generar HTML para cada tipo de servicio
+  let html = '';
+  for (const tipo in serviciosPorTipo) {
+    if (serviciosPorTipo.hasOwnProperty(tipo)) {
+      html += `
+        <div class="servicioCard">
+          <div class="servicioCardHeader d-flex justify-content-center align-items-center">
+            <h6 class="open-sans-semibold m-0 p-0 text-white">${tipo}</h6>
+          </div>
+          <div class="servicioCardBody position-relative">
+            <div class="scrollVServicios z-3 py-4 px-3">
+      `;
+
+      serviciosPorTipo[tipo].forEach(servicio => {
+        html += `
+          <div class="cardItemServicio justify-content-center align-items-center d-flex z-4" onclick="openUpdate(${servicio.id_servicio});">
+            <p class="open-sans-regular m-0 p-0">${servicio.nombre_servicio}</p>
+          </div>
+        `;
+      });
+
+      const imagenServicio = serviciosPorTipo[tipo][0].imagen_servicio;
+      const defaultImage = `${SERVER_URL}/images/defaultImage.jpg`;
+      html += `
+        </div>
+        <img src="${SERVER_URL}/images/tipoServicio/${imagenServicio}" class="imagenCitaServiciosCarro"
+        onerror="this.onerror=null; this.src='../../recursos/imagenes/img_servicios/mecanica.png';">
+        </div>
+      </div>
+      `;
+
+    }
+  }
+
+  return html;
+}
+
+
 
 // Función para agregar la card de agregar cliente
 function createCitaAdd(container) {
@@ -293,6 +517,9 @@ function createCitaAdd(container) {
 
 // Función para generar el HTML de cada cliente
 function createCardCita(row) {
+  const [date, time] = row.fecha_hora_cita.split(" ");
+  const formattedDate = convertMySQLDateToJSDate(date);
+  const formattedTime = convertMySQLTimeToHTMLTime(time);
   return `
     <div class="card position-relative z-2" onclick="clicCita(${row.id_cita}, '${row.estado_cita}')">
       <div class="content z-3">
@@ -302,13 +529,13 @@ function createCardCita(row) {
       <div class="card-izquierda">
           <div class="elemento-fecha-cita d-flex justify-content-center align-items-center text-center">
               <h6 class="open-sans-regular text-black p-0 m-0"><!--Fecha de la cita-->
-                  Fecha de la cita programada: <br><strong>${row.fecha_hora_cita}</strong>
+                  Fecha de la cita programada: <br><strong>${formattedDate}</strong>
               </h6>
           </div>
           <div class="elemento-hora-llegada d-flex justify-content-center align-items-center text-center">
               <h6 class="open-sans-regular-medium text-white p-0 m-0">
                   <!--Hora de llegada del cliente-->
-                  Hora de llegada del cliente: <br> ${row.fecha_hora_cita}
+                  Hora de llegada del cliente: <br> ${formattedTime}
               </h6>
           </div>
           <div class="elemento-movilizacion text-black d-flex flex-column justify-content-center align-items-center px-3">
@@ -396,11 +623,21 @@ const openCloseServicios = async () => {
   if (RESPONSE.isConfirmed) {
     MODAL_SERVICIOS.hide();
     SERVICES_FORM.reset();
+    id_serviciow = 0;
+    hideCamposActualizarServicios();
   }
 }
 
 // Desactivar la edición directa del input
 document.getElementById('datepicker_llegada').addEventListener('keydown', function (event) {
+  event.preventDefault(); // Prevenir la entrada de texto
+});
+
+document.getElementById('fecha_aprox_finalizacion').addEventListener('keydown', function (event) {
+  event.preventDefault(); // Prevenir la entrada de texto
+});
+
+document.getElementById('fecha_finalizacion').addEventListener('keydown', function (event) {
   event.preventDefault(); // Prevenir la entrada de texto
 });
 
@@ -414,7 +651,16 @@ $('#datepicker_llegada_UPDATE').datepicker({
   uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
   minDate: new Date() // Establece la fecha máxima como hoy
 });
-
+$('#fecha_aprox_finalizacion').datepicker({
+  autoclose: true, // Cierra automáticamente después de seleccionar
+  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
+  minDate: new Date() // Establece la fecha máxima como hoy
+});
+$('#fecha_finalizacion').datepicker({
+  autoclose: true, // Cierra automáticamente después de seleccionar
+  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
+  minDate: new Date() // Establece la fecha máxima como hoy
+});
 
 function convertToMySQLDatetime(fecha, hora) {
   // Separar la fecha en mes, día y año
@@ -444,3 +690,10 @@ function convertToMySQLDatetime(fecha, hora) {
 
   return datetimeMySQL;
 }
+
+document.getElementById('cantidad_servicio').addEventListener('input', function (e) {
+  this.value = this.value.replace(/[^0-9]/g, ''); // Elimina cualquier caracter que no sea un número
+  if (this.value.length > 2) { // Limita el número de caracteres a 2
+    this.value = this.value.slice(0, 2);
+  }
+});

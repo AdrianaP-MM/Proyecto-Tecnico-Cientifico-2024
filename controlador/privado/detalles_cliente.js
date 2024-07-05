@@ -203,7 +203,7 @@ function getPersonaNaturalTemplate(row) {
                 <!--Contenedor del Telefono-->
                 <div class="telefono d-flex flex-column">
                     <h5 class="p-0 m-0 open-sans-semibold">
-                        Telèfono
+                        Teléfono
                     </h5>
                     <p class="p-0 m-0 open-sans-regular">
                         ${row.telefono_cliente}
@@ -220,7 +220,7 @@ function getPersonaNaturalTemplate(row) {
             <!--Contenedor mas info header -->
             <div class="masinfo-header">
                 <h3 class="m-0 p-0 open-sans-bold">
-                    Màs Informaciòn
+                    Más Información
                 </h3>
             </div>
             <!--Contenedor mas info body -->
@@ -240,7 +240,7 @@ function getPersonaNaturalTemplate(row) {
                     </p>
                 </div>
                 <div class="nit2">
-                    <h5 class="m-0 p-0 open-sans-semibold">Nùmero de NIT</h5>
+                    <h5 class="m-0 p-0 open-sans-semibold">Número de NIT</h5>
                     <p class="m-0 p-0 open-sans-regular">
                         ${row.NIT_cliente}
                     </p>
@@ -248,24 +248,6 @@ function getPersonaNaturalTemplate(row) {
             </div>
         </div>
         <!--Contenedor frecuencia-->
-        <div
-            class="contenedor-frecuencia d-flex flex-column col-lg-6 col-md-7 col-9 justify-content-center align-items-center">
-            <!--Contenedor frecuencia header-->
-            <div class="frecuencia-header text-center">
-                <h6 class="m-0 p-0 open-sans-semibold">Frecuencia con la que el cliente
-                    <br> vista nuestro taller
-                </h6>
-            </div>
-            <!--Contenedor frecuencia body-->
-            <div class="frecuencia-body d-flex flex-column">
-                <h6 class="m-0 p-0 open-sans-regular">
-                    Mes de abril
-                </h6>
-                <h3 class="m-0 p-0 open-sans-bold-italic">
-                    XXXX Veces
-                </h3>
-            </div>
-        </div>
     </div>
     `;
 }
@@ -317,7 +299,7 @@ function getPersonaJuridicaTemplate(row) {
                     <!--Contenedor del telefono-->
                     <div class="telefono d-flex flex-column">
                         <h5 class="p-0 m-0 open-sans-semibold">
-                            Telèfono
+                            Teléfono
                         </h5>
                         <p class="p-0 m-0 open-sans-regular">
                             ${row.telefono_cliente}
@@ -344,7 +326,7 @@ function getPersonaJuridicaTemplate(row) {
                 <!--Contenedor del titulo, header de mas informacion-->
                 <div class="masinfo-header">
                     <h3 class="m-0 p-0 open-sans-bold">
-                        Màs Informaciòn
+                        Más Información
                     </h3>
                 </div>
                 <!--Contenedor del body de màs informacion-->
@@ -365,20 +347,20 @@ function getPersonaJuridicaTemplate(row) {
                     </div>
                     <!--Contenedor del nit-->
                     <div class="nit">
-                        <h5 class="m-0 p-0 open-sans-semibold">Nùmero de NIT</h5>
+                        <h5 class="m-0 p-0 open-sans-semibold">Número de NIT</h5>
                         <p class="m-0 p-0 open-sans-regular">
                             ${row.NIT_cliente}
                         </p>
                     </div>
                     <!--Contenedor del nrc-->
                     <div class="nrc">
-                        <h5 class="m-0 p-0 open-sans-semibold">Nùmero de NRC</h5>
+                        <h5 class="m-0 p-0 open-sans-semibold">Número de NRC</h5>
                         <p class="m-0 p-0 open-sans-regular">
                             ${row.NRC_cliente}
                         </p>
                     </div>
                     <div class="nrf">
-                        <h5 class="m-0 p-0 open-sans-semibold">Nùmero de NRF</h5>
+                        <h5 class="m-0 p-0 open-sans-semibold">Número de NRF</h5>
                         <p class="m-0 p-0 open-sans-regular">
                             ${row.NRF_cliente}
                         </p>
@@ -386,24 +368,6 @@ function getPersonaJuridicaTemplate(row) {
                 </div>
             </div>
             <!--Contenedor de la frecuencia del cliente-->
-            <div
-                class="contenedor-frecuencia d-flex flex-column col-lg-6 col-md-7 col-9 justify-content-center align-items-center">
-                <!--Contenedor header de frecuencia-->
-                <div class="frecuencia-header text-center">
-                    <h6 class="m-0 p-0 open-sans-semibold">Frecuencia con la que el cliente
-                        <br> vista nuestro taller
-                    </h6>
-                </div>
-                <!--Contenedor body de frecuencia-->
-                <div class="frecuencia-body d-flex flex-column">
-                    <h6 class="m-0 p-0 open-sans-regular">
-                        Mes de abril
-                    </h6>
-                    <h3 class="m-0 p-0 open-sans-bold-italic">
-                        XX Veces
-                    </h3>
-                </div>
-            </div>
         </div>
     </div>
     `;

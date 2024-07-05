@@ -38,6 +38,13 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readServiciosCita':
+                if (!$cita->setIdCita($_POST['id_cita'])) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($result['dataset'] = $cita->readServiciosCita()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Servicios inexistentes';
+                }
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);

@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
 // Método del evento para cuando se envía el formulario de guardar.
 ADD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -255,7 +258,7 @@ const fillData = async (action, form = null) => {
                 else {
                     CONTENEDOR_MARCAS_AUTOS.innerHTML +=
                         `<h6 class="m-0 p-0 open-sans-regular">
-                        No existen marcas de automoviles registrados
+                        No existen marcas de automóviles registrados
                         </h6>`
                     //sweetAlert(4, DATA.error, true);
                 }
@@ -308,7 +311,7 @@ function createCardCliente(row) {
         <!--Card del Cliente -->
         <div class="cliente-card card" onclick="gotoDetail(${row.id_cliente})">
             <div class="content z-3">
-                <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                <h4 class="open-sans-light-italic">Más información</h4>
             </div>
             <div class="container-img-card">
                 <img src="../../recursos/imagenes/img_clientes/personas.png">
