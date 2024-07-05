@@ -33,6 +33,8 @@ async function openCreate() {
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
+
+
     const id_tipo_servicio = Number(getQueryParam('id_tipo_servicio'));
     if (id_tipo_servicio) {
         // Llama a la función para llenar los datos del servicio específico.
@@ -40,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         console.error('ID del servicio no especificado en los parámetros de la URL.');
     }
+
+    loadTemplate();
 });
 
 
@@ -96,7 +100,7 @@ const openUpdate = async (id) => {
         SAVE_MODAL.show();
         // Se inicializan los campos con los datos.
         const row = DATA.dataset;
-        
+
         ID_TIPO_SERVICIO.value = id;
         NOMBRE_SERVICIO.value = row.nombre_servicio;
         DESCRIPCION_SERVICIO.value = row.descripcion_servicio;
@@ -130,7 +134,7 @@ const openDelete = async (id) => {
 
         // Depuración: Mostrar todos los pares clave-valor en el formData
         for (let pair of formData.entries()) {
-            console.log("Datos recibidos del form"+ pair[0] + ': ' + pair[1]);
+            console.log("Datos recibidos del form" + pair[0] + ': ' + pair[1]);
         }
 
         // Petición para eliminar el registro seleccionado.
@@ -190,23 +194,46 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
 
 // Método del evento para cuando el documento ha cargado.
-document.addEventListener('DOMContentLoaded', async () => {
 
-    loadTemplate();
 
-    // Agregar un evento de teclado al input del nombre del servicio
-    NOMBRE_SERVICIO.addEventListener('input', function (event) {
-        // Obtener el valor actual del input
-        const valorInput = event.target.value;
 
-        // Verificar si el valor contiene algún número
-        if (/\d/.test(valorInput)) {
-            // Si el valor contiene números, mostrar una alerta y borrar el contenido
-            sweetAlert(3, 'El nombre del servicio no puede contener números', false);
-            event.target.value = ''; // Borrar el contenido del input
-        }
+document
+    .getElementById("nombre_servicio")
+    .addEventListener("input", function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\d/g, "");
+
+        // Asegurar que el correo electrónico no supere los 50 caracteres
+        inputValue = inputValue.slice(0, 50);
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
     });
-});
+
+
+function goBack() {
+    window.history.back();
+}
+
+document
+    .getElementById("descripcion_servicio")
+    .addEventListener("input", function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\d/g, "");
+
+        // Asegurar que el correo electrónico no supere los 50 caracteres
+        inputValue = inputValue.slice(0, 50);
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
+
 
 function goBack() {
     window.history.back();
