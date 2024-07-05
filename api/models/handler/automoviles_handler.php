@@ -1,11 +1,11 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
 
-class ClienteHandler
+class AutomovilHandler
 {
     protected $id_automovil = null;
     protected $id_modelo_automovil = null;
@@ -18,6 +18,7 @@ class ClienteHandler
     protected $fecha_registro = null;
     protected $estado_automovil = null;
 
+    const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
     public function searchRows()
     {
@@ -99,13 +100,13 @@ class ClienteHandler
 
         // if ($this->servicios_seleccionados && ($this->tipo_cliente == 'Persona natural' || $this->tipo_cliente == 'Persona juridica')) {
         //     $table = ($this->tipo_cliente == 'Persona Natural') ? 'tb_detalles_consumidores_finales' : 'tb_detalles_creditos_fiscales';
-        
+
         //     // Convertimos la cadena en un arreglo de IDs de servicios
         //     $servicios_seleccionados = explode(',', $this->servicios_seleccionados);
-        
+
         //     // Creamos un string con el mismo número de placeholders que servicios seleccionados
         //     $placeholders = implode(',', array_fill(0, count($servicios_seleccionados), '?'));
-        
+
         //     // Agregamos los placeholders a la consulta
         //     $sql .= ' AND EXISTS (
         //         SELECT 1
@@ -119,7 +120,7 @@ class ClienteHandler
         //         )
         //         AND detalle.id_servicio IN (' . $placeholders . ')
         //     )';
-        
+
         //     // Agregamos los valores de los servicios seleccionados a los parámetros
         //     foreach ($servicios_seleccionados as $servicio) {
         //         $params[] = $servicio;
@@ -143,9 +144,8 @@ class ClienteHandler
         fecha_fabricacion_automovil = ?,
         placa_automovil = ?,
         imagen_automovil = ?,
-        id_cliente = ?,
-        estado_automovil = ?
-        WHERE id_automovil = ?'; // Consulta SQL para insertar un nuevo cliente
+        id_cliente = ?
+        WHERE id_automovil = ?'; // Consulta SQL para insertar un nuevo automóvil
         $params = array(
             $this->id_modelo_automovil,
             $this->id_tipo_automovil,
@@ -154,7 +154,6 @@ class ClienteHandler
             $this->placa_automovil,
             $this->imagen_automovil,
             $this->id_cliente,
-            $this->estado_automovil,
             $this->id_automovil
         ); // Parámetros para la consulta SQL
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
@@ -162,8 +161,8 @@ class ClienteHandler
 
     public function deleteRow()
     {
-        // Consulta SQL para eliminar un cliente basado en su ID
-        $sql = 'DELETE FROM tb_automoviles
+        // Consulta SQL para eliminar un automóvil basado en su ID
+        $sql = 'UPDATE tb_automoviles SET estado_automovil = "Eliminado"
             WHERE id_automovil = ?';
         // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
         $params = array($this->id_automovil);
@@ -183,7 +182,7 @@ class ClienteHandler
             imagen_automovil,
             id_cliente,
             fecha_registro,
-            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), ?)'; // Consulta SQL para insertar un nuevo cliente
+            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")'; // Consulta SQL para insertar un nuevo cliente
         $params = array(
             $this->id_modelo_automovil,
             $this->id_tipo_automovil,
@@ -191,8 +190,7 @@ class ClienteHandler
             $this->fecha_fabricacion_automovil,
             $this->placa_automovil,
             $this->imagen_automovil,
-            $this->id_cliente,
-            $this->estado_automovil
+            $this->id_cliente
         ); // Parámetros para la consulta SQL
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
@@ -218,30 +216,78 @@ class ClienteHandler
     // Método para leer los automóviles
     public function readAll()
     {
-        $sql = 'SELECT * FROM tb_automoviles;';
+        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        co.nombre_color AS nombre_color,
+        mo.nombre_modelo_automovil AS nombre_modelo,
+        ma.nombre_marca_automovil AS nombre_marca,
+        a.*
+        FROM tb_automoviles a
+        INNER JOIN tb_clientes c USING(id_cliente)
+        INNER JOIN tb_colores co USING(id_color)
+        INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
+        INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
+        WHERE estado_automovil = "Activo";';
+        return Database::getRows($sql);
+    }
+
+    // Método para leer los automóviles
+    public function readDetail()
+    {
+        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        co.nombre_color AS nombre_color,
+        mo.nombre_modelo_automovil AS nombre_modelo,
+        ma.nombre_marca_automovil AS nombre_marca,
+        t.nombre_tipo_automovil AS nombre_tipo,
+        a.*
+        FROM tb_automoviles a
+        INNER JOIN tb_clientes c USING(id_cliente)
+        INNER JOIN tb_colores co USING(id_color)
+        INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
+        INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
+        INNER JOIN tb_tipos_automoviles t USING (id_tipo_automovil)
+        WHERE estado_automovil = "Activo" AND id_automovil = ?;';
+        $params = array(
+            $this->id_automovil
+        );
+        return Database::getRow($sql,$params);
+    }
+
+    // Método para leer los clientes
+    public function readModelos()
+    {
+        $sql = 'SELECT id_modelo_automovil, nombre_modelo_automovil FROM tb_modelos_automoviles ORDER BY nombre_modelo_automovil ASC;';
         return Database::getRows($sql);
     }
 
     // Método para leer los clientes
-    public function readMarcas()
+    public function readTipos()
     {
-        $sql = 'SELECT id_marca_automovil, nombre_marca_automovil FROM tb_marcas_automoviles ORDER BY nombre_marca_automovil ASC;';
+        $sql = 'SELECT id_tipo_automovil, nombre_tipo_automovil FROM tb_tipos_automoviles ORDER BY nombre_tipo_automovil ASC;';
         return Database::getRows($sql);
     }
 
     // Método para leer los clientes
-    public function readServicios()
+    public function readColores()
     {
-        $sql = 'SELECT id_servicio, nombre_servicio FROM tb_servicios ORDER BY nombre_servicio ASC;';
+        $sql = 'SELECT id_color, nombre_color FROM tb_colores ORDER BY nombre_color ASC;';
+        return Database::getRows($sql);
+    }
+
+    // Método para leer los clientes
+    public function readClientes()
+    {
+        $sql = 'SELECT id_cliente, dui_cliente FROM tb_clientes ORDER BY dui_cliente ASC;';
         return Database::getRows($sql);
     }
 
     // Método para leer a un cliente
     public function readOne()
     {
-        $sql = 'SELECT * FROM tb_clientes WHERE id_cliente = ?';
+        $sql = 'SELECT * FROM tb_automoviles WHERE id_automovil = ?';
         $params = array(
-            $this->id_cliente
+            $this->id_automovil
         );
         return Database::getRow($sql, $params);
     }

@@ -45,11 +45,13 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
-                    <div class="input-group search shadow-sm"> <!-- Contenedor del los input de entrada -->
-                        <input type="text" class="form-control search" placeholder="Buscar...">
-                        <button type="button" class="btn btn-outline"><i class="bi-search"><img
-                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
-                    </div>
+                    <form id="searchForm">
+                        <div class="input-group search shadow-sm"> <!-- Contenedor del los input de entrada -->
+                            <input type="text" class="form-control search" placeholder="Buscar...">
+                            <button type="button" class="btn btn-outline"><i class="bi-search"><img
+                                        src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                        </div>
+                    </form>
                     <div class="d-flex justify-content-center d-flex align-items-baseline">
                         <!-- Contenedor del los input de entrada -->
                         <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
@@ -382,40 +384,10 @@
                     </h5>
                 </div>
                 <!--Contenedor total del cuerpo de la página-->
-                <div class="contenedor-total-cards col-12">
+                <div class="contenedor-total-cards col-12" id="tableBody">
                     <!--Contenedor de la primera card - card de agregar automovil-->
                     <div class="add-auto-card d-flex align-items-center justify-content-center">
-                        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                    </div>
-                    <!--Card del automovil 1-->
-                    <div class="auto-card card" onclick="gotoDetail()">
-                        <div class="content z-3">
-                            <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                        </div>
-                        <div class="container-img-card">
-                            <img src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg">
-                        </div>
-                        <div class="container-info-card position-relative">
-                            <div class="line-red-split position-absolute"></div>
-                            <div class="grid-c pt-2 c1">
-                                <p class="m-0 p-0 open-sans-regular text-black text-center">Axel Garcìa &nbsp
-                                    <span
-                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">12345678-9</span>
-                                </p>
-                            </div>
-                            <div class="grid-c pt-2 c2 w-100 px-1">
-                                <p class="m-0 p-0 open-sans-light-italic text-center w-100">FERRARI &nbsp
-                                    <span class="open-sans-semibold m-0 p-0 text-center w-100">P222-222</span>
-                                </p>
-                            </div>
-                            <div class="grid-c c3">
-                                <p class="m-0 p-0 open-sans-regular text-black text-center">Color gris
-                                    <span
-                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">Abarahat500</span>
-                                </p>
-                            </div>
-                        </div>
+                        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
                     </div>
                 </div>
             </div>
@@ -423,114 +395,83 @@
 
         <!--TODO -------------------------------MODAL ADD---------------------->
         <!-- Contenedor del modal de agregar automovil-->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
-            <div class="modal-dialog modal-dialog-centered">
-                <form id="saveForm"> <!--Formulario de guardado-->
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
                     <!-- Contenedor del modal content-->
                     <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <!-- Contenedor del modal body-->
-                        <div class="modal-body col-12 d-flex flex-lg-row flex-md-column flex-column  flex-wrap-reverse">
-
-                            <!-- Contenedor de la izquierda, adjuntar imagen del automovil-->
+                        <div class="modal-body row">
+                            <!-- Contenedor de la izquierda, imagen del automóvil-->
                             <div
-                                class="content-add-img col-lg-5 col-12 pb-3 p-lg-0 d-flex flex-column justify-content-center align-items-center">
-                                <h6>Imagen del automòvil</h6>
-                                <!-- Imagen seleccionada y botón para elegir imagen -->
-                                <img id="selectedImageF" class="sizeCard col-10 "
+                                class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
+                                <h6>Imagen del automóvil</h6>
+                                <img id="selectedImageF" class="sizeCard col-10"
                                     src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
                                     alt="example placeholder" />
-                                <div
-                                    class="btn btn-primary btn-rounded btnForgot col-8 col-lg-6 open-sans-regular mt-1">
+                                <button type="button" class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
                                     <label class="form-label text-white m-1" for="customFile2">Seleccionar
                                         imagen</label>
-                                    <input type="file" class="form-control d-none" id="customFile2" readonly
-                                        onchange="displaySelectedImage(event, 'selectedImageF')" />
-                                </div>
+                                </button>
+                                <input type="file" class="form-control d-none" id="customFile2" name="customFile2"/>
                             </div>
-
-                            <!-- Contenedor de la derecha, ingresar la información del automovil -->
-                            <div class="content-add-info col-lg-7 col-12">
-                                <!-- Elemento de marcas-->
-                                <div class="form-floating mb-0 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Marca</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example">
-                                        <option selected>Ferrari</option>
-                                        <option value="1">Marca 1</option>
-                                        <option value="2">Marca 2</option>
-                                        <option value="3">Marca 3</option>
-                                    </select>
+                            <!-- Contenedor de la derecha, información del automóvil-->
+                            <div class="content-add-info col-md-7">
+                                <input type="number" id="idAuto" name="idAuto" class="invisible">
+                                <div class="form-floating mb-3">
+                                    <label for="input_modelo_auto" class="form-label px-2 pt-1 p-0 m-0">Modelo</label>
+                                    <select id="input_modelo_auto" name="input_modelo_auto" type="text"
+                                        class="form-select" required></select>
+                                    <div class="invalid-feedback">Por favor seleccione el modelo.</div>
                                 </div>
-
-                                <!-- Elemento de modelos-->
-                                <div class="form-floating mb-0 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Modelo</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example">
-                                        <option selected>Abarahat500</option>
-                                        <option value="1">Modelo 1</option>
-                                        <option value="2">Modelo 2</option>
-                                        <option value="3">Modelo 3</option>
-                                    </select>
+                                <div class="form-floating mb-3">
+                                    <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                                    <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
+                                        required></select>
+                                    <div class="invalid-feedback">Por favor seleccione el tipo.</div>
                                 </div>
-
-                                <!-- Elemento de tipos-->
-                                <div class="form-floating mb-0 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Tipo</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example">
-                                        <option selected>Camioneta</option>
-                                        <option value="1">Tipo 1</option>
-                                        <option value="2">Tipo 2</option>
-                                        <option value="3">Tipo 3</option>
-                                    </select>
-                                </div>
-
-                                <!-- Elemento de fecha de fabricacion-->
-                                <div class="form-floating mb-0 p-0">
+                                <div class="form-floating mb-3">
                                     <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
                                         fabricación</label>
-                                    <input type="date" class="form-control" id="fechanInput" placeholder="" required>
+                                    <input type="date" class="form-control" id="fechanInput" name="fechanInput"
+                                        required>
+                                    <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
                                 </div>
-
-                                <!-- Elemento de colores-->
-                                <div class="form-floating mb-0 p-0">
-                                    <label class="form-label px-2 pt-0 p-0 m-0">Color</label>
-                                    <select class="form-select pt-4 open-sans-regular"
-                                        aria-label="Default select example">
-                                        <option selected>Rojo</option>
-                                        <option value="1">Verde</option>
-                                        <option value="2">Amarillo</option>
-                                        <option value="3">Azul</option>
-                                    </select>
+                                <div class="form-floating mb-3">
+                                    <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
+                                    <select id="input_color_auto" name="input_color_auto" type="text"
+                                        class="form-select" required></select>
+                                    <div class="invalid-feedback">Por favor seleccione el color.</div>
                                 </div>
-                                <!-- Elemento input de placa-->
-                                <div class="form-floating mb-0 p-0">
-                                    <input type="text" class="form-control" id="input_placa" placeholder="...">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa" name="input_placa"
+                                        required>
                                     <label for="input_placa">Placa</label>
+                                    <div class="invalid-feedback">Por favor ingrese la placa.</div>
                                 </div>
-                                <!-- Elemento input del dui del propietario-->
-                                <div class="form-floating mb-0 p-0">
-                                    <input type="text" class="form-control" id="input_duiP" placeholder="...">
-                                    <label for="input_duiP">Dui del propietario</label>
+                                <div class="form-floating mb-3">
+                                    <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del propietario</label>
+                                    <select class="form-select" id="input_duiP" name="input_duiP" required>
+                                        <!-- Opciones de propietario (DUI) -->
+                                    </select>
+                                    <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
                                 </div>
                             </div>
                         </div>
                         <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                        <div
-                            class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                            <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                            <button type="button" class="btn btn-secondary btnCancel mx-5"
                                 onclick="openClose()">Cancelar</button>
-                            <button type="button" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5"
-                                onclick="openNoti()">
-                                Guardar</button>
+                            <button type="submit" class="btn btn-primary btnSave">Guardar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
+
     </main>
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->

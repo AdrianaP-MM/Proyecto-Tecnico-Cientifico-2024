@@ -31,23 +31,24 @@
     <!-- *Contenido principal del documento -->
     <main class="open">
         <div class="contenedor-total col-12 py-2">
-            <div class="btnReturn pt-5 px-4" onclick="goBack()">  <!-- Boton regresar -->
+            <div class="btnReturn pt-5 px-4" onclick="goBack()"> <!-- Boton regresar -->
                 <h4 class="open-sans-regular text-black">
                     <img src="../../recursos/imagenes/icons/minus.png">
                     Regresar
                 </h4>
             </div>
             <div class="row1 col-12 d-flex flex-wrap">
-                    <!-- Contenedor de la informacion del cliente, ademas de generalidades del automovil -->
+                <!-- Contenedor de la informacion del cliente, ademas de generalidades del automovil -->
                 <div class="contenedor-izqrd col-lg-4 col-md-5 col-12">
                     <div
-                        class="contenedor-info-cliente col-12 d-flex justify-content-lg-center justify-content-start align-items-center  position-relative">  <!-- Informacion cliente -->
+                        class="contenedor-info-cliente col-12 d-flex justify-content-lg-center justify-content-start align-items-center  position-relative">
+                        <!-- Informacion cliente -->
                         <div class="content-info-text text-lg-start text-md-start mx-2">
                             <span>
                                 <h2 class="open-sans-bold m-0 p-0">
                                     Perteneciente
                                 </h2>
-                                <h4 class="open-sans-regular m-0 p-0">
+                                <h4 class="open-sans-regular m-0 p-0" id="cliente">
                                     Axel Garcia
                                 </h4>
                             </span>
@@ -55,12 +56,12 @@
                                 <h2 class="open-sans-bold m-0 p-0">
                                     Dui
                                 </h2>
-                                <h4 class="open-sans-regular m-0 p-0">
+                                <h4 class="open-sans-regular m-0 p-0" id="dui">
                                     12345678-9
                                 </h4>
                             </span>
                         </div>
-                            <!--Boton para poder ver la seccion de informacion del cliente al que pertenece al que automovil-->
+                        <!--Boton para poder ver la seccion de informacion del cliente al que pertenece al que automovil-->
                         <button type="button" id="btnMasInfoCliente" onclick=""
                             class="btn btn-outline-dark btnMasInfo btn-position-btmright col-10 text-white position-absolute m-0 p-0">
                             <h6 class="open-sans-regular ps-4 pe-2 py-2 m-0 z-3">
@@ -70,12 +71,13 @@
                     </div>
 
                     <div
-                        class="contenedor-info-auto col-12 py-3 text-white text-center d-flex flex-column flex-md-row flex-lg-row justify-content-around align-items-center px-lg-5 px-md-0"> <!-- Información del auto -->
+                        class="contenedor-info-auto col-12 py-3 text-white text-center d-flex flex-column flex-md-row flex-lg-row justify-content-around align-items-center px-lg-5 px-md-0">
+                        <!-- Información del auto -->
                         <div class="info-color py-1">
                             <h4 class="open-sans-semibold m-0 p-0 ">
                                 Color:
                             </h4>
-                            <h5 class="open-sans-regular p-0">
+                            <h5 class="open-sans-regular p-0" id="color">
                                 Gris
                             </h5>
                         </div>
@@ -84,7 +86,7 @@
                             <h1 class="open-sans-semibold m-0 p-0">
                                 P222-222
                             </h1>
-                            <h3 class="open-sans-regular p-0">
+                            <h3 class="open-sans-regular p-0" id="modelo">
                                 Abarath 500
                             </h3>
                         </div>
@@ -93,20 +95,21 @@
                             <h4 class="open-sans-semibold m-0 p-0">
                                 Tipo:
                             </h4>
-                            <h5 class="open-sans-regular p-0">
+                            <h5 class="open-sans-regular p-0" id="tipo">
                                 Camioneta
                             </h5>
                         </div>
                     </div>
 
                     <div
-                        class="contenedor-info-fechas d-flex flex-column justify-content-around align-items-center pt-4 position-relative">   <!-- Fechas importantes para el registro del automovil -->
+                        class="contenedor-info-fechas d-flex flex-column justify-content-around align-items-center pt-4 position-relative">
+                        <!-- Fechas importantes para el registro del automovil -->
                         <div class="contenedor-fechas">
                             <div class="contenedor-fecha-fabricacion mb-5">
                                 <h2 class="open-sans-bold m-0 p-0">
                                     Fecha de fabricación
                                 </h2>
-                                <h4 class="open-sans-regular m-0 p-0">
+                                <h4 class="open-sans-regular m-0 p-0" id="fecha">
                                     03 de marzo de 1900
                                 </h4>
                             </div>
@@ -115,14 +118,13 @@
                                 <h2 class="open-sans-bold m-0 p-0">
                                     Fecha de registro
                                 </h2>
-                                <h4 class="open-sans-regular m-0 p-0">
+                                <h4 class="open-sans-regular m-0 p-0" id="fechaR">
                                     15 de enero del 2024
                                 </h4>
                             </div>
                         </div>
 
-                        <button type="button" id="btnEditCar" onclick="" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop2"
+                        <button type="button" id="btnEditCar" onclick="openUpdate()"
                             class="btn btn-outline-primary col-10 btn-position-btmright btnEdit position-absolute m-0 p-0">
                             <img src="../../recursos/imagenes/icons/btn-edit.svg" class="svg1">
                         </button>
@@ -130,16 +132,17 @@
                 </div>
 
                 <div class="contenedor-drch col-lg-8 col-md-7 px-lg-4 px-md-3 col-12 mt-5 mt-md-0 mt-lg-0 position-relative"
-                    onclick="gotoDetailsServ()">                                                                                  <!-- Imagen de los carros -->
+                    onclick="gotoDetailsServ()"> <!-- Imagen de los carros -->
                     <div class="content z-3">
                         <h4 class="open-sans-light-italic">Visualizar servicios realizados</h4>
                     </div>
-                    <img src="../../recursos/imagenes/img_automoviles/carexmpl.jpg" class="z-2">
+                    <img src="../../recursos/imagenes/img_automoviles/carexmpl.jpg" id="imagenCarro" class="z-2">
                 </div>
             </div>
 
             <div class="row2">
-                <div class="contenedor-header position-relative text-white d-flex align-items-end flex-column"> <!-- Al dar click entrara a la pagina con los detalles de esta cita -->
+                <div class="contenedor-header position-relative text-white d-flex align-items-end flex-column">
+                    <!-- Al dar click entrara a la pagina con los detalles de esta cita -->
                     <div class="contenedor-title px-5 py-2">
                         <h2 class="open">
                             Servicios en proceso
@@ -154,13 +157,15 @@
                     </button>
                 </div>
 
-                <div class="contenedor-card-proces"> <!-- Cards con conteos atras para poder ver en cuanto timpo (aprox.) estaria listo el vehiculo -->                                                  
+                <div class="contenedor-card-proces">
+                    <!-- Cards con conteos atras para poder ver en cuanto timpo (aprox.) estaria listo el vehiculo -->
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="cards-wrapper py-3">
                                     <div class="card cardM d-flex flex-column ">
-                                        <h3 class="open-sans-regular m-0 p-0">Cambio de aceite</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Cambio de aceite</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top text-white d-flex justify-content-between align-items-center col-12">
@@ -193,7 +198,8 @@
                                     </div>
 
                                     <div class="card cardM d-flex flex-column">
-                                        <h3 class="open-sans-regular m-0 p-0">Arreglo de aire acondicionado</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Arreglo de aire acondicionado</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top2 text-white d-flex justify-content-between align-items-center col-12">
@@ -226,7 +232,8 @@
                                     </div>
 
                                     <div class="card cardM d-flex flex-column">
-                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top2 text-white d-flex justify-content-between align-items-center col-12">
@@ -263,7 +270,8 @@
                             <div class="carousel-item">
                                 <div class="cards-wrapper py-3">
                                     <div class="card cardM d-flex flex-column">
-                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top2 text-white d-flex justify-content-between align-items-center col-12">
@@ -296,7 +304,8 @@
                                     </div>
 
                                     <div class="card cardM d-flex flex-column">
-                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top2 text-white d-flex justify-content-between align-items-center col-12">
@@ -329,7 +338,8 @@
                                     </div>
 
                                     <div class="card cardM d-flex flex-column">
-                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3> <!-- Ejemplo de un servicio -->
+                                        <h3 class="open-sans-regular m-0 p-0">Cambio de llantas</h3>
+                                        <!-- Ejemplo de un servicio -->
                                         <div class="card-body mt-2 shadow d-flex flex-column align-items-center col-12">
                                             <div
                                                 class="card-top2 text-white d-flex justify-content-between align-items-center col-12">
@@ -364,7 +374,7 @@
                             </div>
                         </div>
                         <!--Boton del carusel para volver a las cards anteriores-->
-                        <button class="carousel-control-prev arrow ps-3" type="button" 
+                        <button class="carousel-control-prev arrow ps-3" type="button"
                             data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                             <span class="carousel-control-previous" aria-hidden="true">
                                 <img src="../../recursos/imagenes/icons/slideizq.svg">
@@ -385,107 +395,75 @@
         <!--TODO -------------------------------MODAL EDIT---------------------->
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                    <div class="modal-body col-12 d-flex flex-lg-row flex-md-column flex-column  flex-wrap-reverse">
-                        <div
-                            class="content-add-img col-lg-5 col-12 pb-3 p-lg-0 d-flex flex-column justify-content-center align-items-center">
-                            <h6>Imagen del automòvil</h6>
-                            <!-- Imagen seleccionada y botón para elegir imagen -->
-                            <img id="selectedImageA" class="sizeCard col-10 "
-                                src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg" alt="example placeholder" />
-                            <div class="btn btn-primary btn-rounded btnForgot col-8 col-lg-6 open-sans-regular mt-1">
-                                <label class="form-label text-white m-1" for="customFile2">Seleccionar
-                                    imagen</label>
-                                <input type="file" class="form-control d-none" id="customFile2" readonly
-                                    onchange="displaySelectedImage(event, 'selectedImageA')" />
-                            </div>
-                        </div>
-
-                        <!--Permite editar la informacion de la marca del vehiculo-->
-                        <div class="content-add-info col-lg-7 col-12">
-                            <div class="form-floating mb-0 p-0">
-                                <label class="form-label px-2 pt-0 p-0 m-0">Marca</label>
-                                <select class="form-select pt-4 open-sans-regular" aria-label="Default select example">
-                                    <option selected>Ferrari</option>
-                                    <option value="1">Marca 1</option>
-                                    <option value="2">Marca 2</option>
-                                    <option value="3">Marca 3</option>
-                                </select>
-                            </div>
-
-                            <!--Permite editar la informacion de la modelo del vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <label class="form-label px-2 pt-0 p-0 m-0">Modelo</label>
-                                <select class="form-select pt-4 open-sans-regular" aria-label="Default select example">
-                                    <option selected>Abarahat500</option>
-                                    <option value="1">Modelo 1</option>
-                                    <option value="2">Modelo 2</option>
-                                    <option value="3">Modelo 3</option>
-                                </select>
-                            </div>
-
-                            <!--Permite editar la informacion del tipo de vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <label class="form-label px-2 pt-0 p-0 m-0">Tipo</label>
-                                <select class="form-select pt-4 open-sans-regular" aria-label="Default select example">
-                                    <option selected>Camioneta</option>
-                                    <option value="1">Tipo 1</option>
-                                    <option value="2">Tipo 2</option>
-                                    <option value="3">Tipo 3</option>
-                                </select>
-                            </div>
-
-                            <!--Permite editar la informacion de la fecha de fabricacion del vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
-                                    fabricación</label>
-                                <input type="date" class="form-control" id="fechanInput" placeholder="" required>
-                            </div>
-
-                            <!--Permite editar la informacion del color del vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <label class="form-label px-2 pt-0 p-0 m-0">Color</label>
-                                <select class="form-select pt-4 open-sans-regular" aria-label="Default select example">
-                                    <option selected>Rojo</option>
-                                    <option value="1">Verde</option>
-                                    <option value="2">Amarillo</option>
-                                    <option value="3">Azul</option>
-                                </select>
-                            </div>
-
-                            <!--Permite editar la informacion de la placa del vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <input type="text" class="form-control" id="input_placa" placeholder="..."
-                                    value="P222-222">
-                                <label for="input_placa">Placa</label>
-                            </div>
-
-                            <!--Permite editar la informacion del DUI del vehiculo-->
-                            <div class="form-floating mb-0 p-0">
-                                <input type="text" class="form-control" id="input_duiP" placeholder="..."
-                                    value="12345678-9">
-                                <label for="input_duiP">Dui del propietario</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                        
-                        <!-- Boton eliminar -->
-                        <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5"
-                            onclick="openDelete()">Eliminar</button>
-
-                        <!-- Boton cancelar -->    
-                        <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
-                            onclick="openClose()">Cancelar</button>
-                        <button type="button" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5" onclick="openNoti()">
-                            Guardar
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
+            <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                <div class="modal-body row">
+                    <!-- Contenedor de la izquierda, imagen del automóvil -->
+                    <div class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
+                        <h6>Imagen del automóvil</h6>
+                        <img id="selectedImageA" class="sizeCard col-10"
+                             src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg"
+                             alt="example placeholder" />
+                        <button type="button" class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
+                            <label class="form-label text-white m-1" for="customFile2">Seleccionar imagen</label>
                         </button>
+                        <input type="file" class="form-control d-none" id="customFile2" name="customFile2"/>
+                    </div>
+                    <!-- Contenedor de la derecha, información del automóvil -->
+                    <div class="content-add-info col-md-7">
+                        <input type="number" id="idAuto" name="idAuto" class="invisible">
+                        <div class="form-floating mb-3">
+                            <label for="input_modelo_auto" class="form-label px-2 pt-1 p-0 m-0">Modelo</label>
+                            <select id="input_modelo_auto" name="input_modelo_auto" type="text"
+                                    class="form-select" required></select>
+                            <div class="invalid-feedback">Por favor seleccione el modelo.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                            <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
+                                    required></select>
+                            <div class="invalid-feedback">Por favor seleccione el tipo.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de fabricación</label>
+                            <input type="number" class="form-control" id="fechanInput" name="fechanInput" required>
+                            <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
+                            <select id="input_color_auto" name="input_color_auto" type="text" class="form-select"
+                                    required></select>
+                            <div class="invalid-feedback">Por favor seleccione el color.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa" name="input_placa"
+                                   required>
+                            <label for="input_placa">Placa</label>
+                            <div class="invalid-feedback">Por favor ingrese la placa.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del propietario</label>
+                            <select class="form-select" id="input_duiP" name="input_duiP" required>
+                                <!-- Opciones de propietario (DUI) -->
+                            </select>
+                            <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                    <!-- Boton eliminar -->
+                    <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5" onclick="openDelete()">Eliminar</button>
+                    <!-- Boton cancelar -->
+                    <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5" onclick="openClose()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Guardar</button>
+                </div>
             </div>
-        </div>
+        </form>
+    </div>
+</div>
+
     </main>
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->

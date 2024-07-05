@@ -1,69 +1,218 @@
-
-// Constante del contenedor de modelos
-const MODELOS_CONTAINER = document.getElementById('contenedor-modelos');
-// Constante del contenedor de marcas
-const MARCAS_CONTAINER = document.getElementById('contenedor-marcas');
-
-// Constante del boton de buscar modelos
-const BUSCAR_MODELOS = document.getElementById('btnBuscarModelos');
-// Constante del boton de regresar a las marcas
-const REGRESAR_MARCAS = document.getElementById('btnReturn');
-
+// Constantes para completar las rutas de la API.
+const AUTOMOVILES_API = 'services/privado/automoviles.php';
+// Constante para establecer el formulario de buscar.
+const SEARCH_FORM = document.getElementById('searchForm');
+// Constantes para establecer el contenido de la tabla.
+const TABLE_BODY = document.getElementById('tableBody'),
+    ROWS_FOUND = document.getElementById('rowsFound');
 // Constantes para establecer los elementos del componente Modal.
-const MODAL = new bootstrap.Modal('#staticBackdrop');
+const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+    MODAL_TITLE = document.getElementById('modalTitle');
+// Constantes para establecer los elementos del formulario de guardar.
+const SAVE_FORM = document.getElementById('saveForm'),
+    ID_AUTOMOVIL = document.getElementById('idAuto'),
+    IMG = document.getElementById('customFile2'),
+    IMAGEN = document.getElementById('selectedImageF'),
+    MODELO = document.getElementById('input_modelo_auto'),
+    TIPO_AUTO = document.getElementById('input_tipo_auto'),
+    FECHA_FABRICACION = document.getElementById('fechanInput'),
+    COLOR = document.getElementById('input_color_auto'),
+    PLACA = document.getElementById('input_placa'),
+    CLIENTE = document.getElementById('input_duiP');
+// Constante para establecer el elemento del título principal.
+const MAIN_TITLE = document.getElementById('mainTitle');
 
-// *Método del evento para cuando el documento ha cargado.
-document.addEventListener('DOMContentLoaded', async () => {
+// Constante tipo objeto para obtener los parámetros disponibles en la URL.
+let PARAMS = new URLSearchParams(location.search);
+
+// Método del evento para cuando el documento ha cargado.
+document.addEventListener('DOMContentLoaded', () => {
     loadTemplate();
+    // Llamada a la función para llenar la tabla con los registros existentes.
+    fillTable();
 });
 
-// Funcion que hace el efecto de rotacion en la flecha de cada elemento de los filtros
-function rotarImagen(idImagen) {
-    var imagen = document.getElementById(idImagen);
-    if (!imagen.classList.contains('rotacion-90')) {
-        imagen.classList.add('rotacion-90');
+// Método del evento para cuando se envía el formulario de buscar.
+SEARCH_FORM.addEventListener('submit', (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SEARCH_FORM);
+    // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
+    fillTable(FORM);
+});
+
+// Método del evento para cuando se envía el formulario de guardar.
+SAVE_FORM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Se verifica la acción a realizar.
+    (ID_AUTOMOVIL.value) ? action = 'updateRow' : action = 'createRow';
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SAVE_FORM);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(AUTOMOVILES_API, action, FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se cierra la caja de diálogo.
+        SAVE_MODAL.hide();
+        // Se muestra un mensaje de éxito.
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la tabla para visualizar los cambios.
+        fillTable();
     } else {
-        imagen.classList.remove('rotacion-90');
+        sweetAlert(2, DATA.error, false);
+    }
+});
+
+/*
+*   Función asíncrona para llenar la tabla con los registros disponibles.
+*   Parámetros: form (objeto opcional con los datos de búsqueda).
+*   Retorno: ninguno.
+*/
+const fillTable = async (form = null) => {
+    // Se verifica la acción a realizar.
+    (form) ? action = 'searchRows' : action = 'readAll';
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, action, form);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            TABLE_BODY.innerHTML += `
+                <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
+                        <div class="content z-3">
+                            <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                        </div>
+                        <div class="container-img-card">
+                            <img src="${SERVER_URL}images/automoviles/${row.imagen_automovil}">
+                        </div>
+                        <div class="container-info-card position-relative">
+                            <div class="line-red-split position-absolute"></div>
+                            <div class="grid-c pt-2 c1">
+                                <p class="m-0 p-0 open-sans-regular text-black text-center">${row.nombre_cliente} &nbsp
+                                    <span
+                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.dui_cliente}</span>
+                                </p>
+                            </div>
+                            <div class="grid-c pt-2 c2 w-100 px-1">
+                                <p class="m-0 p-0 open-sans-light-italic text-center w-100">${row.nombre_marca} &nbsp
+                                    <span class="open-sans-semibold m-0 p-0 text-center w-100">${row.placa_automovil}</span>
+                                </p>
+                            </div>
+                            <div class="grid-c c3">
+                                <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.nombre_color}
+                                    <span
+                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.nombre_modelo}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
     }
 }
 
-// Funcion para mostrar los modelos
-function showModelos() {
-    MODELOS_CONTAINER.classList.remove('d-none');
-    MARCAS_CONTAINER.classList.add('d-none');
-
-    BUSCAR_MODELOS.classList.add('d-none');
-    REGRESAR_MARCAS.classList.remove('d-none');
+/*
+*   Función para preparar el formulario al momento de insertar un registro.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openCreate = () => {
+    // Se muestra la caja de diálogo con su título.
+    SAVE_MODAL.show();
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
+    fillSelect(AUTOMOVILES_API, 'readModelos', 'input_modelo_auto');
+    fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
+    fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto');
+    fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP');
 }
 
-// Funcion para mostrar las marcas
-function showMarcas() {
-    MODELOS_CONTAINER.classList.add('d-none');
-    MARCAS_CONTAINER.classList.remove('d-none');
-
-    BUSCAR_MODELOS.classList.remove('d-none');
-    REGRESAR_MARCAS.classList.add('d-none');
+function gotoDetail(id) {
+    location.href = "../../vistas/privado/detalles_automovil.html?id="+id;
 }
 
-
-// Funcion para ir hacia la pagina de detalles del automovil
-function gotoDetail() {
-    location.href = "../../vistas/privado/detalles_automovil.html";
+/*
+*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openUpdate = async () => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idAuto', PARAMS.get('id'));
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(AUTOMOVILES_API, 'readOne', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODAL.show();
+        // Se prepara el formulario.
+        SAVE_FORM.reset();
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        ID_AUTOMOVIL.value = ROW.ID_AUTOMOVIL;
+        MODELO.value = ROW.MODELO;
+        TIPO_AUTO.value = ROW.TIPO_AUTO;
+        FECHA_FABRICACION.value = ROW.FECHA_FABRICACION;
+        COLOR.value = ROW.COLOR;
+        PLACA.checked = ROW.estado_libro;
+        fillSelect(CATEGORIA_API, 'readAll', 'categoriaLibro', ROW.id_categoria);
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
 }
+
+/*
+*   Función asíncrona para eliminar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openDelete = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Desea eliminar el automóvil de forma permanente?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idAuto', PARAMS.get('id'));
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(AUTOMOVILES_API, 'deleteRow', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            fillTable();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
+/*
+*   Función para abrir un reporte automático de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/admin/productos.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
+*/
 
 //Funcion que muestra la alerta de confirmacion
 const openClose = async () => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
-        MODAL.hide();
+        SAVE_MODAL.hide();
     }
-}
-//Funcion que muestra la alerta de notificacion
-const openNoti = async () => {
-    // Llamada a la función para mostrar una notificación
-    sweetAlert(1, 'Se ha guardado con exito', 300);
-    MODAL.hide();
 }
 
 // Date pickers
@@ -81,74 +230,13 @@ $('#datepicker-hastaRE').datepicker({
     uiLibrary: 'bootstrap5'
 });
 
-// Función para mostrar la imagen seleccionada en un elemento de imagen.
-function displaySelectedImage(event, elementId) {
-    // Obtiene el elemento de imagen según su ID.
-    const selectedImage = document.getElementById(elementId);
-    // Obtiene el elemento de entrada de archivo del evento.
-    const fileInput = event.target;
-
-    // Verifica si hay archivos seleccionados y al menos uno.
-    if (fileInput.files && fileInput.files[0]) {
-        // Crea una instancia de FileReader para leer el contenido del archivo.
+IMG.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
         const reader = new FileReader();
-
-        // Define el evento que se ejecutará cuando la lectura sea exitosa.
         reader.onload = function (e) {
-            // Establece la fuente de la imagen como el resultado de la lectura (base64).
-            selectedImage.src = e.target.result;
-        };
-
-        // Inicia la lectura del contenido del archivo como una URL de datos.
-        reader.readAsDataURL(fileInput.files[0]);
+            IMAGEN.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
     }
-}
-
-document.getElementById('input_placa').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número ni una letra
-    inputValue = inputValue.replace(/[^A-Za-z0-9]/g, '');
-
-    // Limitar la longitud máxima a 8 caracteres
-    inputValue = inputValue.slice(0, 7);
-
-    // Formatear el texto como "11a1-111"
-    let formattedValue = '';
-
-    if (inputValue.length > 4) {
-        formattedValue += inputValue.slice(0, 4) + '-';
-        inputValue = inputValue.slice(4);
-    }
-
-    // Agregar el último grupo de dígitos
-    if (inputValue.length > 0) {
-        formattedValue += inputValue;
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = formattedValue;
-
-    // Validar y agregar la clase 'invalid' si es necesario
-    event.target.classList.toggle('invalid', !/^\d{4}-\d{2}-\d{2}$/.test(formattedValue));
-});
-
-document.getElementById('input_duiP').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 9 dígitos
-    inputValue = inputValue.slice(0, 9);
-
-    // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
-    if (inputValue.length > 1) {
-        inputValue = inputValue.slice(0, -1) + '-' + inputValue.slice(-1);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
 });
