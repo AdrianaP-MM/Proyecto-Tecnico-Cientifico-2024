@@ -14,11 +14,71 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         $result['session'] = 1; // Indica que hay una sesión activa.
         switch ($_GET['action']) {
-            case 'createRow':
-                if ($result['dataset'] = $servicio->createRow()) {
+            case 'readAll':
+                if ($result['dataset'] = $servicio->readAll()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen servicios para mostrar';
+                    $result['error'] = 'No existen citas para mostrar';
+                }
+                break;
+            case 'readOne':
+                if (
+                    !$servicio->setIdServicio($_POST['id_servicio']) or
+                    !$servicio->setIdCita($_POST['id_cita'])
+                ) {
+                    $result['error'] = $servicio->getDataError();
+                } elseif ($result['dataset'] = $servicio->readOne()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Servicio inexistente';
+                }
+                break;
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$servicio->setFechaRegistro($_POST['fecha_registro']) or
+                    !$servicio->setFechaAproxFinalizacion($_POST['fecha_aprox_finalizacion']) or
+                    //!$servicio->setFechaFinalizacion($_POST['fecha_finalizacion']) or
+                    !$servicio->setIdCita($_POST['id_cita']) or
+                    !$servicio->setIdServicio($_POST['input_servicios']) or
+                    !$servicio->setCantidadServicio($_POST['cantidad_servicio'])
+                ) {
+                    $result['error'] = $servicio->getDataError();
+                } elseif ($servicio->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Servicio creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el servicio';
+                }
+                break;
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$servicio->setFechaAproxFinalizacion($_POST['fecha_aprox_finalizacion']) or
+                    !$servicio->setFechaFinalizacion($_POST['fecha_finalizacion']) or
+                    !$servicio->setIdCita($_POST['id_cita']) or
+                    !$servicio->setIdServicio($_POST['id_Servicio']) or
+                    !$servicio->setCantidadServicio($_POST['cantidad_servicio'])
+                ) {
+                    $result['error'] = $servicio->getDataError();
+                } elseif ($servicio->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Servicio creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el servicio';
+                }
+                break;
+            case 'deleteRow':
+                if (
+                    !$servicio->setIdCita($_POST['id_cita']) or
+                    !$servicio->setIdServicio($_POST['id_servicio'])
+                ) {
+                    $result['error'] = $servicio->getDataError();
+                } elseif ($servicio->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Servicio eliminado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el servicio';
                 }
                 break;
             default:

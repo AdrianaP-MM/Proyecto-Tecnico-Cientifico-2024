@@ -7,151 +7,90 @@ require_once('../../helpers/database.php');
 
 class ServiciosProcesoHandler
 {
-    protected $id_cita = null;
+    protected $id_servicio_en_proceso = null;
     protected $fecha_registro = null;
-    protected $fecha_hora_cita = null;
-    protected $id_automovil = null;
-    protected $movilizacion_vehiculo = null;
-    protected $zona_habilitada = null;
-    protected $direccion_ida = null;
-    protected $direccion_regreso = null;
-    protected $estado_cita = null;
-    protected $search_value = null;
+    protected $fecha_aproximada_finalizacion = null;
+    protected $fecha_finalizacion = null;
+    protected $id_cita = null;
+    protected $id_servicio = null;
+    protected $cantidad_servicio = null;
 
     // Método para crear una nueva cita
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_citas(
-            estado_cita, 
-            fecha_hora_cita,
-            id_automovil,
-            movilizacion_vehiculo,
-            zona_habilitada,
-            direccion_ida,
-            direccion_regreso,
-            fecha_registro) VALUES ("En espera", ?, ?, ?, ?, ?, ?, ?)'; // Consulta SQL para insertar un nuevo cliente
+        $sql = 'INSERT INTO tb_servicios_en_proceso(
+            fecha_registro,
+            fecha_aproximada_finalizacion,
+            id_cita,
+            id_servicio, 
+            cantidad_servicio) VALUES (?,?,?,?,?);'; // Consulta SQL para insertar un nuevo cliente
         $params = array(
-            $this->fecha_hora_cita,
-            $this->id_automovil,
-            $this->movilizacion_vehiculo,
-            $this->zona_habilitada,
-            $this->direccion_ida,
-            $this->direccion_regreso,
-            $this->fecha_registro
+            $this->fecha_registro,
+            $this->fecha_aproximada_finalizacion,
+            $this->id_cita,
+            $this->id_servicio,
+            $this->cantidad_servicio
         ); // Parámetros para la consulta SQL
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
-    // Método para actualizar una cita existente
     public function updateRow()
     {
-        // Consulta SQL para actualizar una cita existente
-        $sql = 'UPDATE tb_citas SET
-                fecha_hora_cita = ?,
-                id_automovil = ?,
-                movilizacion_vehiculo = ?,
-                zona_habilitada = ?,
-                direccion_ida = ?,
-                direccion_regreso = ?
-            WHERE id_cita = ?';
-
-        // Parámetros para la consulta SQL
+        $sql = 'UPDATE tb_servicios_en_proceso 
+            SET fecha_aproximada_finalizacion = ?,
+            fecha_finalizacion = ?,
+            cantidad_servicio = ? WHERE id_cita = ? AND id_servicio = ?;'; 
         $params = array(
-            $this->fecha_hora_cita,
-            $this->id_automovil,
-            $this->movilizacion_vehiculo,
-            $this->zona_habilitada,
-            $this->direccion_ida,
-            $this->direccion_regreso,
-            $this->id_cita
-        );
-
-        // Ejecución de la consulta SQL
-        return Database::executeRow($sql, $params);
+            $this->fecha_aproximada_finalizacion,
+            $this->fecha_finalizacion,
+            $this->cantidad_servicio,
+            $this->id_cita,
+            $this->id_servicio
+        ); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
-    // Método para actualizar una cita existente
-    public function updateEstado()
+    public function deleteRow()
     {
-        // Consulta SQL para actualizar una cita existente
-        $sql = 'UPDATE tb_citas SET
-                estado_cita = ?
-            WHERE id_cita = ?';
-
-        // Parámetros para la consulta SQL
+        $sql = 'DELETE FROM tb_servicios_en_proceso WHERE id_servicio = ? AND id_cita = ?;'; 
         $params = array(
-            $this->estado_cita,
+            $this->id_servicio,
             $this->id_cita
-        );
-        //Ejecución de la consulta SQL
-        return Database::executeRow($sql, $params);
-    }
-
-    public function readAll()
-    {
-        $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente;';
-        return Database::getRows($sql);
+        ); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
 
     public function readOne()
     {
-        $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-        WHERE c.id_cita = ?';
+        $sql = 'SELECT * FROM tb_servicios_en_proceso WHERE id_servicio = ? AND id_cita = ?; ';
         $params = array(
+            $this->id_servicio,
             $this->id_cita
-        );
-        return Database::getRow($sql, $params);
-    }
-
-    public function readServiciosCita()
-    {
-        $sql = 'SELECT s.*, ts.*, sp.*, c.*
-            FROM tb_servicios_en_proceso sp
-            INNER JOIN tb_servicios s ON s.id_servicio = sp.id_servicio
-            INNER JOIN tb_tipos_servicios ts ON ts.id_tipo_servicio = s.id_tipo_servicio
-            LEFT JOIN tb_citas c ON sp.id_cita = c.id_cita
-            WHERE c.id_cita = ?;';
-        $params = array(
-            $this->id_cita
-        );
-        return Database::getRows($sql, $params);
-    }
-
-    public function searchRows()
-    {
-        $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil 
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente 
-        WHERE c.estado_cita = ?';
-        $params = array(
-            $this->search_value
-        );
-        return Database::getRows($sql, $params);
-    }
-
-    public function readAutomoviles()
-    {
-        $sql = 'SELECT id_automovil, placa_automovil FROM tb_automoviles;';
-        return Database::getRows($sql);
+        ); // Parámetros para la consulta SQL
+        return Database::getRow($sql, $params); // Ejecución de la consulta SQL
     }
 
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
-    public function checkDuplicate($value)
+    public function readAll()
     {
-        $sql = 'SELECT fecha_hora_cita FROM tb_citas WHERE fecha_hora_cita = ? AND estado_cita == "Aceptado" OR estado_cita == "En espera"';
+        $sql = 'SELECT id_servicio, nombre_servicio FROM tb_servicios;';
+        return Database::getRows($sql); // Ejecución de la consulta SQL
+    }
+
+    // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
+    public function checkDuplicate($id_servicio, $id_cita)
+    {
+        $sql = 'SELECT id_servicio_en_proceso FROM tb_servicios_en_proceso WHERE id_servicio ? AND id_cita = ?';
         // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
         $params = array(
-            $value
+            $id_servicio,
+            $id_cita
         ); // Parámetros para la consulta SQL
 
-        if ($this->id_cita) {
-            $sql .= ' AND id_cita <> ?;';
-            $params[] = $this->id_cita;
+        if ($this->id_servicio_en_proceso) {
+            $sql .= ' AND id_servicio_en_proceso <> ?;';
+            $params[] = $this->id_servicio_en_proceso;
         }
 
         return Database::getRows($sql, $params); // Ejecución de la consulta SQL

@@ -109,13 +109,13 @@ class ClienteHandler
 
         if ($this->servicios_seleccionados && ($this->tipo_cliente == 'Persona natural' || $this->tipo_cliente == 'Persona juridica')) {
             $table = ($this->tipo_cliente == 'Persona Natural') ? 'tb_detalles_consumidores_finales' : 'tb_detalles_creditos_fiscales';
-        
+
             // Convertimos la cadena en un arreglo de IDs de servicios
             $servicios_seleccionados = explode(',', $this->servicios_seleccionados);
-        
+
             // Creamos un string con el mismo número de placeholders que servicios seleccionados
             $placeholders = implode(',', array_fill(0, count($servicios_seleccionados), '?'));
-        
+
             // Agregamos los placeholders a la consulta
             $sql .= ' AND EXISTS (
                 SELECT 1
@@ -129,7 +129,7 @@ class ClienteHandler
                 )
                 AND detalle.id_servicio IN (' . $placeholders . ')
             )';
-        
+
             // Agregamos los valores de los servicios seleccionados a los parámetros
             foreach ($servicios_seleccionados as $servicio) {
                 $params[] = $servicio;
@@ -179,8 +179,8 @@ class ClienteHandler
     public function deleteRow()
     {
         // Consulta SQL para eliminar un cliente basado en su ID
-        $sql = 'DELETE FROM tb_clientes
-            WHERE id_cliente = ?';
+        $sql = 'UPDATE tb_clientes
+        SET estado_cliente = "Eliminado" WHERE id_cliente = ?;';
         // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
         $params = array($this->id_cliente);
         // Ejecuta la consulta de eliminación y devuelve el resultado
@@ -248,7 +248,7 @@ class ClienteHandler
     // Método para leer los clientes
     public function readAll($TipoPersona)
     {
-        $sql = 'SELECT * FROM tb_clientes WHERE tipo_cliente = ?;';
+        $sql = 'SELECT * FROM tb_clientes WHERE tipo_cliente = ? AND estado_cliente != "Eliminado";';
         $params = array(
             $TipoPersona
         );
