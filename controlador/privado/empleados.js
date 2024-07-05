@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+
   fillSelect(
     TRABAJADORES_API,
     'readEspecializaciones',
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   );
   loadTemplate();
   readTrabajadores();
+  configurarFechaMaxima()
 });
 
 
@@ -280,45 +282,45 @@ const openUpdate = async (id) => {
   const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
 
   if (DATA.status) {
-      // Se muestra la caja de diálogo con su título.
-      SAVE_MODAL.show();
-      // Se prepara el formulario.
-      SAVE_FORM.reset();
+    // Se muestra la caja de diálogo con su título.
+    SAVE_MODAL.show();
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
 
-      // Se inicializan los campos con los datos.
-      const row = DATA.dataset;
-      ID_EMPLEADO.value = row.id_trabajador;
-      DUI.value = row.dui_trabajador;
-      NIT.value = row.NIT_trabajador;
-      NOMBRES.value = row.nombres_trabajador;
-      APELLIDOS.value = row.apellidos_trabajador;
-      TELEFONO.value = row.telefono_trabajador;
-      CORREO.value = row.correo_trabajador;
-      DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
-      
-      // Buscar y marcar el `option` correspondiente como seleccionado
-      const departamentoValue = findNumberValue(row.departamento_trabajador);
-      const options = DEPARTAMENTO.options;
-      for (let i = 0; i < options.length; i++) {
-          if (options[i].text === departamentoValue) {
-              options[i].selected = true;
-              break;
-          }
+    // Se inicializan los campos con los datos.
+    const row = DATA.dataset;
+    ID_EMPLEADO.value = row.id_trabajador;
+    DUI.value = row.dui_trabajador;
+    NIT.value = row.NIT_trabajador;
+    NOMBRES.value = row.nombres_trabajador;
+    APELLIDOS.value = row.apellidos_trabajador;
+    TELEFONO.value = row.telefono_trabajador;
+    CORREO.value = row.correo_trabajador;
+    DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
+
+    // Buscar y marcar el `option` correspondiente como seleccionado
+    const departamentoValue = findNumberValue(row.departamento_trabajador);
+    const options = DEPARTAMENTO.options;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].text === departamentoValue) {
+        options[i].selected = true;
+        break;
       }
+    }
 
-      // Debugging log
-      console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
-      
-      fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
-      FECHA.value = row.fecha_contratacion;
-      SALARIO.value = row.salario_base;
+    // Debugging log
+    console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
 
-      CONTAINER_BOTONES.innerHTML += `
+    fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
+    FECHA.value = row.fecha_contratacion;
+    SALARIO.value = row.salario_base;
+
+    CONTAINER_BOTONES.innerHTML += `
               <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
                                                   onclick="openDelete(${row.id_trabajador})">Eliminar</button> <!--Boton de cancelar-- >
               `;
   } else {
-      sweetAlert(2, DATA.error, false);
+    sweetAlert(2, DATA.error, false);
   }
 
   // Se asigna la variable para cambiar el dialogo de la alerta
@@ -355,7 +357,7 @@ const openDelete = async (id) => {
       SAVE_MODAL.hide();
       location.reload();
       readTrabajadores();
-      
+
       // Eliminar el botón con id BotonTres
       const botonTres = document.getElementById("btnTres");
       if (botonTres) {
@@ -555,23 +557,49 @@ document
     event.target.value = inputValue;
   });
 
-document
-  .getElementById("input_salario_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
+document.getElementById("input_salario_empleados").addEventListener("input", function (event) {
+  // Obtener el valor actual del campo de texto
+  let inputValue = event.target.value;
 
-    // Eliminar los espacios en blanco
-    inputValue = inputValue.replace(/\s/g, "");
+  // Eliminar los espacios en blanco
+  inputValue = inputValue.replace(/\s/g, "");
 
-    // Reemplazar cualquier caracter que no sea número, coma o punto con una cadena vacía
-    inputValue = inputValue.replace(/[^\d,.]/g, "");
+  // Reemplazar cualquier caracter que no sea número, coma o punto con una cadena vacía
+  inputValue = inputValue.replace(/[^\d,.]/g, "");
 
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
+  // Limitar la longitud total a 7 caracteres incluyendo decimales
+  if (inputValue.includes(".")) {
+    // Si hay un punto decimal, limitamos a 7 caracteres en total
+    let integerPart = inputValue.split(".")[0];
+    let decimalPart = inputValue.split(".")[1] || "";
+    inputValue = `${integerPart.slice(0, 5)}.${decimalPart.slice(0, 2)}`;
+  } else {
+    // Si no hay punto decimal, limitamos a 7 caracteres en total
+    inputValue = inputValue.slice(0, 8);
+  }
 
-    // Validar y agregar la clase 'invalid' si es necesario
-    event.target.classList.toggle("invalid", !/^[\d.,]*$/.test(inputValue));
-  });
+  // Actualizar el valor del campo de texto con la entrada limitada
+  event.target.value = inputValue;
 
+  // Validar y agregar la clase 'invalid' si es necesario
+  event.target.classList.toggle("invalid", !/^[\d.,]*$/.test(inputValue));
+});
+
+function configurarFechaMaxima() {
+  var hoy = new Date();
+  var dd = hoy.getDate();
+  var mm = hoy.getMonth() + 1; // +1 porque enero es 0
+  var yyyy = hoy.getFullYear();
+
+  if (dd < 10) {
+      dd = '0' + dd;
+  }
+  if (mm < 10) {
+      mm = '0' + mm;
+  }
+
+  hoy = yyyy + '-' + mm + '-' + dd;
+
+  document.getElementById("fecha_contratacion").setAttribute("max", hoy);
+}
 

@@ -147,7 +147,7 @@
                                                     <select class="form-select pt-4 open-sans-regular"
                                                         id="departamento_trabajador" name="departamento_trabajador"
                                                         aria-label="Default select example" required>
-                                                        <option selected value="0">Seleccione un departamento</option>
+                                                        <option value>Seleccione un departamento</option>
                                                         <option value="Ahuachapán">Ahuachapán</option>
                                                         <option value="Cabañas">Cabañas</option>
                                                         <option value="Chalatenango">Chalatenango</option>
@@ -183,7 +183,7 @@
                                                         class="form-label px-2 pt-1 p-0 m-0">Fecha
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
-                                                        name="fecha_contratacion" placeholder="" required>
+                                                        name="fecha_contratacion" placeholder="" required onclick="configurarFechaMaxima()">
                                                     <div class="invalid-feedback">Por favor ingresa la fecha de
                                                         contratacion.</div>
                                                 </div>
