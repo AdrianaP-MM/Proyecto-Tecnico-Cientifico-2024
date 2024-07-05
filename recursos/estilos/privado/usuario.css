@@ -163,7 +163,10 @@ body {
     background-color: #E5383B;
 }
 
-
+/* Etiqueta flotante */
+.form-floating>label {
+    color: red;
+}
 
 /* Etiqueta flotante enfocada o con contenido */
 .form-floating .form-control:focus~label,
