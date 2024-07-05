@@ -55,9 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-
 // Método del evento para cuando se envía el formulario de guardar.
 ADD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.

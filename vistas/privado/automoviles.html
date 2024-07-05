@@ -45,13 +45,14 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
-                    <form id="searchForm">
-                        <div class="input-group search shadow-sm"> <!-- Contenedor del los input de entrada -->
-                            <input type="text" class="form-control search" placeholder="Buscar...">
-                            <button type="button" class="btn btn-outline"><i class="bi-search"><img
-                                        src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
-                        </div>
-                    </form>
+                    <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        data-bs-content="Buscador habilitado para: placa de los automóviles">
+                        <!-- Contenedor del los input de entrada -->
+                        <input type="text" class="form-control search" placeholder="Buscar..." name="input_buscar"
+                            id="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()">
+                        <button type="button" class="btn btn-outline"><i class="bi-search"><img
+                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                    </div>
                     <div class="d-flex justify-content-center d-flex align-items-baseline">
                         <!-- Contenedor del los input de entrada -->
                         <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
@@ -65,9 +66,9 @@
                 <div class="sidebar-body"> <!-- Contedor del cuerpo de los filtros-->
                     <ul class="list-unstyled ps-0 cursor-hover "> <!-- Lista no ordenada de los filtros-->
                         <!--TODO ----------------------------ELEMENTO MARCAS----------------------------------->
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <!-- Primer elemento de filtros-->
-                            <!-- Elemento de la lista-->
+                        <!--  <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
+                            Primer elemento de filtros
+                            Elemento de la lista
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Marcas" aria-expanded="false"
                                 onclick="rotarImagen('img1')">
@@ -79,13 +80,13 @@
                                 </span>
                             </button>
 
-                            <!-- Contenedor de marcas y modelos-->
+                            Contenedor de marcas y modelos
                             <div class="collapse col-11 marcasA position-relative mt-3" id="Marcas">
-                                <div class="" id="contenedor-marcas"> <!-- Contenedor de marcas-->
+                                <div class="" id="contenedor-marcas">  Contenedor de marcas
                                     <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start">
-                                        <!-- Contenedor de la lista no ordenada-->
+                                        Contenedor de la lista no ordenada
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!-- Primer elemento de marca-->
+                                             Primer elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca1">
                                             <label class="form-check-label stretched-link" for="Marca1">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -94,7 +95,7 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!--Segundo elemento de marca-->
+                                            Segundo elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca2">
                                             <label class="form-check-label stretched-link" for="Marca2">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -103,7 +104,7 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!-- Tercer elemento de marca-->
+                                            Tercer elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca3">
                                             <label class="form-check-label stretched-link" for="Marca3">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -112,7 +113,7 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!-- Cuarto elemento de marca-->
+                                            <Cuarto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca4">
                                             <label class="form-check-label stretched-link" for="Marca4">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -121,7 +122,7 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!-- Quinto elemento de marca-->
+                                            Quinto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca5">
                                             <label class="form-check-label stretched-link" for="Marca5">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -130,7 +131,7 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <!-- Sexto elemento de marca-->
+                                            <Sexto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca6">
                                             <label class="form-check-label stretched-link" for="Marca6">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -140,7 +141,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <!-- Boton para regresar a las marcas (mostrar marcas)-->
+                                <Boton para regresar a las marcas (mostrar marcas)
                                 <button type="button" id="btnReturn" onclick="showMarcas()"
                                     class="btn btn-outline-dark btnModelos col-10 text-white position-absolute m-0 p-0 d-none">
                                     <h6 class="open-sans-regular p-0 m-0 z-3">
@@ -148,12 +149,11 @@
                                     </h6>
                                 </button>
                             </div>
-                        </li>
+                        </li> -->
                         <!--TODO ----------------------------ELEMENTO COLORES----------------------------------->
-                        <hr>
                         <!-- Segundo elemento de filtros-->
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <!-- Elemento de la lista-->
+                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
+                            Elemento de la lista
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Colores" aria-expanded="false"
                                 onclick="rotarImagen('img2')">
@@ -165,11 +165,9 @@
                                 </span>
                             </button>
 
-                            <!-- Contenedor de los checkboxs del colores-->
+                            Contenedor de los checkboxs del colores
                             <div class="collapse col-11 mt-3" id="Colores">
-                                <!--Contenedor de la lista no ordenada-->
                                 <ul class="list-group contenedor-checkbox">
-                                    <!--Contenedor del color 1-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color1">
                                         <label class="form-check-label stretched-link" for="Color1">
@@ -178,7 +176,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Contenedor del color 2-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color2">
                                         <label class="form-check-label stretched-link" for="Color2">
@@ -187,7 +184,7 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Contenedor del color 3-->
+
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color3">
                                         <label class="form-check-label stretched-link" for="Color3">
@@ -196,7 +193,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Contenedor del color 4-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color4">
                                         <label class="form-check-label stretched-link" for="Color4">
@@ -205,7 +201,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Contenedor del color 5-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color5">
                                         <label class="form-check-label stretched-link" for="Color5">
@@ -214,7 +209,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Contenedor del color 6-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Color6">
                                         <label class="form-check-label stretched-link" for="Color6">
@@ -225,12 +219,11 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
 
                         <!--TODO ----------------------------ELEMENTO TIPOS----------------------------------->
-                        <hr>
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <!--Tercer elemento de filtros-->
+
+                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Tipos" aria-expanded="false"
                                 onclick="rotarImagen('img3')">
@@ -241,12 +234,8 @@
                                     <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img3" class="imagen">
                                 </span>
                             </button>
-
-                            <!--Contenedor de los tipos-->
                             <div class="collapse col-11 mt-3" id="Tipos">
-                                <!--Contenedor dela lista no ordenada-->
                                 <ul class="list-group contenedor-checkbox">
-                                    <!--Tipo especifico 1-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo1">
                                         <label class="form-check-label stretched-link" for="Tipo1">
@@ -255,7 +244,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Tipo especifico 2-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo2">
                                         <label class="form-check-label stretched-link" for="Tipo2">
@@ -264,7 +252,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Tipo especifico 3-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo3">
                                         <label class="form-check-label stretched-link" for="Tipo3">
@@ -273,7 +260,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Tipo especifico 4-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo4">
                                         <label class="form-check-label stretched-link" for="Tipo4">
@@ -282,7 +268,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Tipo especifico 5-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo5">
                                         <label class="form-check-label stretched-link" for="Tipo5">
@@ -291,7 +276,6 @@
                                             </h6>
                                         </label>
                                     </li>
-                                    <!--Tipo especifico 6-->
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo6">
                                         <label class="form-check-label stretched-link" for="Tipo6">
@@ -302,10 +286,9 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
 
                         <!--TODO ----------------------------ELEMENTO FECHA DE FABRICACIÓN----------------------------------->
-                        <hr>
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <!--Cuarto elemento de filtros-->
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
@@ -321,19 +304,8 @@
 
                             <!--Contenedor de las fechas-->
                             <div class="collapse col-11 mt-3" id="FechaFab">
-                                <!--Contenedor flexbox-->
-                                <div class="d-flex flex-lg-row flex-md-column flex-column mt-3 justify-content-between">
-                                    <!--Contenedor de la fecha inicial (desde))-->
-                                    <div class="fecha-desde col-lg-5 col-11">
-                                        <h6 class="open-sans-regular">Desde</h6>
-                                        <input id="datepicker-desde" class="open-sans-regular-italic datepickerA" />
-                                    </div>
-                                    <!--Contenedor de la fecha posterior (hasta)-->
-                                    <div class="fecha-hasta col-lg-5 col-11">
-                                        <h6 class="open-sans-regular">Hasta</h6>
-                                        <input id="datepicker-hasta" class="open-sans-regular-italic datepickerA" />
-                                    </div>
-                                </div>
+                                <!--Contenedor de las fechas de registro-->
+                                <input type="number" id="year" name="year" min="1900" max="" required>
                             </div>
                         </li>
 
@@ -385,10 +357,6 @@
                 </div>
                 <!--Contenedor total del cuerpo de la página-->
                 <div class="contenedor-total-cards col-12" id="tableBody">
-                    <!--Contenedor de la primera card - card de agregar automovil-->
-                    <div class="add-auto-card d-flex align-items-center justify-content-center">
-                        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
-                    </div>
                 </div>
             </div>
         </div>
@@ -415,7 +383,7 @@
                                     <label class="form-label text-white m-1" for="customFile2">Seleccionar
                                         imagen</label>
                                 </button>
-                                <input type="file" class="form-control d-none" id="customFile2" name="customFile2"/>
+                                <input type="file" class="form-control d-none" id="customFile2" name="customFile2" />
                             </div>
                             <!-- Contenedor de la derecha, información del automóvil-->
                             <div class="content-add-info col-md-7">
@@ -446,13 +414,14 @@
                                     <div class="invalid-feedback">Por favor seleccione el color.</div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa" name="input_placa"
-                                        required>
+                                    <input type="text" class="form-control" id="input_placa" name="input_placa" required
+                                        placeholder="...">
                                     <label for="input_placa">Placa</label>
                                     <div class="invalid-feedback">Por favor ingrese la placa.</div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del propietario</label>
+                                    <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
+                                        propietario</label>
                                     <select class="form-select" id="input_duiP" name="input_duiP" required>
                                         <!-- Opciones de propietario (DUI) -->
                                     </select>

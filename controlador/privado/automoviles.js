@@ -1,7 +1,7 @@
 // Constantes para completar las rutas de la API.
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
 // Constante para establecer el formulario de buscar.
-const SEARCH_FORM = document.getElementById('searchForm');
+//const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
 const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
@@ -22,6 +22,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
 
+const INPUT_BUSQUEDA = document.getElementById('input_buscar');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 let PARAMS = new URLSearchParams(location.search);
 
@@ -31,8 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
-
-// Método del evento para cuando se envía el formulario de buscar.
+/*Método del evento para cuando se envía el formulario de buscar.
 SEARCH_FORM.addEventListener('submit', (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
@@ -40,7 +40,18 @@ SEARCH_FORM.addEventListener('submit', (event) => {
     const FORM = new FormData(SEARCH_FORM);
     // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
     fillTable(FORM);
-});
+});*/
+
+
+const search = async () => {
+    const FORM = new FormData();
+    if (INPUT_BUSQUEDA.value) {
+        FORM.append('search', INPUT_BUSQUEDA.value);
+    }
+
+    fillTable(FORM);
+}
+
 
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {
@@ -71,12 +82,19 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
+    TABLE_BODY.innerHTML = '';
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
+                TABLE_BODY.innerHTML += `
+        <!--Contenedor de la primera card - card de agregar automovil-->
+            <div class="add-auto-card d-flex align-items-center justify-content-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+            </div>
+        `
         // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
@@ -113,6 +131,7 @@ const fillTable = async (form = null) => {
         });
     } else {
         sweetAlert(4, DATA.error, true);
+        fillTable();
     }
 }
 
@@ -133,7 +152,7 @@ const openCreate = () => {
 }
 
 function gotoDetail(id) {
-    location.href = "../../vistas/privado/detalles_automovil.html?id="+id;
+    location.href = "../../vistas/privado/detalles_automovil.html?id=" + id;
 }
 
 /*
@@ -239,4 +258,85 @@ IMG.addEventListener('change', function (event) {
         }
         reader.readAsDataURL(file);
     }
+});
+
+document.getElementById('input_placa').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea una 'P', letras o números
+    inputValue = inputValue.replace(/[^P0-9A-Za-z]/g, '');
+
+    // Asegurarse de que comience con 'P'
+    if (inputValue.length > 0 && inputValue.charAt(0) !== 'P') {
+        inputValue = 'P' + inputValue.substring(1);
+    }
+
+    // Limitar a 8 caracteres
+    inputValue = inputValue.slice(0, 7);
+
+    // Insertar guión antes de los últimos 3 caracteres
+    if (inputValue.length > 3) {
+        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
+    }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
+});
+
+document.getElementById('input_buscar').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea una 'P', letras o números
+    inputValue = inputValue.replace(/[^P0-9A-Za-z]/g, '');
+
+    // Asegurarse de que comience con 'P'
+    if (inputValue.length > 0 && inputValue.charAt(0) !== 'P') {
+        inputValue = 'P' + inputValue.substring(1);
+    }
+
+    // Limitar a 8 caracteres
+    inputValue = inputValue.slice(0, 7);
+
+    // Insertar guión antes de los últimos 3 caracteres
+    if (inputValue.length > 3) {
+        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
+    }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
+});
+
+// Funcion que hace el efecto de rotacion en la flecha de cada elemento de los filtros
+function rotarImagen(idImagen) {
+    var imagen = document.getElementById(idImagen);
+    if (!imagen.classList.contains('rotacion-90')) {
+        imagen.classList.add('rotacion-90');
+    } else {
+        imagen.classList.remove('rotacion-90');
+    }
+}
+
+ // Obtener el elemento de entrada por su ID
+ const yearInput = document.getElementById('year');
+
+ // Obtener el año actual
+ const currentYear = new Date().getFullYear();
+
+ // Establecer el atributo max del campo de entrada como el año actual
+ yearInput.setAttribute('max', currentYear);
+
+ document.getElementById('year').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 4 dígitos
+    inputValue = inputValue.slice(0, 4);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
 });

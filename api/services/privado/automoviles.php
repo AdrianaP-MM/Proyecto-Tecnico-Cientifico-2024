@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/automoviles_data.php');
+require_once('../../models/data/automoviles_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -16,15 +16,27 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
-                    $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $automovil->searchRows()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                // Verificar si $_POST['search'] está definido
+                if (isset($_POST['search'])) {
+                    // Obtener el valor de búsqueda
+                    $searchValue = $_POST['search'];
+
+                    // Establecer el valor de búsqueda en el objeto automovil
+                    $automovil->setSearchValue($searchValue);
+
+                    // Realizar la búsqueda y verificar si hay resultados
+                    $result['dataset'] = $automovil->searchRows();
+
+                    if (!empty($result['dataset'])) {
+                        $result['status'] = 1; // Éxito: se encontraron resultados
+                    } else {
+                        $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
+                    }
                 } else {
-                    $result['error'] = 'No hay coincidencias';
+                    $result['error'] = 'No se proporcionó un valor de búsqueda'; // Manejo de caso donde no se proporciona un valor de búsqueda
                 }
                 break;
+
             case 'createRow':
                 $result['Entre'] = "SI";
                 $_POST = Validator::validateForm($_POST);
@@ -147,11 +159,10 @@ if (isset($_GET['action'])) {
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print (json_encode($result));
+        print(json_encode($result));
     } else {
-        print (json_encode('Acceso denegado'));
+        print(json_encode('Acceso denegado'));
     }
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
-

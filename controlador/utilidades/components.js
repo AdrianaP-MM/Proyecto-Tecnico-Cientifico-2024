@@ -372,3 +372,6 @@ function convertMySQLTimeToHTMLTime(mysqlTime) {
     minutes = minutes.padStart(2, '0');
     return `${hours}:${minutes}`;
 }
+
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
