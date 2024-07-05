@@ -92,7 +92,7 @@ const addSave = async () => {
 
 const openDelete = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar al cliente?', 'Podrás deshacer la acción en otro apartado');
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar al cliente?', 'No podrás deshacer la acción en otro apartado');
     if (RESPONSE.isConfirmed) {
         const FORM = new FormData();
         FORM.append('id_cliente', Number(getQueryParam('id_cliente')));

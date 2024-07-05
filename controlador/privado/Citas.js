@@ -54,6 +54,8 @@ const INPUT_SERVICIOS = document.getElementById('input_servicios');
 
 const CONTENEDOR_SERVICIO = document.getElementById('contenedorServicio');
 
+const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
   loadTemplate();
@@ -70,6 +72,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
   }
 
+});
+
+// Evento que se dispara justo antes de que el modal se abra
+MODAL_SERVICIOS._element.addEventListener('show.bs.modal', function () {
+  hideCamposActualizarServicios();
 });
 
 function hideCamposActualizarServicios() {
@@ -89,7 +96,6 @@ function showCamposActualizarServicios() {
   CONTENEDOR_HORA_FINALIZACION.classList.remove('d-none');
   BTN_DELETE.classList.remove('d-none');
 }
-
 
 let id_citaW;
 
@@ -183,12 +189,22 @@ const addServicioProceso = async (form, action = 'createRow') => {
   if (isValid) {
     console.log('TodoGud'); // Código a ejecutar después de la validación
     // Constante tipo objeto con los datos del formulario.
+    const FORMID = new FormData(form);
+    FORMID.append('id_cita', id_citaW);
+    FORMID.append('id_servicio', id_serviciow);
+
+    const DATAID = await fetchData(SERVICES_API, 'readOne', FORMID);
+    let id_servicio_proceso;
+
+    if (DATA.status) {
+      id_servicio_proceso = DATAID.dataset.id_servicio_en_proceso;
+    }
+
     const FORM = new FormData(form);
     FORM.append('fecha_registro', getDateToMysql());
     FORM.append('fecha_aprox_finalizacion', convertToMySQLDatetime(INPUT_FECHA_APROX_FINALIZACION.value, INPUT_HORA_APROX_FINALIZACION.value));
-    FORM.append('id_cita', id_citaW);
-    FORM.append('id_Servicio', id_serviciow);
-
+    FORM.append('id_servicio_proceso', id_servicio_proceso)
+   
     if (action == 'updateRow') {
       FORM.append('fecha_finalizacion', convertToMySQLDatetime(INPUT_FECHA_FINALIZACION.value, INPUT_HORA_FINALIZACION.value));
     }
@@ -259,7 +275,7 @@ let id_serviciow = 0;
 
 //Constante para abrir detalles cuando se le de doble click a la tabla
 const openUpdate = async (id_Servicio) => {
-  console.log(id_Servicio)
+  console.log(id_Servicio);
   id_serviciow = id_Servicio;
   const FORM_ID = new FormData();
   FORM_ID.append('id_servicio', id_Servicio);
