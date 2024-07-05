@@ -34,26 +34,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-
+  //FillSelect para llenar combo box de especializaciones en el modal para insert
   fillSelect(
     TRABAJADORES_API,
     'readEspecializaciones',
     'especializacion_trabajador'
   );
+  //Llamado de la funcion para agregar la plantilla de la pagina web
   loadTemplate();
+
+  //Llamado de la funcion para de leer trabajadores en la base
   readTrabajadores();
+
+  //Llamado de la funcion para deshabilitar las fechas  
   configurarFechaMaxima()
 });
 
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+//Funcion para validar que los campos deben estar completados dentro del form
 (() => {
   "use strict";
 
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  //Selecciona todos los campos en los que queremos validar
   const forms = document.querySelectorAll(".needs-validation");
 
-  // Loop over them and prevent submission
+  // Recorre cada uno, aplica la validacion y no deja que se envie
   Array.from(forms).forEach((form) => {
     form.addEventListener(
       "submit",
@@ -71,38 +76,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
-// Método del evento para cuando se envía el formulario de buscar.
+//Método del evento para cuando se envía el formulario de buscar.
 document
   .getElementById("searchForm")
   .addEventListener("submit", async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
+    //Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Constante tipo objeto con los datos del formulario.
+    //Constante tipo objeto con los datos del formulario de barra de busqueda.
     const formData = new FormData(document.getElementById("searchForm"));
 
     try {
-      // Realizar una solicitud al servidor para buscar productos.
+      //Realizar una solicitud al servidor para buscar trabajadores.
       const searchData = await fetchData(
         TRABAJADORES_API,
         "searchRows",
         formData
       );
 
-      // Verificar si la búsqueda fue exitosa.
+      //Verificar si la búsqueda fue exitosa.
       if (searchData.status) {
-        // Limpiar el contenedor de productos.
+        //Limpiar el contenedor de trabajadores.
         CONTAINER_TRABAJADORES_BODY.innerHTML = "";
 
+        //Se agrega la card para agregar usuario luego de vaciar el campo
         CONTAINER_TRABAJADORES_BODY.innerHTML += `
             <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
-                            <img src="../../recursos/imagenes/icons/agregar_cliente.png" class="hvr-grow"
+                            <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
                                 onclick="openCreate()">
                         </div>
             `;
 
-        // Verificar si se encontraron resultados.
+        //Verificar si se encontraron resultados.
         if (searchData.dataset.length > 0) {
-          // Iterar sobre los resultados y mostrarlos en la vista.
+          //Dependiendo los resultados de cada linea se muestran en el contenedor.
           searchData.dataset.forEach((row) => {
             CONTAINER_TRABAJADORES_BODY.innerHTML += `
                         <div class="auto-card card" onclick="openUpdate(${row.id_trabajador})"> <!--Card de empleados #1-->
@@ -131,30 +137,41 @@ document
                         `;
           });
         } else {
-          // Mostrar un mensaje si no se encontraron resultados.
-          //PRODUCTOS.innerHTML = "<p>No se encontraron trabajadores.</p>";
+          // Mostrar si no se encontro ningun resultado.
+          sweetAlert(4, "No se encontraron resultados", false);
         }
       } else {
-        // Mostrar un mensaje si ocurrió un error durante la búsqueda.
-        console.error("Error al buscar trabajadores:", searchData.error);
+        // Mostrar si no se encontro ningun resultado en base de un error.
+        sweetAlert(4, "No se encontraron resultados", false);
         // Puedes mostrar un mensaje de error al usuario si lo deseas.
       }
     } catch (error) {
       console.error("Error al buscar trabajadores:", error);
-      // Puedes mostrar un mensaje de error al usuario si lo deseas.
+      //Loguea un error si este lo presenta.
     }
   });
 
+
 //Método para hacer el select a la base de los trabajadores disponibles
 async function readTrabajadores() {
-  // Petición para obtener los datos del pedido en proceso.
+  // Petición para obtener los datos de los trabajadores.
   const DATA = await fetchData(TRABAJADORES_API, "readAll");
 
   // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
   if (DATA.status) {
+    //Limpiar el contenedor de trabajadores.
+    CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+
+    CONTAINER_TRABAJADORES_BODY.innerHTML += `
+    <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
+                    <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+                        onclick="openCreate()">
+                </div>
+    `;
+
     // Se recorre el conjunto de registros fila por fila a través del objeto row.
     DATA.dataset.forEach((row) => {
-      // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+      // Se crean y concatenan las filas de la tabla con los datos de cada registro a la card de trabajador.
       CONTAINER_TRABAJADORES_BODY.innerHTML += `
             <div class="auto-card card" onclick="openUpdate(${row.id_trabajador})"> <!--Card de empleados #1-->
             <div class="content z-3">
@@ -182,6 +199,7 @@ async function readTrabajadores() {
             `;
     });
   } else {
+    //Se abre una alerta si esta presenta un error
     sweetAlert(4, DATA.error, false);
   }
 }
@@ -190,8 +208,10 @@ async function readTrabajadores() {
 SAVE_FORM.addEventListener("submit", async (event) => {
   // Se evita recargar la página web después de enviar el formulario.
   event.preventDefault();
+  //Se valida que los campos no esten vacios de lo contrario se le hace saber al usuario por medio del cambio en el aspecto de los campos
   const isValid = await checkFormValidity(SAVE_FORM);
 
+  //Se verifica si la validacion es correcta
   if (isValid) {
     // Se verifica la acción a realizar.
     const action = ID_EMPLEADO.value ? "updateRow" : "createRow";
@@ -200,11 +220,6 @@ SAVE_FORM.addEventListener("submit", async (event) => {
     const formData = new FormData(SAVE_FORM);
     //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
 
-    /* Mostrar los valores de los campos del FormData en la consola.
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }*/
-
     try {
       // Petición para guardar los datos del formulario.
       const DATA = await fetchData(TRABAJADORES_API, action, formData);// Petición para guardar los datos del formulario
@@ -212,21 +227,25 @@ SAVE_FORM.addEventListener("submit", async (event) => {
       if (DATA.status) { // Se comprueba si la respuesta es satisfactoria
         SAVE_MODAL.hide(); // Se cierra la caja de diálogo
         sweetAlert(1, DATA.message, true); // Se muestra un mensaje de éxito
-        //readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
+        readTrabajadores(); //Se lee los trabajadores en la base
       } else {
         sweetAlert(2, DATA.error, false); // Se muestra un mensaje de error
       }
     } catch (error) {
+      //Se muestra un error en consola
       console.error('Error al guardar al trabajador: ', error);
+      //Se muestra el error en una alerta
       sweetAlert(4, 'No se pudo guardar al trabajador', false);
     }
 
   } else {
+    //Si no funciona el is valid se manda este error en la consola
     console.log("Que paso?: Formulario no válido");
   }
 
 });
 
+// Método usado para encontrar el campo seleccionado en el combobox de departamentos tipo enum en la base
 function findNumberValue(value) {
   if (value == 'Ahuachapán') {
     return 'Ahuachapán';
@@ -276,7 +295,7 @@ const openUpdate = async (id) => {
 
   // Se define una constante tipo objeto con los datos del registro seleccionado.
   const formData = new FormData();
-  formData.append("idTrabajador", id); // Asegúrate de que 'id' sea el valor correcto del ID del trabajador
+  formData.append("idTrabajador", id); //Se agrega el id trabajador al form
 
   // Petición para obtener los datos del registro solicitado.
   const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
