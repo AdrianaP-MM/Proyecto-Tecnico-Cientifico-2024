@@ -29,15 +29,19 @@
 <body>
     <!-- *Contenido principal del documento -->
     <main class="open">
+        <div class="row">
 
-        <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
-            <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
-                <div class="add-auto-card d-flex align-items-center justify-content-center">
-                    <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">
+            <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
+                <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
+                    <div class="add-auto-card d-flex justify-content-center align-items-center">
+                        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" alt="Add Service">
+                    </div>
                 </div>
             </div>
+
         </div>
+
     </main>
 
     <!--TODO -------------------------------MODAL ADD---------------------->
@@ -67,8 +71,7 @@
                                 <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
                                     <label class="form-label text-white m-1" for="customFileW">Seleccionar
                                         imagen</label>
-                                    <input type="file" class="form-control d-none" id="customFileW"
-                                        name="customFileW"
+                                    <input type="file" class="form-control d-none" id="customFileW" name="customFileW"
                                         onchange="displaySelectedImage(event, 'selectedImageW')" />
                                 </div>
                             </div>
