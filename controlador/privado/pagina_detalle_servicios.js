@@ -9,7 +9,7 @@ const SAVE_FORM = document.getElementById('save_form'),
     ID_TIPO_SERVICIO = document.getElementById('id_tipo_servicio'),
     NOMBRE_SERVICIO = document.getElementById('nombre_servicio'),
     DESCRIPCION_SERVICIO = document.getElementById('descripcion_servicio');
-    
+
 
 // Función para obtener parámetros de la URL
 const getQueryParam = (name) => {
@@ -23,6 +23,11 @@ async function openCreate() {
     SAVE_FORM.reset();
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
+
+    const botonTres = document.getElementById("btnDelete");
+    if (botonTres) {
+        botonTres.remove();
+    }
     number = 1;
 }
 
@@ -65,7 +70,7 @@ const fillServiceData = async (id_tipo_servicio = Number(getQueryParam('id_tipo_
         SERVICIO_DATA_CONTAINER.innerHTML = html;
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-            await sweetAlert(4, DATA.error, true); 
+            await sweetAlert(4, DATA.error, true);
             location.href = 'index.html';
         } else {
             sweetAlert(4, DATA.error, true);
@@ -84,11 +89,6 @@ const openUpdate = async (id) => {
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(SERVICIOS_API, "readOneModal", formData);
 
-    // Mostrar los valores de los campos del FormData en la consola.
-    for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
-
     if (DATA.status) {
         // Se prepara el formulario.
         SAVE_FORM.reset();
@@ -96,13 +96,18 @@ const openUpdate = async (id) => {
         SAVE_MODAL.show();
         // Se inicializan los campos con los datos.
         const row = DATA.dataset;
-        console.log(row);
+        
         ID_TIPO_SERVICIO.value = id;
         NOMBRE_SERVICIO.value = row.nombre_servicio;
         DESCRIPCION_SERVICIO.value = row.descripcion_servicio;
 
+        const botonTres = document.getElementById("btnDelete");
+        if (botonTres) {
+            botonTres.remove();
+        }
+
         CONTAINER_BOTONES.innerHTML += `
-              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDelete(${row.id_servicio})">Eliminar</button>
+              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDelete(${ID_TIPO_SERVICIO.value})">Eliminar</button>
         `;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -111,6 +116,8 @@ const openUpdate = async (id) => {
 
 // Función para abrir el modal de eliminación
 const openDelete = async (id) => {
+    console.log('ID recibido para eliminar:', id); // Depuración
+
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const response = await confirmAction2(
         "¿Desea eliminar al trabajador de forma permanente?"
@@ -120,6 +127,12 @@ const openDelete = async (id) => {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const formData = new FormData();
         formData.append("id_tipo_servicio", id);
+
+        // Depuración: Mostrar todos los pares clave-valor en el formData
+        for (let pair of formData.entries()) {
+            console.log("Datos recibidos del form"+ pair[0] + ': ' + pair[1]);
+        }
+
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(SERVICIOS_API, "deleteRow", formData);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -139,6 +152,7 @@ const openDelete = async (id) => {
         }
     }
 };
+
 
 // Método del evento para cuando se envía el formulario de guardar
 SAVE_FORM.addEventListener('submit', async (event) => {
@@ -177,6 +191,9 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
+
+    loadTemplate();
+
     // Agregar un evento de teclado al input del nombre del servicio
     NOMBRE_SERVICIO.addEventListener('input', function (event) {
         // Obtener el valor actual del input
@@ -193,4 +210,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function goBack() {
     window.history.back();
+}
+
+// Función que muestra la alerta de confirmación
+const openClose = async () => {
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+    if (RESPONSE.isConfirmed) {
+        SAVE_MODAL.hide();
+    }
 }
