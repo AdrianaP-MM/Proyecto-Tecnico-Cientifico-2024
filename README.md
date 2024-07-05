@@ -15,3 +15,30 @@ Aunque la empresa es muy completa, poseen algunas limitantes, como por ejemplo, 
 - Emily Guadalupe Murillo Argueta, 20220021, 2A. - Secretaria.
 - Daniel Alejandro Cortez Quintanilla, 20210199, 2A. - Tesorero.
 - Axel Gabriel García Ramírez, 20220127, 2A. - Primer vocal.
+
+# Estandares / Buenas practicas
+
+## Variables en JavaScript (sitio web privado)
+
+* NOMBRE_DE_VARIABLE: Nombre descriptivo en mayúsculas con guiones bajos para separar palabras.
+Clases
+
+* NombreClase: Nombre de clase en PascalCase, comenzando con mayúscula.
+Funciones
+
+* nombreFuncionExtra: Nombre de función en camelCase, comenzando con minúscula y usando palabras consecutivas en mayúscula.
+Archivos
+
+* JavaScript: nombre-archivo.js 
+* PHP: nombre-archivo.php 
+
+### Componentes
+* Componentes generales: NombreComponente
+* Componentes específicos de la app móvil: NombreComponenteMovil
+* Componentes específicos del sitio privado: NombreComponentePrivado
+
+### Comentarios
+Utilizar comentarios claros y concisos en cada bloque de código para explicar la funcionalidad, especialmente en secciones complejas o críticas.
+Estándares adicionales
+Seguir la convención de nombres establecida para mantener consistencia y facilitar la legibilidad del código.
+Mantener la estructura de archivos organizada y lógica dentro de los directorios correspondientes (por ejemplo, separar archivos de JavaScript y PHP en carpetas distintas según su función).
