@@ -1,5 +1,6 @@
 //Constante donde esta la ruta del archivo php
 const TRABAJADORES_API = "services/privado/trabajadores.php";
+const USER_API = 'services/privado/usuarios.php';
 
 // Constante para establecer el cuerpo de la tabla.
 const CONTAINER_TRABAJADORES_BODY =
@@ -24,30 +25,37 @@ const SAVE_FORM = document.getElementById("saveForm"),
   SALARIO = document.getElementById("input_salario_empleados"),
   FTO_TRABAJADOR = document.getElementById("fto_trabajador"),
   ID_EMPLEADO = document.getElementById("idTrabajador");
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
-
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl, {
-      trigger: 'hover'
-    });
-  });
-
-  //FillSelect para llenar combo box de especializaciones en el modal para insert
-  fillSelect(
-    TRABAJADORES_API,
-    'readEspecializaciones',
-    'especializacion_trabajador'
-  );
   //Llamado de la funcion para agregar la plantilla de la pagina web
   loadTemplate();
+  const DATA = await fetchData(USER_API, 'readUsers');
+  if (DATA.session) {
+    // Acciones si la sesión SI está activa
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl, {
+        trigger: 'hover'
+      });
+    });
 
-  //Llamado de la funcion para de leer trabajadores en la base
-  readTrabajadores();
+    //FillSelect para llenar combo box de especializaciones en el modal para insert
+    fillSelect(
+      TRABAJADORES_API,
+      'readEspecializaciones',
+      'especializacion_trabajador'
+    );
 
-  //Llamado de la funcion para deshabilitar las fechas  
-  configurarFechaMaxima()
+    //Llamado de la funcion para de leer trabajadores en la base
+    readTrabajadores();
+
+    //Llamado de la funcion para deshabilitar las fechas  
+    configurarFechaMaxima()
+
+  } else { // Acciones si la sesión NO está activa
+    await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+  }
 });
 
 
@@ -611,10 +619,10 @@ function configurarFechaMaxima() {
   var yyyy = hoy.getFullYear();
 
   if (dd < 10) {
-      dd = '0' + dd;
+    dd = '0' + dd;
   }
   if (mm < 10) {
-      mm = '0' + mm;
+    mm = '0' + mm;
   }
 
   hoy = yyyy + '-' + mm + '-' + dd;

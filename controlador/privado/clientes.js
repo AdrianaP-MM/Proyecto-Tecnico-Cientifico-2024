@@ -84,7 +84,7 @@ const addSave = async () => {
             ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
         } else {
             if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                await sweetAlert(4, DATA.error, true); location.href = 'index.html'
             }
             else {
                 sweetAlert(4, DATA.error, true);
@@ -199,7 +199,8 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA2.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    CLIENTES_NATURAL_CONTAINER.innerHTML = '';
                 }
                 else {
                     sweetAlert(4, DATA2.error, true);
@@ -219,7 +220,8 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA1.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    CLIENTES_JURIDICO_CONTAINER.innerHTML = '';
                 }
                 else {
                     sweetAlert(4, DATA1.error, true);
@@ -250,7 +252,7 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                 }
                 else {
                     CONTENEDOR_MARCAS_AUTOS.innerHTML +=
@@ -284,7 +286,7 @@ const fillData = async (action, form = null) => {
                     });
                 } else {
                     if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                     }
                     else {
                         CONTENEDOR_SERVICIOS.innerHTML +=

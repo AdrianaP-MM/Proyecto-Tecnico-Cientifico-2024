@@ -225,7 +225,12 @@ const logOut = async () => {
             sweetAlert(1, DATA.message, true);
             window.location.href = 'index.html';
         } else {
-            sweetAlert(2, DATA.exception, false);
+            if (DATA.error == 'Acción no disponible fuera de la sesión') {
+                await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+            }
+            else {
+                sweetAlert(4, DATA.error, true);
+            }
         }
     }
 }

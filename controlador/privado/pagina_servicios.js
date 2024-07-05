@@ -88,6 +88,26 @@ function displaySelectedImage(event, elementId) {
     }
 }
 
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+
+
 // Función para ir hacia la página de detalles del servicio
 function gotoDetail(id_tipo_servicio) {
     location.href = `../../vistas/privado/pagina_detalle_servicios.html?id_tipo_servicio=${id_tipo_servicio}`;
@@ -100,6 +120,7 @@ const openClose = async () => {
         MODAL.hide();
     }
 }
+
 
 // Función que muestra la alerta de notificación
 const openNoti = async () => {

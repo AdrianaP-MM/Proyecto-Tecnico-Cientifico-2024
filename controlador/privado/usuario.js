@@ -8,7 +8,7 @@ CONTRASEÑA = document.getElementById('input_contra');
 REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 PASSWORD_FORM = document.getElementById('saveForm');
 ID_USUARIO = document.getElementById('id_usuario');
-EMAIL = document.getElementById('userEmail'); 
+EMAIL = document.getElementById('userEmail');
 LOGIN_FORM = document.getElementById('loginForm');
 CONTENEDOR_CORREO = document.getElementById('userEmaill');
 
@@ -18,7 +18,14 @@ const SAVE_MODAL = new bootstrap.Modal('#staticBackdrop');
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    readUsuarios();
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        // Acciones si la sesión SI está activa
+        // Llamada a la función para llenar la tabla con los registros existentes.
+        readUsuarios();
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+    }
 });
 
 
@@ -36,7 +43,12 @@ async function readUsuarios() {
         <div class="lineR3"></div>
         `;
     } else {
-        sweetAlert(2, DATA.error, false);
+        if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+            await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        }
+        else {
+            sweetAlert(4, DATA.error, true);
+        }
     }
 }
 
@@ -49,13 +61,18 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         if (responseData.status) {
             // Mostrar modal de éxito
             sweetAlert(1, 'Datos actualizados correctamente', true);
-            
+
             // Agregar un pequeño retardo antes de recargar la página (opcional)
             setTimeout(() => {
                 location.reload();
             }, 1000); // 1000 milisegundos = 1 segundo
         } else {
-            sweetAlert(2, responseData.error, false);
+            if (responseData.error == 'Acción no disponible fuera de la sesión') {
+                await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+            }
+            else {
+                sweetAlert(4, responseData.error, true);
+            }
         }
     }
 });
@@ -152,7 +169,12 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         // Se carga nuevamente la tabla para visualizar los cambios.
         readUsuarios();
     } else {
-        sweetAlert(2, responseData.error, false);
+        if (responseData.error == 'Acción no disponible fuera de la sesión') {
+            await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+        }
+        else {
+            sweetAlert(4, responseData.error, true);
+        }
     }
 });
 
