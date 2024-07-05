@@ -1,5 +1,6 @@
 // Constantes para completar las rutas de la API.
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
+const USER_API = 'services/privado/usuarios.php';
 // Constante para establecer el formulario de buscar.
 //const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -31,10 +32,17 @@ const FECHA_FABRICACION_CARRO = document.getElementById('year');
 let PARAMS = new URLSearchParams(location.search);
 
 // Método del evento para cuando el documento ha cargado.
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    // Llamada a la función para llenar la tabla con los registros existentes.
-    fillTable();
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        // Acciones si la sesión SI está activa
+        // Llamada a la función para llenar la tabla con los registros existentes.
+        fillTable();
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+    }
+
 });
 /*Método del evento para cuando se envía el formulario de buscar.
 SEARCH_FORM.addEventListener('submit', (event) => {
@@ -88,7 +96,12 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
     } else {
-        sweetAlert(2, DATA.error, false);
+        if (DATA.error == 'Acción no disponible fuera de la sesión') {
+            await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+        }
+        else {
+            sweetAlert(4, DATA.error, true);
+        }
     }
 });
 
@@ -120,7 +133,8 @@ const fillTable = async (form = null) => {
                             <h4 class="open-sans-light-italic">Màs informaciòn</h4>
                         </div>
                         <div class="container-img-card">
-                            <img src="${SERVER_URL}images/automoviles/${row.imagen_automovil}">
+                            <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
+                            onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
                         </div>
                         <div class="container-info-card position-relative">
                             <div class="line-red-split position-absolute"></div>
@@ -198,7 +212,12 @@ const openUpdate = async () => {
         PLACA.checked = ROW.estado_libro;
         fillSelect(CATEGORIA_API, 'readAll', 'categoriaLibro', ROW.id_categoria);
     } else {
-        sweetAlert(2, DATA.error, false);
+        if (DATA.error == 'Acción no disponible fuera de la sesión') {
+            await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+        }
+        else {
+            sweetAlert(4, DATA.error, true);
+        }
     }
 }
 

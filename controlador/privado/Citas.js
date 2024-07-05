@@ -353,7 +353,7 @@ const updateEstado = async (estado_cita) => {
       document.getElementById('containerExpand').classList.add('d-none');
     } else {
       if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
       }
       else {
         sweetAlert(4, DATA.error, true);
@@ -494,7 +494,8 @@ const fillData = async (action = 'readAll', form = null) => {
       });
     } else {
       if (DATA.error === 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        CITAS_CARDS_CONTAINER.innerHTML = '';
       } else {
         sweetAlert(4, DATA.error, true);
       }
@@ -568,6 +569,10 @@ function createCardCita(row) {
   const [date, time] = row.fecha_hora_cita.split(" ");
   const formattedDate = convertMySQLDateToJSDate(date);
   const formattedTime = convertMySQLTimeToHTMLTime(time);
+
+  const imagenAuto = row.imagen_automovil;
+  const defaultImage = `${SERVER_URL}/images/automoviles/default.png`;
+  
   return `
     <div class="card position-relative z-2" onclick="clicCita(${row.id_cita}, '${row.estado_cita}')">
       <div class="content z-3">
@@ -603,7 +608,8 @@ function createCardCita(row) {
           </div>
 
           <div class="img-container">
-              <img src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg">
+          <img src="${SERVER_URL}/images/automoviles/${imagenAuto}"
+          onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
           </div>
           <div class="info-cliente text-white d-flex flex-column justify-content-center align-items-center">
               <div class="grupo1 pb-3">

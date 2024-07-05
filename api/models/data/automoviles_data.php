@@ -123,16 +123,6 @@ class AutomovilData extends AutomovilHandler
     }
 
     //alidación y asignación de la fecha de inicio de la jornada.
-    public function setFechaRegistro($value)
-    {
-        if (Validator::validateDate($value)) {
-            $this->fecha_registro_cliente = $value;
-            return true;
-        } else {
-            $this->data_error = 'La fecha de inicio no es valida';
-            return false;
-        }
-    }
 
     // Validación y asignación del estado del pedido.
     public function setEstado($value, $activo = "Activo", $eliminado = "Eliminado")
@@ -149,7 +139,7 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
-    public function setFilename()
+   /* public function setFilename()
     {
         if ($data = $this->readFilename()) {
             $this->filename = $data['imagen_categoria'];
@@ -158,7 +148,7 @@ class AutomovilData extends AutomovilHandler
             $this->data_error = 'Categoría inexistente';
             return false;
         }
-    }
+    }*/
 
     /*
      *  Métodos para obtener los atributos adicionales.
