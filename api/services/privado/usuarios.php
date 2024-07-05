@@ -164,7 +164,6 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
-
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readUsers':
@@ -178,12 +177,12 @@ if (isset($_GET['action'])) {
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$usuario->setCorreo($_POST['correoUsuario']) or
-                    !$usuario->setClave($_POST['claveUsuario']) or
-                    !$usuario->setNumeroTelefonico($_POST['telefonoUsuario'])
+                    !$usuario->setCorreo($_POST['registro_input_correo']) or
+                    !$usuario->setClave($_POST['registro_input_contrasena']) or
+                    !$usuario->setNumeroTelefonico($_POST['registro_input_telefono'])
                 ) {
                     $result['error'] = $usuario->getDataError();
-                } elseif ($_POST['claveUsuario'] != $_POST['confirmarClave']) {
+                } elseif ($_POST['registro_input_contrasena'] != $_POST['registro_input_contrasena2']) {
                     $result['error'] = 'Contraseñas diferentes';
                 } elseif ($usuario->createRow()) {
                     $result['status'] = 1;

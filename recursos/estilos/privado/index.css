@@ -21,12 +21,11 @@ main,
 
 /* Contenedor rojo */
 .contenedor-rojo {
-    background-color: #E5383B; /* Color de fondo */
+    background-color:#E5383B; /* Color de fondo */
     align-items: center; /* Alinear elementos verticalmente */
     min-height: 600px; /* Altura mínima */
     border-radius: 10px; /* Radio de borde */
     justify-content: center; /* Justificar contenido */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
   }
 
 /* Contenedor de formulario */
@@ -35,6 +34,8 @@ main,
     display: grid; /* Mostrar como grid */
     gap: 45px; /* Espacio entre elementos */
     height: fit-content; /* Altura ajustada al contenido */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
+    border-radius: 10px;
   }
 
   #forgetPasswordStepThree{
@@ -62,6 +63,11 @@ main,
   .inputsGrap{
     display: grid; /* Mostrar como grid */
     gap: 25px;
+  }
+
+  .inputsGrap2{
+    display: grid; /* Mostrar como grid */
+    gap: 15px;
   }
 
   /*Contenedor con etiqueta form*/
@@ -216,6 +222,13 @@ main,
   background-color: black;
 }
 
+.btnCancel2 {
+  background-color: #292929;
+  width: 60%;
+  height: 50px;
+  border: 0px;
+}
+
 /* Estilos para el botón de guardar */
 .btnSave {
   background-color: #E5383B;
@@ -235,12 +248,13 @@ main,
     /* Color rojo */
 }
 
-/* Etiqueta flotante */
-.formRegistroU>label {
-  color: red;
-}
-
 /* Estilo para el diálogo modal */
 .modal-dialog {
   min-width: 50vw;
+}
+.contenedor-registro{
+  border-radius: 10px;
+  height: 100%;
+  background-color: #E5383B;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
 }
