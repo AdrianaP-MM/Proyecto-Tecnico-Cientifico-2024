@@ -72,17 +72,17 @@
     width: fit-content; /* Ancho ajustado al contenido */
   }
 
-/* Imagen dentro del contenedor derecho */
+
 .contenedor-drch>img {
     max-inline-size: 100%;
     block-size: auto;
     object-fit: cover;
     object-position: center;
-    border-radius: 10px; /* Radio de borde */
+    border-radius: 10px;
     height: 100%;
-    min-height: 40vh; /* Altura mínima */
+    min-height: 40vh; 
     min-width: 100%;
-    aspect-ratio: 2/1; /* Proporción de aspecto */
+    aspect-ratio: 2/1; 
   }
 
 /* Botón m2 */
@@ -240,24 +240,24 @@
   border-top-right-radius: 0px; /* Radio de borde superior derecho */
 }
 
-/* Contenedor derecho */
+/* Contenedor derecho
 .contenedor-drch::after {
     content: "";
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    background-color: #00000094; /* Color de fondo */
+    background-color: #00000094; 
     border-radius: inherit;
     opacity: 0;
-  }
+  } */
   
 
-/* Efecto de hover en el contenedor derecho */
+/* Efecto de hover en el contenedor derecho 
 .contenedor-drch:hover::after {
     opacity: 1;
     cursor: pointer;
-  }
+  }*/
 
 /* Contenido */
 .content {

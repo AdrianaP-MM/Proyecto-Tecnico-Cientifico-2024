@@ -19,6 +19,8 @@ class AutomovilHandler
     protected $estado_automovil = null;
 
     protected $search_value = null;
+    protected $fecha_desde = null;
+    protected $fecha_hasta  = null;
 
     const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
@@ -36,17 +38,37 @@ class AutomovilHandler
                 INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
                 INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
                 WHERE estado_automovil = ?';
-
+    
         $params = array('Activo');
-
+    
         if ($this->search_value) {
             $sql .= ' AND (placa_automovil LIKE ?)';
             $params[] = "%{$this->search_value}%";
         }
-
+    
+        if ($this->fecha_desde && $this->fecha_hasta) {
+            $sql .= ' AND fecha_registro BETWEEN ? AND ?';
+            $params[] = $this->fecha_desde;
+            $params[] = $this->fecha_hasta;
+        } else {
+            if ($this->fecha_desde) {
+                $sql .= ' AND fecha_registro >= ?';
+                $params[] = $this->fecha_desde;
+            }
+            if ($this->fecha_hasta) {
+                $sql .= ' AND fecha_registro <= ?';
+                $params[] = $this->fecha_hasta;
+            }
+        }
+    
+        if ($this->fecha_fabricacion_automovil) {
+            $sql .= ' AND YEAR(fecha_fabricacion_automovil) = ?';
+            $params[] = $this->fecha_fabricacion_automovil;
+        }
+    
         return Database::getRows($sql, $params);
     }
-
+    
 
     public function updateRow()
     {

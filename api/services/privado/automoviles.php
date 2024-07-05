@@ -17,12 +17,17 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'searchRows':
                 // Verificar si $_POST['search'] está definido
-                if (isset($_POST['search'])) {
                     // Obtener el valor de búsqueda
                     $searchValue = $_POST['search'];
+                    $fechaDesde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+                    $fechaHasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+                    $fechaFabricacion = isset($_POST['fecha_fabricacion']) ? $_POST['fecha_fabricacion'] : '';
 
                     // Establecer el valor de búsqueda en el objeto automovil
                     $automovil->setSearchValue($searchValue);
+                    $automovil->setFechaDesde($fechaDesde);
+                    $automovil->setFechaHasta($fechaHasta);
+                    $automovil->setFechaFabricacion2($fechaFabricacion);
 
                     // Realizar la búsqueda y verificar si hay resultados
                     $result['dataset'] = $automovil->searchRows();
@@ -32,9 +37,6 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
                     }
-                } else {
-                    $result['error'] = 'No se proporcionó un valor de búsqueda'; // Manejo de caso donde no se proporciona un valor de búsqueda
-                }
                 break;
 
             case 'createRow':

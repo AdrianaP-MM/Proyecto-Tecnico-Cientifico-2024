@@ -289,8 +289,7 @@
                         </li> -->
 
                         <!--TODO ----------------------------ELEMENTO FECHA DE FABRICACIÓN----------------------------------->
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <!--Cuarto elemento de filtros-->
+                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#FechaFab" aria-expanded="false"
                                 onclick="rotarImagen('img4')">
@@ -301,18 +300,15 @@
                                     <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img4" class="imagen">
                                 </span>
                             </button>
-
-                            <!--Contenedor de las fechas-->
                             <div class="collapse col-11 mt-3" id="FechaFab">
-                                <!--Contenedor de las fechas de registro-->
-                                <input type="number" id="year" name="year" min="1900" max="" required>
+                                <input type="number" id="year" name="year" min="1900" max="" required
+                                >
                             </div>
-                        </li>
+                        </li> -->
 
                         <!--TODO ----------------------------ELEMENTO FECHA DE REGISTRO----------------------------------->
-                        <hr>
+                        <!-- <hr>
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <!--Quinto elemento de filtros-->
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#FechaReg" aria-expanded="false"
                                 onclick="rotarImagen('img5')">
@@ -324,23 +320,21 @@
                                 </span>
                             </button>
 
-                            <!--Contenedor de las fechas de registro-->
                             <div class="collapse col-11 mt-3" id="FechaReg">
-                                <!--Cuontenedor Flexbox-->
                                 <div class="d-flex flex-lg-row flex-md-column flex-column mt-3 justify-content-between">
-                                    <!--Contenedor de la fecha inicial (desde))-->
                                     <div class="fecha-desde col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Desde</h6>
-                                        <input id="datepicker-desdeRE" class="open-sans-regular-italic datepickerA" />
+                                        <input id="datepicker-desdeRE" name="datepicker-desdeRE" class="open-sans-regular-italic datepickerA" 
+                                        onkeydown="if (event.keyCode === 13) search()"/>
                                     </div>
-                                    <!--Contenedor de la fecha posterios (hasta)-->
                                     <div class="fecha-hasta col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Hasta</h6>
-                                        <input id="datepicker-hastaRE" class="open-sans-regular-italic datepickerA" />
+                                        <input id="datepicker-hastaRE" name="datepicker-hastaRE" class="open-sans-regular-italic datepickerA" 
+                                        onkeydown="if (event.keyCode === 13) search()"/>
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

@@ -91,7 +91,8 @@ class CitasHandler
     {
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
         INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente;';
+        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+        WHERE c.estado_cita != "Eliminada" ';
         return Database::getRows($sql);
     }
 
@@ -101,7 +102,7 @@ class CitasHandler
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
         INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
         INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-        WHERE c.id_cita = ?';
+        WHERE c.id_cita = ? AND c.estado_cita != "Eliminada";';
         $params = array(
             $this->id_cita
         );
@@ -155,5 +156,16 @@ class CitasHandler
         }
 
         return Database::getRows($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    public function deleteRow()
+    {
+        // Consulta SQL para eliminar un automóvil basado en su ID
+        $sql = 'UPDATE tb_citas SET estado_cita = "Eliminada"
+            WHERE id_cita = ?';
+        // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
+        $params = array($this->id_cita);
+        // Ejecuta la consulta de eliminación y devuelve el resultado
+        return Database::executeRow($sql, $params);
     }
 }

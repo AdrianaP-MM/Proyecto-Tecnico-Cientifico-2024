@@ -60,6 +60,7 @@ const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
 document.addEventListener('DOMContentLoaded', async () => {
   loadTemplate();
   id_serviciow = 0;
+  BTN_ELIMINAR_CITA.classList.add('d-none');
   const DATA = await fetchData(USER_API, 'readUsers');
   if (DATA.session) {
     // Acciones si la sesión SI está activa
@@ -160,6 +161,13 @@ function formSetValues(row) {
   INPUT_HORA_UPDATE.value = formattedTime;
   INPUT_MOVILIZACION_UPDATE.value = row.movilizacion_vehiculo;
   INPUT_DIRECCION_IDA_UPDATE.value = row.direccion_ida;
+
+  if (row.estado_cita == 'Cancelado') {
+    BTN_ELIMINAR_CITA.classList.remove('d-none');
+  }
+  else {
+    BTN_ELIMINAR_CITA.classList.add('d-none');
+  }
 }
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -204,7 +212,7 @@ const addServicioProceso = async (form, action = 'createRow') => {
     FORM.append('fecha_registro', getDateToMysql());
     FORM.append('fecha_aprox_finalizacion', convertToMySQLDatetime(INPUT_FECHA_APROX_FINALIZACION.value, INPUT_HORA_APROX_FINALIZACION.value));
     FORM.append('id_servicio_proceso', id_servicio_proceso)
-   
+
     if (action == 'updateRow') {
       FORM.append('fecha_finalizacion', convertToMySQLDatetime(INPUT_FECHA_FINALIZACION.value, INPUT_HORA_FINALIZACION.value));
     }
@@ -302,7 +310,7 @@ const openUpdate = async (id_Servicio) => {
       INPUT_HORA_FINALIZACION.value = formattedTime2;
 
     }
-    
+
     INPUT_FECHA_APROX_FINALIZACION.value = formattedDate;
     INPUT_HORA_APROX_FINALIZACION.value = formattedTime;
 
@@ -425,6 +433,30 @@ const search = async (value) => {
   const FORM = new FormData();
   FORM.append('search', value);
   fillData('searchRows', FORM);
+}
+
+const openDeleteCita = async () => {
+  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+  const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar el servicio?', 'No podras deshacer la acción');
+  if (RESPONSE.isConfirmed) {
+    const FORM = new FormData();
+    FORM.append('id_cita', id_citaW);
+    console.log(id_citaW);
+
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(CITAS_API, 'deleteRow', FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      sweetAlert(1, 'Se ha eliminado con exito', 300);
+      fillData('readAll');
+      MODAL_SERVICIOS.hide();
+      SERVICES_FORM.classList.remove('was-validated');
+      id_serviciow = 0; // Quita la clase de validación
+    } else {
+      await sweetAlert(2, DATA.error, false);
+    }
+  }
 }
 
 /*

@@ -108,6 +108,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
+                case 'deleteRow':
+                    if (!$cita->setIdCita($_POST['id_cita'])) {
+                        $result['error'] = $cliente->getDataError();
+                    } elseif ($cita->deleteRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Cita eliminada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al eliminar la cita';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }

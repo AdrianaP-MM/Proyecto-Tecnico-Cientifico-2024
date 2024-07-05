@@ -23,6 +23,10 @@ const SAVE_FORM = document.getElementById('saveForm'),
 const MAIN_TITLE = document.getElementById('mainTitle');
 
 const INPUT_BUSQUEDA = document.getElementById('input_buscar');
+const FECHA_DESDE = document.getElementById("datepicker-desdeRE");
+const FECHA_HASTA = document.getElementById("datepicker-hastaRE");
+
+const FECHA_FABRICACION_CARRO = document.getElementById('year');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 let PARAMS = new URLSearchParams(location.search);
 
@@ -47,6 +51,18 @@ const search = async () => {
     const FORM = new FormData();
     if (INPUT_BUSQUEDA.value) {
         FORM.append('search', INPUT_BUSQUEDA.value);
+    }
+
+    if (FECHA_DESDE.value) {
+        FORM.append('fecha_desde', formatDateToMySQL(FECHA_DESDE.value));
+    }
+
+    if (FECHA_HASTA.value) {
+        FORM.append('fecha_hasta', formatDateToMySQL(FECHA_HASTA.value));
+    }
+
+    if (FECHA_FABRICACION_CARRO.value) {
+        FORM.append('fecha_fabricacion', FECHA_FABRICACION_CARRO.value);
     }
 
     fillTable(FORM);
@@ -89,7 +105,7 @@ const fillTable = async (form = null) => {
     const DATA = await fetchData(AUTOMOVILES_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-                TABLE_BODY.innerHTML += `
+        TABLE_BODY.innerHTML += `
         <!--Contenedor de la primera card - card de agregar automovil-->
             <div class="add-auto-card d-flex align-items-center justify-content-center">
                 <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
@@ -318,16 +334,16 @@ function rotarImagen(idImagen) {
     }
 }
 
- // Obtener el elemento de entrada por su ID
- const yearInput = document.getElementById('year');
+// Obtener el elemento de entrada por su ID
+const yearInput = document.getElementById('year');
 
- // Obtener el año actual
- const currentYear = new Date().getFullYear();
+// Obtener el año actual
+const currentYear = new Date().getFullYear();
 
- // Establecer el atributo max del campo de entrada como el año actual
- yearInput.setAttribute('max', currentYear);
+// Establecer el atributo max del campo de entrada como el año actual
+yearInput.setAttribute('max', currentYear);
 
- document.getElementById('year').addEventListener('input', function (event) {
+document.getElementById('year').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
