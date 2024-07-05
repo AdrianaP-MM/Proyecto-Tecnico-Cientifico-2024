@@ -37,6 +37,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen citas para mostrar';
                 }
                 break;
+            case 'readServiciosCita':
+                break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -56,39 +58,39 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear la cita';
                 }
                 break;
-                case 'updateRow':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$cita->setIdCita($_POST['id_cita']) or
-                        !$cita->setFechaHora($_POST['fecha_hora_cita']) or
-                        !$cita->setIdAutomovil($_POST['input_automovil_UPDATE']) or
-                        !$cita->setMovilizacion($_POST['input_movilizacion_UPDATE']) or
-                        !$cita->setZona($_POST['input_zona_UPDATE']) or
-                        !$cita->setIda($_POST['input_ida_UPDATE']) or
-                        !$cita->setRegreso($_POST['input_regreso_UPDATE']) 
-                    ) {
-                        $result['error'] = $cita->getDataError();
-                    } elseif ($cita->updateRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Cita actualizada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al actualizar la cita';
-                    }
-                    break;
-                    case 'updateEstado':
-                        $_POST = Validator::validateForm($_POST);
-                        if (
-                            !$cita->setIdCita($_POST['id_cita']) or
-                            !$cita->setEstadoCita($_POST['estado_cita']) 
-                        ) {
-                            $result['error'] = $cita->getDataError();
-                        } elseif ($cita->updateEstado()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Cita actualizada correctamente';
-                        } else {
-                            $result['error'] = 'Ocurrió un problema al actualizar la cita';
-                        }
-                        break;
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cita->setIdCita($_POST['id_cita']) or
+                    !$cita->setFechaHora($_POST['fecha_hora_cita']) or
+                    !$cita->setIdAutomovil($_POST['input_automovil_UPDATE']) or
+                    !$cita->setMovilizacion($_POST['input_movilizacion_UPDATE']) or
+                    !$cita->setZona($_POST['input_zona_UPDATE']) or
+                    !$cita->setIda($_POST['input_ida_UPDATE']) or
+                    !$cita->setRegreso($_POST['input_regreso_UPDATE'])
+                ) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($cita->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cita actualizada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al actualizar la cita';
+                }
+                break;
+            case 'updateEstado':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cita->setIdCita($_POST['id_cita']) or
+                    !$cita->setEstadoCita($_POST['estado_cita'])
+                ) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($cita->updateEstado()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cita actualizada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al actualizar la cita';
+                }
+                break;
             case 'searchRows':
                 if (!$cita->setSearchValue($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();

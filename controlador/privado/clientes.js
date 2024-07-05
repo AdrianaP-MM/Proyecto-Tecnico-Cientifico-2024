@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const CLIENTES_API = 'services/privado/cliente.php';
+const USER_API = 'services/privado/usuarios.php';
 
 // Constantes para establecer los elementos del componente Modal.
 const MODAL = new bootstrap.Modal('#agregarClienteModal');
@@ -40,12 +41,17 @@ let TIPO_CLIENTE;
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    // Selecciona la primera pestaña y la muestra.
-    var primeraPestana = document.querySelector('#personaNatural-tab');
-    if (primeraPestana) {
-        primeraPestana.click();
-        fillData('readMarcas');
-        fillData('readServicios');
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        // Acciones si la sesión SI está activa
+        var primeraPestana = document.querySelector('#personaNatural-tab');
+        if (primeraPestana) {
+            primeraPestana.click();
+            fillData('readMarcas');
+            fillData('readServicios');
+        }
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
 });
 
@@ -78,7 +84,7 @@ const addSave = async () => {
             ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
         } else {
             if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
             }
             else {
                 sweetAlert(4, DATA.error, true);
@@ -193,7 +199,7 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA2.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    await sweetAlert(4, DATA2.error, true); location.href = 'index.html'
+                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                 }
                 else {
                     sweetAlert(4, DATA2.error, true);
@@ -213,7 +219,7 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA1.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    await sweetAlert(4, DATA1.error, true); location.href = 'index.html'
+                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                 }
                 else {
                     sweetAlert(4, DATA1.error, true);
@@ -244,7 +250,7 @@ const fillData = async (action, form = null) => {
                 });
             } else {
                 if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                    //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                 }
                 else {
                     CONTENEDOR_MARCAS_AUTOS.innerHTML +=
@@ -278,7 +284,7 @@ const fillData = async (action, form = null) => {
                     });
                 } else {
                     if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
                     }
                     else {
                         CONTENEDOR_SERVICIOS.innerHTML +=

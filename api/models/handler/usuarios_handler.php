@@ -131,7 +131,7 @@ class UsuariosHandler
     public function createRow()
     {
         $sql = 'INSERT INTO tb_usuarios (correo_usuario, clave_usuario, telefono_usuario, tipo_usuario)
-                VALUES(?, ?, ?)';
+                VALUES(?, ?, ?, "Administrador")';
         $params = array($this->correoUsuario, $this->claveUsuario, $this->telefonoUsuario);
         return Database::executeRow($sql, $params);
     }
@@ -142,7 +142,7 @@ class UsuariosHandler
         $sql = 'SELECT id_usuario, correo_usuario, telefono_usuario, tipo_usuario
                 FROM tb_usuarios
                 ORDER BY correo_usuario';
-        return Database::getRows($sql);
+        return Database::getRow($sql);
     }
 
     //ReadOne

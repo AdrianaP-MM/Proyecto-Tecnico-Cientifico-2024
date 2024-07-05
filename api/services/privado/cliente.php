@@ -170,7 +170,6 @@ if (isset($_GET['action'])) {
                     // Buscar clientes con los criterios definidos.
                     if ($result['dataset'] = $cliente->searchRows()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                     } else {
                         $result['error'] = 'No hay coincidencias';
                     }

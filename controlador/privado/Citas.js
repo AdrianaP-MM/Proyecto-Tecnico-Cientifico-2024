@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const CITAS_API = 'services/privado/citas.php';
+const USER_API = 'services/privado/usuarios.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
 const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
@@ -40,9 +41,16 @@ const CONTENEDOR_EXPAND_SERVICIOS = document.getElementById('infoCitaServicios')
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
   loadTemplate();
-  fillData();
-  fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil');
-  fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil_UPDATE');
+  const DATA = await fetchData(USER_API, 'readUsers');
+  if (DATA.session) {
+    // Acciones si la sesión SI está activa
+    fillData();
+    fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil');
+    fillSelect(CITAS_API, 'readAutomoviles', 'input_automovil_UPDATE');
+  } else { // Acciones si la sesión NO está activa
+    await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+  }
+
 });
 
 let id_citaW;
@@ -155,7 +163,7 @@ const updateEstado = async (estado_cita) => {
       document.getElementById('containerExpand').classList.add('d-none');
     } else {
       if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
       }
       else {
         sweetAlert(4, DATA.error, true);
@@ -195,7 +203,7 @@ const addSave = async (action, form, fecha, hora) => {
       }
     } else {
       if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-        await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
       }
       else {
         sweetAlert(4, DATA.error, true);
@@ -265,7 +273,7 @@ const fillData = async (action = 'readAll', form = null) => {
     });
   } else {
     if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-      await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
     }
     else {
       sweetAlert(4, DATA.error, true);

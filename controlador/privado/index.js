@@ -7,32 +7,68 @@ const CONREST_FORM = document.getElementById('RestForm');
 
 const textREC = document.getElementById('textREC');
 const textREST = document.getElementById('textREST');
-const MODAL = new bootstrap.Modal('#modalRegistrarUsuario');
 
 //Constante para llamar al form de inicio de sesion
 const FORM_LOGIN_INPUTS = document.getElementById('FormLoginInputs');
 const ADD_FORM = document.getElementById('addForm');
 
+const CONTENEDOR_REGISTRO = document.getElementById('contenedorRegistro');
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    // Se muestra el formulario para iniciar sesión.
-    LOGIN_FORM.classList.remove('d-none');
-    // Se oculta el formulario de restablecimiento de contraseña (paso 1 y 2).
-    CONREC_FORM.classList.add('d-none');
-    CONREST_FORM.classList.add('d-none');
-    // Petición para consultar los usuarios registrados.
+    CONTENEDOR_REGISTRO.classList.add('d-none');
     const DATA = await fetchData(USER_API, 'readUsers');
-    // Se comprueba si existe una sesión, de lo contrario se sigue con el flujo normal.
     if (DATA.session) {
-        // Se direcciona a la página web de bienvenida.
-        location.href = 'panel_principal.html';
-    } else if (DATA.status) {
-        // Se muestra el formulario para iniciar sesión.
-        LOGIN_FORM.classList.remove('d-none');
-        sweetAlert(4, DATA.message, true);
+        // Hay una sesión activa
+        location.href = 'panel_principal.html'; // Redirigir a la página principal o realizar acciones adicionales
     }
-
+    if (DATA.status) { //Hay usuarios
+        showLogin();
+        await sweetAlert(4, DATA.message, true);
+    }
+    else { //No hay usuarios
+        CONTENEDOR_REGISTRO.classList.remove('d-none')
+    }
 });
+
+
+// Método del evento para cuando se envía el formulario de registro de usuario
+ADD_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evitar la recarga de la página después de enviar el formulario
+    try {
+        const DATA = await fetchData(USER_API, 'readUsers');
+        if (DATA.error && DATA.error === 'Debe crear un administrador para comenzar') {
+            // No hay usuarios registrados, se permite enviar el formulario
+            const isValid = await checkFormValidity(ADD_FORM);
+
+            if (isValid) {
+                const FORM = new FormData(ADD_FORM);
+                const DATA2 = await fetchData(USER_API, 'signUp', FORM);
+
+                if (DATA2.status) {
+                    await sweetAlert(1, DATA2.message, true);
+                    location.href = 'index.html'; // Redirigir después de registrar correctamente
+                } else {
+                    // Mostrar SweetAlert con mensaje de error
+                    if (DATA2.error === 'Acción no disponible dentro de la sesión') {
+                        await sweetAlert(4, 'Ya tiene una sesión activa', true);
+                        location.href = 'index.html'; // Redirigir en caso de sesión activa
+                    } else {
+                        await sweetAlert(2, DATA2.error, false); // Mostrar mensaje de error genérico
+                    }
+                }
+            }
+        } else {
+            // Mostrar mensaje indicando que ya hay usuarios registrados
+            await sweetAlert(4, 'Ya existen usuarios registrados. No es posible registrar más usuarios.', true);
+            location.href = 'index.html';
+        }
+    } catch (error) {
+        console.error('Error al procesar la solicitud:', error);
+        await sweetAlert(2, 'Error al procesar la solicitud. Intente nuevamente más tarde.', false);
+    }
+});
+
 
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -69,8 +105,14 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
         if (DATA.status) {
             // sweetAlert(1, DATA.message, true, 'panel_principal.html');
             location.href = 'panel_principal.html';
+            // Evitar que el usuario regrese después de iniciar sesión
         } else {
-            sweetAlert(2, DATA.error, false);
+            if (DATA.error == 'Acción no disponible dentro de la sesión') {
+                await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
+            }
+            else {
+                await sweetAlert(2, DATA.error, false);
+            }
         }
     }
     else { }
@@ -97,6 +139,7 @@ function showRestCon() {
 
 //Funcion para mostrar el formulario de login
 function showLogin() {
+    CONTENEDOR_REGISTRO.classList.add('d-none');
     LOGIN_FORM.classList.remove('d-none');
     CONREC_FORM.classList.add('d-none');
     textREC.classList.add('d-none');
@@ -114,10 +157,10 @@ const openClose = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
-      MODAL.hide();
-      ADD_FORM.reset();
+        MODAL.hide();
+        ADD_FORM.reset();
     }
-  }
+}
 
 document.getElementById('Input_Contra2').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
@@ -155,9 +198,7 @@ let id;
 
 document.getElementById("forgetpasswordstepone").addEventListener("submit", async function (event) {
     event.preventDefault(); // Esto evita que el formulario se envíe de forma predeterminada
-
     const INPUTCONTRA = document.getElementById("Input_Correo2");
-
     FORM1 = new FormData();
     FORM1.append('Input_Correo2', INPUTCONTRA.value);
 
@@ -175,11 +216,11 @@ document.getElementById("forgetpasswordstepone").addEventListener("submit", asyn
         if (DATA2.status) {
             await sweetAlert(1, 'Se ha enviado correctamente al correo electrónico, ingrese el código enviado', true);
         } else {
-            sweetAlert(2, DATA2.error, false);
+            await sweetAlert(2, DATA2.error, false);
         }
 
     } else {
-        sweetAlert(2, DATA.error, false);
+        await sweetAlert(2, DATA.error, false);
     }
 });
 
@@ -229,4 +270,66 @@ document.getElementById("forgetPasswordStepThree").addEventListener("submit", as
     } else {
         sweetAlert(2, 'Los campos de contraseña no coinciden.', true);
     }
+});
+
+
+document.getElementById('registro_input_correo').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar espacios en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Asegurar que el correo electrónico no supere los 50 caracteres
+    inputValue = inputValue.slice(0, 50);
+
+    // Actualizar el valor del campo de texto con la entrada limitada
+    event.target.value = inputValue;
+});
+
+document.getElementById('registro_input_telefono').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 8 dígitos
+    inputValue = inputValue.slice(0, 8);
+
+    // Formatear el número agregando el guión
+    if (inputValue.length > 4) {
+        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
+    }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
+
+document.getElementById('registro_input_contrasena').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar espacios en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Asegurar que la contraseña no supere los 30 caracteres
+    inputValue = inputValue.slice(0, 30);
+
+    // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
+    event.target.value = inputValue;
+});
+
+document.getElementById('registro_input_contrasena2').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar espacios en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Asegurar que la contraseña no supere los 30 caracteres
+    inputValue = inputValue.slice(0, 30);
+
+    // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
+    event.target.value = inputValue;
 });
