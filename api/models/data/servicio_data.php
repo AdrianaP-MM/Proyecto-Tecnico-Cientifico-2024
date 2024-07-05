@@ -35,6 +35,8 @@ class ServiciosData extends ServicioHandler
         }
     }
 
+    
+
     // Método para establecer el nombre del servicio
     public function setNombreServicio($value, $min = 1, $max = 50)
     {

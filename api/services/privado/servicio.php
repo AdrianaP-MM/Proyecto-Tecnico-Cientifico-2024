@@ -27,7 +27,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOneModal':
-                if (!$servicioData->setIdServicio($_POST['id_servicio'])) {
+                if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = $servicioData->getDataError();
                 } elseif ($result['dataset'] = $servicioData->readOneModal()) {
                     $result['status'] = 1;
@@ -37,7 +37,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                //print_r($_POST);
+                
                 if (
                     !$servicioData->setIdTipoServicio($_POST['id_tipo_servicio']) ||
                     !$servicioData->setNombreServicio($_POST['nombre_servicio']) ||
@@ -54,7 +54,6 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$servicioData->setIdServicio($_POST['id_servicio']) ||
                     !$servicioData->setIdTipoServicio($_POST['id_tipo_servicio']) ||
                     !$servicioData->setNombreServicio($_POST['nombre_servicio']) ||
                     !$servicioData->setDescripcionServicio($_POST['descripcion_servicio'])
@@ -62,13 +61,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = $servicioData->getDataError();
                 } elseif ($servicioData->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Servicio modificado correctamente';
+                    $result['message'] = 'Seravicio modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el servicio';
+                    $result['error'] = 'Ocurrió un problema al modificar un servicio';
                 }
                 break;
+
             case 'deleteRow':
-                if (!isset($_POST['id_servicio']) || !$servicioData->setIdServicio($_POST['id_servicio'])) {
+                if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = 'ID del servicio incorrecto';
                 } elseif ($servicioData->deleteRow()) {
                     $result['status'] = 1;

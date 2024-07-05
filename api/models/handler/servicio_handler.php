@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para manejar la conexión a la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 
 /*
  * Clase para manejar los datos de la tabla tb_servicios.
@@ -30,9 +30,9 @@ class ServicioHandler
 
     public function readOneModal()
     {
-        $sql = 'SELECT id_servicio, id_tipo_servicio, nombre_servicio, descripcion_servicio FROM tb_servicios WHERE id_servicio = ?';
+        $sql = 'SELECT id_tipo_servicio, nombre_servicio, descripcion_servicio FROM tb_servicios WHERE id_servicio = ?';
         $params = array($this->id_tipo_servicio);
-        return Database::getRows($sql, $params);
+        return Database::getRow($sql, $params);
     }
 
     // Método para crear un nuevo registro.
@@ -44,18 +44,20 @@ class ServicioHandler
     }
 
     // Método para actualizar un registro existente.
+    // Método para actualizar un registro existente.
     public function updateRow()
     {
-        $sql = 'UPDATE tb_servicios SET id_tipo_servicio = ?, nombre_servicio = ?, descripcion_servicio = ? WHERE id_servicio = ?';
-        $params = array($this->id_tipo_servicio, $this->nombre_servicio, $this->descripcion_servicio, $this->id_servicio);
+        $sql = 'UPDATE tb_servicios SET nombre_servicio = ?, descripcion_servicio = ? WHERE id_servicio = ?';
+        $params = array($this->nombre_servicio, $this->descripcion_servicio, $this->id_tipo_servicio);
         return Database::executeRow($sql, $params);
     }
+
 
     // Método para eliminar un registro.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_servicios WHERE id_servicio = ?';
-        $params = array($this->id_servicio);
+        $params = array($this->id_tipo_servicio);
         return Database::executeRow($sql, $params);
     }
 }
