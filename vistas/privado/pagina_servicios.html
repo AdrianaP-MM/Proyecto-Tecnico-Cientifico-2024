@@ -32,6 +32,13 @@
         <div class="row">
 
             <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
+                <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus">
+                    <!-- Contenedor del los input de entrada -->
+                    <input type="text" class="form-control search" placeholder="Buscar por nombre de servicio..." id="input_buscar"
+                        name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()">
+                    <button type="button" class="btn btn-outline" onclick="search()"><i class="bi-search"><img
+                                src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                </div>
                 <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
                     <div class="add-auto-card d-flex justify-content-center align-items-center">
                         <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
