@@ -56,8 +56,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$servicio->setFechaAproxFinalizacion($_POST['fecha_aprox_finalizacion']) or
                     !$servicio->setFechaFinalizacion($_POST['fecha_finalizacion']) or
-                    !$servicio->setIdCita($_POST['id_cita']) or
-                    !$servicio->setIdServicio($_POST['id_Servicio']) or
+                    !$servicio->setIdServicioEnProceso($_POST['id_servicio_proceso']) or
                     !$servicio->setCantidadServicio($_POST['cantidad_servicio'])
                 ) {
                     $result['error'] = $servicio->getDataError();
@@ -71,7 +70,7 @@ if (isset($_GET['action'])) {
             case 'deleteRow':
                 if (
                     !$servicio->setIdCita($_POST['id_cita']) or
-                    !$servicio->setIdServicio($_POST['id_servicio'])
+                    !$servicio->setIdServicioDelete($_POST['id_servicio'])
                 ) {
                     $result['error'] = $servicio->getDataError();
                 } elseif ($servicio->deleteRow()) {

@@ -128,7 +128,7 @@ class CitasHandler
         INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil 
         INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente 
         WHERE c.estado_cita = ?';
-        $params = array(
+        $params = array( 
             $this->search_value
         );
         return Database::getRows($sql, $params);

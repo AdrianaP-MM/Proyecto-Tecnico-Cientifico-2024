@@ -54,6 +54,7 @@ class ClienteHandler
             $params[] = "%{$this->search_value}%";
             $params[] = "%{$this->search_value}%";
         }
+        
         if ($this->departamento_cliente) {
             $sql .= ' AND departamento_cliente = ?';
             $params[] = $this->departamento_cliente;

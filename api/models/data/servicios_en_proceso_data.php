@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once('../../helpers/validator.php');
+require_once ('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/servicios_en_proceso_handler.php');
+require_once ('../../models/handler/servicios_en_proceso_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
@@ -17,14 +17,14 @@ class ServiciosProcesoData extends ServiciosProcesoHandler
         return $this->data_error;
     }
 
-    
+
     public function setIdServicioEnProceso($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->id_servicio_en_proceso = $value;
             return true;
         } else {
-            $this->id_servicio_en_proceso = 'El identificador del servicio en proceso es incorrecto';
+            $this->data_error = 'El identificador del servicio en proceso es incorrecto';
             return false;
         }
     }
@@ -35,7 +35,7 @@ class ServiciosProcesoData extends ServiciosProcesoHandler
             $this->id_cita = $value;
             return true;
         } else {
-            $this->id_cita = 'El identificador de la cita es incorrecto';
+            $this->data_error = 'El identificador de la cita es incorrecto';
             return false;
         }
     }
@@ -60,13 +60,28 @@ class ServiciosProcesoData extends ServiciosProcesoHandler
 
     public function setIdServicio($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (!Validator::validateNaturalNumber($value)) {
+            $this->data_error = 'El identificador del servicio es incorrecto';
+            return false;
+        } elseif ($this->checkDuplicate($value)) {
+            $this->data_error = 'El servicio ingresado ya existe';
+            return false;
+        } else {
             $this->id_servicio = $value;
             return true;
-        } else {
-            $this->id_servicio = 'El identificador del servicio es incorrecto';
-            return false;
         }
+    }
+
+    public function setIdServicioDelete($value)
+    {
+        if (!Validator::validateNaturalNumber($value)) {
+            $this->data_error = 'El identificador del servicio es incorrecto';
+            return false;
+        } else {
+            $this->id_servicio = $value;
+            return true;
+        }
+
     }
 
     public function setCantidadServicio($value)
@@ -75,7 +90,7 @@ class ServiciosProcesoData extends ServiciosProcesoHandler
             $this->cantidad_servicio = $value;
             return true;
         } else {
-            $this->cantidad_servicio = 'La cantidad del servicio debe ser un valor númerico';
+            $this->data_error = 'La cantidad del servicio debe ser un valor númerico';
             return false;
         }
     }
