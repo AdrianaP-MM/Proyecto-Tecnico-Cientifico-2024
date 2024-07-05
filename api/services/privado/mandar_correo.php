@@ -20,13 +20,13 @@ class mandarCorreo
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com'; // Servidor SMTP de Gmail
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'feasverse@gmail.com'; // Tu dirección de correo electrónico de Gmail
-            $mail->Password   = 'kbkg izjr zajz uzvu'; // Tu contraseña de Gmail
+            $mail->Username   = 'revolutiongarageofficialsv@gmail.com'; // Tu dirección de correo electrónico de Gmail
+            $mail->Password   = 'sfxo zgav zmzn fulx'; // Tu contraseña de Gmail
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
             // Configuración del correo electrónico
-            $mail->setFrom('feasverse@gmail.com', 'FEASVERSE.SV');
+            $mail->setFrom('revolutiongarageofficialsv@gmail.com', 'RevolutionGarageSupport');
             $mail->addAddress($correoDestino);
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8'; // Establecer la codificación de caracteres
