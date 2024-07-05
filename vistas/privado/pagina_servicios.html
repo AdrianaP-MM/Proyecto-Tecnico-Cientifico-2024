@@ -56,14 +56,15 @@
                 <!-- Contenedor del modal body-->
                 <div class="modal-body col-12">
                     <!-- Formulario en el modal para agregar servicio -->
-                    <form id="save_form">
+                    <form id="save_form" class="needs-validation" novalidate>
                         <input type="number" class="d-none" id="id_tipo_servicio" name="id_tipo_servicio">
                         <div
                             class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">
                             <div class="form-floating mb-0 p-0 col-12 mb-4">
                                 <input type="text" class="form-control" id="nombre_tipo_servicio"
-                                    name="nombre_tipo_servicio" placeholder="...">
+                                    name="nombre_tipo_servicio" placeholder="..." required>
                                 <label for="nombre_tipo_servicio">Nombre de la categoría</label>
+                                <div class="invalid-feedback">Por favor ingresa un correo electrónico.</div>
                                 <h6>Imagen de la categoría</h6>
                                 <img id="selectedImageW" class="col-10"
                                     src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
