@@ -121,6 +121,21 @@ const openClose = async () => {
     }
 }
 
+document
+    .getElementById("nombre_tipo_servicio")
+    .addEventListener("input", function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\d/g, "");
+
+        // Asegurar que el correo electrónico no supere los 50 caracteres
+        inputValue = inputValue.slice(0, 50);
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
 
 // Función que muestra la alerta de notificación
 const openNoti = async () => {
