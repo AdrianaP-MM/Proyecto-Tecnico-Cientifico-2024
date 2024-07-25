@@ -1,7 +1,7 @@
 <?php
 // Se inclueye la clase de entrada
 require_once('../../models/data/usuarios_data.php');
-require_once('../privado/mandar_correo.php');
+require_once('../mandar_correo.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
