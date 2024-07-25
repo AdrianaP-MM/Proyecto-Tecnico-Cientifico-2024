@@ -33,6 +33,8 @@ class UsuariosClientesData extends UsuariosClientesHandler
         }
     }
 
+    
+
     //Funcion para obtener el error
     public function getDataError()
     {
