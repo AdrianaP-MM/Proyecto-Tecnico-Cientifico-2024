@@ -52,6 +52,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Error al enviar el correo: ' . $envioExitoso;
                 }
                 break;
+            case 'updatePassword':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuarioCliente->setClave($_POST['user_contra']) or
+                    !$usuarioCliente->setCorreo($_POST['user_correo'])
+                ) {
+                    $result['error'] = $usuarioCliente->getDataError();
+                } elseif ($usuarioCliente->updatePassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Se ha actualizado correctamente la contraseña';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar la contraseña';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }

@@ -23,4 +23,17 @@ class UsuariosClientesHandler
         $params = array($this->correo_usuario); // Parámetros para la consulta SQL
         return Database::getRow($sql, $params); // Ejecución de la consulta SQL
     }
+
+    public function updatePassword()
+    {
+        $sql = 'UPDATE tb_usuarios_clientes
+        SET clave_usuario_cliente = ?
+        WHERE id_cliente = (
+            SELECT id_cliente
+            FROM tb_clientes
+            WHERE correo_cliente = ?
+        );'; // Consulta SQL para verificar un usuario con ese correo
+        $params = array($this->clave_usuario_cliente, $this->correo_usuario); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
 }

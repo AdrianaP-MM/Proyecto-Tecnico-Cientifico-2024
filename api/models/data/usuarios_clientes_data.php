@@ -22,6 +22,17 @@ class UsuariosClientesData extends UsuariosClientesHandler
         }
     }
 
+    public function setClave($value)
+    {
+        if (Validator::validatePassword($value)) {
+            $this->clave_usuario_cliente = password_hash($value, PASSWORD_DEFAULT);
+            return true;
+        } else {
+            $this->data_error = Validator::getPasswordError();
+            return false;
+        }
+    }
+
     //Funcion para obtener el error
     public function getDataError()
     {
