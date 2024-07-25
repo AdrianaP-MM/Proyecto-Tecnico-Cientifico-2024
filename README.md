@@ -1,6 +1,6 @@
 # Proyecto Técnico Científico 2024.
 
-# - Nombre del proyecto: Data Administration Revolution Garage (DARG)
+## - Nombre del proyecto: Data Administration Revolution Garage (DARG)
 
 - Descripción del proyecto:
 El presente documento tiene como objetivo general el definir y presentar la documentación necesaria para la comprensión y lógica detrás de la creación de la base de datos para la empresa seleccionada por el presente equipo PTC, de manera que, ayude a personas externas a comprender la lógica del proyecto. Para comenzar, se explicará la lógica del negocio de la empresa seleccionada, para que posteriormente podamos entender el contexto de los diagramas y el diccionario de datos.
@@ -16,9 +16,9 @@ Aunque la empresa es muy completa, poseen algunas limitantes, como por ejemplo, 
 - Daniel Alejandro Cortez Quintanilla, 20210199, 2A. - Tesorero.
 - Axel Gabriel García Ramírez, 20220127, 2A. - Primer vocal.
 
-# Estandares / Buenas practicas
+## Estandares / Buenas practicas
 
-## Variables (sitio web privado)
+### Variables (sitio web privado)
 
 * NOMBRE_DE_VARIABLE: Nombre descriptivo en mayúsculas con guiones bajos para separar palabras.
 Clases
