@@ -1,5 +1,5 @@
 // Constante para completar la ruta de la API.
-const CLIENTES_API = 'services/privado/cliente.php';
+const CLIENTES_API = 'services/privado/clientes.php';
 const USER_API = 'services/privado/usuarios.php';
 
 // Constantes para establecer los elementos del componente Modal.
