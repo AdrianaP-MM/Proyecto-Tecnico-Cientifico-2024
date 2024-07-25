@@ -9,7 +9,7 @@ La empresa no se limita solamente a estos tipos de autos, a su vez, manejan todo
 Dentro de los servicios que el taller ofrece podemos enlistar; el mantenimiento general del automotor, electrónica automotriz con personas certificadas para poder realizar la labor, mantenimiento preventivo del vehículo, y así cuenta con muchos más servicios, teniendo el personal adecuado para dejar tu auto en las mejores manos. Y, aunque ellos den muchos servicios su fuerte se encuentra dentro de la reparación de aires acondicionados a todo tipo de vehículos, incluso haciendo reparaciones a vehículos de empresas de renombre del país como “Heladería Sarita” hasta “Empresa de boquitas Diana”.
 Aunque la empresa es muy completa, poseen algunas limitantes, como por ejemplo, ellos solo hacen trabajos dentro de la zona de San Salvador, además, ellos como tal no poseen un registro formal como un programa de escritorio para poder llevar un registro ordenado y completo de sus trabajadores, trabajos previos, incluso de sus facturas; además, frente al tema de las citas ellos en su totalidad lo manejan usando la aplicación multiplataforma “WhatsApp”, sin embargo, si están con el taller lleno y llega otro vehículo tendrá que esperar o reprogramar su cita. Esto claramente es una desventaja pues detiene el contacto tan fluido que ellos esperan para poder darle las mejores de las atenciones a sus clientes. 
 
-• Integrantes del equipo:
+### Integrantes del equipo:
 - Adriana Paola Mejía Méndez, 20190015, 2A. - Coordinadora.
 - Melanie Jackeline Martínez Ramírez, 20190148, 2A. - Sub-coordinadora.
 - Emily Guadalupe Murillo Argueta, 20220021, 2A. - Secretaria.
