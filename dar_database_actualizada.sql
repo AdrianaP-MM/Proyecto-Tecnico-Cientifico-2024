@@ -10,6 +10,7 @@ CREATE TABLE tb_clientes
 	dui_cliente VARCHAR(10) NOT NULL,
 	telefono_cliente VARCHAR(9) NOT NULL,
 	correo_cliente VARCHAR(50) NOT NULL,
+    clave_usuario_cliente VARCHAR(50) DEFAULT('00000000'),
 	nombres_cliente VARCHAR(50) NOT NULL ,
 	apellidos_cliente VARCHAR(50) NOT NULL,
 	tipo_cliente ENUM('Persona natural','Persona juridica') NOT NULL,
@@ -21,8 +22,6 @@ CREATE TABLE tb_clientes
     estado_cliente ENUM('Activo', 'Eliminado'),
     fto_cliente VARCHAR(50)
 );
-
-SELECT * FROM tb_clientes;
 
 /**UNIQUE**/
 ALTER TABLE tb_clientes
@@ -233,17 +232,20 @@ CREATE TABLE tb_seguimientos_creditos_fiscales
 ALTER TABLE tb_seguimientos_creditos_fiscales
 ADD CONSTRAINT u_fk_seguimiento_credito_fiscal_consumidor_final FOREIGN KEY (id_consumidor_final) REFERENCES tb_consumidores_finales(id_consumidor_final);
 
+/*
 CREATE TABLE tb_usuarios_clientes
 (
 	id_usuario_cliente INT PRIMARY KEY AUTO_INCREMENT,
-	clave_usuario_cliente VARCHAR(50) NOT NULL, /*(min-6 max-50)*/ #NN 
-	estado_usuario BOOLEAN NOT NULL, #DEFAULT 1 = ACTIVO / 0 = INACTIVO
-	id_cliente INT /* FK */
+	estado_usuario BOOLEAN NOT NULL,
+	id_cliente INT 
 );
 
-/**FOREIGN KEY**/
 ALTER TABLE tb_usuarios_clientes
-ADD CONSTRAINT u_fk_cliente_usuarios_clientes FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente);
+ADD CONSTRAINT fk_cliente_usuarios_clientes FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente);
+
+ALTER TABLE tb_usuarios_clientes
+ADD CONSTRAINT u_cliente_usuarios_clientes UNIQUE (id_cliente);
+*/
 
 CREATE TABLE tb_especializaciones_trabajadores
 (
@@ -300,3 +302,185 @@ CREATE TABLE tb_formas_pagos_consumidores_finales
 ALTER TABLE tb_formas_pagos_consumidores_finales
 ADD CONSTRAINT u_fk_forma_pago_forma_pago_consumidor_final FOREIGN KEY (id_forma_pago) REFERENCES tb_formas_pagos(id_forma_pago),
 ADD CONSTRAINT u_fk_consumidor_final_forma_pago_forma_pago_consumidor_final FOREIGN KEY (id_consumidor_final) REFERENCES tb_consumidores_finales(id_consumidor_final);
+
+-- Inserciones para personas naturales
+INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, estado_cliente)
+VALUES 
+    ('2023-01-15', '001234567', '22223333', 'cliente1@ejemplo.com', 'Juan', 'Pérez', 'Persona natural', 'San Salvador', '1222-222222-222-0','Activo'),
+    ('2022-11-30', '123456789', '77778888', 'cliente2@ejemplo.com', 'María', 'González', 'Persona natural', 'La Libertad','1222-262222-222-0', 'Activo'),
+    ('2023-05-20', '987654321', '24446666', 'cliente3@ejemplo.com', 'Pedro', 'Ramírez', 'Persona natural', 'Santa Ana','1222-224422-222-0', 'Activo'),
+    ('2023-02-10', '555566667', '21212121', 'cliente4@ejemplo.com', 'Ana', 'López', 'Persona natural', 'San Miguel','1444-242222-222-0', 'Activo'),
+    ('2023-07-05', '888888888', '25252525', 'cliente5@ejemplo.com', 'Carlos', 'Martínez', 'Persona natural', 'San Vicente','1222-222222-666-0', 'Activo');
+
+-- Inserciones para personas jurídicas
+INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, NRC_cliente, NRF_cliente, rubro_comercial, estado_cliente)
+VALUES 
+    ('2023-01-15', '00000000', '22220000', 'cliente11@ejemplo.com', 'Empresa XYZ', 'E', 'Persona juridica', 'San Salvador', '1222-222222-222-2', '12121212', '34343456345', 'Alimenticio', 'Activo'),
+    ('2022-11-30', '00000001', '77770000', 'cliente12@ejemplo.com', 'Corporación ABC', 'E', 'Persona juridica', 'La Libertad', '2222-222222-222-2', '65643534', '81316435678', 'Automotriz', 'Activo'),
+    ('2023-05-20', '00000002', '24440000', 'cliente13@ejemplo.com', 'Fábrica S.A.', 'E', 'Persona juridica', 'Santa Ana', '3333-333333-333-3', '20436755', '00964738291', 'Belleza', 'Activo'),
+    ('2023-02-10', '00000003', '21210000', 'cliente14@ejemplo.com', 'Importadora AAA', 'E', 'Persona juridica', 'San Miguel', '4444-444444-444-4', '63520984', '9453376281', 'Calzado', 'Activo'),
+    ('2023-07-05', '00000004', '25250000', 'cliente15@ejemplo.com', 'Consultores B.B.', 'E', 'Persona juridica', 'San Vicente', '5555-555555-555-5', '284530093', '16437283971', 'Alimenticio', 'Activo');
+    
+    
+
+
+-- Inserts para marcas de automóviles
+INSERT INTO tb_marcas_automoviles (nombre_marca_automovil)
+VALUES 
+    ('Toyota'),
+    ('Honda'),
+    ('Ford'),
+    ('Chevrolet'),
+    ('Nissan'),
+    ('BMW'),
+    ('Mercedes-Benz'),
+    ('Audi'),
+    ('Volkswagen'),
+    ('Hyundai');
+
+-- Inserts para modelos de automóviles
+INSERT INTO tb_modelos_automoviles (id_marca_automovil, nombre_modelo_automovil)
+VALUES 
+    (1, 'Corolla'),
+    (1, 'Camry'),
+    (1, 'RAV4'),
+    (2, 'Civic'),
+    (2, 'Accord'),
+    (2, 'CR-V'),
+    (3, 'Fiesta'),
+    (3, 'Mustang'),
+    (3, 'Explorer'),
+    (4, 'Cruze'),
+    (4, 'Malibu'),
+    (4, 'Equinox'),
+    (5, 'Altima'),
+    (5, 'Sentra'),
+    (5, 'Rogue'),
+    (6, '3 Series'),
+    (6, 'X5'),
+    (6, '5 Series'),
+    (7, 'C-Class'),
+    (7, 'E-Class'),
+    (7, 'GLE'),
+    (8, 'A4'),
+    (8, 'Q5'),
+    (8, 'A6'),
+    (9, 'Golf'),
+    (9, 'Passat'),
+    (9, 'Tiguan'),
+    (10, 'Elantra'),
+    (10, 'Sonata'),
+    (10, 'Tucson');
+
+
+-- Inserts para tipos de automóviles
+INSERT INTO tb_tipos_automoviles (nombre_tipo_automovil)
+VALUES 
+    ('Sedan'),
+    ('SUV'),
+    ('Pickup'),
+    ('Hatchback'),
+    ('Coupé'),
+    ('Convertible'),
+    ('Minivan'),
+    ('Wagon'),
+    ('Crossover'),
+    ('Electric');
+
+-- Inserts para colores de automóviles
+INSERT INTO tb_colores (nombre_color)
+VALUES 
+    ('Rojo'),
+    ('Azul'),
+    ('Blanco'),
+    ('Negro'),
+    ('Gris'),
+    ('Plateado'),
+    ('Verde'),
+    ('Amarillo'),
+    ('Naranja'),
+    ('Morado');
+
+-- Inserts para automóviles asociados a clientes
+INSERT INTO tb_automoviles (id_modelo_automovil, id_tipo_automovil, id_color, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, fecha_registro, estado_automovil)
+VALUES 
+    (1, 1, 1, '2023', 'PQR123', 'imagen_auto1.jpg', 1, '2023-01-15', 'Activo'),
+    (2, 2, 2, '2022', 'ABC456', 'imagen_auto2.jpg', 2, '2022-11-30', 'Activo'),
+    (3, 3, 3, '2023', 'XYZ789', 'imagen_auto3.jpg', 3, '2023-05-20', 'Activo'),
+    (4, 1, 4, '2022', 'DEF012', 'imagen_auto4.jpg', 4, '2023-02-10', 'Activo'),
+    (5, 2, 5, '2023', 'GHI345', 'imagen_auto5.jpg', 5, '2023-07-05', 'Activo'),
+    (6, 3, 6, '2022', 'JKL678', 'imagen_auto6.jpg', 6, '2022-12-18', 'Activo'),
+    (7, 1, 7, '2023', 'MNO901', 'imagen_auto7.jpg', 7, '2023-04-01', 'Activo'),
+    (8, 2, 8, '2022', 'PQR234', 'imagen_auto8.jpg', 8, '2023-03-15', 'Activo'),
+    (9, 3, 9, '2023', 'STU567', 'imagen_auto9.jpg', 9, '2023-06-20', 'Activo'),
+    (10, 1, 10, '2023', 'VWX890', 'imagen_auto10.jpg', 10, '2023-08-10', 'Activo');
+
+-- Inserts para tipos de servicios
+INSERT INTO tb_tipos_servicios (nombre_tipo_servicio, imagen_servicio)
+VALUES 
+    ('Cambio de aceite', 'cambio_aceite.jpg'),
+    ('Alineación y balanceo', 'alineacion_balanceo.jpg'),
+    ('Revisión de frenos', 'revision_frenos.jpg'),
+    ('Cambio de llantas', 'cambio_llantas.jpg'),
+    ('Servicio de batería', 'servicio_bateria.jpg'),
+    ('Revisión de motor', 'revision_motor.jpg'),
+    ('Mantenimiento preventivo', 'mantenimiento_preventivo.jpg'),
+    ('Diagnóstico general', 'diagnostico_general.jpg'),
+    ('Limpieza de inyectores', 'limpieza_inyectores.jpg'),
+    ('Servicio de aire acondicionado', 'servicio_aire_acondicionado.jpg');
+
+-- Inserts para servicios
+INSERT INTO tb_servicios (id_tipo_servicio, nombre_servicio, descripcion_servicio)
+VALUES 
+    (1, 'Cambio de aceite sintético', 'Cambio de aceite sintético y filtro'),
+    (1, 'Cambio de aceite convencional', 'Cambio de aceite convencional y filtro'),
+    (2, 'Alineación de ruedas', 'Alineación de las cuatro ruedas'),
+    (2, 'Balanceo de llantas', 'Balanceo de las llantas del vehículo'),
+    (3, 'Revisión de frenos delanteros', 'Inspección y cambio de frenos delanteros'),
+    (3, 'Revisión de frenos traseros', 'Inspección y cambio de frenos traseros'),
+    (4, 'Cambio de llantas delanteras', 'Cambio de las llantas delanteras del vehículo'),
+    (4, 'Cambio de llantas traseras', 'Cambio de las llantas traseras del vehículo'),
+    (5, 'Reemplazo de batería', 'Instalación de una nueva batería'),
+    (5, 'Revisión y limpieza de bornes', 'Limpieza y ajuste de bornes de batería');
+
+-- Inserts para formas de pago
+INSERT INTO tb_formas_pagos (nombre_forma_pago)
+VALUES 
+    ('Efectivo'),
+    ('Tarjeta de crédito'),
+    ('Tarjeta de débito'),
+    ('Transferencia bancaria'),
+    ('Cheque'),
+    ('PayPal'),
+    ('Apple Pay'),
+    ('Google Pay'),
+    ('Crédito de la tienda'),
+    ('Pago móvil');
+
+-- Inserts para citas
+INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacion_vehiculo, zona_habilitada, direccion_ida, direccion_regreso, estado_cita)
+VALUES 
+    ('2023-01-01', '2023-01-10 10:00:00', 1, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 1, San Salvador', 'Calle 1, San Salvador', 'En espera'),
+    ('2023-01-02', '2023-01-11 11:00:00', 2, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 2, San Salvador', 'Calle 2, San Salvador', 'Aceptado'),
+    ('2023-01-03', '2023-01-12 12:00:00', 3, 'Yo solo llevo el auto', 'Aguilares', 'Calle 3, San Salvador', NULL, 'Cancelado'),
+    ('2023-01-04', '2023-01-13 13:00:00', 4, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 4, San Salvador', 'Calle 4, San Salvador', 'Finalizada'),
+    ('2023-01-05', '2023-01-14 14:00:00', 5, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 5, San Salvador', 'Calle 5, San Salvador', 'En espera'),
+    ('2023-01-06', '2023-01-15 15:00:00', 6, 'Yo solo llevo el auto', 'Aguilares', 'Calle 6, San Salvador', NULL, 'Aceptado'),
+    ('2023-01-07', '2023-01-16 16:00:00', 7, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 7, San Salvador', 'Calle 7, San Salvador', 'Cancelado'),
+    ('2023-01-08', '2023-01-17 17:00:00', 8, 'Yo solo regreso el auto', 'Aguilares', 'Calle 8, San Salvador', 'Calle 8, San Salvador', 'Finalizada'),
+    ('2023-01-09', '2023-01-18 18:00:00', 9, 'Yo solo llevo el auto', 'Ayutuxtepeque', 'Calle 9, San Salvador', NULL, 'En espera'),
+    ('2023-01-10', '2023-01-19 19:00:00', 10, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 10, San Salvador', 'Calle 10, San Salvador', 'Aceptado');
+
+INSERT INTO tb_especializaciones_trabajadores (nombre_especializacion_trabajador, pago_por_especializacion)
+VALUES
+    ('Mecánica general', 50.00),
+    ('Electricidad automotriz', 60.00),
+    ('Pintura y acabados', 55.00),
+    ('Reparación de motores', 65.00),
+    ('Sistema de frenos', 55.00),
+    ('Transmisión y embrague', 60.00),
+    ('Sistemas de suspensión', 55.00),
+    ('Aire acondicionado automotriz', 60.00),
+    ('Sistema de dirección', 55.00),
+    ('Diagnóstico electrónico', 70.00);
+    

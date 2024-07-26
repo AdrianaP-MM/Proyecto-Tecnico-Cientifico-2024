@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 
 //Esta clase es para manejar el comportamiento de los datos de la tabla Usuarios
 
@@ -12,6 +12,17 @@ class UsuariosClientesHandler
     protected $estado_usuario = null;
     protected $id_cliente = null;
     protected $correo_usuario = null;
+    protected $dui_cliente = null;
+    protected $telefono_cliente = null;
+    protected $correo_cliente = null;
+    protected $nombres_cliente = null;
+    protected $apellidos_cliente = null;
+    protected $tipo_cliente = null;
+    protected $departamento_cliente = null;
+    protected $NIT_cliente = null;
+    protected $NRC_cliente = null;
+    protected $NRF_cliente = null;
+    protected $rubro_comercial = null;
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
@@ -60,23 +71,28 @@ class UsuariosClientesHandler
         }
     }
 
-    
+
 
     /*El registro lleva primero de llenar los campos NRC, NRF y rubro comercial si es persona juridica.
         Despues el nombre, correo, contraseña, telefono, DUI, NIT
     */
 
     //Registro persona natural
-    public function createRow()
+    public function createRowPersonaNatural()
     {
-        $sql = 'INSERT INTO tb_clientes (nombres_cliente  , correo_cliente  , clave_usuario_cliente , telefono_cliente, dui_cliente, NIT_cliente, fecha_registro_cliente)
-                VALUES(?, ?, ?, ?, ?, ?, ?, NOW())';
-        $params = array($this->nombreUsuario, $this->correo_usuario, $this->clave_usuario_cliente, $this->telefono_cliente, $this->dui_cliente, $this->NIT_cliente);
+        $sql = 'INSERT INTO tb_clientes(fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, clave_usuario_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente)
+                VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_cliente, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente);
         return Database::executeRow($sql, $params);
     }
 
-    //El insert a ambas tablas se puede hacer simultaneamente
-
     //Registro persona juridica
+    public function createRowPersonaJuridica()
+    {
+        $sql = 'INSERT INTO tb_clientes(fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, clave_usuario_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, NRC_cliente, NRF_cliente, rubro_comercial)
+                VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_cliente, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente, $this->NRC_cliente, $this->NRF_cliente, $this->rubro_comercial);
+        return Database::executeRow($sql, $params);
+    }
 
 }
