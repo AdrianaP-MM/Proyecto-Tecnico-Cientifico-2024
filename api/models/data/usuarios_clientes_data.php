@@ -22,6 +22,23 @@ class UsuariosClientesData extends UsuariosClientesHandler
         }
     }
 
+    public function setCorreoRow($value, $min = 8, $max = 50)
+    {
+        if (!Validator::validateEmail($value)) {
+            $this->data_error = 'El correo no es válido';
+            return false;
+        } elseif (!Validator::validateLength($value, $min, $max)) {
+            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        } elseif ($this->checkDuplicate($value)) {
+            $this->data_error = 'El correo ingresado ya existe';
+            return false;
+        } else {
+            $this->correo_usuario = $value;
+            return true;
+        }
+    }
+
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {
@@ -51,6 +68,9 @@ class UsuariosClientesData extends UsuariosClientesHandler
     {
         if (!Validator::validatePhone($value)) {
             $this->data_error = 'Ingrese un telefono valido 0000-0000 y que inicie con 2, 6 o 7';
+            return false;
+        } elseif ($this->checkDuplicate($value)) {
+            $this->data_error = 'El telèfono ingresado ya existe';
             return false;
         } else {
             $this->telefono_cliente = $value;

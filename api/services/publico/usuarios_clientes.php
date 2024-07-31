@@ -36,7 +36,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$usuarioCliente->setDUI($_POST['user_dui']) or
                     !$usuarioCliente->setTelefono($_POST['user_telefono']) or
-                    !$usuarioCliente->setCorreo($_POST['user_correo']) or
+                    !$usuarioCliente->setCorreoRow($_POST['user_correo']) or
                     !$usuarioCliente->setClave($_POST['user_clave']) or
                     !$usuarioCliente->setNombres($_POST['user_nombres']) or
                     !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
@@ -47,39 +47,39 @@ if (isset($_GET['action'])) {
                     $result['error'] = $usuarioCliente->getDataError();
                 } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Contraseñas diferentes';
-                } elseif ($usuario->createRow()) {
+                } elseif ($usuarioCliente->createRowPersonaNatural()) {
                     $result['status'] = 1;
                     $result['message'] = 'Usuario creado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema';
                 }
                 break;
-                case 'signUpPersonaJuridica':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$usuarioCliente->setDUI($_POST['user_dui']) or
-                        !$usuarioCliente->setTelefono($_POST['user_telefono']) or
-                        !$usuarioCliente->setCorreo($_POST['user_correo']) or
-                        !$usuarioCliente->setClave($_POST['user_clave']) or
-                        !$usuarioCliente->setNombres($_POST['user_nombres']) or
-                        !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
-                        !$usuarioCliente->setTipoCliente($_POST['user_tipo']) or
-                        !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
-                        !$usuarioCliente->setNIT($_POST['user_nit']) or
-                        !$usuarioCliente->setNIT($_POST['user_nrc']) or
-                        !$usuarioCliente->setNIT($_POST['user_nrf']) or
-                        !$usuarioCliente->setNIT($_POST['user_rubro'])
-                    ) {
-                        $result['error'] = $usuarioCliente->getDataError();
-                    } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
-                        $result['error'] = 'Contraseñas diferentes';
-                    } elseif ($usuario->createRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Usuario creado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema';
-                    }
-                    break;
+            case 'signUpPersonaJuridica':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuarioCliente->setDUI($_POST['user_dui']) or
+                    !$usuarioCliente->setTelefono($_POST['user_telefono']) or
+                    !$usuarioCliente->setCorreoRow($_POST['user_correo']) or
+                    !$usuarioCliente->setClave($_POST['user_clave']) or
+                    !$usuarioCliente->setNombres($_POST['user_nombres']) or
+                    !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
+                    !$usuarioCliente->setTipoCliente($_POST['user_tipo']) or
+                    !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
+                    !$usuarioCliente->setNIT($_POST['user_nit']) or
+                    !$usuarioCliente->setNIT($_POST['user_nrc']) or
+                    !$usuarioCliente->setNIT($_POST['user_nrf']) or
+                    !$usuarioCliente->setNIT($_POST['user_rubro'])
+                ) {
+                    $result['error'] = $usuarioCliente->getDataError();
+                } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($usuarioCliente->createRowPersonaJuridica()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Usuario creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema';
+                }
+                break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 if ($usuarioCliente->checkUser($_POST['user_correo'], $_POST['user_clave'])) {
