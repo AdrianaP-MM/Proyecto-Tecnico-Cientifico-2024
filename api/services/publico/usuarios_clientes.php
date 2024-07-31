@@ -1,7 +1,7 @@
 <?php
 // Se inclueye la clase de entrada
-require_once ('../../models/data/usuarios_clientes_data.php');
-require_once ('../mandar_correo.php');
+require_once('../../models/data/usuarios_clientes_data.php');
+require_once('../mandar_correo.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -17,12 +17,80 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'logOut':
+                if (session_destroy()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión eliminada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
     } else {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'signUpPersonaNatural':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuarioCliente->setDUI($_POST['user_dui']) or
+                    !$usuarioCliente->setTelefono($_POST['user_telefono']) or
+                    !$usuarioCliente->setCorreo($_POST['user_correo']) or
+                    !$usuarioCliente->setClave($_POST['user_clave']) or
+                    !$usuarioCliente->setNombres($_POST['user_nombres']) or
+                    !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
+                    !$usuarioCliente->setTipoCliente($_POST['user_tipo']) or
+                    !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
+                    !$usuarioCliente->setNIT($_POST['user_nit'])
+                ) {
+                    $result['error'] = $usuarioCliente->getDataError();
+                } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Contraseñas diferentes';
+                } elseif ($usuario->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Usuario creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema';
+                }
+                break;
+                case 'signUpPersonaJuridica':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$usuarioCliente->setDUI($_POST['user_dui']) or
+                        !$usuarioCliente->setTelefono($_POST['user_telefono']) or
+                        !$usuarioCliente->setCorreo($_POST['user_correo']) or
+                        !$usuarioCliente->setClave($_POST['user_clave']) or
+                        !$usuarioCliente->setNombres($_POST['user_nombres']) or
+                        !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
+                        !$usuarioCliente->setTipoCliente($_POST['user_tipo']) or
+                        !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
+                        !$usuarioCliente->setNIT($_POST['user_nit']) or
+                        !$usuarioCliente->setNIT($_POST['user_nrc']) or
+                        !$usuarioCliente->setNIT($_POST['user_nrf']) or
+                        !$usuarioCliente->setNIT($_POST['user_rubro'])
+                    ) {
+                        $result['error'] = $usuarioCliente->getDataError();
+                    } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Contraseñas diferentes';
+                    } elseif ($usuario->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Usuario creado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema';
+                    }
+                    break;
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                if ($usuarioCliente->checkUser($_POST['user_correo'], $_POST['user_clave'])) {
+                    $result['status'] = 1;
+                    $result['id_cliente'] = $_SESSION['idUsuarioCliente'];
+                    $result['message'] =
+                        'Autenticación correcta';
+                } else {
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
             case 'checkCorreo':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuarioCliente->setCorreo($_POST['user_correo'])) {
@@ -75,7 +143,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

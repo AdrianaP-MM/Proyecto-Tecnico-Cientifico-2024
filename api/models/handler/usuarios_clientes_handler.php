@@ -54,11 +54,9 @@ class UsuariosClientesHandler
     //Funcion que valida el inicio de sesion
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT u.id_cliente, u.correo_cliente, c.clave_usuario_cliente 
-        FROM tb_clientes u 
-        JOIN tb_usuarios_clientes c 
-        ON u.id_cliente = c.id_cliente 
-        WHERE u.correo_cliente = ?;';
+        $sql = 'SELECT id_cliente, correo_cliente, clave_usuario_cliente 
+        FROM tb_clientes 
+        WHERE correo_cliente = ?;';
         $params = array($username);
         if (!($data = Database::getRow($sql, $params))) {
             return false;
@@ -95,6 +93,7 @@ class UsuariosClientesHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Valdiar el duplicado de info de cliente especificamente del dui, correo, telefono y NIT 
     public function checkDuplicate($value)
     {
         $sql = 'SELECT id_cliente FROM tb_clientes 
