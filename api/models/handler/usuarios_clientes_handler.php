@@ -14,7 +14,6 @@ class UsuariosClientesHandler
     protected $correo_usuario = null;
     protected $dui_cliente = null;
     protected $telefono_cliente = null;
-    protected $correo_cliente = null;
     protected $nombres_cliente = null;
     protected $apellidos_cliente = null;
     protected $tipo_cliente = null;
@@ -23,6 +22,7 @@ class UsuariosClientesHandler
     protected $NRC_cliente = null;
     protected $NRF_cliente = null;
     protected $rubro_comercial = null;
+    protected $estado_cliente = null;
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
@@ -82,7 +82,7 @@ class UsuariosClientesHandler
     {
         $sql = 'INSERT INTO tb_clientes(fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, clave_usuario_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente)
                 VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_cliente, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente);
+        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_usuario, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente);
         return Database::executeRow($sql, $params);
     }
 
@@ -90,9 +90,32 @@ class UsuariosClientesHandler
     public function createRowPersonaJuridica()
     {
         $sql = 'INSERT INTO tb_clientes(fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, clave_usuario_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, NRC_cliente, NRF_cliente, rubro_comercial)
-                VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_cliente, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente, $this->NRC_cliente, $this->NRF_cliente, $this->rubro_comercial);
+                VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->dui_cliente, $this->telefono_cliente, $this->correo_usuario, $this->clave_usuario_cliente, $this->nombres_cliente, $this->apellidos_cliente, $this->tipo_cliente, $this->departamento_cliente, $this->NIT_cliente, $this->NRC_cliente, $this->NRF_cliente, $this->rubro_comercial);
         return Database::executeRow($sql, $params);
     }
+
+    public function checkDuplicate($value)
+    {
+        $sql = 'SELECT id_cliente FROM tb_clientes 
+        WHERE (dui_cliente = ? OR correo_cliente = ? OR telefono_cliente = ? OR NIT_cliente = ? OR NRC_cliente = ? OR NRF_cliente = ?)';
+        // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
+        $params = array(
+            $value,
+            $value,
+            $value,
+            $value,
+            $value,
+            $value,
+        ); // Parámetros para la consulta SQL
+
+        if ($this->id_cliente) {
+            $sql .= ' AND id_cliente <> ?;';
+            $params[] = $this->id_cliente;
+        }
+
+        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
+    }
+
 
 }
