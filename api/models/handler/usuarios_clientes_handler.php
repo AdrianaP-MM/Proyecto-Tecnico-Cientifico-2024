@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 //Esta clase es para manejar el comportamiento de los datos de la tabla Usuarios
 
@@ -115,6 +115,4 @@ class UsuariosClientesHandler
 
         return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
-
-
 }

@@ -10,7 +10,7 @@ CREATE TABLE tb_clientes
 	dui_cliente VARCHAR(10) NOT NULL,
 	telefono_cliente VARCHAR(9) NOT NULL,
 	correo_cliente VARCHAR(50) NOT NULL,
-    clave_usuario_cliente VARCHAR(50) DEFAULT('00000000'),
+    clave_usuario_cliente VARCHAR(100) DEFAULT('00000000'),
 	nombres_cliente VARCHAR(50) NOT NULL ,
 	apellidos_cliente VARCHAR(50) NOT NULL,
 	tipo_cliente ENUM('Persona natural','Persona juridica') NOT NULL,

@@ -66,9 +66,9 @@ if (isset($_GET['action'])) {
                     !$usuarioCliente->setTipoCliente($_POST['user_tipo']) or
                     !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
                     !$usuarioCliente->setNIT($_POST['user_nit']) or
-                    !$usuarioCliente->setNIT($_POST['user_nrc']) or
-                    !$usuarioCliente->setNIT($_POST['user_nrf']) or
-                    !$usuarioCliente->setNIT($_POST['user_rubro'])
+                    !$usuarioCliente->setNRC($_POST['user_nrc']) or
+                    !$usuarioCliente->setNRF($_POST['user_nrf']) or
+                    !$usuarioCliente->setRubro($_POST['user_rubro'])
                 ) {
                     $result['error'] = $usuarioCliente->getDataError();
                 } elseif ($_POST['user_clave'] != $_POST['confirmarClave']) {
