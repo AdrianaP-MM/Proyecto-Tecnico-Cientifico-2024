@@ -29,10 +29,7 @@ class UsuariosClientesHandler
     //Funcion que valida el correo
     public function checkCorreo()
     {
-        $sql = 'SELECT uc.*
-        FROM tb_usuarios_clientes AS uc
-        JOIN tb_clientes AS c ON uc.id_cliente = c.id_cliente
-        WHERE c.correo_cliente = ?;'; // Consulta SQL para verificar un usuario con ese correo
+        $sql = 'SELECT cl.* FROM tb_clientes cl WHERE cl.correo_cliente = ?;'; // Consulta SQL para verificar un usuario con ese correo
         $params = array($this->correo_usuario); // Parámetros para la consulta SQL
         return Database::getRow($sql, $params); // Ejecución de la consulta SQL
     }
@@ -40,13 +37,12 @@ class UsuariosClientesHandler
     //Funcion que actualiza exclusivamente la contraseña
     public function updatePassword()
     {
-        $sql = 'UPDATE tb_usuarios_clientes
+        $sql = '        UPDATE tb_clientes
         SET clave_usuario_cliente = ?
         WHERE id_cliente = (
             SELECT id_cliente
             FROM tb_clientes
-            WHERE correo_cliente = ?
-        );'; // Consulta SQL para verificar un usuario con ese correo
+            WHERE correo_cliente = ?);'; // Consulta SQL para verificar un usuario con ese correo
         $params = array($this->clave_usuario_cliente, $this->correo_usuario); // Parámetros para la consulta SQL
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
