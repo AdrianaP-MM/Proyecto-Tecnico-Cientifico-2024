@@ -77,6 +77,15 @@ class ServiciosProcesoHandler
         return Database::getRow($sql, $params); // Ejecución de la consulta SQL
     }
 
+    public function readCarrosenProceso()
+    {
+        $sql = 'SELECT id_servicio, nombre_servicio, descripcion_servicio FROM tb_servicios WHERE id_servicio = ?; ';
+        $params = array(
+            $this->id_servicio
+        ); // Parámetros para la consulta SQL
+        return Database::getRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
     public function readAll()
     {
