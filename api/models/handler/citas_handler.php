@@ -96,6 +96,49 @@ class CitasHandler
         return Database::getRows($sql);
     }
 
+    public function readAllEspecific()
+    {
+        $sql = 'SELECT c.*, a.*, cl.*,
+    CONCAT(
+        CASE DAYOFWEEK(c.fecha_hora_cita)
+            WHEN 1 THEN "Domingo"
+            WHEN 2 THEN "Lunes"
+            WHEN 3 THEN "Martes"
+            WHEN 4 THEN "Miércoles"
+            WHEN 5 THEN "Jueves"
+            WHEN 6 THEN "Viernes"
+            WHEN 7 THEN "Sábado"
+        END, 
+        " ", DATE_FORMAT(c.fecha_hora_cita, "%d de "),
+        CASE MONTH(c.fecha_hora_cita)
+            WHEN 1 THEN "Enero"
+            WHEN 2 THEN "Febrero"
+            WHEN 3 THEN "Marzo"
+            WHEN 4 THEN "Abril"
+            WHEN 5 THEN "Mayo"
+            WHEN 6 THEN "Junio"
+            WHEN 7 THEN "Julio"
+            WHEN 8 THEN "Agosto"
+            WHEN 9 THEN "Septiembre"
+            WHEN 10 THEN "Octubre"
+            WHEN 11 THEN "Noviembre"
+            WHEN 12 THEN "Diciembre"
+        END
+    ) AS fecha_cita,
+    DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
+    DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita,
+    m.nombre_marca_automovil AS marca_automovil
+    FROM tb_citas c
+    INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+    INNER JOIN tb_modelos_automoviles mo ON a.id_modelo_automovil = mo.id_modelo_automovil
+    INNER JOIN tb_marcas_automoviles m ON mo.id_marca_automovil = m.id_marca_automovil
+    INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+    WHERE c.estado_cita != "Cancelado" 
+    AND cl.id_cliente = ?;';
+        $params = array($_SESSION['idUsuarioCliente']);
+        return Database::getRows($sql, $params);
+    }
+
 
     public function readOne()
     {
@@ -105,6 +148,16 @@ class CitasHandler
         WHERE c.id_cita = ? AND c.estado_cita != "Eliminada";';
         $params = array(
             $this->id_cita
+        );
+        return Database::getRow($sql, $params);
+    }
+
+    public function searchCitaAuto()
+    {
+        $sql = 'SELECT * FROM tb_citas WHERE id_automovil = ?
+        AND (estado_cita = "En espera" OR estado_cita = "Aceptado");';
+        $params = array(
+            $this->id_automovil
         );
         return Database::getRow($sql, $params);
     }
@@ -144,7 +197,10 @@ class CitasHandler
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
     public function checkDuplicate($value)
     {
-        $sql = 'SELECT fecha_hora_cita FROM tb_citas WHERE fecha_hora_cita = ? AND estado_cita == "Aceptado" OR estado_cita == "En espera"';
+        $sql = 'SELECT fecha_hora_cita 
+        FROM tb_citas 
+        WHERE fecha_hora_cita = ? 
+        AND (estado_cita = "Aceptado" OR estado_cita = "En espera")';
         // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
         $params = array(
             $value
@@ -161,7 +217,7 @@ class CitasHandler
     public function deleteRow()
     {
         // Consulta SQL para eliminar un automóvil basado en su ID
-        $sql = 'UPDATE tb_citas SET estado_cita = "Eliminada"
+        $sql = 'UPDATE tb_citas SET estado_cita = "Cancelado"
             WHERE id_cita = ?';
         // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
         $params = array($this->id_cita);
