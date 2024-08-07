@@ -37,7 +37,7 @@ class UsuariosClientesHandler
     //Funcion que actualiza exclusivamente la contraseña
     public function updatePassword()
     {
-        $sql = '        UPDATE tb_clientes
+        $sql = 'UPDATE tb_clientes
         SET clave_usuario_cliente = ?
         WHERE id_cliente = (
             SELECT id_cliente
