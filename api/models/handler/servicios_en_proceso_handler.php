@@ -83,7 +83,7 @@ class ServiciosProcesoHandler
         $params = array(
             $this->id_servicio
         ); // Parámetros para la consulta SQL
-        return Database::getRow($sql, $params); // Ejecución de la consulta SQL
+        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
