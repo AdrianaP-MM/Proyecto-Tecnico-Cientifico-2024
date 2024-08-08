@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -86,6 +86,27 @@ class ServiciosProcesoHandler
         return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
+    public function mostrarCarrosenProceso()
+    {
+        $sql = 'SELECT 
+        a.modelo_automovil, 
+        t.nombre_tipo_automovil, 
+        a.placa_automovil, 
+        a.fecha_registro
+        FROM tb_automoviles a
+        JOIN tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+        JOIN tb_citas c ON a.id_automovil = c.id_automovil
+        JOIN tb_servicios_en_proceso sp ON c.id_cita = sp.id_cita
+        WHERE sp.id_servicio = ? 
+        AND a.id_cliente = ?';
+
+        $params = array(
+            $this->id_servicio,
+            $_SESSION['idUsuarioCliente']
+        );return Database::getRows($sql, $params); // Ejecución de la consulta SQL
+    }
+
+
     // Método para verificar duplicados por valor (DUI o correo) y excluyendo el ID actual
     public function readAll()
     {
@@ -107,7 +128,7 @@ class ServiciosProcesoHandler
             $sql .= ' AND id_servicio_en_proceso <> ?;';
             $params[] = $this->id_servicio_en_proceso;
         }
-        
+
         return Database::getRow($sql, $params); // Ejecución de la consulta SQL
     }
 }
