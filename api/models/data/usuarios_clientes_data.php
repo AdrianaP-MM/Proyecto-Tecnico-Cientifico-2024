@@ -10,6 +10,18 @@ class UsuariosClientesData extends UsuariosClientesHandler
     //Atributo Para el manejo de errores
     private $data_error = null;
 
+        //Funcion para validar el id
+        public function setIdCliente($value)
+        {
+            if (Validator::validateNaturalNumber($value)) {
+                $this->id_cliente = $value;
+                return true;
+            } else {
+                $this->data_error = 'El identificador del cliente es incorrecto';
+                return false;
+            }
+        }
+
     //Funciones para validar y establecer los datos
     public function setCorreo($value)
     {
