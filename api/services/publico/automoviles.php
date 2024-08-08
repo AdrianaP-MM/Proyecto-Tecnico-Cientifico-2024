@@ -55,6 +55,7 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['error'] = 'No existen tipos de automóviles registrados';
                     }
+                    break;
                 case 'createRow':
                     $_POST = Validator::validateForm($_POST);
                     if (

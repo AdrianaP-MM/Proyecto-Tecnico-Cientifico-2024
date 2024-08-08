@@ -64,7 +64,6 @@ class AutomovilData extends AutomovilHandler
     
 
     // Validación y asignación de la fecha de fabricación.
-  
     public function setFechaFabricacion($value)
     {
         if (Validator::validateNaturalNumber($value)) {

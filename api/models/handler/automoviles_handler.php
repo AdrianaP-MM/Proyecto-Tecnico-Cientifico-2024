@@ -132,6 +132,7 @@ class AutomovilHandler
 
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
+
     public function checkDuplicate($value)
     {
         // Consulta SQL para verificar duplicados
@@ -166,7 +167,6 @@ class AutomovilHandler
         WHERE estado_automovil = "Activo";';
         return Database::getRows($sql);
     }
-
     public function readAllMyCars()
     {
         // Consulta SQL para leer todos los automóviles del cliente actual, incluyendo la imagen del automóvil
@@ -182,6 +182,8 @@ class AutomovilHandler
         );
         return Database::getRows($sql, $params);
     }
+    
+
     public function readAllDelete()
     {
         // Consulta SQL para leer todos los automóviles eliminados del cliente actual
@@ -256,12 +258,12 @@ class AutomovilHandler
         $params = array($this->id_automovil);
         return Database::getRow($sql, $params);
     }
+
     public function readTipos()
     {
         // Consulta SQL para leer los tipos de automóviles
         $sql = 'SELECT id_tipo_automovil, nombre_tipo_automovil FROM tb_tipos_automoviles';
         return Database::getRows($sql);
     }
-
 }
 ?>
