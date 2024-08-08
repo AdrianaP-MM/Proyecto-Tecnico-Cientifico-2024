@@ -127,12 +127,11 @@ class AutomovilHandler
             $this->fecha_fabricacion_automovil,
             $this->placa_automovil,
             $this->imagen_automovil,
-            $this->id_cliente
+            $_SESSION['idUsuarioCliente'] 
         ); // Parámetros para la consulta SQL
 
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
-
     public function checkDuplicate($value)
     {
         // Consulta SQL para verificar duplicados
@@ -170,19 +169,19 @@ class AutomovilHandler
 
     public function readAllMyCars()
     {
-        // Consulta SQL para leer todos los automóviles del cliente actual
+        // Consulta SQL para leer todos los automóviles del cliente actual, incluyendo la imagen del automóvil
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
-        c.dui_cliente AS dui_cliente,
-        a.*
-        FROM tb_automoviles a
-        INNER JOIN tb_clientes c USING(id_cliente)
-        WHERE estado_automovil = "Activo" AND id_cliente = ?;';
+                       c.dui_cliente AS dui_cliente,
+                       a.*,
+                       a.imagen_automovil
+                FROM tb_automoviles a
+                INNER JOIN tb_clientes c USING(id_cliente)
+                WHERE estado_automovil = "Activo" AND id_cliente = ?;';
         $params = array(
             $_SESSION['idUsuarioCliente']
         );
         return Database::getRows($sql, $params);
     }
-
     public function readAllDelete()
     {
         // Consulta SQL para leer todos los automóviles eliminados del cliente actual

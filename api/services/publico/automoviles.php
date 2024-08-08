@@ -56,26 +56,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen tipos de automóviles registrados';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
-                    !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
-                    !$automovil->setColor($_POST['color_automovil']) or
-                    !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
-                    !$automovil->setPlaca($_POST['placa_automovil']) or
-                    !$automovil->setImagen($_FILES['imagen_automovil']) or
-                    !$automovil->setIdCliente($_POST['id_cliente']) // Asegúrate de que este campo sea enviado desde React Native si es necesario
-                ) {
-                    $result['error'] = $automovil->getDataError();
-                } elseif ($automovil->createRow()) {
-                    $result['status'] = 1;
-                    $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $automovil::RUTA_IMAGEN);
-                    $result['message'] = 'Tipo de servicio creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
-                }
-                break;
+                case 'createRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
+                        !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
+                        !$automovil->setColor($_POST['color_automovil']) or
+                        !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
+                        !$automovil->setPlaca($_POST['placa_automovil']) or
+                        !$automovil->setImagen($_FILES['imagen_automovil'])
+                    ) {
+                        $result['error'] = $automovil->getDataError();
+                    } elseif ($automovil->createRow()) {
+                        $result['status'] = 1;
+                        $result['fileStatus'] = Validator::saveFile($_FILES['imagen_automovil'], $automovil::RUTA_IMAGEN);
+                        $result['message'] = 'Carro creado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
+                    }
+                    break;
             case 'readAllMyCars':
                 if ($result['dataset'] = $automovil->readAllMyCars()) {
                     $result['status'] = 1;
