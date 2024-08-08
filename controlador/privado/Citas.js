@@ -196,25 +196,29 @@ const addServicioProceso = async (form, action = 'createRow') => {
   const isValid = await checkFormValidity(form);
   if (isValid) {
     console.log('TodoGud'); // Código a ejecutar después de la validación
-    // Constante tipo objeto con los datos del formulario.
     const FORMID = new FormData(form);
     FORMID.append('id_cita', id_citaW);
-    FORMID.append('id_servicio', id_serviciow);
-
-    const DATAID = await fetchData(SERVICES_API, 'readOne', FORMID);
     let id_servicio_proceso;
 
-    if (DATA.status) {
-      id_servicio_proceso = DATAID.dataset.id_servicio_en_proceso;
+    if (action == 'updateRow') {
+      // Constante tipo objeto con los datos del formulario.
+      FORMID.append('id_servicio', id_serviciow);
+
+      const DATAID = await fetchData(SERVICES_API, 'readOne', FORMID);
+
+      if (DATAID.status) {
+        id_servicio_proceso = DATAID.dataset.id_servicio_en_proceso;
+      }
     }
 
     const FORM = new FormData(form);
     FORM.append('fecha_registro', getDateToMysql());
     FORM.append('fecha_aprox_finalizacion', convertToMySQLDatetime(INPUT_FECHA_APROX_FINALIZACION.value, INPUT_HORA_APROX_FINALIZACION.value));
-    FORM.append('id_servicio_proceso', id_servicio_proceso)
+    FORM.append('id_cita', id_citaW);
 
     if (action == 'updateRow') {
       FORM.append('fecha_finalizacion', convertToMySQLDatetime(INPUT_FECHA_FINALIZACION.value, INPUT_HORA_FINALIZACION.value));
+      FORM.append('id_servicio_proceso', id_servicio_proceso)
     }
 
     // Petición para guardar los datos del formulario.
@@ -572,7 +576,7 @@ function createCardCita(row) {
 
   const imagenAuto = row.imagen_automovil;
   const defaultImage = `${SERVER_URL}/images/automoviles/default.png`;
-  
+
   return `
     <div class="card position-relative z-2" onclick="clicCita(${row.id_cita}, '${row.estado_cita}')">
       <div class="content z-3">

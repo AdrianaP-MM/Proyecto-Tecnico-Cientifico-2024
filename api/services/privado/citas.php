@@ -110,7 +110,7 @@ if (isset($_GET['action'])) {
                 break;
                 case 'deleteRow':
                     if (!$cita->setIdCita($_POST['id_cita'])) {
-                        $result['error'] = $cliente->getDataError();
+                        $result['error'] = $cita->getDataError();
                     } elseif ($cita->deleteRow()) {
                         $result['status'] = 1;
                         $result['message'] = 'Cita eliminada correctamente';

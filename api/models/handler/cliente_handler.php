@@ -33,7 +33,7 @@ class ClienteHandler
     {
         //var_dump($this->marcas_seleccionadas);
         $sql = 'SELECT * FROM tb_clientes 
-        WHERE tipo_cliente = ?';
+        WHERE tipo_cliente = ? AND estado_cliente != "Eliminado"';
         $params = array($this->tipo_cliente);
 
         if ($this->search_value) {
