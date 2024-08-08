@@ -25,6 +25,39 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cerrar la sesión';
                 }
                 break;
+                case 'readProfile':
+                    if ($result['dataset'] = $usuarioCliente->readProfile()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al leer el perfil';
+                    }
+                    break;
+                    case 'editProfile':
+                        $_POST = Validator::validateForm($_POST);
+                        $RUBRO = isset($_POST['user_rubro']) ? $_POST['user_rubro'] : '';
+                        $NRC = isset($_POST['user_nrc']) ? $_POST['user_nrc'] : '';
+                        $NRF = isset($_POST['user_nrf']) ? $_POST['user_nrf'] : '';
+                        if (
+                            !$usuarioCliente->setIdCliente($_SESSION['idUsuarioCliente']) or
+                            !$usuarioCliente->setDUI($_POST['user_dui']) or
+                            !$usuarioCliente->setTelefono($_POST['user_telefono']) or
+                            !$usuarioCliente->setCorreoRow($_POST['user_correo']) or
+                            !$usuarioCliente->setNombres($_POST['user_nombres']) or
+                            !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
+                            !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
+                            !$usuarioCliente->setNIT($_POST['user_nit']) or
+                            (!empty($NRC) && !$usuarioCliente->setNRC($NRC)) or
+                            (!empty($NRF) && !$usuarioCliente->setNRF($NRF)) or
+                            (!empty($RUBRO) && !$usuarioCliente->setRubro($RUBRO))
+                        ) {
+                            $result['error'] = $usuarioCliente->getDataError();
+                        } elseif ($usuarioCliente->editProfile()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Perfil modificado correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                        }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

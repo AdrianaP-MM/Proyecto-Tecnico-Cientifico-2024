@@ -26,6 +26,39 @@ class UsuariosClientesHandler
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
+    //Esta funcion edita los datos del usuario
+    public function editProfile()
+    {
+        $sql = 'UPDATE tb_clientes SET
+        dui_cliente = ?,
+        telefono_cliente = ?,
+        correo_cliente = ?,
+        nombres_cliente = ?,
+        apellidos_cliente = ?,
+        departamento_cliente = ?,
+        NIT_cliente = ?,
+        NRC_cliente = ?,
+        NRF_cliente = ?,
+        rubro_comercial = ?
+        WHERE id_cliente = ?;';
+
+        $params = array(
+        $this->dui_cliente,
+        $this->telefono_cliente,
+        $this->correo_usuario,
+        $this->nombres_cliente,
+        $this->apellidos_cliente,
+        $this->departamento_cliente,
+        $this->NIT_cliente,
+        $this->NRC_cliente,
+        $this->NRF_cliente,
+        $this->rubro_comercial,
+        $this->id_cliente
+        );
+
+        return Database::executeRow($sql, $params);
+    }
+
     //Funcion que valida el correo
     public function checkCorreo()
     {
@@ -65,8 +98,12 @@ class UsuariosClientesHandler
         }
     }
 
-
-
+    public function readProfile()
+    {
+        $sql = 'SELECT * FROM tb_clientes WHERE id_cliente = ?';
+        $params = array($_SESSION['idUsuarioCliente']);
+        return Database::getRow($sql, $params);
+    }
     /*El registro lleva primero de llenar los campos NRC, NRF y rubro comercial si es persona juridica.
         Despues el nombre, correo, contraseña, telefono, DUI, NIT
     */
