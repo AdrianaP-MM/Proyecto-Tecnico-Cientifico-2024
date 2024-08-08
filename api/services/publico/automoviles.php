@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/automoviles_data.php');
+require_once ('../../models/data/automoviles_data.php');
 
 
 
@@ -10,7 +10,7 @@ if (isset($_GET['action'])) {
     session_start();
     // Se instancia la clase correspondiente.
     $automovil = new AutomovilData;
-    // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
+    // Se declara e inicialdeleteRowiza un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'Entre' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idUsuarioCliente'])) {
@@ -56,26 +56,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen tipos de automóviles registrados';
                 }
                 break;
-                case 'createRow':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
-                        !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
-                        !$automovil->setColor($_POST['color_automovil']) or
-                        !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
-                        !$automovil->setPlaca($_POST['placa_automovil']) or
-                        !$automovil->setImagen($_FILES['imagen_automovil']) or
-                        !$automovil->setIdCliente($_POST['id_cliente']) // Asegúrate de que este campo sea enviado desde React Native si es necesario
-                    ) {
-                        $result['error'] = $automovil->getDataError();
-                    } elseif ($automovil->createRow()) {
-                        $result['status'] = 1;
-                        $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $automovil::RUTA_IMAGEN);
-                        $result['message'] = 'Tipo de servicio creado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
-                    }
-                    break;
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
+                    !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
+                    !$automovil->setColor($_POST['color_automovil']) or
+                    !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
+                    !$automovil->setPlaca($_POST['placa_automovil']) or
+                    !$automovil->setImagen($_FILES['imagen_automovil']) or
+                    !$automovil->setIdCliente($_POST['id_cliente']) // Asegúrate de que este campo sea enviado desde React Native si es necesario
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->createRow()) {
+                    $result['status'] = 1;
+                    $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $automovil::RUTA_IMAGEN);
+                    $result['message'] = 'Tipo de servicio creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
+                }
+                break;
             case 'readAllMyCars':
                 if ($result['dataset'] = $automovil->readAllMyCars()) {
                     $result['status'] = 1;
@@ -92,16 +92,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
+            case 'deleteRow':
+                if (!$automovil->setId($_POST['idAuto'])) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Carro eliminado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el carro';
+                }
+                break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
+        print (json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print (json_encode('Acceso denegado'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
