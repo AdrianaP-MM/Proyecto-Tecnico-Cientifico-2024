@@ -20,6 +20,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen citas del cliente para mostrar';
                 }
                 break;
+                case 'readOne':
+                    if (!$cita->setIdCita($_POST['id_cita'])) {
+                        $result['error'] = $cita->getDataError();
+                    } elseif ($result['dataset'] = $cita->readAllEspecific()) {
+                        $result['status'] = 1;
+                        $result['error'] = 'Ya tienes una cita con ese automovil';
+                    } else {
+                        $result['error'] = 'Cita inexistente';
+                    }
+                    break;
                 case 'searchCitaAuto': //No puede agregar una cita con el mismo carro 
                     if (!$cita->setIdAutomovil($_POST['id_automovil'])) {
                         $result['error'] = $cita->getDataError();
@@ -49,6 +59,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear la cita';
                 }
                 break;
+                case 'updateRow': //MMM actualizar, SOLO si está en espera, si necesita cambiar algun detalle despúes de eso, entonces
+                    //Tiene que comunicarse con el taller, si quiere cancelarla, lo tiene que hacer el taller
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$cita->setIdCita($_POST['id_cita']) or
+                        !$cita->setFechaHora($_POST['fecha_hora_cita']) or
+                        !$cita->setIdAutomovil($_POST['input_automovil_UPDATE']) or
+                        !$cita->setMovilizacion($_POST['input_movilizacion_UPDATE']) or
+                        !$cita->setZona($_POST['input_zona_UPDATE']) or
+                        !$cita->setIda($_POST['input_ida_UPDATE']) or
+                        !$cita->setRegreso($_POST['input_regreso_UPDATE'])
+                    ) {
+                        $result['error'] = $cita->getDataError();
+                    } elseif ($cita->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Cita actualizada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al actualizar la cita';
+                    }
+                    break;
                 case 'deleteRow':
                     if (!$cita->setIdCita($_POST['id_cita'])) {
                         $result['error'] = $cliente->getDataError();

@@ -171,15 +171,9 @@ class AutomovilHandler
     {
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
         c.dui_cliente AS dui_cliente,
-        co.nombre_color AS nombre_color,
-        mo.nombre_modelo_automovil AS nombre_modelo,
-        ma.nombre_marca_automovil AS nombre_marca,
         a.*
         FROM tb_automoviles a
         INNER JOIN tb_clientes c USING(id_cliente)
-        INNER JOIN tb_colores co USING(id_color)
-        INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
-        INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
         WHERE estado_automovil = "Activo" AND id_cliente = ?;';
         $params = array(
             $_SESSION['idUsuarioCliente']
