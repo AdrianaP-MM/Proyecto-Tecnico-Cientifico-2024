@@ -21,7 +21,7 @@ class mandarCorreo
             $mail->Host       = 'smtp.gmail.com'; // Servidor SMTP de Gmail
             $mail->SMTPAuth   = true;
             $mail->Username   = 'revolutiongarageofficialsv@gmail.com'; // Tu dirección de correo electrónico de Gmail
-            $mail->Password   = 'sfxo zgav zmzn fulx'; // Tu contraseña de Gmail
+            $mail->Password   = 'vuaf aedc kmfb dshi'; // Tu contraseña de Gmail
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
