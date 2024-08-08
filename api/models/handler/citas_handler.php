@@ -126,19 +126,15 @@ class CitasHandler
         END
     ) AS fecha_cita,
     DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
-    DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita,
-    m.nombre_marca_automovil AS marca_automovil
+    DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
     FROM tb_citas c
     INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-    INNER JOIN tb_modelos_automoviles mo ON a.id_modelo_automovil = mo.id_modelo_automovil
-    INNER JOIN tb_marcas_automoviles m ON mo.id_marca_automovil = m.id_marca_automovil
     INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
     WHERE c.estado_cita != "Cancelado" 
     AND cl.id_cliente = ?;';
         $params = array($_SESSION['idUsuarioCliente']);
         return Database::getRows($sql, $params);
     }
-
 
     public function readOne()
     {
