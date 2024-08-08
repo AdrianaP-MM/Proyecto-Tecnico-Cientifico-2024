@@ -46,14 +46,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-                case 'readTipos':
-                    if ($result['dataset'] = $automovil->readTipos()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles registrados';
-                    } else {
-                        $result['error'] = 'No existen automóviles registrados';
-                    }
-                    break;
+            case 'readTipos':
+                if ($result['dataset'] = $automovil->readTipos()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles registrados';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
             case 'readAllMyCars':
                 if ($result['dataset'] = $automovil->readAllMyCars()) {
                     $result['status'] = 1;
@@ -70,18 +70,34 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-                case 'deleteRow':
-                    if (
-                        !$automovil->setId($_POST['idAuto'])
-                    ) {
-                        $result['error'] = $automovil->getDataError();
-                    } elseif ($automovil->deleteRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Automóvil eliminado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
-                    }
-                    break;
+            case 'readAllAppointments':
+                if ($result['dataset'] = $automovil->readAllAppointments()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
+            case 'searchAllMyCars':
+                if ($result['dataset'] = $automovil->readAllAppointments()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen conincidencias en automóviles registrados';
+                }
+                break;
+            case 'deleteRow':
+                if (
+                    !$automovil->setId($_POST['idAuto'])
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Automóvil eliminado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
+                }
+                break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();

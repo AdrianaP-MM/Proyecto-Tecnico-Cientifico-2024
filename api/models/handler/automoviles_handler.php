@@ -38,14 +38,14 @@ class AutomovilHandler
                 INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
                 INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
                 WHERE estado_automovil = ?';
-    
+
         $params = array('Activo');
-    
+
         if ($this->search_value) {
             $sql .= ' AND (placa_automovil LIKE ?)';
             $params[] = "%{$this->search_value}%";
         }
-    
+
         if ($this->fecha_desde && $this->fecha_hasta) {
             $sql .= ' AND fecha_registro BETWEEN ? AND ?';
             $params[] = $this->fecha_desde;
@@ -60,15 +60,15 @@ class AutomovilHandler
                 $params[] = $this->fecha_hasta;
             }
         }
-    
+
         if ($this->fecha_fabricacion_automovil) {
             $sql .= ' AND YEAR(fecha_fabricacion_automovil) = ?';
             $params[] = $this->fecha_fabricacion_automovil;
         }
-    
+
         return Database::getRows($sql, $params);
     }
-    
+
 
     public function updateRow()
     {
@@ -171,9 +171,15 @@ class AutomovilHandler
     {
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
         c.dui_cliente AS dui_cliente,
+        co.nombre_color AS nombre_color,
+        mo.nombre_modelo_automovil AS nombre_modelo,
+        ma.nombre_marca_automovil AS nombre_marca,
         a.*
         FROM tb_automoviles a
         INNER JOIN tb_clientes c USING(id_cliente)
+        INNER JOIN tb_colores co USING(id_color)
+        INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
+        INNER JOIN tb_marcas_automoviles ma USING (id_marca_automovil)
         WHERE estado_automovil = "Activo" AND id_cliente = ?;';
         $params = array(
             $_SESSION['idUsuarioCliente']
@@ -201,7 +207,65 @@ class AutomovilHandler
         );
         return Database::getRows($sql, $params);
     }
+
+    public function readAllAppointments()
+    {
+        $sql = 'SELECT
+    c.nombres_cliente AS nombre_cliente,
+    c.dui_cliente AS dui_cliente,
+    co.nombre_color AS nombre_color,
+    mo.nombre_modelo_automovil AS nombre_modelo,
+    ma.nombre_marca_automovil AS nombre_marca,
+    a.placa_automovil AS placa_automovil,
+    a.imagen_automovil
+FROM
+    tb_citas ci
+INNER JOIN
+    tb_automoviles a ON ci.id_automovil = a.id_automovil
+INNER JOIN
+    tb_clientes c ON a.id_cliente = c.id_cliente
+INNER JOIN
+    tb_colores co ON a.id_color = co.id_color
+INNER JOIN
+    tb_modelos_automoviles mo ON a.id_modelo_automovil = mo.id_modelo_automovil
+INNER JOIN
+    tb_marcas_automoviles ma ON mo.id_marca_automovil = ma.id_marca_automovil
+WHERE
+    a.id_cliente = ?
+LIMIT 0, 1000;';
+        $params = array(
+            $_SESSION['idUsuarioCliente']
+        );
+        return Database::getRows($sql, $params);
+    }
+
+    public function searchAllMyCars()
+    {
+        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
+                c.dui_cliente AS dui_cliente,
+                co.nombre_color AS nombre_color,
+                mo.nombre_modelo_automovil AS nombre_modelo,
+                ma.nombre_marca_automovil AS nombre_marca,
+                a.*
+                FROM tb_automoviles a
+                INNER JOIN tb_clientes c USING(id_cliente)
+                INNER JOIN tb_colores co USING(id_color)
+                INNER JOIN tb_modelos_automoviles mo USING(id_modelo_automovil)
+                INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
+                WHERE estado_automovil = ?';
     
+        $params = array('Activo');
+    
+        if ($this->search_value) {
+            $sql .= ' AND (placa_automovil LIKE ? OR co.nombre_color LIKE ? OR mo.nombre_modelo_automovil LIKE ? OR ma.nombre_marca_automovil LIKE ?)';
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+        }
+        return Database::getRows($sql, $params);
+    }
+
     // Método para leer los automóviles
     public function readDetail()
     {
