@@ -256,12 +256,12 @@ class AutomovilHandler
         $params = array($this->id_automovil);
         return Database::getRow($sql, $params);
     }
-
     public function readTipos()
     {
         // Consulta SQL para leer los tipos de automóviles
         $sql = 'SELECT id_tipo_automovil, nombre_tipo_automovil FROM tb_tipos_automoviles';
         return Database::getRows($sql);
     }
+
 }
 ?>

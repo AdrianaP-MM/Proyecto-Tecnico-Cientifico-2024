@@ -48,14 +48,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-            case 'readTipos':
-                if ($result['dataset'] = $automovil->readTipos()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' tipos de automóviles registrados';
-                } else {
-                    $result['error'] = 'No existen tipos de automóviles registrados';
-                }
-                break;
+                case 'readTipos':
+                    if ($result['dataset'] = $automovil->readTipos()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' tipos de automóviles registrados';
+                    } else {
+                        $result['error'] = 'No existen tipos de automóviles registrados';
+                    }
                 case 'createRow':
                     $_POST = Validator::validateForm($_POST);
                     if (
