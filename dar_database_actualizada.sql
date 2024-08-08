@@ -56,12 +56,14 @@
         placa_automovil VARCHAR(8),
         imagen_automovil VARCHAR(25) NOT NULL,
         id_cliente INT, /*FK*/
+        id_marca_automovil INT, /*FK*/
         fecha_registro DATE NOT NULL,
         estado_automovil ENUM('Activo', 'Eliminado') NOT NULL
     );
 
     /**FOREIGN KEY**/
     ALTER TABLE tb_automoviles
+    ADD CONSTRAINT u_fk__marca_automovil FOREIGN KEY (id_marca_automovil) REFERENCES tb_marcas_automoviles(id_marca_automovil),
     ADD CONSTRAINT u_fk_tipo_automovil_automovil FOREIGN KEY (id_tipo_automovil) REFERENCES tb_tipos_automoviles(id_tipo_automovil),
     ADD CONSTRAINT u_fk_cliente_automovil FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente);
     
@@ -340,18 +342,19 @@
 
     
    -- Inserts para automóviles asociados a clientes
-    INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, fecha_registro, estado_automovil)
+    INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, id_marca_automovil, fecha_registro, estado_automovil)
     VALUES 
-    ('Modelo A', 1, 'Rojo', '2023', 'PQR123', 'imagen_auto1.jpg', 1, '2023-01-15', 'Activo'),
-    ('Modelo B', 2, 'Azul', '2022', 'ABC456', 'imagen_auto2.jpg', 2, '2022-11-30', 'Activo'),
-    ('Modelo C', 3, 'Gris', '2023', 'XYZ789', 'imagen_auto3.jpg', 3, '2023-05-20', 'Activo'),
-    ('Modelo D', 1, 'Blanco', '2022', 'DEF012', 'imagen_auto4.jpg', 4, '2023-02-10', 'Activo'),
-    ('Modelo E', 2, 'Negro', '2023', 'GHI345', 'imagen_auto5.jpg', 5, '2023-07-05', 'Activo'),
-    ('Modelo F', 3, 'Amarillo', '2022', 'JKL678', 'imagen_auto6.jpg', 6, '2022-12-18', 'Activo'),
-    ('Modelo G', 1, 'Verde', '2023', 'MNO901', 'imagen_auto7.jpg', 7, '2023-04-01', 'Activo'),
-    ('Modelo H', 2, 'Anaranjado', '2022', 'PQR234', 'imagen_auto8.jpg', 8, '2023-03-15', 'Activo'),
-    ('Modelo I', 3, 'Tornasol', '2023', 'STU567', 'imagen_auto9.jpg', 9, '2023-06-20', 'Activo'),
-    ('Modelo J', 1, 'Plata', '2023', 'VWX890', 'imagen_auto10.jpg', 10, '2023-08-10', 'Activo');
+    ('Modelo A', 1, 'Rojo', 2023, 'PQR123', 'imagen_auto1.jpg', 1, 1, '2023-01-15', 'Activo'),
+    ('Modelo B', 2, 'Azul', 2022, 'ABC456', 'imagen_auto2.jpg', 2, 2, '2022-11-30', 'Activo'),
+    ('Modelo C', 3, 'Gris', 2023, 'XYZ789', 'imagen_auto3.jpg', 3, 3, '2023-05-20', 'Activo'),
+    ('Modelo D', 1, 'Blanco', 2022, 'DEF012', 'imagen_auto4.jpg', 4, 1, '2023-02-10', 'Activo'),
+    ('Modelo E', 2, 'Negro', 2023, 'GHI345', 'imagen_auto5.jpg', 5, 2, '2023-07-05', 'Activo'),
+    ('Modelo F', 3, 'Amarillo', 2022, 'JKL678', 'imagen_auto6.jpg', 6, 3, '2022-12-18', 'Activo'),
+    ('Modelo G', 1, 'Verde', 2023, 'MNO901', 'imagen_auto7.jpg', 7, 1, '2023-04-01', 'Activo'),
+    ('Modelo H', 2, 'Anaranjado', 2022, 'PQR234', 'imagen_auto8.jpg', 8, 2, '2023-03-15', 'Activo'),
+    ('Modelo I', 3, 'Tornasol', 2023, 'STU567', 'imagen_auto9.jpg', 9, 3, '2023-06-20', 'Activo'),
+    ('Modelo J', 1, 'Plata', 2023, 'VWX890', 'imagen_auto10.jpg', 10, 1, '2023-08-10', 'Activo');
+
 
 
 

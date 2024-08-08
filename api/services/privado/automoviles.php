@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/automoviles_data.php');
+require_once ('../../models/data/automoviles_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -17,26 +17,26 @@ if (isset($_GET['action'])) {
         switch ($_GET['action']) {
             case 'searchRows':
                 // Verificar si $_POST['search'] está definido
-                    // Obtener el valor de búsqueda
-                    $searchValue = $_POST['search'];
-                    $fechaDesde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
-                    $fechaHasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
-                    $fechaFabricacion = isset($_POST['fecha_fabricacion']) ? $_POST['fecha_fabricacion'] : '';
+                // Obtener el valor de búsqueda
+                $searchValue = $_POST['search'];
+                $fechaDesde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
+                $fechaHasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
+                $fechaFabricacion = isset($_POST['fecha_fabricacion']) ? $_POST['fecha_fabricacion'] : '';
 
-                    // Establecer el valor de búsqueda en el objeto automovil
-                    $automovil->setSearchValue($searchValue);
-                    $automovil->setFechaDesde($fechaDesde);
-                    $automovil->setFechaHasta($fechaHasta);
-                    $automovil->setFechaFabricacion2($fechaFabricacion);
+                // Establecer el valor de búsqueda en el objeto automovil
+                $automovil->setSearchValue($searchValue);
+                $automovil->setFechaDesde($fechaDesde);
+                $automovil->setFechaHasta($fechaHasta);
+                $automovil->setFechaFabricacion2($fechaFabricacion);
 
-                    // Realizar la búsqueda y verificar si hay resultados
-                    $result['dataset'] = $automovil->searchRows();
+                // Realizar la búsqueda y verificar si hay resultados
+                $result['dataset'] = $automovil->searchRows();
 
-                    if (!empty($result['dataset'])) {
-                        $result['status'] = 1; // Éxito: se encontraron resultados
-                    } else {
-                        $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
-                    }
+                if (!empty($result['dataset'])) {
+                    $result['status'] = 1; // Éxito: se encontraron resultados
+                } else {
+                    $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
+                }
                 break;
 
             case 'createRow':
@@ -65,14 +65,6 @@ if (isset($_GET['action'])) {
                 break;
             case 'readAll':
                 if ($result['dataset'] = $automovil->readAll()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
-                } else {
-                    $result['error'] = 'No existen automóviles registrados';
-                }
-                break;
-            case 'readModelos':
-                if ($result['dataset'] = $automovil->readModelos()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
                 } else {
@@ -161,10 +153,23 @@ if (isset($_GET['action'])) {
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
+        print (json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        print (json_encode('Acceso denegado'));
     }
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
+
+/*Case que quite por si acaso peta todo
+
+case 'readModelos':
+                if ($result['dataset'] = $automovil->readModelos()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
+
+*/

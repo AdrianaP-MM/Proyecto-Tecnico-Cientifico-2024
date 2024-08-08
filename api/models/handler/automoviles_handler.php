@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla automoviles.
@@ -20,7 +20,7 @@ class AutomovilHandler
 
     protected $search_value = null;
     protected $fecha_desde = null;
-    protected $fecha_hasta  = null;
+    protected $fecha_hasta = null;
 
     const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
@@ -39,14 +39,14 @@ class AutomovilHandler
                 INNER JOIN tb_modelos_automoviles mo USING(modelo_automovil) // Cambio aquí
                 INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
                 WHERE estado_automovil = ?';
-    
+
         $params = array('Activo');
-    
+
         if ($this->search_value) {
             $sql .= ' AND (placa_automovil LIKE ?)';
             $params[] = "%{$this->search_value}%";
         }
-    
+
         if ($this->fecha_desde && $this->fecha_hasta) {
             $sql .= ' AND fecha_registro BETWEEN ? AND ?';
             $params[] = $this->fecha_desde;
@@ -61,15 +61,15 @@ class AutomovilHandler
                 $params[] = $this->fecha_hasta;
             }
         }
-    
+
         if ($this->fecha_fabricacion_automovil) {
             $sql .= ' AND YEAR(fecha_fabricacion_automovil) = ?';
             $params[] = $this->fecha_fabricacion_automovil;
         }
-    
+
         return Database::getRows($sql, $params);
     }
-    
+
     public function updateRow()
     {
         // Consulta SQL para actualizar un automóvil
@@ -81,7 +81,7 @@ class AutomovilHandler
         placa_automovil = ?,
         imagen_automovil = ?,
         id_cliente = ?
-        WHERE id_automovil = ?'; 
+        WHERE id_automovil = ?';
 
         $params = array(
             $this->modelo_automovil,
@@ -118,7 +118,7 @@ class AutomovilHandler
             imagen_automovil,
             id_cliente,
             fecha_registro,
-            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")'; 
+            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")';
 
         $params = array(
             $this->modelo_automovil,
@@ -127,7 +127,7 @@ class AutomovilHandler
             $this->fecha_fabricacion_automovil,
             $this->placa_automovil,
             $this->imagen_automovil,
-            $_SESSION['idUsuarioCliente'] 
+            $_SESSION['idUsuarioCliente']
         ); // Parámetros para la consulta SQL
 
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
@@ -153,20 +153,32 @@ class AutomovilHandler
     public function readAll()
     {
         // Consulta SQL para leer todos los automóviles activos
-        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
+        $sql = 'SELECT 
+        c.nombres_cliente AS nombre_cliente,
         c.dui_cliente AS dui_cliente,
-        co.nombre_color AS nombre_color,
-        mo.nombre_modelo_automovil AS nombre_modelo,
         ma.nombre_marca_automovil AS nombre_marca,
-        a.*
-        FROM tb_automoviles a
-        INNER JOIN tb_clientes c USING(id_cliente)
-        INNER JOIN tb_colores co USING(id_color)
-        INNER JOIN tb_modelos_automoviles mo USING(modelo_automovil) // Cambio aquí
-        INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
-        WHERE estado_automovil = "Activo";';
+        a.id_automovil,
+        a.modelo_automovil,
+        a.id_tipo_automovil,
+        a.color_automovil,
+        a.fecha_fabricacion_automovil,
+        a.placa_automovil,
+        a.imagen_automovil,
+        a.id_cliente,
+        a.id_marca_automovil,
+        a.fecha_registro,
+        a.estado_automovil
+        FROM 
+        tb_automoviles a
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
+        WHERE 
+        a.estado_automovil = "Activo";';
         return Database::getRows($sql);
     }
+    
     public function readAllMyCars()
     {
         // Consulta SQL para leer todos los automóviles del cliente actual, incluyendo la imagen del automóvil
@@ -182,7 +194,7 @@ class AutomovilHandler
         );
         return Database::getRows($sql, $params);
     }
-    
+
 
     public function readAllDelete()
     {
@@ -204,7 +216,7 @@ class AutomovilHandler
         );
         return Database::getRows($sql, $params);
     }
-    
+
     public function readDetail()
     {
         // Consulta SQL para leer el detalle de un automóvil

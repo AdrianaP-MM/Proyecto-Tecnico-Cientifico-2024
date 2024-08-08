@@ -150,9 +150,9 @@ const fillTable = async (form = null) => {
                                 </p>
                             </div>
                             <div class="grid-c c3">
-                                <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.nombre_color}
+                                <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.color_automovil}
                                     <span
-                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.nombre_modelo}</span>
+                                        class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.modelo_automovil}</span>
                                 </p>
                             </div>
                         </div>
@@ -161,7 +161,6 @@ const fillTable = async (form = null) => {
         });
     } else {
         sweetAlert(4, DATA.error, true);
-        fillTable();
     }
 }
 
@@ -175,7 +174,6 @@ const openCreate = () => {
     SAVE_MODAL.show();
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    fillSelect(AUTOMOVILES_API, 'readModelos', 'input_modelo_auto');
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
     fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto');
     fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP');
