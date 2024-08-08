@@ -3,8 +3,9 @@
 require_once ('../../helpers/validator.php');
 // Se incluye la clase padre.
 require_once ('../../models/handler/automoviles_handler.php');
+
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
+ *  Clase para manejar el encapsulamiento de los datos de la tabla AUTOMOVIL.
  */
 class AutomovilData extends AutomovilHandler
 {
@@ -24,18 +25,18 @@ class AutomovilData extends AutomovilHandler
             $this->id_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de el automóvil es incorrecto';
+            $this->data_error = 'El identificador del automóvil es incorrecto';
             return false;
         }
     }
 
-    public function setIdModelo($value)
+    public function setModeloAutomovil($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_modelo_automovil = $value;
+        if (Validator::validateString($value)) { // Cambiado a validación de cadena
+            $this->modelo_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de el modelo del automóvil es incorrecto';
+            $this->data_error = 'El modelo del automóvil es incorrecto';
             return false;
         }
     }
@@ -51,38 +52,25 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
-    public function setIdColor($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_color = $value;
-            return true;
-        } else {
-            $this->data_error = 'El identificador del color es incorrecto';
+    public function setColor($value) {
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'Ingrese un departemento disponible';
             return false;
+        } else {
+            $this->color_automovil = $value;
+            return true;
         }
     }
+    
 
-    // Validación y asignación de la fecha de inicio de la jornada.
+    // Validación y asignación de la fecha de fabricación.
     public function setFechaFabricacion($value)
     {
         if (Validator::validateDate($value)) {
             $this->fecha_fabricacion_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'La fecha de inicio no es valida';
-            return false;
-        }
-    }
-
-    
-    // Validación y asignación de la fecha de inicio de la jornada.
-    public function setFechaFabricacion2($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->fecha_fabricacion_automovil = $value;
-            return true;
-        } else {
-            $this->data_error = 'La fecha es incorrecto';
+            $this->data_error = 'La fecha de fabricación no es válida';
             return false;
         }
     }
@@ -99,12 +87,12 @@ class AutomovilData extends AutomovilHandler
             $this->imagen_automovil = $filename;
             return true;
         } else {
-            $this->data_error = 'default.png';
+            $this->imagen_automovil = 'default.png';
             return true;
         }
     }
 
-    //Método para validar dependiendo del dato que se utiliza, asimismo asignarle los valores de los atributos
+    // Método para validar y asignar la placa del automóvil.
     public function setPlaca($value)
     {
         $this->placa_automovil = $value;
@@ -122,15 +110,13 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
-    //alidación y asignación de la fecha de inicio de la jornada.
-
-    // Validación y asignación del estado del pedido.
+    // Validación y asignación del estado del automóvil.
     public function setEstado($value, $activo = "Activo", $eliminado = "Eliminado")
     {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El estado debe ser un valor alfabético';
             return false;
-        } elseif ($value = $activo || $eliminado) {
+        } elseif ($value === $activo || $value === $eliminado) { // Comparación correcta
             $this->estado_automovil = $value;
             return true;
         } else {
@@ -138,17 +124,6 @@ class AutomovilData extends AutomovilHandler
             return false;
         }
     }
-
-   /* public function setFilename()
-    {
-        if ($data = $this->readFilename()) {
-            $this->filename = $data['imagen_categoria'];
-            return true;
-        } else {
-            $this->data_error = 'Categoría inexistente';
-            return false;
-        }
-    }*/
 
     /*
      *  Métodos para obtener los atributos adicionales.
@@ -180,5 +155,4 @@ class AutomovilData extends AutomovilHandler
         $this->fecha_hasta = $value;
         return true;
     }
-
 }

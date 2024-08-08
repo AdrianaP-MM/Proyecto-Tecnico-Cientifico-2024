@@ -2,6 +2,8 @@
 // Se incluye la clase del modelo.
 require_once('../../models/data/automoviles_data.php');
 
+
+
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
@@ -27,7 +29,7 @@ if (isset($_GET['action'])) {
                 $automovil->setSearchValue($searchValue);
                 $automovil->setFechaDesde($fechaDesde);
                 $automovil->setFechaHasta($fechaHasta);
-                $automovil->setFechaFabricacion2($fechaFabricacion);
+                $automovil->setFechaFabricacion($fechaFabricacion);
 
                 // Realizar la búsqueda y verificar si hay resultados
                 $result['dataset'] = $automovil->searchRows();
@@ -46,12 +48,32 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-                case 'readTipos':
-                    if ($result['dataset'] = $automovil->readTipos()) {
+            case 'readTipos':
+                if ($result['dataset'] = $automovil->readTipos()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' tipos de automóviles registrados';
+                } else {
+                    $result['error'] = 'No existen tipos de automóviles registrados';
+                }
+                break;
+                case 'createRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
+                        !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
+                        !$automovil->setColor($_POST['color_automovil']) or
+                        !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
+                        !$automovil->setPlaca($_POST['placa_automovil']) or
+                        !$automovil->setImagen($_FILES['imagen_automovil']) or
+                        !$automovil->setIdCliente($_POST['id_cliente']) // Asegúrate de que este campo sea enviado desde React Native si es necesario
+                    ) {
+                        $result['error'] = $automovil->getDataError();
+                    } elseif ($automovil->createRow()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles registrados';
+                        $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $automovil::RUTA_IMAGEN);
+                        $result['message'] = 'Tipo de servicio creado correctamente';
                     } else {
-                        $result['error'] = 'No existen automóviles registrados';
+                        $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
                     }
                     break;
             case 'readAllMyCars':
@@ -70,18 +92,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-                case 'deleteRow':
-                    if (
-                        !$automovil->setId($_POST['idAuto'])
-                    ) {
-                        $result['error'] = $automovil->getDataError();
-                    } elseif ($automovil->deleteRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Automóvil eliminado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
-                    }
-                    break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
