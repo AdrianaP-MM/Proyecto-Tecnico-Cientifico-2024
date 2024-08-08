@@ -62,6 +62,18 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
+                case 'deleteRow':
+                    if (
+                        !$automovil->setId($_POST['idAuto'])
+                    ) {
+                        $result['error'] = $automovil->getDataError();
+                    } elseif ($automovil->deleteRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Automóvil eliminado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
+                    }
+                    break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
