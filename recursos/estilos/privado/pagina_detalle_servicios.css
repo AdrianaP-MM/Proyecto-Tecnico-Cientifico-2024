@@ -123,3 +123,92 @@ label[for= exampleInputPassword1]{
     color: #BA181B;
 }
 
+/* Etiqueta flotante */
+.form-floating>label {
+    color: red;
+}
+
+/* Etiqueta flotante enfocada o con contenido */
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label {
+    color: red; /* Color rojo */
+    /* Color rojo */
+}
+
+/* Ajusta el espacio entre todos los labels y campos de entrada en los modales */
+.modal-dialog .form-floating {
+    margin-bottom: 1.5rem; /* Ajusta el espacio aquí */
+}
+
+.modal-dialog .form-label {
+    margin-bottom: 0.5rem; /* Ajusta el espacio aquí */
+}
+.btnAgregarServicio {
+    background-color: white;
+    width: 250px;
+    height: 60%;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    cursor: pointer;
+    border-bottom: 1px solid gray;
+}
+
+.btnAgregarServicio:hover {
+    background-color: #E5383B;
+}
+.btnAgregarServicio:hover>h6 {
+    color: white;
+}
+
+/* Asegúrate de que el contenedor tenga un padding adecuado */
+.container {
+    padding: 0 15px;
+}
+
+.containerCardsServicios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%; /* Asegura que ocupe el ancho completo del contenedor padre */
+    margin-top: 20px; /* Ajusta según sea necesario */
+}
+
+/* Asegúrate de que la fila ocupe el 100% del ancho y esté alineada */
+.row {
+    width: 100%;
+}
+
+/* Asegúrate de que cada tarjeta ocupe toda la columna */
+.col-auto {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajusta el diseño de add-auto-card para ocupar el 100% del ancho de su contenedor */
+/* Estilos para la tarjeta de auto */
+.add-auto-card {
+    background-color: #F5F3F4;
+    border: #232323 3px solid;
+    position: relative;
+    border-radius: 10px;
+    min-height: 170px;
+    width: 200%;
+    height: 175%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 100%; /* Ajusta el tamaño de la tarjeta para que se adapte al contenedor */
+}
+
+.contenedor-scroll {
+    width: 100%;
+    max-width: 400px; /* Ajusta el tamaño según sea necesario */
+}

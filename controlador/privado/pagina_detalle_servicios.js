@@ -49,7 +49,6 @@ const fillServiceData = async (id_tipo_servicio = Number(getQueryParam('id_tipo_
     // Limpia el contenedor antes de cargar nuevos datos.
     SERVICIO_DATA_CONTAINER.innerHTML = '';
     let html;
-
     const FORM = new FormData();
     FORM.append('id_tipo_servicio', id_tipo_servicio);
 
@@ -67,7 +66,16 @@ const fillServiceData = async (id_tipo_servicio = Number(getQueryParam('id_tipo_
         `).join(''); // .join('') para convertir el array en un string
 
         // Inserta el HTML generado en el contenedor especificado.
-        SERVICIO_DATA_CONTAINER.innerHTML = html;
+        SERVICIO_DATA_CONTAINER.innerHTML = `<div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
+                        <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
+                            <div class="h-100 d-flex align-items-center px-4">
+                                <div class="add-auto-card d-flex justify-content-center align-items-center">
+                                    <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop" alt="Add Service">
+                                </div>
+                            </div>
+                        </div>
+                    </div> ` + html;
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
             await sweetAlert(4, DATA.error, true);
@@ -96,7 +104,7 @@ const openUpdate = async (id) => {
         SAVE_MODAL.show();
         // Se inicializan los campos con los datos.
         const row = DATA.dataset;
-        
+
         ID_TIPO_SERVICIO.value = id;
         NOMBRE_SERVICIO.value = row.nombre_servicio;
         DESCRIPCION_SERVICIO.value = row.descripcion_servicio;
@@ -130,7 +138,7 @@ const openDelete = async (id) => {
 
         // Depuración: Mostrar todos los pares clave-valor en el formData
         for (let pair of formData.entries()) {
-            console.log("Datos recibidos del form"+ pair[0] + ': ' + pair[1]);
+            console.log("Datos recibidos del form" + pair[0] + ': ' + pair[1]);
         }
 
         // Petición para eliminar el registro seleccionado.
@@ -187,6 +195,24 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
 
 
 // Método del evento para cuando el documento ha cargado.
