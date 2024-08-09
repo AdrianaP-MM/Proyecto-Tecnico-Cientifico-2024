@@ -26,7 +26,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
     const action = ID_TIPO_SERVICIO.value ? 'updateRow' : 'createRow'; // Se verifica la acción a realizar
     const formData = new FormData(SAVE_FORM); // Constante tipo objeto con los datos del formulario
-    formData.append('customFileW',  IMAGE_INPUT.value);
+    formData.append('customFileW', IMAGE_INPUT.files[0]); // Usa files[0] para obtener el archivo
 
     try {
         const responseData = await fetchData(SERVICIOS_API, action, formData); // Petición para guardar los datos del formulario
@@ -35,6 +35,17 @@ SAVE_FORM.addEventListener('submit', async (event) => {
             MODAL.hide(); // Se cierra la caja de diálogo
             sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
             readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
+            
+            SAVE_FORM.reset(); // Se vacían los campos del formulario
+
+            // Limpiar el campo de archivo
+            IMAGE_INPUT.value = '';
+
+            // Restablecer la imagen a la original
+            const selectedImage = document.getElementById('selectedImageW');
+            if (selectedImage) {
+                selectedImage.src = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'; // La URL de la imagen original
+            }
         } else {
             sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
         }
@@ -44,27 +55,41 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+
 // Método para obtener y mostrar los servicios
+async function checkImageExists(imageUrl) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = imageUrl;
+    });
+}
+
 async function readServicios() {
     try {
         const DATA = await fetchData(SERVICIOS_API, 'readAll'); // Petición para obtener los datos
 
         if (DATA && DATA.status) { // Se comprueba si la respuesta es satisfactoria
-            DATA.dataset.forEach(row => {
+            for (const row of DATA.dataset) {
+                const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
+                const imageExists = await checkImageExists(imageUrl);
+                const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
+                
                 CONTAINER_TRABAJADORES_BODY.innerHTML += `
                     <div class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
                         <div class="content z-3">
                             <h4 class="open-sans-light-italic">Más información</h4>
                         </div>
                         <div class="img-container p-3">
-                             <img src="${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}" />
+                             <img src="${imgSrc}" />
                         </div>
                         <div class="text-container d-flex justify-content-center p-2">
                             <h3 class="open-sans-regular text-white">${row.nombre_tipo_servicio}</h3>
                         </div>
                     </div>
                 `;
-            });
+            }
         } else {
             sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false); // Se muestra un mensaje de error
         }
@@ -74,10 +99,13 @@ async function readServicios() {
     }
 }
 
-// Función para mostrar la imagen seleccionada en un elemento de imagen
+
 function displaySelectedImage(event, elementId) {
     const selectedImage = document.getElementById(elementId);
     const fileInput = event.target;
+
+    // Ruta de la imagen por defecto
+    const defaultImage = '../../api/images/tipoServicio/mecanica.png';
 
     if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
@@ -85,6 +113,9 @@ function displaySelectedImage(event, elementId) {
             selectedImage.src = e.target.result;
         };
         reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        // Si no se ha seleccionado ninguna imagen, usa la imagen por defecto
+        selectedImage.src = defaultImage;
     }
 }
 

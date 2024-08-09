@@ -148,80 +148,31 @@
 .btnSave,
 .btnCancel {
     height: 50px;
-    width: 150px;
-}
-/* Efecto de crecimiento al pasar el ratón por el contenido */
-.hvr-grow:hover,
-.hvr-grow:focus,
-.hvr-grow:active {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-}
-
-/* Etiqueta flotante */
-.form-floating>label {
-    color: red;
-}
-
-/* Etiqueta flotante enfocada o con contenido */
-.form-floating .form-control:focus~label,
-.form-floating .form-control:not(:placeholder-shown)~label {
-    color: red;
-    /* Color rojo */
-    /* Color rojo */
-}
-
-/* Estilo para el diálogo modal */
-.modal-dialog {
-    min-width: 40vw;
-}
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
-}
-
-/* Estilos para el botón de guardar */
-.btnSave {
-    background-color: #E5383B;
-}
-
-/* Estilos para los botones de guardar y cancelar */
-.btnSave,
-.btnCancel {
-    height: 50px;
     width: 200px;
 }
 
+
+
+/* Contenedor principal para centrar el contenido */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente (si hay suficiente altura en el contenedor) */
-    height: 48vh; /* Opcional: Ajusta la altura del contenedor al 100% de la vista de la ventana */
-    gap: 30px; /* Ajusta el espacio entre los elementos */
-    margin-top: 3rem; /* Espacio adicional si es necesario */
+    justify-content: center; /* Centra verticalmente */
+    text-align: center; /* Opcional: centra el texto */
 }
 
-
-
-.container h6 {
-    margin-bottom: 5px; /* Ajusta el margen inferior del encabezado para reducir el espacio */
+/* Estilos para la imagen */
+#selectedImageW {
+    max-width: 100%; /* Hace que la imagen sea responsive */
+    height: auto; /* Mantiene la proporción de la imagen */
+    margin-bottom: 1rem; /* Espacio debajo de la imagen */
 }
 
-.container img {
-    max-width: 100%; /* Asegura que la imagen no exceda el ancho del contenedor */
+/* Contenedor del botón de archivo */
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.form-floating {
-    margin-bottom: 10rem; /* Ajusta el margen inferior del contenedor del formulario para evitar superposición */
-}
-
-.img {
-    width: 50px;
-    height: 50px;
-}
-
-.divReload {
-    cursor: pointer;
-}
-
-    
