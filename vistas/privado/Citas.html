@@ -176,9 +176,9 @@
                                     </button>
                                     <button type="button" class="btn btn-secondary btnSave2 col-11"
                                         onclick="openServicios()" id="btnOpenServicios">
-                                        <h5 class="open-sans-regular m-0 p-0">
+                                        <h6 class="open-sans-regular m-0 p-0">
                                             Servicios en proceso
-                                        </h5>
+                                        </h6>
                                     </button>
                                     <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
                                         onclick="updateEstado('Cancelado')" id="btnCancelarCita">
@@ -186,6 +186,11 @@
                                             Cancelar cita
                                         </h5>
                                     </button>
+                                    <button type="button" class="btn btn-secondary btnSave2 col-10"
+                                        onclick="openFinalizarCita()" id="btnFinalizarCita">
+                                        <h5 class="open-sans-regular m-0 p-0">
+                                            Finalizar cita
+                                        </h5>
                                 </div>
                             </div>
                         </div>
@@ -282,12 +287,12 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-end">
-                                    <button type="button" class="btn btn-primary btnCancel2 me-lg-5 me-3 me-md-5"
+                                    <!-- <button type="button" class="btn btn-primary btnCancel2 me-lg-5 me-3 me-md-5"
                                         id="btnEliminarCita" onclick="openDeleteCita()">
                                         <h6 class="open-sans-regular m-0 p-0">
                                             Eliminar
                                         </h6>
-                                    </button>
+                                    </button> -->
                                     <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
                                         onclick="openCloseUpdate()">
                                         <h6 class="open-sans-regular m-0 p-0">
@@ -529,6 +534,255 @@
                                     </div>
                                 </form>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Modal para cita-->
+            <div class="modal fade" id="modaRealizarFactura" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="modaRealizarFacturaLabel" aria-hidden="true">
+                <!-- Contenedor del modal dialog-->
+                <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down modal-xl modal-dialog-factura">
+                    <!-- Contenedor del modal content-->
+                    <div class="modal-content pt-lg-0">
+                        <!-- Contenedor del modal body-->
+                        <div class="modal-header d-fex flex-column justify-content-center align-items-end">
+                            <div class="whiteBlock d-flex justify-content-center align-items-center flex-column">
+                                <h2 class="open-sans-semibold m-0 p-0 ms-2">
+                                    Factura
+                                </h2>
+                                <h6 class="open-sans-regular m-0 p-0 ms-2" id="subTittleFactura"></h6>
+                                <h5 class="open-sans-regular m-0 p-0 ms-2 clrGry1 lineUp mt-2">
+                                    # 00001
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="modal-body px-5">
+                            <form id="formFactura" name="formFactura" class="needs-validation" novalidate>
+                                <!-- Columna izquierda -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de registro</h6>
+                                                <input id="fecha_registro_factura"
+                                                    class="open-sans-regular form-control py-3"
+                                                    name="fecha_registro_factura" required readonly disabled />
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <label class="form-label px-2 pt-0 p-0 m-0">Venta a cuenta de</label>
+                                                <select class="form-select pt-4 open-sans-regular"
+                                                    id="factura_venta_cuenta" name="factura_venta_cuenta"
+                                                    aria-label="Default select example" required>
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                    <option value="CONTADO">Contado</option>
+                                                    <option value="TARJETA">Tarjeta</option>
+                                                </select>
+                                                <div class="invalid-feedback">Por favor selecciona un tipo de
+                                                    contado.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input class="form-control" id="duracion_garantia"
+                                                    name="duracion_garantia" placeholder="..." type="number" min="1"
+                                                    max="999" required>
+                                                <label for="duracion_garantia">Duración de la garantía (Días)</label>
+                                                <div class="invalid-feedback">Por favor ingresa la duración de la
+                                                    garantia.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="factura_nota"
+                                                    name="factura_nota" placeholder="..." maxlength="100">
+                                                <label for="factura_nota">Nota</label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="nombre_emisor"
+                                                    name="nombre_emisor" placeholder="..." required maxlength="25">
+                                                <label for="nombre_emisor">Nombre del emisor</label>
+                                                <div class="invalid-feedback">
+                                                    Por favor ingresa el nombre del emisor.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="nit_cliente"
+                                                    name="nit_cliente" placeholder="..." required readonly disabled>
+                                                <label for="nit_cliente">NIT del cliente</label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3" id="juridico_input1">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="nrf_cliente"
+                                                    name="nrf_cliente" placeholder="..." required readonly disabled>
+                                                <label for="nrf_cliente">NRF del cliente</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Columna derecha -->
+                                    <div class="col-md-6">
+                                        <div class="mb-3 mt-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="cliente_data"
+                                                    name="cliente_data" placeholder="..." required maxlength="250"
+                                                    readonly disabled>
+                                                <label for="cliente_data">Cliente</label>
+                                                <div class="invalid-feedback">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="auto_data" name="auto_data"
+                                                    placeholder="..." required maxlength="250" readonly disabled>
+                                                <label for="auto_data">Placa del automóvil</label>
+                                                <div class="invalid-feedback">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <label class="form-label px-2 pt-0 p-0 m-0">Estado de pago</label>
+                                                <select class="form-select pt-4 open-sans-regular" id="estado_pago"
+                                                    name="estado_pago" aria-label="Default select example" required>
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                    <option value="En espera">En espera</option>
+                                                    <option value="Completado">Completado</option>
+                                                    <option value="Cancelado">Cancelado</option>
+                                                </select>
+                                                <div class="invalid-feedback">Por favor selecciona un estado de pago.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <label class="form-label px-2 pt-0 p-0 m-0">Añadir formas de
+                                                    pago</label>
+                                                <select class="form-select pt-4 open-sans-regular" id="formas_pago"
+                                                    name="formas_pago" aria-label="Default select example" required>
+                                                    <option value="" selected>Seleccione una opción</option>
+                                                    <option value="Efectivo">Efectivo</option>
+                                                    <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+                                                    <option value="Tarjeta de débito">Tarjeta de débito</option>
+                                                    <option value="Transferencia bancaria">Transferencia bancaria
+                                                    </option>
+                                                    <option value="Cheque">Cheque</option>
+                                                    <option value="PayPal">PayPal</option>
+                                                    <option value="Apple Pay">Apple Pay</option>
+                                                    <option value="Google Pay">Google Pay</option>
+                                                    <option value="Crédito de la tienda">Crédito de la tienda</option>
+                                                    <option value="Pago móvil">Pago móvil</option>
+                                                </select>
+                                                <div class="invalid-feedback">Por favor selecciona al menos una forma de
+                                                    pago.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="dui_emisor"
+                                                    name="dui_emisor" placeholder="..." required>
+                                                <label for="dui_emisor">DUI del emisor</label>
+                                                <div class="invalid-feedback">Por favor ingresa el DUI del emisor.</div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3" id="juridico_input2">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="nrc_cliente"
+                                                    name="nrc_cliente" placeholder="..." required readonly disabled>
+                                                <label for="nrc_cliente">NRC del cliente</label>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3" id="juridico_input3">
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="text" class="form-control" id="rubro_cliente"
+                                                    name="rubro_cliente" placeholder="..." required readonly disabled>
+                                                <label for="rubro_cliente">Rubro comercial del cliente</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="open-sans-regular clrGry1 mt-4">
+                                    Para eliminar, actualizar y agregar algun servicio regrese y seleccione servicios en
+                                    proceso
+                                </h6>
+                                <div
+                                    class="contenedorServiciosProceso my-4 px-4 d-flex w-100 justify-content-start align-items-center flex-column py-5 lineUp">
+                                    <div
+                                        class="cardServicioProceso shadow position-relative d-flex flex-column justify-content-start align-items-start">
+                                        <h4
+                                            class=" position-absolute textCardServicio open-sans-semibold pt-3 w-100 text-center">
+                                            Titulo del servicio
+                                        </h4>
+                                        <div class="d-flex px-3 pt-4">
+                                            <h6 class="open-sans-semibold pt-3 text me-3">
+                                                Descripción:
+                                            </h6>
+                                            <h6 class=" open-sans-regular pt-3 text">
+                                              asasasasas
+                                            </h6>
+                                        </div>
+                                        <div
+                                            class="cardServicioBody w-100 d-flex justify-content-center align-items-center flex-column">
+                                            <div class="datosCard px-4 pb-3 pt-0">
+                                                <div class="d-flex">
+                                                    <h5 class="open-sans-semibold pt-3 text me-3">
+                                                        Consumidor:
+                                                    </h5>
+                                                    <h5 class=" open-sans-regular pt-3 text">
+                                                        Axel garcía:
+                                                    </h5>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <h5 class="open-sans-semibold pt-3 text me-3">
+                                                        Cantidad:
+                                                    </h5>
+                                                    <h5 class=" open-sans-regular pt-3 text">
+                                                        1
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="cardServiciosFooter lineUp d-flex justify-content-between px-3 w-100 py-3">
+                                                <h3 class=" open-sans-semibold pt-3 text">
+                                                   Precio: $50
+                                                </h3>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-center d-flex flex-column">
+                                    <div class="w-100 lineDownRed my-2">
+                                        <h5 class=" open-sans-regular pt-3 text">
+                                           IVA: 13%
+                                        </h5>
+                                    </div>
+                                    <div class="w-100 d-flex justify-content-between align-items-center">
+                                        <div class="gapasas">
+                                            <div class="rows1">
+                                                <h5 class="open-sans-regular pt-3 text">
+                                                    Precio total de los servicios: $100
+                                                 </h5>
+                                            </div>
+                                            <div class="rows2">
+                                                <h5 class="open-sans-regular pt-3 text">
+                                                    Precio total de los servicios con IVA: $100
+                                                 </h5>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btnCancel me-lg-5 me-3 me-md-5">
+                                            Imprimir</button>
+                                    </div>
+
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

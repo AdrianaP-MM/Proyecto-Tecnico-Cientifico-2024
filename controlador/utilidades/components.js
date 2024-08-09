@@ -321,7 +321,6 @@ const fillSelect = async (filename, action, select, selected = null, form = null
     document.getElementById(select).innerHTML = content;
 }
 
-
 const checkFormValidity = form => {
     const validities = [];
     Array.from(form.elements).forEach(element => {

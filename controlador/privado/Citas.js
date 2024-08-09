@@ -2,6 +2,7 @@
 const CITAS_API = 'services/privado/citas.php';
 const USER_API = 'services/privado/usuarios.php';
 const SERVICES_API = 'services/privado/servicios_en_proceso.php';
+const FACTURAS_API = 'services/privado/facturas.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
 const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
@@ -54,13 +55,17 @@ const INPUT_SERVICIOS = document.getElementById('input_servicios');
 
 const CONTENEDOR_SERVICIO = document.getElementById('contenedorServicio');
 
-const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
+const MODAL_REALIZAR_FACTURA = new bootstrap.Modal('#modaRealizarFactura');
+
+const FORM_FACTURA = document.getElementById('formFactura');
+
+// const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
   loadTemplate();
   id_serviciow = 0;
-  BTN_ELIMINAR_CITA.classList.add('d-none');
+  // BTN_ELIMINAR_CITA.classList.add('d-none');
   const DATA = await fetchData(USER_API, 'readUsers');
   if (DATA.session) {
     // Acciones si la sesión SI está activa
@@ -74,6 +79,34 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
 });
+
+const openFinalizarCita = async () => {
+  try {
+    const FORM = new FormData();
+    FORM.append('id_cita', id_citaW);
+    const DATA = await fetchData(FACTURAS_API, 'readData', FORM);
+
+    if (DATA.status) {
+      const ROW = DATA.dataset;
+      accionDinamic(null, ROW.tipo_cliente)
+      document.getElementById('cliente_data').value = ROW.nombres_cliente + ' ' + ROW.apellidos_cliente;
+      document.getElementById('auto_data').value = ROW.placa_automovil;
+      document.getElementById('nit_cliente').value = ROW.NIT_cliente;
+      document.getElementById('nrc_cliente').value = ROW.NRC_cliente;
+      document.getElementById('nrf_cliente').value = ROW.NRF_cliente;
+      document.getElementById('rubro_cliente').value = ROW.rubro_comercial;
+
+    } else {
+      sweetAlert(4, DATA.error, true);
+    }
+  } catch (error) {
+    sweetAlert(4, DATA.error, true);
+  }
+
+
+  MODAL_REALIZAR_FACTURA.show();
+}
+
 
 // Evento que se dispara justo antes de que el modal se abra
 MODAL_SERVICIOS._element.addEventListener('show.bs.modal', function () {
@@ -100,31 +133,51 @@ function showCamposActualizarServicios() {
 
 let id_citaW;
 
-function accionDinamic(estado_cita) {
-  BUTTON_CANCELAR_CITA.classList.add('d-none');
-  BUTTON_ACEPTAR_CITA.classList.add('d-none');
-  BUTTON_UPDATE_CITA.classList.add('d-none');
-  BUTTON_SERVICIOS_CITA.classList.add('d-none');
+function accionDinamic(estado_cita = null, tipo_cliente = null) {
+  if (estado_cita) {
+    BUTTON_CANCELAR_CITA.classList.add('d-none');
+    BUTTON_ACEPTAR_CITA.classList.add('d-none');
+    BUTTON_UPDATE_CITA.classList.add('d-none');
+    BUTTON_SERVICIOS_CITA.classList.add('d-none');
 
-  switch (estado_cita) {
-    case 'En espera':
-      BUTTON_CANCELAR_CITA.classList.remove('d-none');
-      BUTTON_ACEPTAR_CITA.classList.remove('d-none');
-      BUTTON_UPDATE_CITA.classList.remove('d-none');
-      break;
-    case 'Aceptado':
-      BUTTON_CANCELAR_CITA.classList.remove('d-none');
-      BUTTON_UPDATE_CITA.classList.remove('d-none');
-      BUTTON_SERVICIOS_CITA.classList.remove('d-none');
-      break;
-    case 'Cancelado':
-      // 
-      break;
-    case 'Finalizada':
-      // 
-      break;
-    default:
-      break;
+    switch (estado_cita) {
+      case 'En espera':
+        BUTTON_CANCELAR_CITA.classList.remove('d-none');
+        BUTTON_ACEPTAR_CITA.classList.remove('d-none');
+        BUTTON_UPDATE_CITA.classList.remove('d-none');
+        break;
+      case 'Aceptado':
+        BUTTON_CANCELAR_CITA.classList.remove('d-none');
+        BUTTON_UPDATE_CITA.classList.remove('d-none');
+        BUTTON_SERVICIOS_CITA.classList.remove('d-none');
+        break;
+      case 'Cancelado':
+        // 
+        break;
+      case 'Finalizada':
+        // 
+        break;
+      default:
+        break;
+    }
+  }
+  if (tipo_cliente) {
+    switch (tipo_cliente) {
+      case 'Persona natural':
+        document.getElementById('subTittleFactura').innerHTML = '(Consumidor final)';
+        document.getElementById('juridico_input1').classList.add('d-none');
+        document.getElementById('juridico_input2').classList.add('d-none');
+        document.getElementById('juridico_input3').classList.add('d-none');
+        break;
+      case 'Persona juridica':
+        document.getElementById('subTittleFactura').innerHTML = '(Credito fiscal)';
+        document.getElementById('juridico_input1').classList.remove('d-none');
+        document.getElementById('juridico_input2').classList.remove('d-none');
+        document.getElementById('juridico_input3').classList.remove('d-none');
+        break;
+      default:
+        break;
+    }
   }
 }
 
@@ -161,13 +214,6 @@ function formSetValues(row) {
   INPUT_HORA_UPDATE.value = formattedTime;
   INPUT_MOVILIZACION_UPDATE.value = row.movilizacion_vehiculo;
   INPUT_DIRECCION_IDA_UPDATE.value = row.direccion_ida;
-
-  if (row.estado_cita == 'Cancelado') {
-    BTN_ELIMINAR_CITA.classList.remove('d-none');
-  }
-  else {
-    BTN_ELIMINAR_CITA.classList.add('d-none');
-  }
 }
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -439,29 +485,29 @@ const search = async (value) => {
   fillData('searchRows', FORM);
 }
 
-const openDeleteCita = async () => {
-  // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-  const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar el servicio?', 'No podras deshacer la acción');
-  if (RESPONSE.isConfirmed) {
-    const FORM = new FormData();
-    FORM.append('id_cita', id_citaW);
-    console.log(id_citaW);
+// const openDeleteCita = async () => {
+//   // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+//   const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar la cita?', 'No podras deshacer la acción');
+//   if (RESPONSE.isConfirmed) {
+//     const FORM = new FormData();
+//     FORM.append('id_cita', id_citaW);
+//     console.log(id_citaW);
 
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(CITAS_API, 'deleteRow', FORM);
+//     // Petición para guardar los datos del formulario.
+//     const DATA = await fetchData(CITAS_API, 'deleteRow', FORM);
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-      sweetAlert(1, 'Se ha eliminado con exito', 300);
-      fillData('readAll');
-      MODAL_SERVICIOS.hide();
-      SERVICES_FORM.classList.remove('was-validated');
-      id_serviciow = 0; // Quita la clase de validación
-    } else {
-      await sweetAlert(2, DATA.error, false);
-    }
-  }
-}
+//     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+//     if (DATA.status) {
+//       sweetAlert(1, 'Se ha eliminado con exito', 300);
+//       fillData('readAll');
+//       MODAL_SERVICIOS.hide();
+//       SERVICES_FORM.classList.remove('was-validated');
+//       id_serviciow = 0; // Quita la clase de validación
+//     } else {
+//       await sweetAlert(2, DATA.error, false);
+//     }
+//   }
+// }
 
 /*
 *   Función asíncrona para llenar el contenedor de los clientes con los registros disponibles.
@@ -477,9 +523,18 @@ function openServicios() {
 }
 
 const fillData = async (action = 'readAll', form = null) => {
+  const today = new Date();
+  // Extrae el día, mes y año
+  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // Mes empieza desde 0
+  const year = today.getFullYear();
+  // Formatea la fecha en formato dd/mm/yyyy
+  const formattedDate = `${day}/${month}/${year}`;
+  // Asigna la fecha formateada al campo de entrada
+  document.getElementById('fecha_registro_factura').value = formattedDate;
+
   const FORM = form ?? new FormData();
   const DATA = await fetchData(CITAS_API, action, FORM);
-
   if (action === 'readServiciosCita') {
     SERVICIOS_CARDS_CONTAINER.innerHTML = '';
     if (DATA.status) {
@@ -663,6 +718,8 @@ const openClose = async () => {
   if (RESPONSE.isConfirmed) {
     MODAL.hide();
     ADD_FORM.reset();
+    MODAL_REALIZAR_FACTURA.hide();
+    FORM_FACTURA.reset();
   }
 }
 
