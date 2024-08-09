@@ -57,6 +57,7 @@ SEARCH_FORM.addEventListener('submit', (event) => {
 
 const search = async () => {
     const FORM = new FormData();
+
     if (INPUT_BUSQUEDA.value) {
         FORM.append('search', INPUT_BUSQUEDA.value);
     }

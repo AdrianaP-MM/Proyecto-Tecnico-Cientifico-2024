@@ -70,6 +70,15 @@ class AutomovilHandler
         return Database::getRows($sql, $params);
     }
 
+    public function readOne()
+    {
+        $sql = 'SELECT * FROM tb_automoviles WHERE id_automovil = ?';
+        $params = array(
+            $this->id_automovil
+        );
+        return Database::getRow($sql, $params);
+    }
+
     public function updateRow()
     {
         // Consulta SQL para actualizar un automóvil
@@ -222,15 +231,11 @@ class AutomovilHandler
         // Consulta SQL para leer el detalle de un automóvil
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
         c.dui_cliente AS dui_cliente,
-        co.nombre_color AS nombre_color,
-        mo.nombre_modelo_automovil AS nombre_modelo,
         ma.nombre_marca_automovil AS nombre_marca,
         t.nombre_tipo_automovil AS nombre_tipo,
         a.*
         FROM tb_automoviles a
         INNER JOIN tb_clientes c USING(id_cliente)
-        INNER JOIN tb_colores co USING(id_color)
-        INNER JOIN tb_modelos_automoviles mo USING(modelo_automovil) // Cambio aquí
         INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
         INNER JOIN tb_tipos_automoviles t USING (id_tipo_automovil)
         WHERE estado_automovil = "Activo" AND id_automovil = ?;';

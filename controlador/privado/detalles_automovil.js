@@ -71,11 +71,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('imagenCarro').src = SERVER_URL.concat('images/automoviles/', DATA.dataset.imagen_automovil);
         document.getElementById('cliente').textContent = DATA.dataset.nombre_cliente;
         document.getElementById('dui').textContent = DATA.dataset.dui_cliente;
-        document.getElementById('color').textContent = DATA.dataset.nombre_color;
-        document.getElementById('modelo').textContent = DATA.dataset.nombre_modelo;
-        document.getElementById('tipo').value = DATA.dataset.nombre_tipo;
-        document.getElementById('fecha').value = DATA.dataset.fecha_fabricacion_automovil;
-        document.getElementById('fechaR').value = DATA.dataset.fecha_registro;
+        document.getElementById('color').textContent = DATA.dataset.color_automovil;
+        document.getElementById('modelo').textContent = DATA.dataset.modelo_automovil;
+        document.getElementById('tipo').textContent = DATA.dataset.nombre_tipo;
+        document.getElementById('fecha').textContent = DATA.dataset.fecha_fabricacion_automovil;
+        document.getElementById('fechaR').textContent = DATA.dataset.fecha_registro;
+        document.getElementById('placa').textContent = DATA.dataset.placa_automovil;
     } else {
         console.log('No se pudieron cargar los datos');
     }
