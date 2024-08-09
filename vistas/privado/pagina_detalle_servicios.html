@@ -53,13 +53,13 @@
         <!-- Cards -->
         <div class="container">
             <div class="row ">
-                <div class="col-auto">
+               <!--  <div class="col-auto">
                     <button type="button" class="btn btn-dark" onclick="openCreate()">Agregar servicio</button>
-                </div>
+                </div> -->
             </div>
         </div>
 
-        <div class="container">
+        <div class="containerCardsServicios">
             <div id="ServicioDataContainer" class="row row-cols-1 row-cols-md-4 scrollVertical">
 
             </div>
@@ -68,41 +68,40 @@
 
     </main>
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Encabezado del modal -->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content p-lg-4 p-2">
                 <!-- Cuerpo del modal -->
-                <div class="modal-body">
-                    <form id="save_form">
+                <form id="save_form" class="needs-validation" novalidate>
+                    <div class="modal-body form-floating mb-0 p-0 col-12 mb-4 custom-label-spacing">
                         <input type="number" class="d-none" id="id_tipo_servicio" name="id_tipo_servicio">
                         <!-- Campo de entrada para el nombre del servicio -->
                         <div class="form-floating mb-2 p-0">
                             <input type="text" class="form-control" id="nombre_servicio" placeholder=""
-                                name="nombre_servicio">
-                            <label for="nombre_servicio" class="form-label">Nombre servicio</label>
+                                name="nombre_servicio" required>
+                            <label for="nombre_servicio" class="form-label">Nombre del servicio</label>
+                            <div class="invalid-feedback">Por favor ingresa un nombre del servicio.</div>
                         </div>
                         <!-- Campo de entrada para la descripción del servicio -->
                         <div class="form-floating mb-2 p-0">
                             <input type="text" class="form-control" id="descripcion_servicio" placeholder=""
-                                name="descripcion_servicio">
-                            <label for="descripcion_servicio" class="form-label">Descripción servicio</label>
+                                name="descripcion_servicio" required>
+                            <label for="descripcion_servicio" class="form-label">Descripción del servicio</label>
+                            <div class="invalid-feedback">Por favor ingresa una descripción del servicio.</div>
                         </div>
                         <!-- Botones para aceptar y cancelar -->
                         <div
-                                class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                                <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
-                                    onclick="openClose()">Cancelar</button>
-                                <button type="submit"
-                                    class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
-                            </div>
-                    </form>
-                </div>
+                            class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                            <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
+                                onclick="openClose()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
+
         </div>
     </div>
 
