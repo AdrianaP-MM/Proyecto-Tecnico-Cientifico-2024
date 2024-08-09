@@ -79,14 +79,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-            case 'readColores':
-                if ($result['dataset'] = $automovil->readColores()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
-                } else {
-                    $result['error'] = 'No existen automóviles registrados';
-                }
-                break;
+
             case 'readClientes':
                 if ($result['dataset'] = $automovil->readClientes()) {
                     $result['status'] = 1;
@@ -165,6 +158,15 @@ if (isset($_GET['action'])) {
 
 case 'readModelos':
                 if ($result['dataset'] = $automovil->readModelos()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
+
+                case 'readColores':
+                if ($result['dataset'] = $automovil->readColores()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
                 } else {
