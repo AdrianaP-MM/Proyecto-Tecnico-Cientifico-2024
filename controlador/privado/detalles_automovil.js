@@ -24,6 +24,35 @@ const MAIN_TITLE = document.getElementById('mainTitle');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
 let PARAMS = new URLSearchParams(location.search);
 
+// Método usado para encontrar el campo seleccionado en el combobox de Colores tipo enum en la base
+function findNumberValue(value) {
+    if (value == 'Rojo') {
+        return 'Rojo';
+    } if (value == 'Azul') {
+        return 'Azul';
+    } if (value == 'Gris') {
+        return 'Gris';
+    } if (value == 'Blanco') {
+        return 'Blanco';
+    } if (value == 'Negro') {
+        return 'Negro';
+    } if (value == 'Amarillo') {
+        return 'Amarillo';
+    } if (value == 'Verde') {
+        return 'Verde';
+    } if (value == 'Anaranjado') {
+        return 'Anaranjado';
+    } if (value == 'Tornasol') {
+        return 'Tornasol';
+    } if (value == 'Plata') {
+        return 'Plata';
+    } if (value == 'Otro') {
+        return 'Otro';
+    }
+    return ''; // Default case
+}
+
+
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -44,17 +73,31 @@ const openUpdate = async () => {
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_AUTOMOVIL.value = ROW.id_automovil;
-        fillSelect(AUTOMOVILES_API, 'readModelos', 'input_modelo_auto', ROW.id_modelo_automovil);
+        MODELO.value = ROW.modelo_automovil;
         fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto', ROW.id_tipo_automovil);
-        fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto', ROW.id_color);
+        //fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto', ROW.id_color);
         fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP', ROW.id_cliente);
         PLACA.value = ROW.placa_automovil;
+        COLOR.value = findNumberValue(ROW.color_automovil);
         FECHA_FABRICACION.value = ROW.fecha_fabricacion_automovil;
         IMAGEN.src = SERVER_URL.concat('images/automoviles/', ROW.imagen_automovil);
+
+        // Buscar y marcar el `option` correspondiente como seleccionado
+        const colorValue = findNumberValue(ROW.color_automovil);
+        const options = COLOR.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].text === colorValue) {
+                options[i].selected = true;
+                break;
+            }
+        }
+
     } else {
         sweetAlert(2, DATA.error, false);
     }
 }
+
+
 
 
 // *Método del evento para cuando el documento ha cargado.
@@ -235,3 +278,22 @@ IMG.addEventListener('change', function (event) {
         reader.readAsDataURL(file);
     }
 });
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()

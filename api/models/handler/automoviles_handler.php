@@ -142,6 +142,32 @@ class AutomovilHandler
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
+    //Sacar el dui de seleccionar el id y dui de tbUsuarios
+    public function createRowAdmin()
+    {
+        // Consulta SQL para insertar un nuevo automóvil
+        $sql = 'INSERT INTO tb_automoviles(
+            modelo_automovil,
+            id_tipo_automovil, 
+            color_automovil,
+            fecha_fabricacion_automovil,
+            placa_automovil, 
+            imagen_automovil,
+            fecha_registro,
+            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")';
+
+        $params = array(
+            $this->modelo_automovil,
+            $this->id_tipo_automovil,
+            $this->color_automovil,
+            $this->fecha_fabricacion_automovil,
+            $this->placa_automovil,
+            $this->imagen_automovil,
+        ); // Parámetros para la consulta SQL
+
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
     public function checkDuplicate($value)
     {
         // Consulta SQL para verificar duplicados
@@ -243,6 +269,13 @@ class AutomovilHandler
             $this->id_automovil
         );
         return Database::getRow($sql, $params);
+    }
+
+    public function readClientes()
+    {
+        // Consulta SQL para leer el detalle de un automóvil
+        $sql = 'SELECT id_cliente, dui_cliente FROM tb_clientes ORDER BY id_cliente DESC;';
+        return Database::getRows($sql);
     }
 
     public function readDeleteDetail()

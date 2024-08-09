@@ -131,7 +131,8 @@
                     </div>
                 </div>
 
-                 <div class="contenedor-drch col-lg-8 col-md-7 px-lg-4 px-md-3 col-12 mt-5 mt-md-0 mt-lg-0 position-relative">
+                <div
+                    class="contenedor-drch col-lg-8 col-md-7 px-lg-4 px-md-3 col-12 mt-5 mt-md-0 mt-lg-0 position-relative">
                     <!-- <div class="content z-3">
                         <h4 class="open-sans-light-italic">Visualizar servicios realizados</h4>
                     </div> -->
@@ -384,74 +385,96 @@
         <!--TODO -------------------------------MODAL EDIT---------------------->
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
-            <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                <div class="modal-body row">
-                    <!-- Contenedor de la izquierda, imagen del automóvil -->
-                    <div class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
-                        <h6>Imagen del automóvil</h6>
-                        <img id="selectedImageA" class="sizeCard col-10"
-                             src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg"
-                             alt="example placeholder" />
-                        <button type="button" class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
-                            <label class="form-label text-white m-1" for="customFile2">Seleccionar imagen</label>
-                        </button>
-                        <input type="file" class="form-control d-none" id="customFile2" name="customFile2"/>
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
+                    <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                        <div class="modal-body row">
+                            <!-- Contenedor de la izquierda, imagen del automóvil -->
+                            <div
+                                class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
+                                <h6>Imagen del automóvil</h6>
+                                <img id="selectedImageA" class="sizeCard col-10"
+                                    src="../../recursos/imagenes/img_automoviles/carexmpl2.jpg"
+                                    alt="example placeholder" />
+                                <button type="button" class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
+                                    <label class="form-label text-white m-1" for="customFile2">Seleccionar
+                                        imagen</label>
+                                </button>
+                                <input type="file" class="form-control d-none" id="customFile2" name="customFile2" />
+                            </div>
+                            <!-- Contenedor de la derecha, información del automóvil -->
+                            <div class="content-add-info col-md-7">
+                                <input type="number" id="idAuto" name="idAuto" class="invisible">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="input_modelo_auto"
+                                        name="input_modelo_auto" required placeholder="...">
+                                    <label for="input_placa">Modelo auto</label>
+                                    <div class="invalid-feedback">Por favor seleccione el modelo.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                                    <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
+                                        required></select>
+                                    <div class="invalid-feedback">Por favor seleccione el tipo.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
+                                        fabricación</label>
+                                    <input type="number" class="form-control" id="fechanInput" name="fechanInput"
+                                        required>
+                                    <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
+                                    <select id="input_color_auto" name="input_color_auto" type="text"
+                                        class="form-select" required>
+                                        <option value>Seleccione un color</option>
+                                        <option value="Rojo">Rojo</option>
+                                        <option value="Azul">Azul</option>
+                                        <option value="Gris">Gris</option>
+                                        <option value="Blanco">Blanco</option>
+                                        <option value="Negro">Negro</option>
+                                        <option value="Amarillo">Amarillo</option>
+                                        <option value="Verde">Verde</option>
+                                        <option value="Anaranjado">Anaranjado</option>
+                                        <option value="Tornasol">Tornasol</option>
+                                        <option value="Plata">Plata</option>
+                                        <option value="Otro">Otro</option>
+
+                                    </select>
+                                    <div class="invalid-feedback">Por favor seleccione el color.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa"
+                                        name="input_placa" required>
+                                    <label for="input_placa">Placa</label>
+                                    <div class="invalid-feedback">Por favor ingrese la placa.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
+                                        propietario</label>
+                                    <select class="form-select" id="input_duiP" name="input_duiP" required>
+                                        <!-- Opciones de propietario (DUI) -->
+                                    </select>
+                                    <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                            <!-- Boton eliminar -->
+                            <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5"
+                                onclick="openDelete()">Eliminar</button>
+                            <!-- Boton cancelar -->
+                            <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                onclick="openClose()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Guardar</button>
+                        </div>
                     </div>
-                    <!-- Contenedor de la derecha, información del automóvil -->
-                    <div class="content-add-info col-md-7">
-                        <input type="number" id="idAuto" name="idAuto" class="invisible">
-                        <div class="form-floating mb-3">
-                            <label for="input_modelo_auto" class="form-label px-2 pt-1 p-0 m-0">Modelo</label>
-                            <select id="input_modelo_auto" name="input_modelo_auto" type="text"
-                                    class="form-select" required></select>
-                            <div class="invalid-feedback">Por favor seleccione el modelo.</div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
-                            <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
-                                    required></select>
-                            <div class="invalid-feedback">Por favor seleccione el tipo.</div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de fabricación</label>
-                            <input type="number" class="form-control" id="fechanInput" name="fechanInput" required>
-                            <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
-                            <select id="input_color_auto" name="input_color_auto" type="text" class="form-select"
-                                    required></select>
-                            <div class="invalid-feedback">Por favor seleccione el color.</div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa" name="input_placa"
-                                   required>
-                            <label for="input_placa">Placa</label>
-                            <div class="invalid-feedback">Por favor ingrese la placa.</div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del propietario</label>
-                            <select class="form-select" id="input_duiP" name="input_duiP" required>
-                                <!-- Opciones de propietario (DUI) -->
-                            </select>
-                            <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                    <!-- Boton eliminar -->
-                    <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5" onclick="openDelete()">Eliminar</button>
-                    <!-- Boton cancelar -->
-                    <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5" onclick="openClose()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Guardar</button>
-                </div>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
 
     </main>
 
