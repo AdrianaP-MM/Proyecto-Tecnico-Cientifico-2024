@@ -92,6 +92,23 @@
     border-color: transparent transparent #dc3545 transparent;
 }
 
+
+/* Estilos para el botón de cancelar */
+.btnCancel {
+    background-color: black;
+}
+
+/* Estilos para el botón de guardar */
+.btnSave {
+    background-color: #E5383B;
+}
+/* Estilos para los botones de guardar y cancelar */
+.btnSave,
+.btnCancel {
+    height: 50px;
+    width: 200px;
+}
+
 /* Botón de retorno */
 .btnReturn {
     cursor: pointer; /* Cursor */
@@ -105,3 +122,4 @@ label[for= exampleInputEmail1]{
 label[for= exampleInputPassword1]{
     color: #BA181B;
 }
+
