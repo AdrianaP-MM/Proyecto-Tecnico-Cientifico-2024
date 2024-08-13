@@ -1,8 +1,8 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once ('../../helpers/validator.php');
+require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once ('../../models/handler/automoviles_handler.php');
+require_once('../../models/handler/automoviles_handler.php');
 
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla AUTOMOVIL.
@@ -52,7 +52,19 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
-    public function setColor($value) {
+    public function setIdMarcaAutomovil($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_marca_automovil = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la marca del automóvil es incorrecto';
+            return false;
+        }
+    }
+
+    public function setColor($value)
+    {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'Ingrese un departemento disponible';
             return false;
@@ -61,7 +73,7 @@ class AutomovilData extends AutomovilHandler
             return true;
         }
     }
-    
+
 
     // Validación y asignación de la fecha de fabricación.
     public function setFechaFabricacion($value)

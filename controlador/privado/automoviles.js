@@ -176,8 +176,8 @@ const openCreate = () => {
     // Se prepara el formulario.
     SAVE_FORM.reset();
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
-    fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto');
     fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP');
+    fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto');
 }
 
 function gotoDetail(id) {
@@ -316,6 +316,20 @@ document.getElementById('input_placa').addEventListener('input', function (event
 
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
+});
+
+document.getElementById('fechanInput').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+    // Limitar a 4 caracteres
+    inputValue = inputValue.slice(0, 4);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
 });
 
 document.getElementById('input_buscar').addEventListener('input', function (event) {

@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/automoviles_data.php');
+require_once('../../models/data/automoviles_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -38,23 +38,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
                 }
                 break;
-
             case 'createRow':
                 $result['Entre'] = "SI";
                 $_POST = Validator::validateForm($_POST);
                 $result['Entre'] = "AQUÍ NO ESTA EL ERROR";
+                print_r($_POST);
                 if (
-                    !$automovil->setIdModelo($_POST['input_modelo_auto']) or
+                    !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or
-                    !$automovil->setIdColor($_POST['input_color_auto']) or
-                    !$automovil->setFechaFabricacion($_POST['fechanInput']) or
+                    !$automovil->setColor($_POST['input_color_auto']) or
+                    !$automovil->setFechaFabricacion($_POST['input_fecha_auto']) or
                     !$automovil->setPlaca($_POST['input_placa']) or
                     !$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename()) or
-                    !$automovil->setIdCliente($_POST['input_duiP'])
+                    !$automovil->setIdCliente($_POST['input_duiP']) or
+                    !$automovil->setIdMarcaAutomovil($_POST['input_marca_auto'])
                 ) {
                     $result['Entre'] = "SIs";
                     $result['error'] = $automovil->getDataError();
-                } elseif ($automovil->createRow()) {
+                } elseif ($automovil->createRowAdmin()) {
                     $result['status'] = 1;
                     $result['message'] = 'Automóvil agregado correctamente';
                     // Se asigna el estado del archivo después de insertar.
@@ -73,6 +74,14 @@ if (isset($_GET['action'])) {
                 break;
             case 'readTipos':
                 if ($result['dataset'] = $automovil->readTipos()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
+            case 'readMarcas':
+                if ($result['dataset'] = $automovil->readMarcas()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
                 } else {
@@ -146,12 +155,12 @@ if (isset($_GET['action'])) {
         // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
         // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print (json_encode($result));
+        print(json_encode($result));
     } else {
-        print (json_encode('Acceso denegado'));
+        print(json_encode('Acceso denegado'));
     }
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
 
 /*Case que quite por si acaso peta todo

@@ -17,7 +17,7 @@ class AutomovilHandler
     protected $id_cliente = null;
     protected $fecha_registro = null;
     protected $estado_automovil = null;
-
+    protected $id_marca_automovil = null;
     protected $search_value = null;
     protected $fecha_desde = null;
     protected $fecha_hasta = null;
@@ -153,8 +153,10 @@ class AutomovilHandler
             fecha_fabricacion_automovil,
             placa_automovil, 
             imagen_automovil,
+            id_cliente,
+            id_marca_automovil,
             fecha_registro,
-            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")';
+            estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")';
 
         $params = array(
             $this->modelo_automovil,
@@ -163,6 +165,8 @@ class AutomovilHandler
             $this->fecha_fabricacion_automovil,
             $this->placa_automovil,
             $this->imagen_automovil,
+            $this->id_cliente,
+            $this->id_marca_automovil
         ); // Parámetros para la consulta SQL
 
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
@@ -313,6 +317,13 @@ class AutomovilHandler
     {
         // Consulta SQL para leer los tipos de automóviles
         $sql = 'SELECT id_tipo_automovil, nombre_tipo_automovil FROM tb_tipos_automoviles';
+        return Database::getRows($sql);
+    }
+
+    public function readMarcas()
+    {
+        // Consulta SQL para leer los tipos de automóviles
+        $sql = 'SELECT id_marca_automovil, nombre_marca_automovil FROM tb_marcas_automoviles';
         return Database::getRows($sql);
     }
 }

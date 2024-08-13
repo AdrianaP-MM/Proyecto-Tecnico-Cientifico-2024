@@ -395,11 +395,10 @@
                                     <div class="invalid-feedback">Por favor seleccione el tipo.</div>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
-                                        fabricación</label>
-                                    <input type="date" class="form-control" id="fechanInput" name="fechanInput"
-                                        required>
-                                    <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
+                                    <input type="text" class="form-control" id="fechanInput" name="fechanInput" required
+                                        placeholder="...">
+                                    <label for="fechanInput">Fecha de fabricacion</label>
+                                    <div class="invalid-feedback">Por favor ingrese un modelo</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
@@ -426,6 +425,12 @@
                                         placeholder="...">
                                     <label for="input_placa">Placa</label>
                                     <div class="invalid-feedback">Por favor ingrese la placa.</div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
+                                    <select id="input_marca_auto" name="input_marca_auto" type="text" class="form-select"
+                                        required></select>
+                                    <div class="invalid-feedback">Por favor seleccione la marca.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
