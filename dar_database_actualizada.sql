@@ -53,7 +53,7 @@
         id_tipo_automovil INT, /*FK*/
         color_automovil ENUM('Rojo', 'Azul', 'Gris', 'Blanco', 'Negro', 'Amarillo', 'Verde', 'Anaranjado', 'Tornasol', 'Plata', 'Otro') NOT NULL, /*FK*/
         fecha_fabricacion_automovil YEAR NOT NULL,
-        placa_automovil VARCHAR(8),
+        placa_automovil VARCHAR(11),
         imagen_automovil VARCHAR(25) NOT NULL,
         id_cliente INT, /*FK*/
         id_marca_automovil INT, /*FK*/

@@ -390,11 +390,12 @@ class Validator
         // La placa es válida si tiene un prefijo válido y cumple con el formato
         $isValid = $isValidPrefix && $isValidFormat;
 
-        
-        // Retornar el resultado en formato JSON para pruebas
-        header('Content-Type: application/json');
-        echo json_encode(['isValid' => $isValid]);
-        return $isValid;
-        
+
+        /*
+         // Retornar el resultado en formato JSON para pruebas
+         header('Content-Type: application/json');
+         echo json_encode(['isValid' => $isValid]);
+         return $isValid;*/
+
     }
 }

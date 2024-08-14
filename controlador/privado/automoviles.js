@@ -296,22 +296,42 @@ IMG.addEventListener('change', function (event) {
 
 document.getElementById('input_placa').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
+    let inputValue = event.target.value.toUpperCase();
 
     // Limpiar el valor de cualquier carácter que no sea letras, números o guiones
-    inputValue = inputValue.replace(/[^A-Za-z0-9]/g, '');
+    inputValue = inputValue.replace(/[^A-Z0-9]/g, '');
 
-    // Limitar a 7 caracteres
-    inputValue = inputValue.slice(0, 7);
+    // Definir las letras y combinaciones permitidas como iniciales
+    const validPrefixes = [
+        'A', 'AB', 'C', 'CC', 'CD', 'D', 'E', 'F', 'M', 'MB', 'MI', 'N', 'O', 'P', 'PR', 'PNC', 'RE', 'T', 'V'
+    ];
 
-    // Insertar guión después del quinto carácter si es necesario
-    if (inputValue.length > 4) {
-        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
+    // Buscar el prefijo válido más largo en el valor de entrada
+    let prefix = '';
+    for (const validPrefix of validPrefixes) {
+        if (inputValue.startsWith(validPrefix) && validPrefix.length > prefix.length) {
+            prefix = validPrefix;
+        }
     }
 
+    // Eliminar el prefijo del valor de entrada
+    let remainingInput = inputValue.slice(prefix.length);
+
+    // Limitar el número de caracteres del resto del valor a 6
+    remainingInput = remainingInput.slice(0, 6);
+
+    // Formatear el resto del valor con guiones
+    if (remainingInput.length > 3) {
+        remainingInput = remainingInput.slice(0, 3) + '-' + remainingInput.slice(3);
+    }
+
+    // Combinar el prefijo y el resto formateado
+    let formattedValue = prefix + '-' + remainingInput;
+
     // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
+    event.target.value = formattedValue;
 });
+
 
 document.getElementById('input_fecha_auto').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
