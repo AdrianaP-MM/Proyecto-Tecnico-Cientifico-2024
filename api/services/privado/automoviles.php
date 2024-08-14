@@ -42,7 +42,6 @@ if (isset($_GET['action'])) {
                 $result['Entre'] = "SI";
                 $_POST = Validator::validateForm($_POST);
                 $result['Entre'] = "AQUÍ NO ESTA EL ERROR";
-                print_r($_POST);
                 if (
                     !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or

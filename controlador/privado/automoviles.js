@@ -298,19 +298,14 @@ document.getElementById('input_placa').addEventListener('input', function (event
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 
-    // Limpiar el valor de cualquier carácter que no sea una 'P', letras o números
-    inputValue = inputValue.replace(/[^P0-9A-Za-z]/g, '');
+    // Limpiar el valor de cualquier carácter que no sea letras, números o guiones
+    inputValue = inputValue.replace(/[^A-Za-z0-9]/g, '');
 
-    // Asegurarse de que comience con 'P'
-    if (inputValue.length > 0 && inputValue.charAt(0) !== 'P') {
-        inputValue = 'P' + inputValue.substring(1);
-    }
-
-    // Limitar a 8 caracteres
+    // Limitar a 7 caracteres
     inputValue = inputValue.slice(0, 7);
 
-    // Insertar guión antes de los últimos 3 caracteres
-    if (inputValue.length > 3) {
+    // Insertar guión después del quinto carácter si es necesario
+    if (inputValue.length > 4) {
         inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
     }
 
@@ -318,7 +313,7 @@ document.getElementById('input_placa').addEventListener('input', function (event
     event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
 });
 
-document.getElementById('fechanInput').addEventListener('input', function (event) {
+document.getElementById('input_fecha_auto').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
 

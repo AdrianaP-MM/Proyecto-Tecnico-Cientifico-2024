@@ -342,6 +342,8 @@ class Validator
         }
     }
 
+
+    // Función PHP para validar la placa
     public static function validatePlaca($value)
     {
         // Definir las letras y combinaciones permitidas como iniciales
@@ -370,22 +372,29 @@ class Validator
         // Verificar si el valor comienza con una de las letras o combinaciones permitidas
         $isValidPrefix = false;
         foreach ($validPrefixes as $prefix) {
-            if (strpos($value, $prefix) === 0) {
-                $isValidPrefix = true;
+            // Verifica que el prefijo coincida exactamente al inicio del valor
+            if (strpos($value, $prefix) === 0 && $prefix === substr($value, 0, strlen($prefix))) {
+                // Asegura que lo siguiente después del prefijo es un formato válido
+                $suffix = substr($value, strlen($prefix));
+                if (preg_match('/^[A-NP-Za-z0-9\-]+$/', $suffix) && $suffix !== '') {
+                    $isValidPrefix = true;
+                }
                 break;
             }
         }
 
-        // Verificar formato de la placa: letras, números, guiones, sin espacios
+        // Verificar formato general de la placa: letras, números, guiones, sin espacios
+        // La verificación se ha movido para que solo valide la parte después del prefijo
         $isValidFormat = preg_match('/^[A-NP-Za-z0-9\-]+$/', $value);
 
-        // Verificar si la placa cumple con el formato y tiene un prefijo válido
-        if ($isValidPrefix && $isValidFormat) {
-            return true;
-        } else {
-            // self::$licensePlateError = 'Placa de automóvil no válida';
-            return false;
-        }
-    }
+        // La placa es válida si tiene un prefijo válido y cumple con el formato
+        $isValid = $isValidPrefix && $isValidFormat;
 
+        
+        // Retornar el resultado en formato JSON para pruebas
+        header('Content-Type: application/json');
+        echo json_encode(['isValid' => $isValid]);
+        return $isValid;
+        
+    }
 }
