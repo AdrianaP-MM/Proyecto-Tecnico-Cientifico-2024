@@ -298,7 +298,7 @@ document.getElementById('input_placa').addEventListener('input', function (event
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value.toUpperCase();
 
-    // Limpiar el valor de cualquier carácter que no sea letras, números o guiones
+    // Limpiar el valor de cualquier carácter que no sea letras o números
     inputValue = inputValue.replace(/[^A-Z0-9]/g, '');
 
     // Definir las letras y combinaciones permitidas como iniciales
@@ -312,6 +312,12 @@ document.getElementById('input_placa').addEventListener('input', function (event
         if (inputValue.startsWith(validPrefix) && validPrefix.length > prefix.length) {
             prefix = validPrefix;
         }
+    }
+
+    // Si no se encuentra un prefijo válido, limpiar la entrada
+    if (prefix === '') {
+        event.target.value = '';
+        return;
     }
 
     // Eliminar el prefijo del valor de entrada
@@ -331,6 +337,7 @@ document.getElementById('input_placa').addEventListener('input', function (event
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = formattedValue;
 });
+
 
 
 document.getElementById('input_fecha_auto').addEventListener('input', function (event) {
