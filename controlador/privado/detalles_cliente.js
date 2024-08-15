@@ -294,10 +294,8 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
-        <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow'>
-            <div class'frecuencia-header w-100 d-flex '>
-                <h5 class="p-0 m-0 open-sans-semibold"> Frecuencia con la que el cliente visita nuestro taller</h5>
-            </div>
+        <div class="col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow">
+            <h5 class="p-0 m-0 open-sans-semibold frecuencia-header"> Frecuencia con la que el cliente visita nuestro taller</h5>
             <div class'frecuencia-body w-100'>
                 <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
                 <h4 class="p-0 m-0 open-sans-semibold"> 5 veces </h4>
@@ -412,12 +410,10 @@ function getPersonaJuridicaTemplate(row) {
                 </div>
             </div>
             <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow'>
-                <div class'frecuencia-header w-100 d-flex '>
-                    <h5 class="p-0 m-0 open-sans-semibold"> Frecuencia con la que el cliente visita nuestro taller</h5>
-                </div>
+                <h5 class="p-0 m-0 open-sans-semibold frecuencia-header"> Frecuencia con la que el cliente visita nuestro taller</h5>
                 <div class'frecuencia-body w-100'>
                     <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
-                    <h4 class="p-0 m-0 open-sans-semibold"> 5 veces </h4>
+                    <h4 class="p-0 m-0 open-sans-bold"> 5 veces </h4>
                 </div>
             </div>
         </div>
