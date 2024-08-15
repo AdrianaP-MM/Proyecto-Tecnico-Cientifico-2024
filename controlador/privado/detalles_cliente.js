@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const CLIENTES_API = 'services/privado/clientes.php';
+const CITAS_API = 'services/privado/citas.php';
 
 const CLIENTE_DATA_CONTAINER = document.getElementById('clienteDataContainer');
 
@@ -31,7 +32,89 @@ let TIPO_CLIENTE;
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     fillData();
+    graficaAutosReparar();
 });
+
+const graficaAutosReparar = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATAReparados = await fetchData(CITAS_API, 'autosReparados');
+    const DATAAReparar = await fetchData(CITAS_API, 'autosAReparar'); //PD: Ambos TIENEN en cuenta los autos repetidos, es decir, si un mismo auto llego en enero y luego en diciembre igual se cuenta
+    const DATAARepararPasado = await fetchData(CITAS_API, 'autosARepararPasado');
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATAReparados.status && DATAAReparar.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        let reparados = Array(12).fill(0); // Inicializa con ceros
+        let aReparar = Array(12).fill(0); // Inicializa con ceros
+        let aRepararPasado = Array(12).fill(0);
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos reparados.
+        DATAReparados.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            reparados[mesIndex] = row.autos_reparados;
+        });
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar.
+        DATAAReparar.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            aReparar[mesIndex] = row.autos_esperados;
+        });
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar teniendo en cuenta solo el año pasado.
+        DATAARepararPasado.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            aRepararPasado[mesIndex] = row.autos_esperados;
+        });
+
+        // Log para verificar los datos antes de graficar
+        console.log('Reparados:', reparados);
+        console.log('A Reparar:', aReparar);
+        console.log('A Reparar(Pasado):', aRepararPasado)
+
+        // Configuración de los datos para el gráfico
+        const data = {
+            labels: Meses,
+            datasets: [
+                {
+                    label: 'Autos que se esperan reparar (Teniendo en cuenta todos los años)',
+                    fill: false,
+                    backgroundColor: 'rgb(211, 211, 211)',
+                    borderColor: 'rgb(211, 211, 211)',
+                    borderDash: [5, 5],
+                    data: aReparar,
+                },
+                {
+                    label: 'Autos que se esperan reparar (Teniendo en cuenta solo el año pasado)',
+                    fill: false,
+                    backgroundColor: 'rgb(255, 45, 49)',
+                    borderColor: 'rgb(255, 45, 49)',
+                    data: aRepararPasado,
+                    borderDash: [5, 5],
+                },
+                {
+                    label: 'Autos Reparados (Año actual)',
+                    backgroundColor: 'rgb(230, 69, 71)',
+                    borderColor: 'rgb(230, 69, 71)',
+                    data: reparados,
+                    fill: true,
+                }
+            ]
+        };
+
+        graphLineStyling('graficaServicios', 'Predicción de cantidad de carros que se espera reparar.', 'Meses', 'Cantidad de autos', data);
+    } else {
+        document.getElementById('graficaServicios').remove();
+        var elements = document.getElementsByClassName('graphic');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+        }
+
+    }
+}
+
 
 // Método del evento para cuando se envía el formulario de guardar.
 ADD_FORM.addEventListener('submit', async (event) => {
@@ -159,7 +242,7 @@ const fillData = async () => {
 function getPersonaNaturalTemplate(row) {
     return `
     <div
-        class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-center align-items-center">
+        class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-start align-items-center">
         <img src="../../recursos/imagenes/user_exmpl.png">
         <div class="col-12 d-flex justify-content-end align-items-end">
             <button type="button" id="btnEditCliente" onclick="" data-bs-toggle="modal"
@@ -169,7 +252,7 @@ function getPersonaNaturalTemplate(row) {
         </div>
         <!-- Contenedor del info del cliente -->
         <div
-            class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center">
+            class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center shadow">
             <!--Contenedor Info header-->
             <div class="info-header d-flex flex-column text-center pt-4 pt-md-0 pt-lg-0">
                 <h2 class="p-0 m-0 open-sans-bold">
@@ -211,12 +294,21 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
+        <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow'>
+            <div class'frecuencia-header w-100 d-flex '>
+                <h5 class="p-0 m-0 open-sans-semibold"> Frecuencia con la que el cliente visita nuestro taller</h5>
+            </div>
+            <div class'frecuencia-body w-100'>
+                <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
+                <h4 class="p-0 m-0 open-sans-semibold"> 5 veces </h4>
+            </div>
+        </div>
     </div>
     <!--Contenedor de la columna derecha -->
     <div class="contenedor-drch d-flex flex-column col-lg-5 col-md-6 col-12 align-items-center">
         <!--Contenedor de màs informacion -->
         <div
-            class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0">
+            class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 shadow">
             <!--Contenedor mas info header -->
             <div class="masinfo-header">
                 <h3 class="m-0 p-0 open-sans-bold">
@@ -247,16 +339,18 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
-        <!--Contenedor frecuencia-->
+        <div class="col2Row2 col-12 graphic p-4 shadow mb-2 mt-1">
+            <canvas id="graficaServicios"></canvas> <!--Grafica-->
+        </div>
     </div>
     `;
 }
 
 function getPersonaJuridicaTemplate(row) {
     return `
-    <div class="fila1 col-12 d-flex flex-wrap justify-content-center gap-5">
+
         <div
-            class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-center align-items-center">
+            class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-start align-items-center">
             <img src="../../recursos/imagenes/user_exmpl2.png">
             <div class="col-12 d-flex justify-content-end align-items-end">
                 <button type="button" id="btnEditCliente" onclick="" data-bs-toggle="modal"
@@ -265,7 +359,7 @@ function getPersonaJuridicaTemplate(row) {
                 </button>
             </div>
             <div
-                class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center">
+                class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center shadow">
                 <!--Contenedor del header de la info-->
                 <div class="info-header d-flex flex-column text-center my-4">
                     <h2 class="p-0 m-0 open-sans-bold">
@@ -317,12 +411,21 @@ function getPersonaJuridicaTemplate(row) {
                     </p>
                 </div>
             </div>
+            <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow'>
+                <div class'frecuencia-header w-100 d-flex '>
+                    <h5 class="p-0 m-0 open-sans-semibold"> Frecuencia con la que el cliente visita nuestro taller</h5>
+                </div>
+                <div class'frecuencia-body w-100'>
+                    <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
+                    <h4 class="p-0 m-0 open-sans-semibold"> 5 veces </h4>
+                </div>
+            </div>
         </div>
         <!--Contenedor de la columna derecha-->
-        <div class="contenedor-drch d-flex flex-column col-lg-5 col-md-6 col-12 align-items-center">
+        <div class="contenedor-drch d-flex flex-column col-lg-5 col-md-6 col-12 align-items-center ">
             <!--Contenedor de mas informacion-->
             <div
-                class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0">
+                class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 shadow">
                 <!--Contenedor del titulo, header de mas informacion-->
                 <div class="masinfo-header">
                     <h3 class="m-0 p-0 open-sans-bold">
@@ -368,8 +471,10 @@ function getPersonaJuridicaTemplate(row) {
                 </div>
             </div>
             <!--Contenedor de la frecuencia del cliente-->
+            <div class="col2Row2 col-12 graphic p-4 shadow mb-5 mt-2">
+                <canvas id="graficaServicios"></canvas> <!--Grafica-->
+            </div>
         </div>
-    </div>
     `;
 }
 

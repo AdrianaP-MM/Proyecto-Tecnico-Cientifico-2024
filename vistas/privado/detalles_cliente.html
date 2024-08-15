@@ -38,7 +38,7 @@
         <div
             class="contenedor-total col-12 d-flex flex-column justify-content-center align-items-center px-lg-5 px-md-3 px-1">
             <!-- Contenedor de la fila1, el de arriba -->
-            <div class="fila1 col-12 d-flex flex-wrap justify-content-center gap-5" id="clienteDataContainer">
+            <div class="fila1 col-12 d-flex flex-wrap justify-content-evenly gap-5" id="clienteDataContainer">
                 <!-- Contenedor de la columna de la izquierda-->
             </div>
             <!--Contenedor fila 2-->
@@ -295,9 +295,8 @@
                                     <div class="mb-3 d-none" id="tipo_cliente">
                                         <div class="form-floating mb-0 p-0">
                                             <label class="form-label px-2 pt-0 p-0 m-0">Tipo del cliente</label>
-                                            <select class="form-select pt-4 open-sans-regular"
-                                                id="input_tipo_cliente" name="input_tipo_cliente"
-                                                aria-label="Default select example" required>
+                                            <select class="form-select pt-4 open-sans-regular" id="input_tipo_cliente"
+                                                name="input_tipo_cliente" aria-label="Default select example" required>
                                                 <option value="" selected>Seleccione una opción</option>
                                                 <option value="Persona natural">Persona natural</option>
                                                 <option value="Persona juridica">Persona juridica</option>
@@ -309,7 +308,7 @@
                             </div>
                             <div class="modal-footer justify-content-center">
                                 <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5"
-                                onclick="openDelete()">Eliminar</button>
+                                    onclick="openDelete()">Eliminar</button>
                                 <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
                                     onclick="openClose()">Cancelar</button>
                                 <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
@@ -333,6 +332,8 @@
     <script type="text/javascript" src="../../controlador/privado/detalles_cliente.js"></script>
     <!--Cambiarlo por el js de la página en cuestion-->
     <script type="text/javascript" src="../../controlador/utilidades/components.js"></script>
+    <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+    <script type="text/javascript" src="../../recursos/js/chart.umd.min.js"></script>
 </body>
 
 </html>

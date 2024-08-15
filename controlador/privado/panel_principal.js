@@ -64,22 +64,23 @@ const graficaAutosReparar = async () => {
                 {
                     label: 'Autos que se esperan reparar (Teniendo en cuenta todos los años)',
                     fill: false,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgb(211, 211, 211)',
+                    borderColor: 'rgb(211, 211, 211)',
                     borderDash: [5, 5],
                     data: aReparar,
                 },
                 {
                     label: 'Autos que se esperan reparar (Teniendo en cuenta solo el año pasado)',
                     fill: false,
-                    backgroundColor: 'rgb(138, 99, 255)',
-                    borderColor: 'rgb(138, 99, 255)',
+                    backgroundColor: 'rgb(255, 45, 49)',
+                    borderColor: 'rgb(255, 45, 49)',
                     data: aRepararPasado,
+                    borderDash: [5, 5],
                 },
                 {
                     label: 'Autos Reparados (Año actual)',
-                    backgroundColor: 'rgb(187, 0, 0)',
-                    borderColor: 'rgb(187, 0, 0)',
+                    backgroundColor: 'rgb(230, 69, 71)',
+                    borderColor: 'rgb(230, 69, 71)',
                     data: reparados,
                     fill: true,
                 }
@@ -87,18 +88,24 @@ const graficaAutosReparar = async () => {
         };
 
         graphLineStyling('autosReparar', 'Predicción de cantidad de carros que se espera reparar.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar2', 'Tiempo estimado en realizar un servicio de reparación.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar3', '10 servicios más frecuentados por nuestros clientes.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar4', 'Cantidad de servicios por categorías.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar5', 'Autos totales registrados en el taller en base al año.', 'Meses', 'Cantidad de autos', data);
-        
-        graphLineStyling('autosReparar6', 'Total de empleados registrados actualmente según su especialidad.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar7', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar8', 'Clientes registrados en el mes según su departamento.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar9', 'Cantidad de clientes registrados en el mes según su tipo (natural y jurídico).', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('autosReparar10', 'Clientes con mayor cantidad de autos.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica2', 'Tiempo estimado en realizar un servicio de reparación.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica3', '10 servicios más frecuentados por nuestros clientes.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica4', 'Cantidad de servicios por categorías.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica5', 'Autos totales según su tipo.', 'Meses', 'Cantidad de autos', data);
+
+        graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica7', 'Clientes registrados en el mes según su departamento.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica8', 'Cantidad de clientes registrados en el mes según su tipo (natural y jurídico).', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica9', 'Clientes con mayor cantidad de citas.', 'Meses', 'Cantidad de autos', data);
     } else {
-        // En caso de error, se puede remover el canvas o mostrar un mensaje.
-        // document.getElementById('chart1').remove();
+        document.getElementById('autosReparar').remove();
+        var elements = document.getElementsByClassName('graphic');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+        }
+
     }
 }
