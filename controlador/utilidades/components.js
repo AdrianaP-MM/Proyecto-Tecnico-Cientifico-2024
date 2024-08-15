@@ -215,7 +215,7 @@ const logOut = async () => {
         }
     });*/
 
-    confirmed= await confirmAction2('Advertencia', '¿Está seguro de cerrar la sesión?')
+    confirmed = await confirmAction2('Advertencia', '¿Está seguro de cerrar la sesión?')
     // Se verifica si el usuario confirmó la acción.
     if (confirmed.isConfirmed) {
         // Petición para eliminar la sesión.
@@ -377,5 +377,44 @@ function convertMySQLTimeToHTMLTime(mysqlTime) {
     return `${hours}:${minutes}`;
 }
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
+// TODO ----------------------- FUNCIONES PARA LAS GRÁFICAS-----------------------------
+
+const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
+    // Se crea una instancia para generar el gráfico con los datos recibidos.
+    new Chart(document.getElementById(canvas), {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: graphTitle
+                },
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: XTitle
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: YTitle
+                    }
+                }
+            }
+        },
+    });
+}

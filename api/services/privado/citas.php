@@ -108,16 +108,37 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-                case 'deleteRow':
-                    if (!$cita->setIdCita($_POST['id_cita'])) {
-                        $result['error'] = $cita->getDataError();
-                    } elseif ($cita->deleteRow()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Cita eliminada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar la cita';
-                    }
-                    break;
+            case 'deleteRow':
+                if (!$cita->setIdCita($_POST['id_cita'])) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($cita->deleteRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cita eliminada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar la cita';
+                }
+                break;
+            case 'autosReparados':
+                if ($result['dataset'] = $cita->autosReparados()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen autos para contar';
+                }
+                break;
+            case 'autosAReparar':
+                if ($result['dataset'] = $cita->autosAReparar()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen autos para contar(2)';
+                }
+                break;
+            case 'autosARepararPasado':
+                if ($result['dataset'] = $cita->autosARepararPasado()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen autos para contar(3)';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }

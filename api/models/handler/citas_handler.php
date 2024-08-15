@@ -18,6 +18,25 @@ class CitasHandler
     protected $estado_cita = null;
     protected $search_value = null;
 
+
+    public function autosReparados()
+    {
+        $sql = 'SELECT * FROM vw_autos_reparados_por_mes;';
+        return Database::getRows($sql);
+    }
+
+    public function autosAReparar()
+    {
+        $sql = 'SELECT * FROM vw_autos_esperados_por_mes;';
+        return Database::getRows($sql);
+    }
+
+    public function autosARepararPasado()
+    {
+        $sql = 'SELECT * FROM vw_autos_esperados_por_mes_pasado;';
+        return Database::getRows($sql);
+    }
+
     // Método para crear una nueva cita
     public function createRow()
     {
@@ -133,17 +152,17 @@ class CitasHandler
     WHERE c.estado_cita != "Cancelado" 
     AND cl.id_cliente = ?';
 
-    // Inicializar los parámetros con el id del cliente
-    $params = array($_SESSION['idUsuarioCliente']);
+        // Inicializar los parámetros con el id del cliente
+        $params = array($_SESSION['idUsuarioCliente']);
 
-    // Añadir el id_cita si está definido
-    if ($this->id_cita) {
-        $sql .= ' AND c.id_cita = ?';
-        $params[] = $this->id_cita;
-    }
+        // Añadir el id_cita si está definido
+        if ($this->id_cita) {
+            $sql .= ' AND c.id_cita = ?';
+            $params[] = $this->id_cita;
+        }
 
-    // Ejecutar la consulta con los parámetros adecuados
-    return Database::getRows($sql, $params);
+        // Ejecutar la consulta con los parámetros adecuados
+        return Database::getRows($sql, $params);
     }
 
     public function readOne()
@@ -188,7 +207,7 @@ class CitasHandler
         INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil 
         INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente 
         WHERE c.estado_cita = ?';
-        $params = array( 
+        $params = array(
             $this->search_value
         );
         return Database::getRows($sql, $params);
