@@ -212,3 +212,37 @@ label[for= exampleInputPassword1]{
     width: 100%;
     max-width: 400px; /* Ajusta el tamaño según sea necesario */
 }
+
+/* Estilo para la tarjeta */
+.envelope-card {
+    position: relative;
+    background-color: #ffffff;
+    border: 4px solid #dc3545;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    transition: box-shadow 0.3s ease; /* Añadido para suavizar la transición de la sombra */
+    
+}
+
+/* Efecto al mantener el clic */
+.envelope-card:active {
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada cuando se mantiene el clic */
+}
+
+/* Triángulo invertido en la parte superior */
+.envelope-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(180deg);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 calc(50% - 75px) 40px calc(50% - 75px);
+    border-color: transparent transparent #dc3545 transparent;
+}
+
