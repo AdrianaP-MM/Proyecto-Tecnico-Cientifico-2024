@@ -26,6 +26,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen servicios para mostrar';
                 }
                 break;
+                case 'readGraphicGroupOfService':
+                    if ($result['dataset'] = $servicioData->graphicGroupOfService()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No existen servicios para mostrar';
+                    }
+                    break;
             case 'readOneModal':
                 if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = $servicioData->getDataError();

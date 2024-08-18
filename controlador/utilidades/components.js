@@ -414,3 +414,44 @@ const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
         },
     });
 }
+
+let existingDoughnutChart;
+const doughnutGraph = (canvas, legends, values, title) => {
+    // Destruir el gráfico existente si existe
+    if (existingDoughnutChart) {
+        existingDoughnutChart.destroy();
+    }
+
+    const colors = [
+        '#FF0000', // Rojo
+        '#CC0000', // Rojo oscuro
+        '#990000', // Rojo más oscuro
+        '#660000', // Rojo profundo
+        '#330000', // Rojo muy oscuro
+        '#808080', // Gris
+        '#A9A9A9', // Gris oscuro
+        '#696969', // Gris más oscuro
+        '#D3D3D3', // Gris claro
+        '#C0C0C0'  // Gris plata
+    ];
+
+    // Crear el nuevo gráfico y guardar la referencia
+    existingDoughnutChart = new Chart(document.getElementById(canvas), {
+        type: 'doughnut',
+        data: {
+            labels: legends,
+            datasets: [{
+                data: values,
+                backgroundColor: colors
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                }
+            }
+        }
+    });
+}

@@ -1,5 +1,6 @@
 const CITAS_API = 'services/privado/citas.php';
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
+const SERVICIOS_API = 'services/privado/servicio.php';
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     //Llamada a las diferentes funciones que muestran los datos en las gráficas
     graficaAutosReparar();
     graficoBarrasTipos();
+    graficoDonaTipos();
 });
 
 const graficoBarrasTipos = async () => {
@@ -45,6 +47,27 @@ const graficoBarrasTipos = async () => {
     }
 }
 
+const graficoDonaTipos = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(SERVICIOS_API, 'readGraphicGroupOfService');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let nombre = [];
+        let total = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            nombre.push(row.nombre);
+            total.push(row.total);
+        });
+        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+        doughnutGraph('cantidadServicios', nombre, total, 'Cantidad de servicios');
+    } else {
+        document.getElementById('cantidadServicios').remove();
+        console.log(DATA.error);
+    }
+}
 
 const graficaAutosReparar = async () => {
     // Petición para obtener los datos del gráfico.
@@ -116,7 +139,6 @@ const graficaAutosReparar = async () => {
         graphLineStyling('grafica2', 'Tiempo estimado en realizar un servicio de reparación.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica3', '10 servicios más frecuentados por nuestros clientes.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica4', 'Cantidad de servicios por categorías.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica5', 'Autos totales según su tipo.', 'Meses', 'Cantidad de autos', data);
 
         graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica7', 'Clientes registrados en el mes según su departamento.', 'Meses', 'Cantidad de autos', data);

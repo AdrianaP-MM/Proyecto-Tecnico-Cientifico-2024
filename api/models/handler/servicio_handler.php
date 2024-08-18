@@ -60,5 +60,14 @@ class ServicioHandler
         $params = array($this->id_tipo_servicio);
         return Database::executeRow($sql, $params);
     }
+
+    //Método para leer la cantidad de servicios que hay por el grupo de servicios
+    public function graphicGroupOfService()
+    {
+        // Consulta SQL para leer todos los automóviles activos
+        $sql = 'SELECT * FROM vw_cantidad_servicios_por_tipo;';
+        return Database::getRows($sql);
+    }
+
 }
 ?>
