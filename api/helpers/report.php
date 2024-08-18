@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para generar archivos PDF.
-require_once('../../librerias/fpdf185/fpdf.php');
+require_once('../../libraries/fpdf185/fpdf.php');
 /*
 *   Clase para definir las plantillas de los reportes del sitio privado.
 *   Para más información http://www.fpdf.org/
@@ -8,7 +8,7 @@ require_once('../../librerias/fpdf185/fpdf.php');
 class Report extends FPDF
 {
     // Constante para definir la ruta de las vistas del sitio privado.
-    const SERVER_URL = 'http://localhost/ecoaprende/ecoaprende_sitioprivado/vistas_administrador/privada/';
+    const SERVER_URL = 'http://localhost/proyecto-tecnico-cientifico-2024/vistas/privado/';
     // Propiedad para guardar el título del reporte.
     private $title = null;
 
@@ -55,11 +55,6 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../imagenes/ecoaprende_logo.png', 50, 8, 28);
-        $this->image('../../imagenes/ecoaprende_header.png', 150, 0, 70);
-        $this->image('../../imagenes/ecoaprende_header.png', 110, 0, 70);
-        $this->image('../../imagenes/ecoaprende_header_2.png', 0, 0, 20);
-        $this->image('../../imagenes/ecoaprende_background.png', 15, 50, 186);
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
@@ -78,13 +73,11 @@ class Report extends FPDF
     */
     public function footer()
     {
-        $this->image('../../imagenes/ecoaprende_header_3.png', 110, 260, 70);
-        $this->image('../../imagenes/ecoaprende_header_3.png', 150, 260, 70);
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->setY(-20);
         // Se establece la fuente para el número de página.
         $this->setFont('Arial', 'I', 8);
-        $this->cell(0, 10, $this->encodeString('Factura generada por: ' . $_SESSION['correo_administrador']), 0, 1, 'C');
+        $this->cell(0, 10, $this->encodeString('Reporte generad@ por: ' . $_SESSION['aliasAdmin']), 0, 1, 'C');
         // Se imprime una celda con el número de página. 
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }

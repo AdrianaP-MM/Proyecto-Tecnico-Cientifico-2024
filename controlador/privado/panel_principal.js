@@ -1,4 +1,5 @@
 const CITAS_API = 'services/privado/citas.php';
+const AUTOMOVILES_API = 'services/privado/automoviles.php';
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
@@ -19,7 +20,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     //Llamada a las diferentes funciones que muestran los datos en las gráficas
     graficaAutosReparar();
+    graficoBarrasTipos();
 });
+
+const graficoBarrasTipos = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(AUTOMOVILES_API, 'readGraphicCarsByType');
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let tipo = [];
+        let total = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            tipo.push(row.tipo);
+            total.push(row.total);
+        });
+        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+        barGraph('autosPorTipo', tipo, total, 'Tipos de automóviles', 'Total de automóviles por tipo');
+    } else {
+        document.getElementById('autosPorTipo').remove();
+        console.log(DATA.error);
+    }
+}
+
 
 const graficaAutosReparar = async () => {
     // Petición para obtener los datos del gráfico.
@@ -108,4 +133,12 @@ const graficaAutosReparar = async () => {
         }
 
     }
+}
+
+const openReportAutos = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+    console.log(PATH.href);
 }

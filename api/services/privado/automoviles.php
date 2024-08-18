@@ -71,6 +71,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
+                case 'readGraphicCarsByType':
+                    if ($result['dataset'] = $automovil->graphicCarsByType()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                    } else {
+                        $result['error'] = 'No existen automóviles registrados';
+                    }
+                    break;
             case 'readTipos':
                 if ($result['dataset'] = $automovil->readTipos()) {
                     $result['status'] = 1;

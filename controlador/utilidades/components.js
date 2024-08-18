@@ -99,11 +99,7 @@ const sweetAlert = async (type, text, timer) => {
 */
 const barGraph = (canvas, xAxis, yAxis, legend, title) => {
     // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
-    let colors = [];
-    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
-    xAxis.forEach(() => {
-        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
-    });
+    let colors = Array(xAxis.length).fill('#69090B'); // Todas las barras tendrán el color rojo.
     // Se crea una instancia para generar el gráfico con los datos recibidos.
     new Chart(document.getElementById(canvas), {
         type: 'bar',

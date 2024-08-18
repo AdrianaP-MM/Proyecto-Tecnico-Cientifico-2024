@@ -218,6 +218,13 @@ class AutomovilHandler
         return Database::getRows($sql);
     }
     
+    public function graphicCarsByType()
+    {
+        // Consulta SQL para leer todos los automóviles activos
+        $sql = 'SELECT * FROM vw_autos_por_tipo;';
+        return Database::getRows($sql);
+    }
+
     public function readAllMyCars()
     {
         // Consulta SQL para leer todos los automóviles del cliente actual, incluyendo la imagen del automóvil
