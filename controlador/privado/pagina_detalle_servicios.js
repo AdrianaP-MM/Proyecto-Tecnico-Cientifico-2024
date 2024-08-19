@@ -1,15 +1,24 @@
 const SERVICIOS_API = 'services/privado/servicio.php';
+const TIPOS_API = 'services/privado/tipo_servicio.php';
 const SERVICIO_DATA_CONTAINER = document.getElementById('ServicioDataContainer');
 const CONTAINER_BOTONES = document.getElementById('containerBotones');
 
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal(document.getElementById("staticBackdrop"));
+const SAVE_MODAL_2 = new bootstrap.Modal(document.getElementById("staticBackdrop2"));
 
 const SAVE_FORM = document.getElementById('save_form'),
     ID_TIPO_SERVICIO = document.getElementById('id_tipo_servicio'),
     NOMBRE_SERVICIO = document.getElementById('nombre_servicio'),
     DESCRIPCION_SERVICIO = document.getElementById('descripcion_servicio');
 
+
+// Constantes para establecer los elementos del formulario
+const SAVE_FORM_2 = document.getElementById('save_form_2'),
+    NOMBRE = document.getElementById('nombre_tipo_servicio'),
+    IMG_SERVICIO = document.getElementById('customFileW');
+
+const IMAGE_INPUT = document.getElementById('customFileW');
 
 // Función para obtener parámetros de la URL
 const getQueryParam = (name) => {
@@ -122,6 +131,43 @@ const openUpdate = async (id) => {
     }
 };
 
+
+// Función para abrir el modal de actualización
+const openUpdateService = async () => {
+    // Obtener el valor del ID de tipo servicio adecuadamente según la acción
+    let idTipoServicio;
+    idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
+    // Se abre el modal para cambiar la info del trabajador
+    SAVE_MODAL_2.show();
+    // Se define una constante tipo objeto con los datos del registro seleccionado.
+    const formData = new FormData();
+    formData.append("id_tipo_servicio", idTipoServicio); // Asegúrate de que 'id' sea el valor correcto del ID del trabajador
+
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(SERVICIOS_API, "readOne", formData);
+
+    if (DATA.status) {
+        // Se prepara el formulario.
+        SAVE_FORM_2.reset();
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODAL_2.show();
+        // Se inicializan los campos con los datos.
+        const row = DATA.dataset;
+        NOMBRE.value = row.nombre_tipo_servicio;
+
+        const botonTres = document.getElementById("btnDelete");
+        if (botonTres) {
+            botonTres.remove();
+        }
+
+        CONTAINER_BOTONES.innerHTML += `
+              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDelete(${idTipoServicio})">Eliminar</button>
+        `;
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+};
+
 // Función para abrir el modal de eliminación
 const openDelete = async (id) => {
     console.log('ID recibido para eliminar:', id); // Depuración
@@ -186,6 +232,45 @@ SAVE_FORM.addEventListener('submit', async (event) => {
             SAVE_MODAL.hide(); // Se cierra la caja de diálogo
             sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
             fillServiceData(); // Se carga nuevamente la tabla para visualizar los cambios
+        } else {
+            sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
+        }
+    } catch (error) {
+        console.error('Error al guardar el servicio:', error);
+        sweetAlert(4, 'No se pudo guardar el servicio.', false);
+    }
+});
+
+
+
+// Método del evento para cuando se envía el formulario de guardar
+SAVE_FORM_2.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Se evita recargar la página web después de enviar el formulario
+
+    const formData = new FormData(SAVE_FORM_2); // Constante tipo objeto con los datos del formulario
+    formData.append('customFileW', IMAGE_INPUT.files[0]); // Usa files[0] para obtener el archivo
+    // Obtener el valor del ID de tipo servicio adecuadamente según la acción
+    let idTipoServicio;
+    idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
+    formData.append('id_tipo_servicio', idTipoServicio);
+
+    try {
+        const responseData = await fetchData(TIPOS_API, 'updateRow', formData); // Petición para guardar los datos del formulario
+
+        if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
+            SAVE_MODAL_2.hide(); // Se cierra la caja de diálogo
+            sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
+
+            SAVE_FORM_2.reset(); // Se vacían los campos del formulario
+
+            // Limpiar el campo de archivo
+            IMAGE_INPUT.value = '';
+
+            // Restablecer la imagen a la original
+            const selectedImage = document.getElementById('selectedImageW');
+            if (selectedImage) {
+                selectedImage.src = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'; // La URL de la imagen original
+            }
         } else {
             sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
         }

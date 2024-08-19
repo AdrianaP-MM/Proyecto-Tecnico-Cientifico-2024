@@ -9,7 +9,7 @@ const SAVE_FORM = document.getElementById('save_form'),
     IMG_SERVICIO = document.getElementById('customFileW');
 
 
-    const IMAGE_INPUT = document.getElementById('customFileW');
+const IMAGE_INPUT = document.getElementById('customFileW');
 
 // Constantes para establecer los elementos del componente Modal
 const MODAL = new bootstrap.Modal('#staticBackdrop');
@@ -35,7 +35,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
             MODAL.hide(); // Se cierra la caja de diálogo
             sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
             readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
-            
+
             SAVE_FORM.reset(); // Se vacían los campos del formulario
 
             // Limpiar el campo de archivo
@@ -75,9 +75,9 @@ async function readServicios() {
                 const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
                 const imageExists = await checkImageExists(imageUrl);
                 const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
-                
+
                 CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                    <div class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
+                    <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
                         <div class="content z-3">
                             <h4 class="open-sans-light-italic">Más información</h4>
                         </div>

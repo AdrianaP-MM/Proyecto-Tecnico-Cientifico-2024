@@ -4,7 +4,7 @@
 
 <head>
     <!-- Título del documento -->
-    <title>Detalles servicios</title>
+    <title>Detalles del servicios</title>
 
     <!-- Metadatos de la página web -->
     <meta charset="utf-8">
@@ -13,7 +13,7 @@
 
     <!-- *IMPORTACIÓN DE RECURSOS EXTERNOS -->
     <!-- Llamada al icono de la página web -->
-    <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/icono_usuario.svg">
+    <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/icon_servicios.svg">
 
     <!-- *Llamada a las hojas de estilos del framework (BOOTSTRAP) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -44,8 +44,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col-1">
                         <h1>Servicios</h1>
+                    </div>
+                    <div class="col-11">
+                        <button type="button" id="btnEditCar" onclick="openUpdateService()"
+                            class="btn col-2 ms-3 m-0 p-0">
+                            <img src="../../recursos/imagenes/icons/btn-edit.svg" class="svg1">
+                        </button>
                     </div>
                 </div>
             </div>
@@ -53,7 +59,7 @@
         <!-- Cards -->
         <div class="container">
             <div class="row ">
-               <!--  <div class="col-auto">
+                <!--  <div class="col-auto">
                     <button type="button" class="btn btn-dark" onclick="openCreate()">Agregar servicio</button>
                 </div> -->
             </div>
@@ -67,7 +73,7 @@
 
 
     </main>
-    <!-- Modal -->
+    <!-- Modal detalle-->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
@@ -101,9 +107,57 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
+
+
+
+    <!--TODO -------------------------------MODAL ADD---------------------->
+    <!-- Contenedor del modal de agregar automovil-->
+    <!-- Formulario en el modal para agregar servicio -->
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <!-- Contenedor del modal dialog-->
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <!-- Contenedor del modal content-->
+            <div class="modal-content p-lg-4 p-2">
+                <!-- Contenedor del modal body-->
+                <div class="modal-body col-12">
+                    <!-- Formulario en el modal para agregar servicio -->
+                    <form id="save_form_2" class="needs-validation" novalidate>
+                        <div
+                            class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">
+                            <div class="form-floating mb-0 p-0 col-12 mb-4">
+                                <input type="text" class="form-control" id="nombre_tipo_servicio"
+                                    name="nombre_tipo_servicio" placeholder="..." required>
+                                <label for="nombre_tipo_servicio">Nombre de la categoría</label>
+                                <div class="invalid-feedback">Por favor ingresa un nombre de la categoría.</div>
+                                <br>    
+                                <div class="container">
+                                    <h6>Imagen de la categoría</h6>
+                                <img id="selectedImageW" class="col-10"
+                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                    alt="example placeholder" />
+                                <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
+                                    <label class="form-label text-white m-1" for="customFileW">Seleccionar
+                                        imagen</label>
+                                    <input type="file" class="form-control d-none" id="customFileW" name="customFileW"
+                                        onchange="displaySelectedImage(event, 'selectedImageW')" />
+                                </div>
+                            <div
+                                class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                                <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
+                                    onclick="openClose()">Cancelar</button>
+                                <button type="submit"
+                                    class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
