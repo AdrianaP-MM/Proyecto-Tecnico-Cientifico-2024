@@ -9,13 +9,13 @@ $pdf = new Report;
 require_once('../../models/data/automoviles_data.php');
 
 // Se instancia la entidad correspondiente.
-$puto = new AutomovilData;
+$auto = new AutomovilData;
 
 // Se inicia el reporte con el encabezado del documento.
 $pdf->startReport('Automoviles totales');
 
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
-if ($dataAutos = $puto->readAll()) {
+if ($dataAutos = $auto->readAll()) {
     // Se establece un color de relleno para los encabezados.
     $pdf->setFillColor(255,192,203);
     // Se establece la fuente para los encabezados.
