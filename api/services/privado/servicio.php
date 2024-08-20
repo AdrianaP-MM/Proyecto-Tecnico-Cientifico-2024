@@ -1,6 +1,6 @@
 <?php
-require_once ('../../helpers/validator.php');
-require_once ('../../models/data/servicio_data.php');
+require_once('../../helpers/validator.php');
+require_once('../../models/data/servicio_data.php');
 
 if (isset($_GET['action'])) {
     session_start();
@@ -26,13 +26,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen servicios para mostrar';
                 }
                 break;
-                case 'readGraphicGroupOfService':
-                    if ($result['dataset'] = $servicioData->graphicGroupOfService()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'No existen servicios para mostrar';
-                    }
-                    break;
+            case 'readGraphicGroupOfService':
+                if ($result['dataset'] = $servicioData->graphicGroupOfService()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios para mostrar';
+                }
+                break;
+            case 'readTop10Servicios':
+                if ($result['dataset'] = $servicioData->readTop10Servicios()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios para mostrar';
+                }
+                break;
             case 'readOneModal':
                 if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = $servicioData->getDataError();
@@ -44,7 +51,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                
+
                 if (
                     !$servicioData->setIdTipoServicio($_POST['id_tipo_servicio']) ||
                     !$servicioData->setNombreServicio($_POST['nombre_servicio']) ||
@@ -92,8 +99,7 @@ if (isset($_GET['action'])) {
     }
 
     header('content-type: application/json; charset=utf-8');
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
-?>

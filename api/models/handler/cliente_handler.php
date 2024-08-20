@@ -279,4 +279,11 @@ class ClienteHandler
         );
         return Database::getRow($sql, $params);
     }
+
+    public function readClientesMesTipos()
+    {
+        $sql = 'SELECT * FROM vw_clientes_por_mes_y_tipo;';
+        return Database::getRows($sql);
+    }
+
 }

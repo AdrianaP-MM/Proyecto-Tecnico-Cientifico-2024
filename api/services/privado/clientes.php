@@ -44,6 +44,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Cliente inexistente';
                 }
                 break;
+            case 'readClientesMesTipos':
+                if ($result['dataset'] = $cliente->readClientesMesTipos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen marcas para mostrar';
+                }
+                break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 //print_r($_POST);

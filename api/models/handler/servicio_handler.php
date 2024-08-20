@@ -69,5 +69,11 @@ class ServicioHandler
         return Database::getRows($sql);
     }
 
+    public function readTop10Servicios()
+    {
+        $sql = 'SELECT * FROM vw_top_10_servicios';
+        return Database::getRows($sql);
+    }   
+
 }
 ?>

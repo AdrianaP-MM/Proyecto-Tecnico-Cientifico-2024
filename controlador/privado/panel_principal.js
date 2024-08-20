@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     graficaAutosReparar();
     graficoBarrasTipos();
     graficoDonaTipos();
+    graficaClientesMesTipos();
+    graficaTop10();
 });
 
 const graficoBarrasTipos = async () => {
@@ -138,12 +140,8 @@ const graficaAutosReparar = async () => {
         graphLineStyling('autosReparar', 'Predicción de cantidad de carros que se espera reparar.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica2', 'Tiempo estimado en realizar un servicio de reparación.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica3', '10 servicios más frecuentados por nuestros clientes.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica4', 'Cantidad de servicios por categorías.', 'Meses', 'Cantidad de autos', data);
-
         graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
         graphLineStyling('grafica7', 'Clientes registrados en el mes según su departamento.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica8', 'Cantidad de clientes registrados en el mes según su tipo (natural y jurídico).', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica9', 'Clientes con mayor cantidad de citas.', 'Meses', 'Cantidad de autos', data);
     } else {
         document.getElementById('autosReparar').remove();
         var elements = document.getElementsByClassName('graphic');
@@ -164,3 +162,222 @@ const openReportAutos = () => {
     window.open(PATH.href);
     console.log(PATH.href);
 }
+
+const CLIENTE_API = 'services/privado/clientes.php';
+
+const graficaClientesMesTipos = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATAClienteMesTipo = await fetchData(CLIENTE_API, 'readClientesMesTipos');
+
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATAClienteMesTipo.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        let natural = Array(12).fill(0); // Inicializa con ceros
+        let juridico = Array(12).fill(0); // Inicializa con ceros
+
+        // Se recorre el conjunto de registros para obtener las cantidades de clientes por tipo.
+        DATAClienteMesTipo.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            if (row.tipo_cliente === 'Persona natural') {
+                natural[mesIndex] = row.cantidad_clientes;
+            } else if (row.tipo_cliente === 'Persona juridica') {
+                juridico[mesIndex] = row.cantidad_clientes;
+            }
+        });
+
+        // Log para verificar los datos antes de graficar
+        console.log('Clientes Naturales:', natural);
+        console.log('Clientes Jurídicos:', juridico);
+
+        // Configuración de los datos para el gráfico
+        const data = {
+            labels: Meses,
+            datasets: [
+                {
+                    label: 'Clientes Naturales',
+                    fill: false,
+                    backgroundColor: '#E5383B', // Rojo
+                    borderColor: '#E5383B', // Rojo
+                    data: natural,
+                },
+                {
+                    label: 'Clientes Jurídicos',
+                    fill: false,
+                    backgroundColor: '#161A1D',
+                    borderColor: '#161A1D',
+                    data: juridico,
+                }
+            ]
+        };
+
+        graphLineStyling('clientesMesTipos', 'Cantidad de clientes registrados por mes según su tipo.', 'Meses', 'Cantidad de clientes', data);
+    } else {
+        document.getElementById('clientesMesTipos').remove();
+        var elements = document.getElementsByClassName('graphic');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+        }
+    }
+}
+
+
+const graficaTop10 = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATATopServicios = await fetchData(SERVICIOS_API, 'readTop10Servicios'); // Suponemos que 'topServicios' es el endpoint para la vista
+
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATATopServicios.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let servicios = [];
+        let conteos = [];
+        let otrosCount = 0;
+
+        // Se recorre el conjunto de registros para obtener los servicios y sus conteos.
+        DATATopServicios.dataset.forEach(row => {
+            if (row.servicio === "Otros") {
+                otrosCount = parseInt(row.conteo, 10); // Almacena el conteo de "Otros"
+            } else {
+                servicios.push(row.servicio);
+                conteos.push(parseInt(row.conteo, 10)); // Convierte a número
+            }
+        });
+
+        // Se asegura que el array de servicios no exceda los 10 elementos
+        if (servicios.length > 10) {
+            // Si hay más de 10 servicios, se maneja "Otros" como una categoría combinada
+            const topServicios = servicios.slice(0, 10); // Obtiene los primeros 10 servicios
+            const topConteos = conteos.slice(0, 10); // Obtiene los conteos de los primeros 10 servicios
+
+            // Si hay más de 10 elementos, sumar el resto en "Otros"
+            if (DATATopServicios.dataset.length > 10) {
+                topServicios[9] = 'Otros'; // Reemplaza el último servicio por "Otros"
+                topConteos[9] = otrosCount + conteos.slice(10).reduce((a, b) => a + b, 0); // Suma los conteos restantes
+            }
+
+            // Log para verificar los datos antes de graficar
+            console.log('Servicios:', topServicios);
+            console.log('Conteos:', topConteos);
+
+            // Configuración de los datos para el gráfico
+            graphPieStyling('graficaTop10', 'Top 10 Servicios Más Solicitados y Otros', topServicios, topConteos);
+        } else {
+            // Si hay 10 o menos servicios, simplemente grafica todos y agrega "Otros"
+            const allServicios = servicios.slice(0, 10); // Limita a los primeros 10
+            const allConteos = conteos.slice(0, 10); // Limita a los primeros 10
+
+            // Añade "Otros" si hay servicios restantes
+            if (DATATopServicios.dataset.length > 10) {
+                allServicios.push('Otros');
+                allConteos.push(otrosCount); // Incluye el conteo de "Otros"
+            }
+
+            // Log para verificar los datos antes de graficar
+            console.log('Servicios:', allServicios);
+            console.log('Conteos:', allConteos);
+
+            graphPieStyling('graficaTop10', 'Top 10 Servicios Más Solicitados y Otros', allServicios, allConteos);
+        }
+
+    } else {
+        // Si no hay datos, muestra un mensaje
+        document.getElementById('graficaTop10').remove();
+        var elements = document.getElementsByClassName('graphic');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+        }
+    }
+}
+
+/// Función para inicializar y configurar el gráfico de pastel
+const graphPieStyling = (canvasId, title, dataLabels, dataValues) => {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+
+    // Limpiar cualquier instancia previa del gráfico
+    if (Chart.getChart(canvasId)) {
+        Chart.getChart(canvasId).destroy();
+    }
+
+    new Chart(ctx, {
+        type: 'pie',  // Tipo de gráfico: pastel
+        data: {
+            labels: dataLabels,
+            datasets: [{
+                label: title,
+                data: dataValues,
+                backgroundColor: [
+                    '#F5F3F4',
+                    '#D3D3D3',
+                    '#E5383B',
+                    '#E00D11',
+                    '#BA181B',
+                    '#161A1D',
+                    '#F5F3F4',
+                    '#151313',
+                    '#D3D3D3',
+                    '#E5383B',
+                    '#E00D11',
+                    '#BA181B'
+                ],
+                borderColor: [
+                    '#F5F3F4',
+                    '#D3D3D3',
+                    '#E5383B',
+                    '#E00D11',
+                    '#BA181B',
+                    '#161A1D',
+                    '#F5F3F4',
+                    '#151313',
+                    '#D3D3D3',
+                    '#E5383B',
+                    '#E00D11',
+                    '#BA181B'
+                ],
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',  // Mueve las leyendas a la derecha
+                    labels: {
+                        boxWidth: 20,
+                        padding: 10,
+                        font: {
+                            size: 10,  // Reduce el tamaño de la letra de las leyendas
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            const label = tooltipItem.label || '';
+                            const value = tooltipItem.raw || 0;
+                            const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const percentage = ((value / total) * 100).toFixed(2) + '%';
+                            return `${label}: ${value} (${percentage})`;
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 14  // Reduce el tamaño de la letra del título
+                    }
+                }
+            }
+        }
+    });
+};
+
+
+
+
