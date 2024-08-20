@@ -26,8 +26,10 @@
     <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
 
-    <link href="../../recursos/estilos/privado/calendario.css" rel="stylesheet" />
     <!--Hoja de estilos para el calendario-->
+    <link href="../../recursos/estilos/privado/calendario.css" rel="stylesheet" />
+    <!-- Estilo para poder usar el JQUERY -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 </head>
 
 <body>
@@ -147,9 +149,30 @@
 
                         <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
 
-                        <p class="text-center textCard">Para este reporte es nesesario ingresar el numero de dui de un cliente</p>
+                        <p class="text-center textCard">Para abrir este reporte correctamente debe de proporcionar un
+                            dui de un usuario y un estado de cita. Esto devolvera un historial de cliente con el estado
+                            de cita seleccionada.</p>
 
-                        <button type="button" class="btn btn-light" onclick="openReportAutos()">Abrir reporte citas</button>
+                        <div class="form-floating mb-3 inputReport">
+                            <label for="input_estado_cita" class="form-label px-2 pt-1 p-0 m-0">Estado cita</label>
+                            <select id="input_estado_cita" name="input_estado_cita" type="text" class="form-select"
+                                required>
+                                <option value>Seleccione un estado</option>
+                                <option value="En espera">En espera</option>
+                                <option value="Aceptado">Aceptado</option>
+                                <option value="Cancelado">Cancelado</option>
+                                <option value="Finalizada">Finalizada</option>
+                            </select>
+                        </div>
+
+                        <div class="form-floating mb-3 inputReport">
+                            <input id="input_dui_report" name="input_dui_report" type="text" class="form-control" placeholder="DUI" required>
+                            <label for="input_dui_report" class="form-label">DUI</label>
+                        </div>
+                        
+
+                        <button type="button" class="btn btn-light" onclick="openReportAutos()">Abrir reporte
+                            citas</button>
 
                     </div>
 
@@ -167,6 +190,10 @@
 
     </main>
 
+    <!-- jQuery (necesario para jQuery UI) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery UI para la funcionalidad de autocompletado -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script src="../../recursos/js/calendario.js"></script> <!--Js para el calendario, para que funcione-->
     <!-- *Llamada a las hojas de estilos del framework e iconos -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -179,6 +206,7 @@
     <!-- *Llamada al controlador del sitio publico -->
     <script type="text/javascript" src="../../controlador/utilidades/privado.js"></script> <!--Dejarlo NOQUITAR-->
     <script type="text/javascript" src="../../controlador/privado/panel_principal.js"></script>
+    
 </body>
 
 </html>

@@ -20,20 +20,24 @@
   }
 }
 
+/*Estilo para el contenedor de titulo*/
 .titleContainer{
   border-bottom: 4px solid red;
 }
 
+/*Fuente para el titulo*/
 .titleCard{
   font-size: 16px;
 }
 
+/*Fuente para la card*/
 .textCard{
   font-size: 14px;
   border-bottom: 4px solid #1d1d1d;
   padding-bottom: 15px;
 }
 
+/*Estilo para la imagen*/
 .imgCard{
   margin-top: 15px;
   margin-bottom: 15px;
@@ -41,12 +45,31 @@
   width: 50px;
 }
 
+/*Estilo de transicion para el boton*/
 .btn{
   font-size: 14px;
   transition: 0.5s;
 }
 
+/*Hover para el boton*/
 .btn:hover{
   background-color: #BA181B;
   color: white;
+}
+
+/*Tamano del input para la card*/
+.inputReport{
+  width: 95%;
+}
+
+/* Etiqueta flotante */
+.form-floating>label {
+  color: red;
+}
+
+/* Etiqueta flotante enfocada o con contenido */
+.form-floating .form-control:focus~label,
+.form-floating .form-control:not(:placeholder-shown)~label {
+  color: red; /* Color rojo */
+  /* Color rojo */
 }
