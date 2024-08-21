@@ -388,58 +388,59 @@ const openReportAutos = () => {
 const openReportCitasEstadoYDUI = () => {
     // Obtén los valores de los inputs
     const estadoCita = document.getElementById("input_estado_cita").value;
-    const dui = document.getElementById("input_dui_report").value;
+    const duiInput = document.getElementById("input_dui_report");
+    const idCliente = duiInput.getAttribute('data-selected-id'); // Obtener el id_cliente del DUI seleccionado
+
+    // Imprimir en consola para depuración
+    console.log("Estado Cita:", estadoCita);
+    console.log("ID Cliente:", idCliente);
 
     // Verifica que se hayan proporcionado valores válidos
-    if (!estadoCita || !dui) {
+    if (!estadoCita || !idCliente) {
         alert("Por favor, ingrese el DUI y seleccione un estado de cita.");
         return;
     }
 
     // Crea la URL con los parámetros
-    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php?estado=${encodeURIComponent(estadoCita)}&dui=${encodeURIComponent(dui)}`);
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php?estado=${encodeURIComponent(estadoCita)}&dui=${encodeURIComponent(idCliente)}`);
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
     console.log(PATH.href);
 }
 
+
+
 /*Js referente al apartado de reportes*/
 
-//Funcion para llenar el campo 
 async function readDUI() {
     try {
-        const DATA = await fetchData(AUTOMOVILES_API, 'readClientes'); // Petición para obtener los datos
+        const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
 
-        if (DATA && DATA.status) { // Se comprueba si la respuesta es satisfactoria
-            // Mapear los datos para el autocompletado
+        if (DATA && DATA.status) {
             const duiOptions = DATA.dataset.map(item => ({
-                label: item.dui_cliente, // Lo que se mostrará en la lista de opciones
-                value: item.id_cliente    // El valor que se enviará al seleccionar una opción
+                label: item.dui_cliente,
+                value: item.id_cliente
             }));
 
-            // Inicializa el autocompletado con los valores obtenidos
             $("#input_dui_report").autocomplete({
                 source: duiOptions,
                 select: function(event, ui) {
-                    // Al seleccionar un elemento, guardar el id_cliente como valor del input
-                    $('#input_dui_report').val(ui.item.label); // Mostrar el DUI seleccionado
-                    $('#input_dui_report').data('selected-id', ui.item.value); // Guardar el id_cliente como data en el input
-
-                    // Imprimir el id_cliente seleccionado en la consola
+                    $('#input_dui_report').val(ui.item.label);
+                    $('#input_dui_report').attr('data-selected-id', ui.item.value); // Guardar el id_cliente como data en el input
                     console.log("ID Cliente seleccionado:", ui.item.value);
-
                     return false;
                 }
             });
         } else {
-            sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false); // Se muestra un mensaje de error
+            sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false);
         }
     } catch (error) {
         console.error('Error al leer los servicios:', error);
         sweetAlert(4, 'No se pudo obtener los datos de los servicios.', false);
     }
 }
+
 
 $(document).ready(function() {
     // Llama a la función para leer los servicios y configurar el autocompletado
