@@ -24,24 +24,24 @@ if ($estadoCita && $duiCliente) {
 
         // Añadir una nueva página solo si existen registros para mostrar
         if ($dataCitas = $cita->readCitasParametrizada()) {
-            $pdf->addPage(); // Agrega una página solo si hay datos
-
             // Establecer la fuente antes de cualquier impresión
             $pdf->setFont('Arial', 'B', 11);
             // Se establece un color de relleno para los encabezados.
             $pdf->setFillColor(255, 192, 203);
             // Se imprimen las celdas con los encabezados.
-            $pdf->cell(126, 10, 'Modelo', 1, 0, 'C', 1);
-            $pdf->cell(30, 10, 'Placa', 1, 0, 'C', 1);
-            $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
+            $pdf->cell(65, 10, 'Nombre del cliente', 1, 0, 'C', 1);
+            $pdf->cell(50, 10, 'Modelo del automovil', 1, 0, 'C', 1);
+            $pdf->cell(40, 10, 'Fecha de cita', 1, 0, 'C', 1);
+            $pdf->cell(30, 10, 'Estado de cita', 1, 1, 'C', 1);
             // Se establece la fuente para los datos de los productos.
             $pdf->setFont('Arial', '', 11);
             // Se recorren los registros fila por fila.
-            foreach ($dataCitas as $rowAuto) {
-                $estado = $rowAuto['estado_cita'];
+            foreach ($dataCitas as $rowCita) {
+                $estado = $rowCita['estado_cita'];
                 // Se imprimen las celdas con los datos de los productos.
-                $pdf->cell(126, 10, $pdf->encodeString($rowAuto['modelo_automovil']), 1, 0);
-                $pdf->cell(30, 10, $rowAuto['placa_automovil'], 1, 0);
+                $pdf->cell(65, 10, $pdf->encodeString($rowCita['nombre_cliente']), 1, 0);
+                $pdf->cell(50, 10, $pdf->encodeString($rowCita['modelo_automovil']), 1, 0);
+                $pdf->cell(40, 10, $pdf->encodeString($rowCita['fecha_cita']), 1, 0);
                 $pdf->cell(30, 10, $estado, 1, 1);
             }
         } else {
