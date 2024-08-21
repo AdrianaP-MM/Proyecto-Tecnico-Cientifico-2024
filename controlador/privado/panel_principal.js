@@ -385,6 +385,25 @@ const openReportAutos = () => {
     console.log(PATH.href);
 }
 
+const openReportCitasEstadoYDUI = () => {
+    // Obtén los valores de los inputs
+    const estadoCita = document.getElementById("input_estado_cita").value;
+    const dui = document.getElementById("input_dui_report").value;
+
+    // Verifica que se hayan proporcionado valores válidos
+    if (!estadoCita || !dui) {
+        alert("Por favor, ingrese el DUI y seleccione un estado de cita.");
+        return;
+    }
+
+    // Crea la URL con los parámetros
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php?estado=${encodeURIComponent(estadoCita)}&dui=${encodeURIComponent(dui)}`);
+
+    // Abre el reporte en una nueva pestaña
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
 /*Js referente al apartado de reportes*/
 
 //Funcion para llenar el campo 
