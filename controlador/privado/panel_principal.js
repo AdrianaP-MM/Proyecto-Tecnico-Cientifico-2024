@@ -157,13 +157,7 @@ const graficaAutosReparar = async () => {
     }
 }
 
-const openReportAutos = () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
-    // Se abre el reporte en una nueva pestaña.or
-    window.open(PATH.href);
-    console.log(PATH.href);
-}
+
 
 const CLIENTE_API = 'services/privado/clientes.php';
 
@@ -381,6 +375,19 @@ const graphPieStyling = (canvasId, title, dataLabels, dataValues) => {
 };
 
 /*JS de reportes*/
+
+/*Abrir reportes*/
+const openReportAutos = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
+/*Js referente al apartado de reportes*/
+
+//Funcion para llenar el campo 
 async function readDUI() {
     try {
         const DATA = await fetchData(AUTOMOVILES_API, 'readClientes'); // Petición para obtener los datos

@@ -8,6 +8,7 @@ require_once('../../helpers/database.php');
 class CitasHandler
 {
     protected $id_cita = null;
+    protected $id_cliente = null;
     protected $fecha_registro = null;
     protected $fecha_hora_cita = null;
     protected $id_automovil = null;
@@ -248,5 +249,25 @@ class CitasHandler
         $params = array($this->id_cita);
         // Ejecuta la consulta de eliminación y devuelve el resultado
         return Database::executeRow($sql, $params);
+    }
+
+    public function readCitasParametrizada()
+    {
+        $sql = 'SELECT 
+        c.nombres_cliente AS nombre_cliente,
+        a.modelo_automovil AS modelo_automovil,
+        ci.fecha_hora_cita AS fecha_cita,
+        ci.estado_cita AS estado_cita
+        FROM 
+        tb_citas ci
+        JOIN 
+        tb_automoviles a ON ci.id_automovil = a.id_automovil
+        JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        WHERE 
+        ci.estado_cita = ?
+        AND c.id_cliente = ?;';
+        $params = array($this->estado_cita, $this->id_cliente);
+        return Database::getRows($sql, $params);
     }
 }

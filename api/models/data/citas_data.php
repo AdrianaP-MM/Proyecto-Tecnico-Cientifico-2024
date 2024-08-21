@@ -28,6 +28,17 @@ class CitasData extends CitasHandler
         }
     }
 
+    public function setIdCliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
+            return false;
+        }
+    }
+
     public function setIdAutomovil($value)
     {
         if (Validator::validateNaturalNumber($value)) {
