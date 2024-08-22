@@ -5,6 +5,7 @@ const SERVICIOS_API = 'services/privado/servicio.php';
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
+    configurarFechaMaxima();
     // Constante para obtener el número de horas.
     const HOUR = new Date().getHours();
     // Se define una variable para guardar un saludo.
@@ -27,7 +28,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     graficoDonaTipos();
     graficaClientesMesTipos();
     graficaTop10();
+
+    fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
 });
+
+function configurarFechaMaxima() {
+    var hoy = new Date();
+    var dd = hoy.getDate();
+    var mm = hoy.getMonth() + 1; // +1 porque enero es 0
+    var yyyy = hoy.getFullYear();
+
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    hoy = yyyy + '-' + mm + '-' + dd;
+
+    document.getElementById("fecha_inicial").setAttribute("max", hoy);
+    document.getElementById("fecha_final").setAttribute("max", hoy);
+}
+
 
 const graficoBarrasTipos = async () => {
     // Petición para obtener los datos del gráfico.
@@ -353,7 +376,7 @@ const graphPieStyling = (canvasId, title, dataLabels, dataValues) => {
                 },
                 tooltip: {
                     callbacks: {
-                        label: function(tooltipItem) {
+                        label: function (tooltipItem) {
                             const label = tooltipItem.label || '';
                             const value = tooltipItem.raw || 0;
                             const total = tooltipItem.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
@@ -402,12 +425,41 @@ const openReportCitasEstadoYDUI = () => {
     }
 
     // Crea la URL con los parámetros
-    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php?estado=${encodeURIComponent(estadoCita)}&dui=${encodeURIComponent(idCliente)}`);
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesTipoYCliente.php?estado=${encodeURIComponent(estadoCita)}&dui=${encodeURIComponent(idCliente)}`);
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
     console.log(PATH.href);
 }
+
+const openReportServiciosCarroFechaYTipo = () => {
+    // Obtén los valores de los inputs
+    const fechaInicial = document.getElementById("fecha_inicial").value;
+    const fechaFinal = document.getElementById("fecha_final").value;
+    const tipoAuto = document.getElementById("input_tipo_auto").value;
+
+    // Imprimir en consola para depuración
+    console.log("Fecha Inicial:", fechaInicial);
+    console.log("Fecha Final:", fechaFinal);
+    console.log("Tipo Auto:", tipoAuto);
+
+    // Verifica que se hayan proporcionado valores válidos
+    if (!fechaInicial || !fechaFinal || !tipoAuto) {
+        alert("Por favor, complete todos los campos: fechas y tipo de vehículo.");
+        return;
+    }
+
+    // Crea la URL con los parámetros
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
+    PATH.searchParams.append('fecha_inicial', encodeURIComponent(fechaInicial));
+    PATH.searchParams.append('fecha_final', encodeURIComponent(fechaFinal));
+    PATH.searchParams.append('tipo_auto', encodeURIComponent(tipoAuto));
+
+    // Abre el reporte en una nueva pestaña
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
 
 
 
@@ -425,7 +477,7 @@ async function readDUI() {
 
             $("#input_dui_report").autocomplete({
                 source: duiOptions,
-                select: function(event, ui) {
+                select: function (event, ui) {
                     $('#input_dui_report').val(ui.item.label);
                     $('#input_dui_report').attr('data-selected-id', ui.item.value); // Guardar el id_cliente como data en el input
                     console.log("ID Cliente seleccionado:", ui.item.value);
@@ -442,7 +494,7 @@ async function readDUI() {
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Llama a la función para leer los servicios y configurar el autocompletado
     readDUI();
 });
