@@ -172,4 +172,18 @@ class AutomovilData extends AutomovilHandler
         $this->fecha_hasta = $value;
         return true;
     }
+
+    public function setFechaInicial($value)
+    {
+        $this->fecha_inicial = $value;
+        return true;
+    }
+
+    public function setFechaFinal($value)
+    {
+        $this->fecha_final = $value;
+        return true;
+    }
+
+
 }

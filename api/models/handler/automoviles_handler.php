@@ -21,6 +21,8 @@ class AutomovilHandler
     protected $search_value = null;
     protected $fecha_desde = null;
     protected $fecha_hasta = null;
+    protected $fecha_inicial = null;
+    protected $fecha_final = null;
 
     const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
@@ -333,5 +335,38 @@ class AutomovilHandler
         $sql = 'SELECT id_marca_automovil, nombre_marca_automovil FROM tb_marcas_automoviles';
         return Database::getRows($sql);
     }
+
+    public function reportTipoAutoYFecha()
+    {
+        $sql = 'SELECT 
+        a.modelo_automovil AS modelo,
+        t.nombre_tipo_automovil AS tipo_automovil,
+        c.nombres_cliente AS nombre_propietario,
+        s.nombre_servicio AS nombre_servicio,
+        COUNT(s_proc.id_servicio_en_proceso) AS cantidad_servicios,
+        cit.fecha_hora_cita AS fecha_cita
+        FROM 
+        tb_citas cit
+        JOIN 
+        tb_automoviles a ON cit.id_automovil = a.id_automovil
+        JOIN 
+        tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+        JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        JOIN 
+        tb_servicios_en_proceso s_proc ON cit.id_cita = s_proc.id_cita
+        JOIN 
+        tb_servicios s ON s_proc.id_servicio = s.id_servicio
+        WHERE 
+        t.nombre_tipo_automovil = ?
+        AND cit.fecha_hora_cita BETWEEN ? AND ?
+        GROUP BY 
+        a.modelo_automovil, t.nombre_tipo_automovil, c.nombres_cliente, s.nombre_servicio, cit.fecha_hora_cita
+        ORDER BY 
+        cantidad_servicios DESC, cit.fecha_hora_cita;';
+       $params = array($this->id_tipo_automovil, $this->fecha_inicial, $this->fecha_final);
+       return Database::getRows($sql, $params);
+    }
+
 }
 ?>
