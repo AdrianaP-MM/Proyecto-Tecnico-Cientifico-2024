@@ -132,6 +132,8 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
 
+
+   
     // Método para establecer el NIT del cliente
     public function setNIT($value, $min = 17, $max = 17)
     {
@@ -170,25 +172,7 @@ class TrabajadoresData extends TrabajadoresHandler
             return false;
         }
     }
- 
-    //Ver si se puede dejar esta validacion de imagen
-    public function setFtoTrabajador($file, $filename = null)
-    {
-        if (Validator::validateImageFile($file, 150)) {
-            $this->Fto_trabajador = Validator::getFileName();
-            return true;
-        } elseif (Validator::getFileError()) {
-            $this->data_error = Validator::getFileError();
-            return false;
-        } elseif ($filename) {
-            $this->Fto_trabajador = $filename;
-            return true;
-        } else {
-            $this->Fto_trabajador = 'default.png';
-            return true;
-        }
-    }
-
+    
     // Función para validar el nombre del archivo
     public function setFilename()
     {

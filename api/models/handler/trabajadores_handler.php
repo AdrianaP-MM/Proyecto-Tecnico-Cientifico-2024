@@ -18,7 +18,7 @@ class TrabajadoresHandler
     protected $NIT_trabajador = null;
     protected $fecha_contratacion = null;
     protected $salario_base = null;
-    protected $Fto_trabajador = null;
+   
 
     //Aqui se guardaran las imagenes 
     const RUTA_IMAGEN = '../../../api/images/empleados/';
@@ -29,7 +29,7 @@ class TrabajadoresHandler
         //Valores que se introducen la barra de busqueda 
         $value = '%' . Validator::getSearchValue() . '%';
         //Sentencia select de los campos para la tabla de trabajadores
-        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, Fto_trabajador, nombre_especializacion_trabajador, id_especializacion_trabajador
+        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, nombre_especializacion_trabajador, id_especializacion_trabajador
         FROM tb_trabajadores
         INNER JOIN tb_especializaciones_trabajadores USING(id_especializacion_trabajador)
                 WHERE nombres_trabajador LIKE ? OR dui_trabajador LIKE ?';
@@ -139,7 +139,7 @@ class TrabajadoresHandler
     public function readAll()
     {
         //consulta SQL para seleccionar todos los trabajadores de la tabla
-        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, Fto_trabajador, nombre_especializacion_trabajador, id_especializacion_trabajador
+        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, nombre_especializacion_trabajador, id_especializacion_trabajador
         FROM tb_trabajadores
         INNER JOIN tb_especializaciones_trabajadores USING(id_especializacion_trabajador)';
         return Database::getRows($sql); //Ejecución de la consulta SQL
@@ -149,7 +149,7 @@ class TrabajadoresHandler
     public function readOne()
     {
         // Consulta SQL para seleccionar a un trabajador en especifico 
-        $sql = 'SELECT id_trabajador, tb_especializaciones_trabajadores.id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, Fto_trabajador, nombre_especializacion_trabajador FROM tb_trabajadores INNER JOIN tb_especializaciones_trabajadores ON tb_trabajadores.id_especializacion_trabajador = tb_especializaciones_trabajadores.id_especializacion_trabajador WHERE id_trabajador = ?';
+        $sql = 'SELECT id_trabajador, tb_especializaciones_trabajadores.id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, nombre_especializacion_trabajador FROM tb_trabajadores INNER JOIN tb_especializaciones_trabajadores ON tb_trabajadores.id_especializacion_trabajador = tb_especializaciones_trabajadores.id_especializacion_trabajador WHERE id_trabajador = ?';
         //Parametro para seleccionar el trabajador por su id
         $params = array(
             $this->id_trabajador
@@ -165,15 +165,5 @@ class TrabajadoresHandler
     }
 
 
-    //Metodo para
-    public function readFilename()
-    {
-        //Consulta SQL para seleccionar la imagen del trabajador
-        $sql = 'SELECT Fto_trabajador
-                FROM tb_trabajadores
-                WHERE id_trabajador = ?';
-        //Parametro de id del trabajador para la consulta SQL
-        $params = array($this->id_trabajador);
-        return Database::getRow($sql, $params); //Ejecución de la consulta SQL
-    }
+    
 }

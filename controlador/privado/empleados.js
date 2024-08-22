@@ -23,8 +23,9 @@ const SAVE_FORM = document.getElementById("saveForm"),
   ESPECIALIZACION = document.getElementById("especializacion_trabajador"),
   FECHA = document.getElementById("fecha_contratacion"),
   SALARIO = document.getElementById("input_salario_empleados"),
-  FTO_TRABAJADOR = document.getElementById("fto_trabajador"),
   ID_EMPLEADO = document.getElementById("idTrabajador");
+
+
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
@@ -223,7 +224,6 @@ SAVE_FORM.addEventListener("submit", async (event) => {
   if (isValid) {
     // Se verifica la acción a realizar.
     const action = ID_EMPLEADO.value ? "updateRow" : "createRow";
-
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
     //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
@@ -342,21 +342,25 @@ const openUpdate = async (id) => {
     FECHA.value = row.fecha_contratacion;
     SALARIO.value = row.salario_base;
 
-    CONTAINER_BOTONES.innerHTML += `
-              <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
-                                                  onclick="openDelete(${row.id_trabajador})">Eliminar</button> <!--Boton de cancelar-- >
-              `;
+    // Verificar si el botón "Eliminar" ya existe antes de añadirlo
+    if (!document.getElementById("btnTres")) {
+      CONTAINER_BOTONES.innerHTML += `
+                <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
+                                                    onclick="openDelete(${row.id_trabajador})">Eliminar</button>
+                `;
+    }
   } else {
     sweetAlert(2, DATA.error, false);
   }
 
-  // Se asigna la variable para cambiar el dialogo de la alerta
+  // Se asigna la variable para cambiar el diálogo de la alerta
   number = 2;
 
   // Actualizar texto de los botones
-  document.getElementById("btnUno").innerText = "Eliminar";
-  document.getElementById("btnDos").innerText = "Actualizar";
+  document.getElementById("btnUno").innerText = "Cancelar";
+  document.getElementById("btnDos").innerText = "Guardar";
 };
+
 
 /*
  *   Función asíncrona para eliminar un registro.

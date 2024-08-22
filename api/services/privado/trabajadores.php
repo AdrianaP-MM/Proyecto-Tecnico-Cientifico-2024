@@ -72,7 +72,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = $trabajador->getDataError();
                 } elseif ($trabajador->createRow()) {
                     $result['status'] = 1;
-                    //$result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador2'], $trabajador::RUTA_IMAGEN);
                     $result['message'] = 'Trabajador creado correctamente';
                 } else {
                     $result['error'] = 'Ocurrio un problema con ingresar un trabajador';
