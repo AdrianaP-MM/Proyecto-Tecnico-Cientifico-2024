@@ -306,9 +306,6 @@
         ('2023-02-10', '00000003', '21210000', 'cliente14@ejemplo.com', 'Importadora AAA', 'E', 'Persona juridica', 'San Miguel', '4444-444444-444-4', '63520984', '9453376281', 'Calzado', 'Activo'),
         ('2023-07-05', '00000004', '25250000', 'cliente15@ejemplo.com', 'Consultores B.B.', 'E', 'Persona juridica', 'San Vicente', '5555-555555-555-5', '284530093', '16437283971', 'Alimenticio', 'Activo');
         
-        
-
-
     -- Inserts para marcas de automóviles
     INSERT INTO tb_marcas_automoviles (nombre_marca_automovil)
     VALUES 
@@ -322,8 +319,6 @@
         ('Audi'),
         ('Volkswagen'),
         ('Hyundai');
-
-
 
     -- Inserts para tipos de automóviles
     INSERT INTO tb_tipos_automoviles (nombre_tipo_automovil)
@@ -339,8 +334,6 @@
         ('Crossover'),
         ('Electric');
 
-
-    
    -- Inserts para automóviles asociados a clientes
     INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, id_marca_automovil, fecha_registro, estado_automovil)
     VALUES 
@@ -354,9 +347,6 @@
     ('Modelo H', 2, 'Anaranjado', 2022, 'PQR234', 'imagen_auto8.jpg', 8, 2, '2023-03-15', 'Activo'),
     ('Modelo I', 3, 'Tornasol', 2023, 'STU567', 'imagen_auto9.jpg', 9, 3, '2023-06-20', 'Activo'),
     ('Modelo J', 1, 'Plata', 2023, 'VWX890', 'imagen_auto10.jpg', 10, 1, '2023-08-10', 'Activo');
-
-
-
 
     -- Inserts para tipos de servicios
     INSERT INTO tb_tipos_servicios (nombre_tipo_servicio, imagen_servicio)
@@ -427,3 +417,220 @@
         ('Sistema de dirección', 55.00),
         ('Diagnóstico electrónico', 70.00);
         
+#---------------------------------------------------------------------------------
+CREATE VIEW vw_autos_reparados_por_mes AS
+WITH meses AS (
+    SELECT 1 AS mes UNION ALL
+    SELECT 2 UNION ALL
+    SELECT 3 UNION ALL
+    SELECT 4 UNION ALL
+    SELECT 5 UNION ALL
+    SELECT 6 UNION ALL
+    SELECT 7 UNION ALL
+    SELECT 8 UNION ALL
+    SELECT 9 UNION ALL
+    SELECT 10 UNION ALL
+    SELECT 11 UNION ALL
+    SELECT 12
+)
+SELECT 
+    m.mes,
+    COALESCE(COUNT(a.id_automovil), 0) AS autos_reparados
+FROM 
+    meses m
+LEFT JOIN tb_citas c
+    ON MONTH(c.fecha_hora_cita) = m.mes
+    AND YEAR(c.fecha_hora_cita) = YEAR(CURDATE())
+    AND c.estado_cita = "Finalizada"
+LEFT JOIN tb_automoviles a
+    ON c.id_automovil = a.id_automovil
+GROUP BY 
+    m.mes
+ORDER BY 
+    m.mes;
+    
+#---------------------------------------------------------------------------------
+CREATE VIEW vw_autos_esperados_por_mes AS
+WITH historico_reparaciones AS (
+    SELECT 
+        MONTH(c.fecha_hora_cita) AS mes,
+        YEAR(c.fecha_hora_cita) AS ano,
+        COUNT(a.id_automovil) AS autos_reparados
+    FROM 
+        tb_citas c
+    JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+    WHERE 
+        c.estado_cita = "Finalizada" 
+    GROUP BY 
+        YEAR(c.fecha_hora_cita), MONTH(c.fecha_hora_cita)
+),
+promedio_reparaciones AS (
+    SELECT 
+        mes,
+        AVG(autos_reparados) AS autos_esperados
+    FROM 
+        historico_reparaciones
+    GROUP BY 
+        mes
+)
+SELECT 
+    m.mes,
+    COALESCE(p.autos_esperados, 0) AS autos_esperados
+FROM 
+    (SELECT 1 AS mes UNION ALL
+     SELECT 2 UNION ALL
+     SELECT 3 UNION ALL
+     SELECT 4 UNION ALL
+     SELECT 5 UNION ALL
+     SELECT 6 UNION ALL
+     SELECT 7 UNION ALL
+     SELECT 8 UNION ALL
+     SELECT 9 UNION ALL
+     SELECT 10 UNION ALL
+     SELECT 11 UNION ALL
+     SELECT 12) m
+LEFT JOIN 
+    promedio_reparaciones p
+    ON m.mes = p.mes
+ORDER BY 
+    m.mes;
+    
+/*
+SELECT * FROM tb_citas
+SELECT * FROM vw_autos_reparados_por_mes;
+DROP VIEW vw_autos_reparados_por_mes;
+INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacion_vehiculo, zona_habilitada, direccion_ida, direccion_regreso, estado_cita)
+VALUES 
+('2023-01-01', '2012-6-10 10:00:00', 1, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 1, San Salvador', 'Calle 1, San Salvador', 'Finalizada');
+SELECT * FROM vw_autos_esperados_por_mes_pasado;
+DROP VIEW vw_autos_esperados_por_mes;*/
+
+CREATE VIEW vw_autos_esperados_por_mes_pasado AS
+WITH historico_reparaciones AS (
+    SELECT 
+        MONTH(c.fecha_hora_cita) AS mes,
+        COUNT(a.id_automovil) AS autos_reparados
+    FROM 
+        tb_citas c
+    JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+    WHERE 
+        c.estado_cita = "Finalizada"
+        AND YEAR(c.fecha_hora_cita) = YEAR(CURDATE()) - 1 -- Filtra solo el año pasado
+    GROUP BY 
+        MONTH(c.fecha_hora_cita)
+),
+promedio_reparaciones AS (
+    SELECT 
+        mes,
+        AVG(autos_reparados) AS autos_esperados
+    FROM 
+        historico_reparaciones
+    GROUP BY 
+        mes
+)
+SELECT 
+    m.mes,
+    COALESCE(p.autos_esperados, 0) AS autos_esperados
+FROM 
+    (SELECT 1 AS mes UNION ALL
+     SELECT 2 UNION ALL
+     SELECT 3 UNION ALL
+     SELECT 4 UNION ALL
+     SELECT 5 UNION ALL
+     SELECT 6 UNION ALL
+     SELECT 7 UNION ALL
+     SELECT 8 UNION ALL
+     SELECT 9 UNION ALL
+     SELECT 10 UNION ALL
+     SELECT 11 UNION ALL
+     SELECT 12) m
+LEFT JOIN 
+    promedio_reparaciones p
+    ON m.mes = p.mes
+ORDER BY 
+    m.mes;
+
+CREATE VIEW vw_clientes_por_mes_y_tipo AS
+WITH meses AS (
+    SELECT 1 AS mes UNION ALL
+    SELECT 2 UNION ALL
+    SELECT 3 UNION ALL
+    SELECT 4 UNION ALL
+    SELECT 5 UNION ALL
+    SELECT 6 UNION ALL
+    SELECT 7 UNION ALL
+    SELECT 8 UNION ALL
+    SELECT 9 UNION ALL
+    SELECT 10 UNION ALL
+    SELECT 11 UNION ALL
+    SELECT 12
+),
+tipos_cliente AS (
+    SELECT DISTINCT tipo_cliente
+    FROM tb_clientes
+    WHERE estado_cliente = 'Activo'
+)
+SELECT 
+    m.mes,
+    t.tipo_cliente,
+    COALESCE(COUNT(c.id_cliente), 0) AS cantidad_clientes
+FROM meses m
+CROSS JOIN tipos_cliente t
+LEFT JOIN tb_clientes c
+    ON MONTH(c.fecha_registro_cliente) = m.mes
+    AND YEAR(c.fecha_registro_cliente) = YEAR(CURDATE())
+    AND c.tipo_cliente = t.tipo_cliente
+    AND c.estado_cliente = 'Activo'
+GROUP BY 
+    m.mes,
+    t.tipo_cliente
+ORDER BY 
+    m.mes ASC,
+    t.tipo_cliente;
+
+
+CREATE VIEW vw_top_10_servicios AS
+SELECT 
+    COALESCE(s.nombre_servicio, 'Otros') AS servicio,
+    SUM(sep.cantidad_servicio) AS conteo
+FROM 
+    tb_servicios_en_proceso sep
+JOIN 
+    tb_servicios s ON sep.id_servicio = s.id_servicio
+GROUP BY 
+    s.nombre_servicio
+HAVING 
+    servicio IN (
+        SELECT nombre_servicio FROM (
+            SELECT 
+                s.nombre_servicio, 
+                SUM(sep.cantidad_servicio) AS conteo
+            FROM 
+                tb_servicios_en_proceso sep
+            JOIN 
+                tb_servicios s ON sep.id_servicio = s.id_servicio
+            GROUP BY 
+                s.nombre_servicio
+            ORDER BY 
+                conteo DESC
+            LIMIT 10
+        ) AS top_10
+    )
+UNION ALL
+SELECT 
+    'Otros' AS servicio,
+    SUM(conteo) AS conteo
+FROM (
+    SELECT 
+        s.nombre_servicio, 
+        SUM(sep.cantidad_servicio) AS conteo
+    FROM 
+        tb_servicios_en_proceso sep
+    JOIN 
+        tb_servicios s ON sep.id_servicio = s.id_servicio
+    GROUP BY 
+        s.nombre_servicio
+    ORDER BY 
+        conteo DESC
+    LIMIT 10, 18446744073709551615
+) AS otros;
