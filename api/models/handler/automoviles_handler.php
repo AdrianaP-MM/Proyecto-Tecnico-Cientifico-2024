@@ -358,7 +358,7 @@ class AutomovilHandler
         JOIN 
         tb_servicios s ON s_proc.id_servicio = s.id_servicio
         WHERE 
-        t.nombre_tipo_automovil = ?
+        t.id_tipo_automovil = ?
         AND cit.fecha_hora_cita BETWEEN ? AND ?
         GROUP BY 
         a.modelo_automovil, t.nombre_tipo_automovil, c.nombres_cliente, s.nombre_servicio, cit.fecha_hora_cita

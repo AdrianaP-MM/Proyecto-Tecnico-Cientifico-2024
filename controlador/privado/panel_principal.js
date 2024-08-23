@@ -1,6 +1,7 @@
 const CITAS_API = 'services/privado/citas.php';
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
 const SERVICIOS_API = 'services/privado/servicio.php';
+const CLIENTE_API = 'services/privado/clientes.php';
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
@@ -179,10 +180,6 @@ const graficaAutosReparar = async () => {
 
     }
 }
-
-
-
-const CLIENTE_API = 'services/privado/clientes.php';
 
 const graficaClientesMesTipos = async () => {
     // Petición para obtener los datos del gráfico.
@@ -450,7 +447,7 @@ const openReportServiciosCarroFechaYTipo = () => {
     }
 
     // Crea la URL con los parámetros
-    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesTipoAutoYFecha.php`);
     PATH.searchParams.append('fecha_inicial', encodeURIComponent(fechaInicial));
     PATH.searchParams.append('fecha_final', encodeURIComponent(fechaFinal));
     PATH.searchParams.append('tipo_auto', encodeURIComponent(tipoAuto));
