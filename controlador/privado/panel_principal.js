@@ -433,15 +433,17 @@ const openReportServiciosCarroFechaYTipo = () => {
     // Obtén los valores de los inputs
     const fechaInicial = document.getElementById("fecha_inicial").value;
     const fechaFinal = document.getElementById("fecha_final").value;
-    const tipoAuto = document.getElementById("input_tipo_auto").value;
+    const tipoAutoId = document.getElementById("input_tipo_auto").value;
+    const tipoAutoNombre = document.getElementById("input_tipo_auto").options[document.getElementById("input_tipo_auto").selectedIndex].text;
 
     // Imprimir en consola para depuración
     console.log("Fecha Inicial:", fechaInicial);
     console.log("Fecha Final:", fechaFinal);
-    console.log("Tipo Auto:", tipoAuto);
+    console.log("Tipo Auto ID:", tipoAutoId);
+    console.log("Tipo Auto Nombre:", tipoAutoNombre);
 
     // Verifica que se hayan proporcionado valores válidos
-    if (!fechaInicial || !fechaFinal || !tipoAuto) {
+    if (!fechaInicial || !fechaFinal || !tipoAutoId || !tipoAutoNombre) {
         alert("Por favor, complete todos los campos: fechas y tipo de vehículo.");
         return;
     }
@@ -450,12 +452,15 @@ const openReportServiciosCarroFechaYTipo = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesTipoAutoYFecha.php`);
     PATH.searchParams.append('fecha_inicial', encodeURIComponent(fechaInicial));
     PATH.searchParams.append('fecha_final', encodeURIComponent(fechaFinal));
-    PATH.searchParams.append('tipo_auto', encodeURIComponent(tipoAuto));
+    PATH.searchParams.append('tipo_auto', encodeURIComponent(tipoAutoId)); // ID del tipo de auto
+    PATH.searchParams.append('tipo_auto_nombre', encodeURIComponent(tipoAutoNombre)); // Nombre del tipo de auto
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
     console.log(PATH.href);
 }
+
+
 
 
 

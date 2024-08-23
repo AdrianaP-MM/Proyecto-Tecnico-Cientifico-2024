@@ -416,6 +416,20 @@
         ('Aire acondicionado automotriz', 60.00),
         ('Sistema de dirección', 55.00),
         ('Diagnóstico electrónico', 70.00);
+
+        -- Inserciones para servicios en proceso
+INSERT INTO tb_servicios_en_proceso (id_servicio_en_proceso, id_cita, id_servicio)
+VALUES 
+    (1, 1, 1),  -- Servicio 1 en la cita 1
+    (2, 1, 2),  -- Servicio 2 en la cita 1
+    (3, 2, 3),  -- Servicio 3 en la cita 2
+    (4, 2, 4),  -- Servicio 4 en la cita 2
+    (5, 3, 5),  -- Servicio 5 en la cita 3
+    (6, 4, 6),  -- Servicio 6 en la cita 4
+    (7, 4, 7),  -- Servicio 7 en la cita 4
+    (8, 5, 8),  -- Servicio 8 en la cita 5
+    (9, 6, 9),  -- Servicio 9 en la cita 6
+    (10, 7, 10); -- Servicio 10 en la cita 7
         
 #---------------------------------------------------------------------------------
 CREATE VIEW vw_autos_reparados_por_mes AS
