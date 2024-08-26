@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     graficoDonaTipos();
     graficaClientesMesTipos();
     graficaTop10();
+    graficaClientesMasCarros();
+    
 
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
 });
@@ -51,6 +53,52 @@ function configurarFechaMaxima() {
     document.getElementById("fecha_inicial").setAttribute("max", hoy);
     document.getElementById("fecha_final").setAttribute("max", hoy);
 }
+
+document.getElementById('graficaForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const mes = document.getElementById('mes').value;
+    const año = document.getElementById('año').value;
+    const departamento = document.getElementById('departamento').value;
+    graficaClientesMesDepartamentos(mes, año, departamento);
+});
+
+const graficaClientesMesDepartamentos = async (mes, año, departamento) => {
+    // Petición para obtener los datos del gráfico, enviando mes, año y departamento
+    const formData = new FormData();
+    formData.append("mes", mes);
+    formData.append("año", año);
+    formData.append("departamento", departamento);
+
+    const DATAClienteMesDep = await fetchData(CLIENTE_API, 'readClientesRegistrados', formData);
+    console.log(DATAClienteMesDep);
+    
+    const graficaElement = document.getElementById('clientesMesDepartamentos');
+
+    // Limpiar el contenido actual de la gráfica antes de actualizarla
+    graficaElement.innerHTML = '';
+
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATAClienteMesDep.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        const departamentos = [];
+        const clientes = [];
+
+        // Se recorre el conjunto de registros para obtener las cantidades de clientes por departamento.
+        DATAClienteMesDep.dataset.forEach(row => {
+            departamentos.push(row.departamento_cliente);
+            clientes.push(row.cantidad);
+        });
+
+        // Llamada a la función que renderiza la gráfica
+        barGraph('clientesMesDepartamentos', departamentos, clientes, `Clientes registrados en ${mes}/${año}: `, 'Cantidad de clientes por departamento');
+    } else {
+        // Solo modifica el contenido de la gráfica específica
+        graficaElement.innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+    }
+};
 
 
 const graficoBarrasTipos = async () => {
@@ -239,6 +287,41 @@ const graficaClientesMesTipos = async () => {
         }
     }
 }
+
+const graficaClientesMasCarros = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATAClienteMasCarros = await fetchData(CLIENTE_API, 'readClientesMasCarros');
+    console.log(DATAClienteMasCarros);
+
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATAClienteMasCarros.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        const clientes = [];
+        const cantidades = [];
+
+        // Se recorre el conjunto de registros para obtener los nombres de los clientes y la cantidad de autos.
+        DATAClienteMasCarros.dataset.forEach(row => {
+            clientes.push(row.nombre_completo );
+            cantidades.push(row.cantidad_autos);
+        });
+
+        // Limitar a los primeros 4 datos
+        const maxItems = 5;
+        const topClientes = clientes.slice(0, maxItems);
+        const topCantidades = cantidades.slice(0, maxItems);
+
+        // Llamada a la función que renderiza el gráfico de pastel
+        pieGraph('clientesMasCarros', topClientes, topCantidades, 'Clientes con Mayor Cantidad de Autos');
+    } else {
+        const graficaElement = document.getElementById('clientesMasCarros');
+        graficaElement.innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+    }
+};
+
+
 
 
 const graficaTop10 = async () => {

@@ -25,6 +25,8 @@ class ClienteHandler
     protected $fecha_hasta = null;
     protected $search_value = null;
     protected $autos_cantidad = null;
+    protected $mes_cliente = null;
+    protected $año_cliente = null;
 
     protected $marcas_seleccionadas = null;
     protected $servicios_seleccionados = null;
@@ -54,7 +56,7 @@ class ClienteHandler
             $params[] = "%{$this->search_value}%";
             $params[] = "%{$this->search_value}%";
         }
-        
+
         if ($this->departamento_cliente) {
             $sql .= ' AND departamento_cliente = ?';
             $params[] = $this->departamento_cliente;
@@ -284,6 +286,33 @@ class ClienteHandler
     {
         $sql = 'SELECT * FROM vw_clientes_por_mes_y_tipo;';
         return Database::getRows($sql);
+    }
+
+    public function readClientesMasCarros()
+    {
+        $sql = 'SELECT * FROM vista_clientes_cantidad_autos;';
+        return Database::getRows($sql);
+    }
+
+
+    public function readClientesRegistrados()
+    {
+        // Formateamos la fecha para usarla en la consulta
+        $fecha_formato = "$this->año_cliente-$this->mes_cliente";
+
+
+        $sql = "SELECT 
+                    count(id_cliente) cantidad, departamento_cliente
+                FROM 
+                    tb_clientes
+                WHERE 
+                    DATE_FORMAT(fecha_registro_cliente, '%Y-%m') = ?
+                    AND departamento_cliente = ?
+                    group by departamento_cliente
+                ORDER BY 
+                    fecha_registro_cliente ASC;";
+        $params = array($fecha_formato, $this->departamento_cliente);
+        return Database::getRows($sql, $params);
     }
 
 }

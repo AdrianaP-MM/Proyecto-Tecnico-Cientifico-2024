@@ -648,3 +648,13 @@ FROM (
         conteo DESC
     LIMIT 10, 18446744073709551615
 ) AS otros;
+
+CREATE VIEW vista_clientes_cantidad_autos AS
+SELECT c.id_cliente, 
+       CONCAT(c.nombres_cliente, ' ', c.apellidos_cliente) AS nombre_completo,
+       COUNT(a.id_automovil) AS cantidad_autos
+FROM tb_clientes c
+LEFT JOIN tb_automoviles a ON c.id_cliente = a.id_cliente
+GROUP BY c.id_cliente
+ORDER BY cantidad_autos DESC;
+

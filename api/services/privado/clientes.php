@@ -51,6 +51,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen marcas para mostrar';
                 }
                 break;
+                case 'readClientesMasCarros':
+                    if ($result['dataset'] = $cliente->readClientesMasCarros()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No existen clientes para mostrar';
+                    }
+                    break;
+                case 'readClientesRegistrados':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$cliente->setAño($_POST['año']) or
+                        !$cliente->setMes($_POST['mes']) or
+                        !$cliente->setDepartamento($_POST['departamento'])
+                    ) {
+                        $result['error'] = $cliente->getDataError();
+                    } elseif ($result['dataset'] = $cliente->readClientesRegistrados()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No existen clientes para mostrar';
+                    }
+                    break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 //print_r($_POST);

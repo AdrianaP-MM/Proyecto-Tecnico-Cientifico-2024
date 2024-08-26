@@ -176,6 +176,20 @@ class ClienteData extends ClienteHandler
         return true;
     }
 
+    public function setMes($value)
+    {
+        $this->mes_cliente= $value;
+        return true;
+    }
+
+    public function setAño($value)
+    {
+        $this->año_cliente = $value;
+        return true;
+    }
+
+
+
     // Método para establecer el tipo del cliente
     public function setTipoCliente($value)
     {
