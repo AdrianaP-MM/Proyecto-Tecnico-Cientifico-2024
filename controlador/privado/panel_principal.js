@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
 
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
+    fillSelect(SERVICIOS_API, 'readServicios', 'input_tipo_servicio');
 });
 
 function configurarFechaMaxima() {
@@ -543,6 +544,31 @@ const openReportServiciosCarroFechaYTipo = () => {
     console.log(PATH.href);
 }
 
+const openReportHistorialserviciosCliente = () => {
+    // Obtén los valores de los inputs
+    const duiInput = document.getElementById("input_dui_report_servicios");
+    const idCliente = duiInput.getAttribute('data-selected-id'); // Obtener el id_cliente del DUI seleccionado
+    const tipoServicio = document.getElementById("input_tipo_servicio").value;
+
+    // Imprimir en consola para depuración
+    console.log("ID Cliente:", idCliente);
+    console.log("Tipo de Servicio:", tipoServicio);
+
+    // Verifica que se hayan proporcionado valores válidos
+    if (!idCliente || !tipoServicio) {
+        alert("Por favor, ingrese el DUI y seleccione un tipo de servicio.");
+        return;
+    }
+
+    // Crea la URL con los parámetros
+    const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosHistorialCliente.php?dui=${encodeURIComponent(idCliente)}&tipo=${encodeURIComponent(tipoServicio)}`);
+
+    // Abre el reporte en una nueva pestaña
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
+
 
 
 
@@ -569,6 +595,17 @@ async function readDUI() {
                     return false;
                 }
             });
+
+            $("#input_dui_report_servicios").autocomplete({
+                source: duiOptions,
+                select: function (event, ui) {
+                    $('#input_dui_report_servicios').val(ui.item.label);
+                    $('#input_dui_report_servicios').attr('data-selected-id', ui.item.value); // Guardar el id_cliente como data en el input
+                    console.log("ID Cliente seleccionado:", ui.item.value);
+                    return false;
+                }
+            });
+
         } else {
             sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false);
         }

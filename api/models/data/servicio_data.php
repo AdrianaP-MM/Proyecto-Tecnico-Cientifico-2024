@@ -23,6 +23,17 @@ class ServiciosData extends ServicioHandler
         }
     }
 
+    public function setIdCliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
+            return false;
+        }
+    }
+
     // Método para establecer el ID del tipo de servicio
     public function setIdTipoServicio($value)
     {

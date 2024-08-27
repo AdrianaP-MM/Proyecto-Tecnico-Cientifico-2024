@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para manejar la conexión a la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 /*
  * Clase para manejar los datos de la tabla tb_servicios.
@@ -9,6 +9,7 @@ class ServicioHandler
 {
     // Propiedades de la clase.
     protected $id_servicio = null;
+    protected $id_cliente = null;
     protected $id_tipo_servicio = null;
     protected $nombre_servicio = null;
     protected $descripcion_servicio = null;
@@ -17,6 +18,37 @@ class ServicioHandler
     public function readAll()
     {
         $sql = 'SELECT id_servicio, id_tipo_servicio, nombre_servicio, descripcion_servicio FROM tb_servicios';
+        return Database::getRows($sql);
+    }
+
+    public function readReportFrecuenciaServicio()
+    {
+        $sql = 'SELECT 
+        c.nombres_cliente,
+        c.apellidos_cliente,
+        s.nombre_servicio,
+        a.modelo_automovil,
+        ct.fecha_hora_cita AS fecha_cita
+        FROM 
+        tb_citas ct
+        INNER JOIN 
+        tb_automoviles a ON ct.id_automovil = a.id_automovil
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_servicios s ON ct.id_servicio = s.id_servicio
+        WHERE 
+        c.id_cliente = ?
+        AND s.id_servicio = ?
+        ORDER BY 
+        ct.fecha_hora_cita;';
+        $params = array($this->id_cliente, $this->id_servicio);
+        return Database::getRows($sql, $params);
+    }
+
+    public function readServicios()
+    {
+        $sql = 'SELECT id_servicio, nombre_servicio FROM tb_servicios';
         return Database::getRows($sql);
     }
 
@@ -73,7 +105,7 @@ class ServicioHandler
     {
         $sql = 'SELECT * FROM vw_top_10_servicios';
         return Database::getRows($sql);
-    }   
+    }
 
 }
 ?>

@@ -17,6 +17,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen servicios para mostrar';
                 }
                 break;
+            case 'readServicios':
+                if ($result['dataset'] = $servicioData->readServicios()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios para mostrar';
+                }
+                break;
             case 'readOne':
                 if (!isset($_POST['id_tipo_servicio']) || !$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = $servicioData->getDataError();
@@ -99,7 +106,7 @@ if (isset($_GET['action'])) {
     }
 
     header('content-type: application/json; charset=utf-8');
-    print(json_encode($result));
+    print (json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
