@@ -289,14 +289,16 @@
                         <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
 
                         <p class="text-center textCard">Para abrir estre reporte correctamente debe de proporcionar un
-                            DUI del cliente que se quiere buscar y proporcionar el servicio para que se muestre un historial de los servicios que ha solicitado ese cliente y cuantas veces ha pasado por el.</p>
+                            DUI del cliente que se quiere buscar y proporcionar el servicio para que se muestre un
+                            historial de los servicios que ha solicitado ese cliente y cuantas veces ha pasado por el.
+                        </p>
 
                         <div class="form-floating mb-3 inputReport">
-                            <input id="input_dui_report_servicios" name="input_dui_report_servicios" type="text" class="form-control"
-                                placeholder="DUI" required>
+                            <input id="input_dui_report_servicios" name="input_dui_report_servicios" type="text"
+                                class="form-control" placeholder="DUI" required>
                             <label for="input_dui_report_servicios" class="form-label">DUI</label>
                         </div>
-                        
+
                         <div class="form-floating mb-3 inputReport">
                             <label for="input_tipo_servicio" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
                             <select id="input_tipo_servicio" name="input_tipo_servicio" type="text" class="form-select"
@@ -339,9 +341,22 @@
 
                     </div>
 
+                    <div
+                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+
+                        <h4 class="open-sans-semiBold text-center titleCard">Servicios pendientes</h4>
+
+                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+
+                        <p class="text-center textCard">
+                            Este reporte mostrara los servicios en los que existen carros pendientes que estan pasando por ese servicio y se mostrara el servicio y la información del auto pendiente.
+                        </p>
 
 
+                        <button type="button" class="btn btnReport btn-light" onclick="openReportServiciosPendientes()">Abrir reporte
+                            automoviles</button>
 
+                    </div>
 
                 </div>
 

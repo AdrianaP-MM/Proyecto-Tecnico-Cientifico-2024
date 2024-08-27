@@ -489,6 +489,14 @@ const openReportAutos = () => {
     console.log(PATH.href);
 }
 
+const openReportServiciosPendientes = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosEnProceso.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
 const openReportCitasEstadoYDUI = () => {
     // Obtén los valores de los inputs
     const estadoCita = document.getElementById("input_estado_cita").value;
