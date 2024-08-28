@@ -180,9 +180,28 @@
 
 
                 <div class="d-flex flex-wrap justify-content-evenly w-100">
-                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow">
+
+                    <!--Grafica clientes mes y tipos-->
+                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow ">
+                        <h5 class="open-sans-semiBold text-center pb-3">
+                            Grafica de mayor cantidad de clientes por mes
+                        </h5>
+
+                        <form id="formClientesMesTipos">
+                            <div class="form-group">
+                                <div class="form-floating mb-3 inputReport">
+                                    <input id="año_registro" name="año_registro" type="number" min="2000" max="2099"
+                                        step="1" value="2024" class="form-control" placeholder="0000" required>
+                                    <label for="año_registro" class="form-label">Año</label>
+                                </div>
+                            </div>
+
+                            <button type="submit">Generar Gráfica</button>
+                        </form>
+
                         <canvas id="clientesMesTipos"></canvas> <!--Grafica 8-->
                     </div>
+
                     <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
                         <canvas id="graficaTop10"></canvas> <!--Grafica 9-->
                     </div>
@@ -349,11 +368,13 @@
                         <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
 
                         <p class="text-center textCard">
-                            Este reporte mostrara los servicios en los que existen carros pendientes que estan pasando por ese servicio y se mostrara el servicio y la información del auto pendiente.
+                            Este reporte mostrara los servicios en los que existen carros pendientes que estan pasando
+                            por ese servicio y se mostrara el servicio y la información del auto pendiente.
                         </p>
 
 
-                        <button type="button" class="btn btnReport btn-light" onclick="openReportServiciosPendientes()">Abrir reporte
+                        <button type="button" class="btn btnReport btn-light"
+                            onclick="openReportServiciosPendientes()">Abrir reporte
                             automoviles</button>
 
                     </div>

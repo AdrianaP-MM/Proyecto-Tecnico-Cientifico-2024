@@ -45,33 +45,38 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readClientesMesTipos':
-                if ($result['dataset'] = $cliente->readClientesMesTipos()) {
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setFechaRegistro($_POST['fecha_registro'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($result['dataset'] = $cliente->readClientesMesTipos()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen marcas para mostrar';
+                    $result['error'] = 'No existen clientes para mostrar';
                 }
                 break;
-                case 'readClientesMasCarros':
-                    if ($result['dataset'] = $cliente->readClientesMasCarros()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'No existen clientes para mostrar';
-                    }
-                    break;
-                case 'readClientesRegistrados':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$cliente->setAño($_POST['año']) or
-                        !$cliente->setMes($_POST['mes']) or
-                        !$cliente->setDepartamento($_POST['departamento'])
-                    ) {
-                        $result['error'] = $cliente->getDataError();
-                    } elseif ($result['dataset'] = $cliente->readClientesRegistrados()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'No existen clientes para mostrar';
-                    }
-                    break;
+            case 'readClientesMasCarros':
+                if ($result['dataset'] = $cliente->readClientesMasCarros()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen clientes para mostrar';
+                }
+                break;
+            case 'readClientesRegistrados':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setAño($_POST['año']) or
+                    !$cliente->setMes($_POST['mes']) or
+                    !$cliente->setDepartamento($_POST['departamento'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($result['dataset'] = $cliente->readClientesRegistrados()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen clientes para mostrar';
+                }
+                break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 //print_r($_POST);

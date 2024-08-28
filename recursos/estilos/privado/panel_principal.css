@@ -22,45 +22,64 @@
 
 
 h4 {
-  margin-bottom: 20px; /* Espacio debajo del título */
+  margin-bottom: 20px;
+  /* Espacio debajo del título */
 }
 
 form {
   display: flex;
-  flex-direction: row; /* Alinea los elementos del formulario horizontalmente */
-  align-items: center; /* Alinea verticalmente los elementos del formulario */
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
-  gap: 15px; /* Espacio entre los elementos del formulario */
+  flex-direction: row;
+  /* Alinea los elementos del formulario horizontalmente */
+  align-items: center;
+  /* Alinea verticalmente los elementos del formulario */
+  flex-wrap: wrap;
+  /* Permite que los elementos se envuelvan si no caben en una línea */
+  gap: 15px;
+  /* Espacio entre los elementos del formulario */
 }
 
 .form-group {
   display: flex;
-  flex-direction: column; /* Alinea las etiquetas y campos en columna */
+  flex-direction: column;
+  /* Alinea las etiquetas y campos en columna */
 }
 
 button[type="submit"] {
   /* Ajustes opcionales para el botón */
-  padding: 10px 20px; /* Agrega espacio dentro del botón */
-  background-color: #c81e1e; /* Color de fondo del botón */
-  color: #fff; /* Color del texto del botón */
-  border: none; /* Quita el borde predeterminado del botón */
-  border-radius: 5px; /* Bordes redondeados del botón */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  font-size: 16px; /* Tamaño del texto del botón */
+  padding: 10px 20px;
+  /* Agrega espacio dentro del botón */
+  background-color: #c81e1e;
+  /* Color de fondo del botón */
+  color: #fff;
+  /* Color del texto del botón */
+  border: none;
+  /* Quita el borde predeterminado del botón */
+  border-radius: 5px;
+  /* Bordes redondeados del botón */
+  cursor: pointer;
+  /* Cambia el cursor al pasar sobre el botón */
+  font-size: 16px;
+  /* Tamaño del texto del botón */
 }
 
 button[type="submit"]:hover {
-  background-color: #6b4f4f; /* Cambia el color del botón al pasar el mouse sobre él */
+  background-color: #6b4f4f;
+  /* Cambia el color del botón al pasar el mouse sobre él */
 }
 
 label {
-  margin-bottom: 5px; /* Espacio debajo de las etiquetas */
+  margin-bottom: 5px;
+  /* Espacio debajo de las etiquetas */
 }
 
-select, input[type="number"] {
-  padding: 8px; /* Espacio interior de los campos */
-  border: 1px solid #ccc; /* Borde de los campos */
-  border-radius: 4px; /* Bordes redondeados */
+select,
+input[type="number"] {
+  padding: 8px;
+  /* Espacio interior de los campos */
+  border: 1px solid #ccc;
+  /* Borde de los campos */
+  border-radius: 4px;
+  /* Bordes redondeados */
 }
 
 
@@ -69,39 +88,45 @@ select, input[type="number"] {
 
 /* Contenedor del gráfico */
 .chart-container {
-  width: 100%; /* Ocupa el 100% del ancho disponible */
-  max-width: 600px; /* Limita el ancho máximo del contenedor */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-  padding: 10px; /* Agrega un poco de espacio alrededor del gráfico */
+  width: 100%;
+  /* Ocupa el 100% del ancho disponible */
+  max-width: 600px;
+  /* Limita el ancho máximo del contenedor */
+  margin: 0 auto;
+  /* Centra el contenedor horizontalmente */
+  padding: 10px;
+  /* Agrega un poco de espacio alrededor del gráfico */
 }
 
 /* Ajustes para el canvas */
 #clientesMesDepartamentos {
-  width: 100% !important; /* Ocupa el 100% del ancho del contenedor */
-  height: 400px !important; /* Ajusta la altura del canvas para hacerlo más compacto */
+  width: 100% !important;
+  /* Ocupa el 100% del ancho del contenedor */
+  height: 400px !important;
+  /* Ajusta la altura del canvas para hacerlo más compacto */
 }
 
 
 
 /*Estilo para el contenedor de titulo*/
-.titleContainer{
+.titleContainer {
   border-bottom: 4px solid red;
 }
 
 /*Fuente para el titulo*/
-.titleCard{
+.titleCard {
   font-size: 16px;
 }
 
 /*Fuente para la card*/
-.textCard{
+.textCard {
   font-size: 14px;
   border-bottom: 4px solid #1d1d1d;
   padding-bottom: 15px;
 }
 
 /*Estilo para la imagen*/
-.imgCard{
+.imgCard {
   margin-top: 15px;
   margin-bottom: 15px;
   height: 50px;
@@ -109,25 +134,25 @@ select, input[type="number"] {
 }
 
 /*Estilo de transicion para el boton*/
-.btn{
+.btn {
   font-size: 14px;
   transition: 0.5s;
 }
 
-.btnReport{
+.btnReport {
   width: 80%;
   height: 50px;
   font-size: 16px;
 }
 
 /*Hover para el boton*/
-.btn:hover{
+.btn:hover {
   background-color: #BA181B;
   color: white;
 }
 
 /*Tamano del input para la card*/
-.inputReport{
+.inputReport {
   width: 95%;
 }
 
@@ -139,6 +164,24 @@ select, input[type="number"] {
 /* Etiqueta flotante enfocada o con contenido */
 .form-floating .form-control:focus~label,
 .form-floating .form-control:not(:placeholder-shown)~label {
-  color: red; /* Color rojo */
+  color: red;
+  /* Color rojo */
   /* Color rojo */
 }
+
+#formClientesMesTipos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#formClientesMesTipos .form-group {
+  width: 250px;
+}
+
+#formClientesMesTipos button {
+  width: 230px;
+}
+

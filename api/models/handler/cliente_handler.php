@@ -284,8 +284,15 @@ class ClienteHandler
 
     public function readClientesMesTipos()
     {
-        $sql = 'SELECT * FROM vw_clientes_por_mes_y_tipo;';
-        return Database::getRows($sql);
+        $sql = 'SELECT * 
+            FROM vw_clientes_por_mes_y_tipo
+            WHERE YEAR(fecha_registro_cliente) = ?
+            GROUP BY mes, tipo_cliente
+            ORDER BY mes ASC, tipo_cliente;';
+        $params = array(
+            $this->fecha_registro_cliente
+        );
+        return Database::getRows($sql, $params);
     }
 
     public function readClientesMasCarros()
@@ -314,5 +321,4 @@ class ClienteHandler
         $params = array($fecha_formato, $this->departamento_cliente);
         return Database::getRows($sql, $params);
     }
-
 }

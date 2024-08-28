@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     graficaAutosReparar();
     graficoBarrasTipos();
     graficoDonaTipos();
-    graficaClientesMesTipos();
+    //graficaClientesMesTipos();
     graficaTop10();
     graficaClientesMasCarros();
     
@@ -230,9 +230,20 @@ const graficaAutosReparar = async () => {
     }
 }
 
-const graficaClientesMesTipos = async () => {
+
+//JS DE GRAFICA DE CLIENTES MES TIPOS
+document.getElementById('formClientesMesTipos').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const año = document.getElementById('año_registro').value;
+    graficaClientesMesTipos(año);
+});
+
+const graficaClientesMesTipos = async (año) => {
+    const formData = new FormData();
+    formData.append("fecha_registro", año);
+
     // Petición para obtener los datos del gráfico.
-    const DATAClienteMesTipo = await fetchData(CLIENTE_API, 'readClientesMesTipos');
+    const DATAClienteMesTipo = await fetchData(CLIENTE_API, 'readClientesMesTipos', formData);
 
     // Se comprueba si la respuesta es satisfactoria.
     if (DATAClienteMesTipo.status) {
@@ -289,6 +300,9 @@ const graficaClientesMesTipos = async () => {
     }
 }
 
+
+
+//JS DE GRAFICA CLIENTES CON MAYOR CANTIDAD DE AUTOS
 const graficaClientesMasCarros = async () => {
     // Petición para obtener los datos del gráfico.
     const DATAClienteMasCarros = await fetchData(CLIENTE_API, 'readClientesMasCarros');
@@ -324,7 +338,7 @@ const graficaClientesMasCarros = async () => {
 
 
 
-
+//JS GRAFICA TOP 10
 const graficaTop10 = async () => {
     // Petición para obtener los datos del gráfico.
     const DATATopServicios = await fetchData(SERVICIOS_API, 'readTop10Servicios'); // Suponemos que 'topServicios' es el endpoint para la vista
