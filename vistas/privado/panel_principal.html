@@ -34,8 +34,20 @@
 
 <body>
     <!-- *Contenido principal del documento -->
-    <main class="container-fluid open p-0"> <!--Contenedor blanco-->
-        <div class="contenedoTotal d-flex flex-column w-100 p-5 my-5 gap-5">
+    <main class="container-fluid open p-0 position-relative"> <!--Contenedor blanco-->
+        <div class="d-flex justify-content-center w-100 sticky-top containerSubMenu align-items-end">
+            <div class="subMenuContainer shadow-sm d-flex justify-content-center">
+                <nav class="px-5 d-flex justify-content-center align-items-center gap-5 text-white">
+                    <a href="#section1" class="subMenuItem open-sans-regular">Mantenimiento y reparación</a> |
+                    <a href="#section2" class="subMenuItem open-sans-regular">Total de automóviles</a> |
+                    <a href="#section3" class="subMenuItem open-sans-regular">Personal laboral</a> |
+                    <a href="#section4" class="subMenuItem open-sans-regular">Panorama de la clientela</a> |
+                    <a href="#section5" class="subMenuItem open-sans-regular">Reportes parametrizados</a> |
+                    <a href="#section6" class="subMenuItem open-sans-regular">Reportes automaticos</a>
+                </nav>
+            </div>
+        </div>
+        <div class="contenedoTotal d-flex flex-column w-100 p-5 my-5 gap-3 mt-3 ">
             <div class="col1 d-flex flex-wrap">
                 <div
                     class="calendarContainer col-lg-5 col-12 d-flex flex-column justify-content-center align-items-center">
@@ -83,41 +95,49 @@
                     <canvas id="autosReparar"></canvas> <!--Grafica 1-->
                 </div>
             </div>
-            <div class="col2 my-4 d-flex flex-column align-items-center">
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center">Estadísticas de Mantenimiento y Reparación </h4>
-                </div>
-                <div class="d-flex flex-wrap justify-content-evenly w-100 mb-5">
-                    <div class="col2Row1 col-lg-6 col-12 graphic p-4 shadow" id="tiempoPorServicioContainer">
-                        <canvas id="tiempoPorServicio"></canvas> <!--Grafica 2-->
+            <section id="section1">
+                <div class="col2 my-4 d-flex flex-column align-items-center">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center">Estadísticas de mantenimiento y reparación
+                        </h4>
                     </div>
-                    <div class="col2Row2 col-lg-5 col-12 graphic p-4 shadow">
-                        <canvas id="cantidadServicios"></canvas> <!--Grafica 4-->
+                    <div class="d-flex flex-wrap justify-content-evenly w-100">
+                        <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow" id="tiempoPorServicioContainer">
+                            <canvas id="tiempoPorServicio"></canvas> <!--Grafica 2-->
+                        </div>
+                        <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
+                            <canvas id="cantidadServicios"></canvas> <!--Grafica 4-->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col3 my-4 d-flex flex-column align-items-center">
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center"> Total de Automóviles: Datos y Gráficos </h4>
+            </section>
+            <section id="section2">
+                <div class="col3 my-4 d-flex flex-column align-items-center">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center"> Total de automóviles: Datos y gráficos </h4>
+                    </div>
+                    <div class="col2Row2 col-10 col-lg-8 graphic p-4 shadow">
+                        <canvas id="autosPorTipo"></canvas> <!--Grafica 5-->
+                    </div>
                 </div>
-                <div class="col2Row2 col-10 graphic p-4 shadow">
-                    <canvas id="autosPorTipo"></canvas> <!--Grafica 5-->
-                </div>
-            </div>
-            <div class="col4 my-4 d-flex flex-column align-items-center">
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center"> Análisis del Personal Laboral </h4>
-                </div>
+            </section>
+            <section id="section3">
+                <div class="col4 my-4 d-flex flex-column align-items-center">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center"> Análisis del personal laboral </h4>
+                    </div>
 
-                <div class="col2Row2 col-lg-10 col-12 graphic p-4 shadow">
-                    <canvas id="grafica6"></canvas> <!--Grafica 6-->
+                    <div class="col2Row2 col-lg-10 col-12 graphic p-4 shadow">
+                        <canvas id="grafica6"></canvas> <!--Grafica 6-->
+                    </div>
                 </div>
-            </div>
-            <div class="col5 my-4 d-flex flex-column align-items-center">
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center"> Panorama de la clientela</h4>
-                </div>
-                
+            </section>
+            <section id="section4">
+                <div class="col5 my-4 d-flex flex-column align-items-center">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center"> Panorama de la clientela</h4>
+                    </div>
+
                     <h4 class="open-sans-semiBold text-center">
                         Generar grafica de mayor cantidad de clientes por mes
                     </h4>
@@ -167,230 +187,235 @@
 
                         <button type="submit">Generar Gráfica</button>
                     </form>
-                
 
-                <div  class="col2Row1 col-lg-7 col-12 graphic p-4 shadow " id="graficaContainer">
-                    <canvas id="clientesMesDepartamentos"></canvas>
-                    <div id="noDatos" style="display: none;">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+
+                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow " id="graficaContainer">
+                        <canvas id="clientesMesDepartamentos"></canvas>
+                        <div id="noDatos" style="display: none;">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex flex-wrap justify-content-evenly w-100">
+
+                        <!--Grafica clientes mes y tipos-->
+                        <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow " id="clientesMesTiposContainer">
+                            <h5 class="open-sans-semiBold text-center pb-3">
+                                Grafica de mayor cantidad de clientes por mes
+                            </h5>
+
+                            <form id="formClientesMesTipos">
+                                <div class="form-group">
+                                    <div class="form-floating mb-3 inputReport">
+                                        <input id="año_registro" name="año_registro" type="number" min="2000" max="2099"
+                                            step="1" value="2024" class="form-control" placeholder="0000" required>
+                                        <label for="año_registro" class="form-label">Año</label>
+                                    </div>
+                                </div>
+
+                                <button type="submit">Generar Gráfica</button>
+                            </form>
+
+                            <canvas id="clientesMesTipos"></canvas> <!--Grafica 8-->
+                        </div>
+
+                        <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow" id="graficaTop10Container">
+                            <canvas id="graficaTop10"></canvas> <!--Grafica 9-->
+                        </div>
+
+                        <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
+                            <canvas id="clientesMasCitas"></canvas> <!--Grafica 9-->
                         </div>
                     </div>
                 </div>
+            </section>
+            <section id="section5">
+                <!--Aqui empieza el apartado de reportes-->
+                <div class="col5 my-4 d-flex flex-column align-items-center">
 
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center">Apartado de reportes parametrizados</h4>
+                    </div>
 
-                <div class="d-flex flex-wrap justify-content-evenly w-100">
+                    <div class="d-flex flex-wrap justify-content-evenly w-100">
 
-                    <!--Grafica clientes mes y tipos-->
-                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow " id="clientesMesTiposContainer">
-                        <h5 class="open-sans-semiBold text-center pb-3">
-                            Grafica de mayor cantidad de clientes por mes
-                        </h5>
+                        <!--Reporte de citas canceladas/aceptadas y por estado-->
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
 
-                        <form id="formClientesMesTipos">
-                            <div class="form-group">
-                                <div class="form-floating mb-3 inputReport">
-                                    <input id="año_registro" name="año_registro" type="number" min="2000" max="2099"
-                                        step="1" value="2024" class="form-control" placeholder="0000" required>
-                                    <label for="año_registro" class="form-label">Año</label>
-                                </div>
+                            <h4 class="open-sans-semiBold text-center titleCard">Citas Aceptadas/Canceladas por cliente
+                            </h4>
+
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+
+                            <p class="text-center textCard">Para abrir este reporte correctamente debe de proporcionar
+                                un
+                                dui de un usuario y un estado de cita. Esto devolvera un historial de cliente con el
+                                estado
+                                de cita seleccionada.</p>
+
+                            <div class="form-floating mb-3 inputReport">
+                                <label for="input_estado_cita" class="form-label px-2 pt-1 p-0 m-0">Estado cita</label>
+                                <select id="input_estado_cita" name="input_estado_cita" type="text" class="form-select"
+                                    required>
+                                    <option value>Seleccione un estado</option>
+                                    <option value="En espera">En espera</option>
+                                    <option value="Aceptado">Aceptado</option>
+                                    <option value="Cancelado">Cancelado</option>
+                                    <option value="Finalizada">Finalizada</option>
+                                </select>
                             </div>
 
-                            <button type="submit">Generar Gráfica</button>
-                        </form>
+                            <div class="form-floating mb-3 inputReport">
+                                <input id="input_dui_report" name="input_dui_report" type="text" class="form-control"
+                                    placeholder="DUI" required>
+                                <label for="input_dui_report" class="form-label">DUI</label>
+                            </div>
 
-                        <canvas id="clientesMesTipos"></canvas> <!--Grafica 8-->
-                    </div>
 
-                    <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow" id="graficaTop10Container">
-                        <canvas id="graficaTop10"></canvas> <!--Grafica 9-->
-                    </div>
+                            <button type="button" class="btn btnReport btn-light"
+                                onclick="openReportCitasEstadoYDUI()">Abrir
+                                reporte
+                                citas</button>
 
-                    <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
-                        <canvas id="clientesMasCitas"></canvas> <!--Grafica 9-->
+                        </div>
+
+                        <!--Reporte de historial a los tipo de vehiculo por fecha y tipo-->
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+
+                            <h4 class="open-sans-semiBold text-center titleCard">Servicios realizados por tipo de
+                                vehiculo y
+                                fecha</h4>
+
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+
+                            <p class="text-center textCard">Para abrir estre reporte correctamente debe de proporcionar
+                                una
+                                fecha inicial y una final para crear un plazo de tiempo y luego proporcionar un tipo de
+                                vehiculo para filtrar los datos del reporte.</p>
+
+                            <div class="form-floating mb-3 p-0 inputReport">
+                                <label for="fecha_inicial" class="form-label px-2 pt-1 p-0 m-0">Fecha inicial</label>
+                                <!--Fecha de contratación-->
+                                <input type="date" class="form-control" id="fecha_inicial" name="fecha_inicial"
+                                    placeholder="" required onclick="configurarFechaMaxima()">
+                            </div>
+
+                            <div class="form-floating mb-3 p-0 inputReport">
+                                <label for="fecha_final" class="form-label px-2 pt-1 p-0 m-0">Fecha
+                                    final</label> <!--Fecha de contratación-->
+                                <input type="date" class="form-control" id="fecha_final" name="fecha_final"
+                                    placeholder="" required onclick="configurarFechaMaxima()">
+                            </div>
+
+                            <div class="form-floating mb-3 inputReport">
+                                <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                                <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
+                                    required></select>
+                            </div>
+
+
+                            <button type="button" class="btn btnReport btn-light"
+                                onclick="openReportServiciosCarroFechaYTipo()">Abrir reporte
+                                servicios</button>
+
+                        </div>
+
+                        <!--Reporte de frecuencia de servicios por clientes-->
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+
+                            <h4 class="open-sans-semiBold text-center titleCard">Frecuencia de visitas de clientes por
+                                servicios</h4>
+
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+
+                            <p class="text-center textCard">Para abrir estre reporte correctamente debe de proporcionar
+                                un
+                                DUI del cliente que se quiere buscar y proporcionar el servicio para que se muestre un
+                                historial de los servicios que ha solicitado ese cliente y cuantas veces ha pasado por
+                                el.
+                            </p>
+
+                            <div class="form-floating mb-3 inputReport">
+                                <input id="input_dui_report_servicios" name="input_dui_report_servicios" type="text"
+                                    class="form-control" placeholder="DUI" required>
+                                <label for="input_dui_report_servicios" class="form-label">DUI</label>
+                            </div>
+
+                            <div class="form-floating mb-3 inputReport">
+                                <label for="input_tipo_servicio" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                                <select id="input_tipo_servicio" name="input_tipo_servicio" type="text"
+                                    class="form-select" required></select>
+                            </div>
+
+                            <button type="button" class="btn btnReport btn-light"
+                                onclick="openReportHistorialserviciosCliente()">Abrir reporte clientes y
+                                servicios</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!--Aqui empieza el apartado de reportes-->
-            <div class="col5 my-4 d-flex flex-column align-items-center">
+            </section>
 
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center">Apartado de reportes Parametrizados</h4>
-                </div>
+            <section id="section6">
+                <div class="col5 my-4 d-flex flex-column align-items-center">
 
-                <div class="d-flex flex-wrap justify-content-evenly w-100">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center">Apartado de reportes automaticos</h4>
+                    </div>
 
-                    <!--Reporte de citas canceladas/aceptadas y por estado-->
-                    <div
-                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+                    <div class="d-flex flex-wrap justify-content-evenly w-100">
 
-                        <h4 class="open-sans-semiBold text-center titleCard">Citas Aceptadas/Canceladas por cliente</h4>
+                        <!--Reporte de historial a los tipo de vehiculo por fecha y tipo-->
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
 
-                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+                            <h4 class="open-sans-semiBold text-center titleCard">Automoviles totales del taller</h4>
 
-                        <p class="text-center textCard">Para abrir este reporte correctamente debe de proporcionar un
-                            dui de un usuario y un estado de cita. Esto devolvera un historial de cliente con el estado
-                            de cita seleccionada.</p>
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
 
-                        <div class="form-floating mb-3 inputReport">
-                            <label for="input_estado_cita" class="form-label px-2 pt-1 p-0 m-0">Estado cita</label>
-                            <select id="input_estado_cita" name="input_estado_cita" type="text" class="form-select"
-                                required>
-                                <option value>Seleccione un estado</option>
-                                <option value="En espera">En espera</option>
-                                <option value="Aceptado">Aceptado</option>
-                                <option value="Cancelado">Cancelado</option>
-                                <option value="Finalizada">Finalizada</option>
-                            </select>
+                            <p class="text-center textCard">Este reporte mostrara los automoviles disponibles del taller
+                                dando
+                                detalles de su modelo, placa y estado del vehiculo en un formato de tabla.</p>
+
+
+                            <button type="button" class="btn btnReport btn-light" onclick="openReportAutos()">Abrir
+                                reporte
+                                automoviles</button>
+
                         </div>
 
-                        <div class="form-floating mb-3 inputReport">
-                            <input id="input_dui_report" name="input_dui_report" type="text" class="form-control"
-                                placeholder="DUI" required>
-                            <label for="input_dui_report" class="form-label">DUI</label>
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+
+                            <h4 class="open-sans-semiBold text-center titleCard">Servicios pendientes</h4>
+
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+
+                            <p class="text-center textCard">
+                                Este reporte mostrara los servicios en los que existen carros pendientes que estan
+                                pasando
+                                por ese servicio y se mostrara el servicio y la información del auto pendiente.
+                            </p>
+
+
+                            <button type="button" class="btn btnReport btn-light"
+                                onclick="openReportServiciosPendientes()">Abrir reporte
+                                servicios</button>
+
                         </div>
-
-
-                        <button type="button" class="btn btnReport btn-light"
-                            onclick="openReportCitasEstadoYDUI()">Abrir
-                            reporte
-                            citas</button>
 
                     </div>
 
-                    <!--Reporte de historial a los tipo de vehiculo por fecha y tipo-->
-                    <div
-                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
-
-                        <h4 class="open-sans-semiBold text-center titleCard">Servicios realizados por tipo de vehiculo y
-                            fecha</h4>
-
-                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
-
-                        <p class="text-center textCard">Para abrir estre reporte correctamente debe de proporcionar una
-                            fecha inicial y una final para crear un plazo de tiempo y luego proporcionar un tipo de
-                            vehiculo para filtrar los datos del reporte.</p>
-
-                        <div class="form-floating mb-3 p-0 inputReport">
-                            <label for="fecha_inicial" class="form-label px-2 pt-1 p-0 m-0">Fecha inicial</label>
-                            <!--Fecha de contratación-->
-                            <input type="date" class="form-control" id="fecha_inicial" name="fecha_inicial"
-                                placeholder="" required onclick="configurarFechaMaxima()">
-                        </div>
-
-                        <div class="form-floating mb-3 p-0 inputReport">
-                            <label for="fecha_final" class="form-label px-2 pt-1 p-0 m-0">Fecha
-                                final</label> <!--Fecha de contratación-->
-                            <input type="date" class="form-control" id="fecha_final" name="fecha_final" placeholder=""
-                                required onclick="configurarFechaMaxima()">
-                        </div>
-
-                        <div class="form-floating mb-3 inputReport">
-                            <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
-                            <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
-                                required></select>
-                        </div>
-
-
-                        <button type="button" class="btn btnReport btn-light"
-                            onclick="openReportServiciosCarroFechaYTipo()">Abrir reporte
-                            servicios</button>
-
+                    <div class="col-md-6">
                     </div>
-
-                    <!--Reporte de frecuencia de servicios por clientes-->
-                    <div
-                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
-
-                        <h4 class="open-sans-semiBold text-center titleCard">Frecuencia de visitas de clientes por
-                            servicios</h4>
-
-                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
-
-                        <p class="text-center textCard">Para abrir estre reporte correctamente debe de proporcionar un
-                            DUI del cliente que se quiere buscar y proporcionar el servicio para que se muestre un
-                            historial de los servicios que ha solicitado ese cliente y cuantas veces ha pasado por el.
-                        </p>
-
-                        <div class="form-floating mb-3 inputReport">
-                            <input id="input_dui_report_servicios" name="input_dui_report_servicios" type="text"
-                                class="form-control" placeholder="DUI" required>
-                            <label for="input_dui_report_servicios" class="form-label">DUI</label>
-                        </div>
-
-                        <div class="form-floating mb-3 inputReport">
-                            <label for="input_tipo_servicio" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
-                            <select id="input_tipo_servicio" name="input_tipo_servicio" type="text" class="form-select"
-                                required></select>
-                        </div>
-
-
-                        <button type="button" class="btn btnReport btn-light"
-                            onclick="openReportHistorialserviciosCliente()">Abrir reporte clientes y servicios</button>
-
-                    </div>
-
                 </div>
-
-            </div>
-
-            <div class="col5 my-4 d-flex flex-column align-items-center">
-
-                <div class="titleContainer p-3 mb-5 w-100">
-                    <h4 class="open-sans-semiBold m-0 p-0 text-center">Apartado de reportes automaticos</h4>
-                </div>
-
-                <div class="d-flex flex-wrap justify-content-evenly w-100">
-
-                    <!--Reporte de historial a los tipo de vehiculo por fecha y tipo-->
-                    <div
-                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
-
-                        <h4 class="open-sans-semiBold text-center titleCard">Automoviles totales del taller</h4>
-
-                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
-
-                        <p class="text-center textCard">Este reporte mostrara los automoviles disponibles del taller
-                            dando
-                            detalles de su modelo, placa y estado del vehiculo en un formato de tabla.</p>
-
-
-                        <button type="button" class="btn btnReport btn-light" onclick="openReportAutos()">Abrir reporte
-                            automoviles</button>
-
-                    </div>
-
-                    <div
-                        class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
-
-                        <h4 class="open-sans-semiBold text-center titleCard">Servicios pendientes</h4>
-
-                        <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
-
-                        <p class="text-center textCard">
-                            Este reporte mostrara los servicios en los que existen carros pendientes que estan pasando
-                            por ese servicio y se mostrara el servicio y la información del auto pendiente.
-                        </p>
-
-
-                        <button type="button" class="btn btnReport btn-light"
-                            onclick="openReportServiciosPendientes()">Abrir reporte
-                            servicios</button>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                </div>
-
-            </div>
-
-
-
+            </section>
         </div>
-
     </main>
 
     <!-- jQuery (necesario para jQuery UI) -->

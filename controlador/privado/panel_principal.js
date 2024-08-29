@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 const graficaTiempoPorServicio = async () => {
     // Petición para obtener los datos del gráfico.
     const DATATiempoPorServicio = await fetchData(CITAS_API, 'tiempoPorServicio');
-    
+
     // Se comprueba si la respuesta es satisfactoria.
     if (DATATiempoPorServicio.status) {
         // Se declaran los arreglos para guardar los datos a graficar.
@@ -52,14 +52,14 @@ const graficaTiempoPorServicio = async () => {
         // Se recorre el conjunto de registros para obtener los servicios y tiempos estimados.
         DATATiempoPorServicio.dataset.forEach(row => {
             Servicios.push(row.servicio_reparacion);
-            Tiempo.push(row.tiempo_estimado);
+            Tiempo.push(row.tiempo_estimado_minutos);
         });
 
         console.log('Servicios:', Servicios);
         console.log('Tiempo:', Tiempo);
 
         // Llama a la función para crear el gráfico.
-        graphBarChartBorderRadius('tiempoPorServicio', 'Tiempo estimado en realizar un servicio de reparación.', 'Servicios', 'Tiempo estimado (hh:mm)', Servicios, Tiempo, 'Minutos');
+        graphBarChartBorderRadius('tiempoPorServicio', 'Tiempo estimado previsto para completar un servicio de reparación.', 'Servicios', 'Tiempo estimado (hh.mm)', Servicios, Tiempo, 'Minutos');
     } else {
         document.getElementById('tiempoPorServicio').remove();
         document.getElementById('tiempoPorServicioContainer').innerHTML = `

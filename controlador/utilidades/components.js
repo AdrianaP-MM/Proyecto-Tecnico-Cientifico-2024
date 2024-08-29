@@ -108,7 +108,9 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors
+                backgroundColor: colors,
+                borderRadius: 25,
+                borderSkipped: false,
             }]
         },
         options: {
@@ -341,7 +343,10 @@ function getDateToMysql() {
     // Formatear la fecha y hora en el formato adecuado para MySQL (YYYY-MM-DD HH:MM:SS)
     let fechaMySQL = fechaActual.getFullYear() + '-' +
         ('0' + (fechaActual.getMonth() + 1)).slice(-2) + '-' +
-        ('0' + fechaActual.getDate()).slice(-2) + ' ';
+        ('0' + fechaActual.getDate()).slice(-2) + ' ' +
+        ('0' + fechaActual.getHours()).slice(-2) + ':' +
+        ('0' + fechaActual.getMinutes()).slice(-2) + ':' +
+        ('0' + fechaActual.getSeconds()).slice(-2);
 
     // Mostrar la fecha y hora formateada en la consola
     console.log(fechaMySQL);
@@ -415,17 +420,12 @@ const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
     });
 }
 
-
 const graphBarChartBorderRadius = (canvas, graphTitle, XTitle, YTitle, xAsis, values, legend) => {
-    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
-
-    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     xAsis.forEach(() => {
         colors.push('#' + (Math.random().toString(16)).substring(2, 8));
     });
 
-    // Crear el gráfico con los datos recibidos.
     new Chart(document.getElementById(canvas), {
         type: 'bar',
         data: {
@@ -434,7 +434,7 @@ const graphBarChartBorderRadius = (canvas, graphTitle, XTitle, YTitle, xAsis, va
                 label: legend,
                 data: values,
                 backgroundColor: colors,
-                borderRadius: 15,
+                borderRadius: 25,
                 borderSkipped: false,
             }]
         },
@@ -464,11 +464,10 @@ const graphBarChartBorderRadius = (canvas, graphTitle, XTitle, YTitle, xAsis, va
                         text: YTitle
                     },
                     ticks: {
-                        // Convierte minutos a `hh:mm`
-                        callback: function(value, index, values) {
+                        callback: function (value) {
                             const hours = Math.floor(value / 60);
                             const minutes = value % 60;
-                            return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+                            return `${hours}h ${minutes}m`;
                         }
                     }
                 }

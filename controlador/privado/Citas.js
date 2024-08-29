@@ -769,7 +769,7 @@ $('#datepicker_llegada_UPDATE').datepicker({
 $('#fecha_aprox_finalizacion').datepicker({
   autoclose: true, // Cierra automáticamente después de seleccionar
   uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
-  minDate: new Date() // Establece la fecha máxima como hoy
+  minDate: new Date() // Establece la fecha minima como hoy
 });
 $('#fecha_finalizacion').datepicker({
   autoclose: true, // Cierra automáticamente después de seleccionar

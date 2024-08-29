@@ -20,6 +20,20 @@
   }
 }
 
+.containerSubMenu{
+  height: 150px;
+}
+
+.subMenuContainer {
+  height: 50px;
+  background-color: #E5383B;
+  border-radius: 50px;
+}
+
+.subMenuItem{
+  color: white;
+  text-decoration: none;
+}
 
 h4 {
   margin-bottom: 20px;
@@ -184,4 +198,3 @@ input[type="number"] {
 #formClientesMesTipos button {
   width: 230px;
 }
-
