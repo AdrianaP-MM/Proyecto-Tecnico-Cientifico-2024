@@ -27,14 +27,13 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 7); // Se reduce el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(18, 6, 'Fecha Reg.', 1, 0, 'C', 1); // Reducir el ancho de las columnas
-    $pdf->cell(22, 6, 'Fecha Aprox.', 1, 0, 'C', 1);
+    $pdf->cell(25, 6, 'Fecha Reg.', 1, 0, 'C', 1); // Reducir el ancho de las columnas
+    $pdf->cell(25, 6, 'Fecha Aprox.', 1, 0, 'C', 1);
     $pdf->cell(14, 6, 'Cantidad', 1, 0, 'C', 1);
     $pdf->cell(20, 6, 'Estado', 1, 0, 'C', 1);
     $pdf->cell(24, 6, 'Modelo Auto', 1, 0, 'C', 1);
     $pdf->cell(18, 6, 'Placa', 1, 0, 'C', 1);
-    $pdf->cell(26, 6, 'Servicio', 1, 0, 'C', 1);
-    $pdf->cell(38, 6, 'Descripcion Servicio', 1, 1, 'C', 1);
+    $pdf->cell(40, 6, 'Servicio', 1, 1, 'C', 1);
 
     // Se establece la fuente para los datos de los servicios.
     $pdf->setFont('Arial', '', 7); // Se reduce el tamaño de la fuente
@@ -42,14 +41,13 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Se recorren los registros fila por fila.
     foreach ($dataServicios as $rowServicio) {
         // Se imprimen las celdas con los datos de los servicios, dejando en blanco si no existe el dato.
-        $pdf->cell(18, 6, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
-        $pdf->cell(22, 6, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
+        $pdf->cell(25, 6, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
+        $pdf->cell(25, 6, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
         $pdf->cell(14, 6, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 0);
         $pdf->cell(20, 6, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
         $pdf->cell(24, 6, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
         $pdf->cell(18, 6, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
-        $pdf->cell(26, 6, isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : '', 1, 0);
-        $pdf->cell(38, 6, isset($rowServicio['descripcion_servicio']) ? $rowServicio['descripcion_servicio'] : '', 1, 1);
+        $pdf->cell(40, 6, isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : '', 1, 1);
     }
 } else {
     // Si no hay datos, se muestra un mensaje.
