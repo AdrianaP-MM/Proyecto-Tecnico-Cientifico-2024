@@ -87,16 +87,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar un servicio';
                 }
                 break;
-                case 'searchRows':
-                    if (!Validator::validateSearch($_POST['search'])) {
-                        $result['error'] = Validator::getSearchError();
-                    } elseif ($result['dataset'] = $tipoServicio->searchRows()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
-                    } else {
-                        $result['error'] = 'No hay coincidencias';
-                    }
-                    break;
+            case 'buscarRows':
+                if (!Validator::validateSearch($_POST['search']) || !$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $servicioData->buscarRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
             case 'deleteRow':
                 if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = 'ID del servicio incorrecto';

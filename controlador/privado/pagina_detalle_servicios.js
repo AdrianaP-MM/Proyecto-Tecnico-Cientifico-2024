@@ -176,16 +176,21 @@ document
     .addEventListener("submit", async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
+        let idTipoServicio;
+        idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
 
         // Constante tipo objeto con los datos del formulario de barra de busqueda.
         const formData = new FormData(document.getElementById("searchForm"));
+        formData.append("id_tipo_servicio", idTipoServicio); 
+
+        
 
         // Verifica qué datos se están enviando
         console.log("Form Data:", Array.from(formData.entries()));
 
         try {
             // Realizar una solicitud al servidor para buscar trabajadores.
-            const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
+            const searchData = await fetchData(SERVICIOS_API, "buscarRows", formData);
 
             // Verifica la respuesta del servidor
             console.log("Search Data:", searchData);
@@ -193,10 +198,10 @@ document
             // Verificar si la búsqueda fue exitosa.
             if (searchData.status) {
                 // Limpiar el contenedor de trabajadores.
-                CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+                SERVICIO_DATA_CONTAINER.innerHTML = "";
 
                 // Se agrega la card para agregar usuario luego de vaciar el campo
-                CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                SERVICIO_DATA_CONTAINER.innerHTML += `
                 <div class="add-auto-card d-flex justify-content-center align-items-center">
                 <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop" alt="Add Service">
@@ -207,7 +212,7 @@ document
                 if (searchData.dataset.length > 0) {
                     // Dependiendo los resultados de cada línea se muestran en el contenedor.
                     for (const row of searchData.dataset) {
-                        CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                        SERVICIO_DATA_CONTAINER.innerHTML += `
                         <div class="col">
                 <div class="card envelope-card" onclick="openUpdate(${row.id_servicio})">
                     <div class="card-body">
