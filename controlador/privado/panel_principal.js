@@ -555,7 +555,7 @@ const openReportCitasEstadoYDUI = () => {
 
     // Verifica que se hayan proporcionado valores válidos
     if (!estadoCita || !idCliente) {
-        alert("Por favor, ingrese el DUI y seleccione un estado de cita.");
+        sweetAlert(4, 'Por favor, ingrese el DUI y seleccione un estado de cita.', true);
         return;
     }
 
@@ -582,7 +582,7 @@ const openReportServiciosCarroFechaYTipo = () => {
 
     // Verifica que se hayan proporcionado valores válidos
     if (!fechaInicial || !fechaFinal || !tipoAutoId || !tipoAutoNombre) {
-        alert("Por favor, complete todos los campos: fechas y tipo de vehículo.");
+        sweetAlert(4, 'Por favor, complete todos los campos: fechas y tipo de vehículo.', true);
         return;
     }
 
@@ -610,7 +610,7 @@ const openReportHistorialserviciosCliente = () => {
 
     // Verifica que se hayan proporcionado valores válidos
     if (!idCliente || !tipoServicio) {
-        alert("Por favor, ingrese el DUI y seleccione un tipo de servicio.");
+        sweetAlert(4, 'Por favor, ingrese el DUI y seleccione un tipo de servicio.', true);
         return;
     }
 
@@ -675,8 +675,71 @@ $(document).ready(function () {
     readDUI();
 });
 
+/*Validaciones de campos de graficas y reportes*/
+
+document.getElementById('año_registro').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 4 dígitos
+    inputValue = inputValue.slice(0, 4);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
+
+document.getElementById('año').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 4 dígitos
+    inputValue = inputValue.slice(0, 4);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
+
+document.getElementById('input_dui_report').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 9 dígitos
+    inputValue = inputValue.slice(0, 9);
+
+    // Formatear el número agregando el guion después del octavo dígito si hay al menos 9 dígitos
+    if (inputValue.length > 8) {
+        inputValue = inputValue.slice(0, 8) + '-' + inputValue.slice(8);
+    }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
 
 
+document.getElementById('input_dui_report_servicios').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
 
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
 
+    // Asegurar que no haya más de 9 dígitos
+    inputValue = inputValue.slice(0, 9);
 
+    // Formatear el número agregando el guion después del octavo dígito si hay al menos 9 dígitos
+    if (inputValue.length > 8) {
+        inputValue = inputValue.slice(0, 8) + '-' + inputValue.slice(8);
+    }
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
