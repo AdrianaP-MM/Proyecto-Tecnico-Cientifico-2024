@@ -107,5 +107,11 @@ class ServicioHandler
         return Database::getRows($sql);
     }
 
+
+    public function searchServicios($buscar = '')
+    {
+        $sql = 'SELECT de.nombre_tipo_servicio FROM tb_tipos_servicios de WHERE de.nombre_tipo_servicio ';
+
+        return Database::getRows($sql, $buscar);
+    }
 }
-?>

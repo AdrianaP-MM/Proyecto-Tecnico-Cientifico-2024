@@ -32,12 +32,16 @@
         <div class="row">
 
             <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
+                
+                <input id="buscarServicio" type="search" class="form-control" placeholder="Buscar por nombre">
                 <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
                     <div class="add-auto-card d-flex justify-content-center align-items-center">
                         <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop" alt="Add Service">
                     </div>
+
                 </div>
+                
             </div>
 
         </div>
@@ -65,26 +69,27 @@
                                     name="nombre_tipo_servicio" placeholder="..." required>
                                 <label for="nombre_tipo_servicio">Nombre de la categoría</label>
                                 <div class="invalid-feedback">Por favor ingresa un nombre de la categoría.</div>
-                                <br>    
+                                <br>
                                 <div class="container">
                                     <h6>Imagen de la categoría</h6>
-                                <img id="selectedImageW" class="col-10"
-                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                                    alt="example placeholder" />
-                                <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
-                                    <label class="form-label text-white m-1" for="customFileW">Seleccionar
-                                        imagen</label>
-                                    <input type="file" class="form-control d-none" id="customFileW" name="customFileW"
-                                        onchange="displaySelectedImage(event, 'selectedImageW')" />
+                                    <img id="selectedImageW" class="col-10"
+                                        src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                        alt="example placeholder" />
+                                    <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
+                                        <label class="form-label text-white m-1" for="customFileW">Seleccionar
+                                            imagen</label>
+                                        <input type="file" class="form-control d-none" id="customFileW"
+                                            name="customFileW"
+                                            onchange="displaySelectedImage(event, 'selectedImageW')" />
+                                    </div>
+                                    <div
+                                        class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
+                                        <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
+                                            onclick="openClose()">Cancelar</button>
+                                        <button type="submit"
+                                            class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                                    </div>
                                 </div>
-                            <div
-                                class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                                <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
-                                    onclick="openClose()">Cancelar</button>
-                                <button type="submit"
-                                    class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
