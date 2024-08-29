@@ -23,14 +23,14 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     });
 
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(255, 192, 203);
+    $pdf->setFillColor(199, 0, 57);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 7); // Se reduce el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
     $pdf->cell(18, 6, 'Fecha Reg.', 1, 0, 'C', 1); // Reducir el ancho de las columnas
-    $pdf->cell(22, 6, 'Fecha Aproximada', 1, 0, 'C', 1);
+    $pdf->cell(22, 6, 'Fecha Aprox.', 1, 0, 'C', 1);
     $pdf->cell(14, 6, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->cell(20, 6, 'Estado Cita', 1, 0, 'C', 1);
+    $pdf->cell(20, 6, 'Estado', 1, 0, 'C', 1);
     $pdf->cell(24, 6, 'Modelo Auto', 1, 0, 'C', 1);
     $pdf->cell(18, 6, 'Placa', 1, 0, 'C', 1);
     $pdf->cell(26, 6, 'Servicio', 1, 0, 'C', 1);
