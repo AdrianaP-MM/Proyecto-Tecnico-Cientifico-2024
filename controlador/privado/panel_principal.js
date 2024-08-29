@@ -417,11 +417,11 @@ const graficaClientesMasCitas = async () => {
         // Llamada a la función que renderiza el gráfico de pastel
         pieGraph('clientesMasCitas', topClientes, topCantidades, 'Clientes con Mayor Cantidad de Citas');
     } else {
-        const graficaElement = document.getElementById('clientesMasCitas');
-        graficaElement.innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
+        document.getElementById('clientesMasCitas').remove();
+        document.getElementById('MasCitasContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;   
     }
 };
 

@@ -1,3 +1,19 @@
+#graficaContainer {
+  width: 80%; /* Ajusta este valor según el tamaño deseado */
+  max-width: 600px; /* Limitar el ancho máximo */
+  margin: 0 auto; /* Centrar horizontalmente */
+}
+
+#graficaContainer canvas {
+  width: 100%; /* Asegura que el canvas ocupe todo el ancho del contenedor */
+  height: auto; /* Ajusta la altura automáticamente */
+}
+
+#graficaContainer #noDatos {
+  height: 200px; /* Ajusta la altura para el mensaje "No hay datos" */
+}
+
+
 /* Estilo para los elementos con clase "calendar" y "a" en pantallas pequeñas */
 .calendar,
 .a {
