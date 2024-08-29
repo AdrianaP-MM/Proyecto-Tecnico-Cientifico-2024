@@ -34,7 +34,7 @@ class Report extends FPDF
             // Se define un alias para el número total de páginas que se muestra en el pie del documento.
             $this->aliasNbPages();
         } else {
-            header('location:' . self::CLIENT_URL);
+            header('location:' . self::SERVER_URL);
         }
     }
 
@@ -55,14 +55,19 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
+        $this->image('../../images/report/1.png', 170, 0, 50);
+        $this->image('../../images/report/5.png', 0, 1, 35);
+        $this->image('../../images/report/2.png', 198, 75, 35);
+        $this->image('../../images/report/6.png', -18, 110, 35);
+        $this->image('../../images/report/logo_1.png', 15, 12, 25);
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
-        $this->cell(166, 10, $this->encodeString($this->title), 0, 1, 'C');
+        $this->cell(65, 10, $this->encodeString($this->title), 0, 1, 'C');
         // Se ubica la fecha y hora del servidor.
         $this->cell(20 );
         $this->setFont('Arial', '', 10);
-        $this->cell(166, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->cell(68, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
     }
@@ -73,6 +78,8 @@ class Report extends FPDF
     */
     public function footer()
     {
+        $this->image('../../images/report/3.png', 0, 228, 25);
+        $this->image('../../images/report/4.png', 182, 250, 37);
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->setY(-20);
         // Se establece la fuente para el número de página.

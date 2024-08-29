@@ -17,7 +17,7 @@ $pdf->startReport('Automoviles totales');
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataAutos = $auto->readAll()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(255, 192, 203);
+    $pdf->setFillColor(199, 0, 57);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     // Se imprimen las celdas con los encabezados.

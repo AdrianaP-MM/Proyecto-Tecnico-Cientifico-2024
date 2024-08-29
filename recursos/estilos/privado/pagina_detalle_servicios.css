@@ -104,7 +104,8 @@
 }
 /* Estilos para los botones de guardar y cancelar */
 .btnSave,
-.btnCancel {
+.btnCancel,
+.btnCancel2  {
     height: 50px;
     width: 200px;
 }
@@ -113,6 +114,15 @@
 .btnReturn {
     cursor: pointer; /* Cursor */
     width: fit-content; /* Ancho ajustado al contenido */
+}
+
+.btnCancel2 {
+    background-color: white;
+    /* Color de fondo */
+    border: solid 2px #ECECEC;
+    /* Borde */
+    color: black;
+    /* Color del texto */
 }
 
 label[for= exampleInputEmail1]{
