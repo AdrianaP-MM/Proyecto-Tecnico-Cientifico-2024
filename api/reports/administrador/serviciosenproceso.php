@@ -29,13 +29,14 @@ if ($dataServicios = $serviciosenProcesos->readAll()) {
     $pdf->setFont('Arial', '', 11);
     // Se recorren los registros fila por fila.
     foreach ($dataServicios as $rowServicio) {
-        // Se imprimen las celdas con los datos de los servicios.
-        $pdf->cell(40, 10, $pdf->encodeString($rowServicio['fecha_registro']), 1, 0);
-        $pdf->cell(60, 10, $rowServicio['fecha_aproximada_finalizacion'], 1, 0);
-        $pdf->cell(40, 10, $rowServicio['fecha_finalizacion'], 1, 0);
-        $pdf->cell(30, 10, $rowServicio['cantidad_servicio'], 1, 1);
+        // Se imprimen las celdas con los datos de los servicios, dejando en blanco si no existe el dato.
+        $pdf->cell(40, 10, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
+        $pdf->cell(60, 10, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
+        $pdf->cell(40, 10, isset($rowServicio['fecha_finalizacion']) ? $rowServicio['fecha_finalizacion'] : '', 1, 0);
+        $pdf->cell(30, 10, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 1);
     }
 } else {
+    // Si no hay datos, se muestra un mensaje.
     $pdf->cell(0, 10, $pdf->encodeString('No hay servicios para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
