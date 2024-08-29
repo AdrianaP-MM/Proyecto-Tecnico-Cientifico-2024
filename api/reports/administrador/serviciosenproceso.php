@@ -23,7 +23,7 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     });
 
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(255, 192, 203);
+    $pdf->setFillColor(235, 192, 203);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 7); // Se reduce el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
