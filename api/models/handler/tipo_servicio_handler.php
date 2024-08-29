@@ -56,13 +56,22 @@ class TipoServicioHandler
         return Database::executeRow($sql, $params);
     }
 
+    //Importante
     // Método para buscar registros.
     public function searchRows()
     {
-        $sql = 'SELECT id_tipo_servicio, nombre_tipo_servicio, imagen_servicio FROM tb_tipos_servicios WHERE nombre_tipo_servicio LIKE ?';
-        $params = array("%$this->search_value%");
+        //Valores que se introducen la barra de busqueda 
+        $value = '%' . Validator::getSearchValue() . '%';
+
+        $sql = 'SELECT id_tipo_servicio, nombre_tipo_servicio, imagen_servicio 
+                FROM tb_tipos_servicios 
+                WHERE nombre_tipo_servicio LIKE ?;';
+
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
+
+
 
     public function checkDuplicated($value)
     {
@@ -73,4 +82,3 @@ class TipoServicioHandler
         return $result['count'] > 0;
     }
 }
-?>

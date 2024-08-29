@@ -55,20 +55,75 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-function buscarServicio() {
-    const buscar = document.getElementById('buscarServicio').value;
+//Importante
+//Método del evento para cuando se envía el formulario de buscar.
+document
+    .getElementById("searchForm")
+    .addEventListener("submit", async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+        
+        // Constante tipo objeto con los datos del formulario de barra de busqueda.
+        const formData = new FormData(document.getElementById("searchForm"));
 
-    fetch(`../../api/services/privado/servicio.php?action=searchServicios&{buscar}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status) {
-                readServicios(data.dataset);
+        // Verifica qué datos se están enviando
+        console.log("Form Data:", Array.from(formData.entries()));
+
+        try {
+            // Realizar una solicitud al servidor para buscar trabajadores.
+            const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
+
+            // Verifica la respuesta del servidor
+            console.log("Search Data:", searchData);
+
+            // Verificar si la búsqueda fue exitosa.
+            if (searchData.status) {
+                // Limpiar el contenedor de trabajadores.
+                CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+
+                // Se agrega la card para agregar usuario luego de vaciar el campo
+                CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                <div class="add-auto-card d-flex justify-content-center align-items-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop" alt="Add Service">
+            </div>
+            `;
+
+                // Verificar si se encontraron resultados.
+                if (searchData.dataset.length > 0) {
+                    // Dependiendo los resultados de cada línea se muestran en el contenedor.
+                    for (const row of searchData.dataset) {
+                        const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
+                        const imageExists = await checkImageExists(imageUrl);
+                        const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
+                        
+                        CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                        <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
+                        <div class="content z-3">
+                            <h4 class="open-sans-light-italic">Más información</h4>
+                        </div>
+                        <div class="img-container p-3">
+                             <img src="${imgSrc}" />
+                        </div>
+                        <div class="text-container d-flex justify-content-center p-2">
+                            <h3 class="open-sans-regular text-white">${row.nombre_tipo_servicio}</h3>
+                        </div>
+                    </div>
+                        `;
+                    }
+                } else {
+                    // Mostrar si no se encontró ningún resultado.
+                    sweetAlert(4, "No se encontraron resultados", false);
+                }
             } else {
-                readServicios([]); // Llamar a mostrarEmpleados con una lista vacía
+                // Mostrar si no se encontró ningún resultado en base de un error.
+                sweetAlert(4, "No se encontraron resultados", false);
             }
-        })
-        .catch(error => console.error('Error al buscar servicios:', error));
-}
+        } catch (error) {
+            console.error("Error al buscar servicios:", error);
+            // Loguea un error si este lo presenta.
+        }
+    });
 
 // Método para obtener y mostrar los servicios
 async function checkImageExists(imageUrl) {

@@ -32,8 +32,21 @@
         <div class="row">
 
             <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
-                
-                <input id="buscarServicio" type="search" class="form-control" placeholder="Buscar por nombre">
+                <!--//Importante-->
+                <form id="searchForm">
+                    <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
+                        <input type="search" name="search" class="form-control " placeholder="Buscar..."
+                            aria-label="Buscar..." aria-describedby="basic-addon2" required id="search">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Buscador para servicios por nombre de servicio.">
+                                <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg" alt="search icon"></i>
+                            </button>
+                            
+                        </div>
+                    </div>
+                </form>
+
                 <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
                     <div class="add-auto-card d-flex justify-content-center align-items-center">
                         <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
