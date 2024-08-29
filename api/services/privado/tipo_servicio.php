@@ -30,22 +30,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Tipo de servicio inexistente';
                 }
                 break;
-                case 'createRow':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio']) or
-                        !$tipoServicio->setImagenServicio($_FILES['customFileW'])
-                    ) {
-                        $result['error'] = $tipoServicio->getDataError();
-                    } elseif ($tipoServicio->createRow()) {
-                        $result['status'] = 1;
-                        $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN);
-                        $result['message'] = 'Tipo de servicio creado correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
-                    }
-                    break;
-                
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio']) or
+                    !$tipoServicio->setImagenServicio($_FILES['customFileW'])
+                ) {
+                    $result['error'] = $tipoServicio->getDataError();
+                } elseif ($tipoServicio->createRow()) {
+                    $result['status'] = 1;
+                    $result['fileStatus'] = Validator::saveFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN);
+                    $result['message'] = 'Tipo de servicio creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el tipo de servicio';
+                }
+                break;
+
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -73,17 +73,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el tipo de servicio';
                 }
                 break;
+
+                //Importante
             case 'searchRows':
-                $_POST = Validator::validateForm($_POST);
-                if (!$tipoServicio->setSearchValue($_POST['search'])) {
-                    $result['error'] = $tipoServicio->getDataError();
+                if (!Validator::validateSearch($_POST['search'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $tipoServicio->searchRows()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
-                    if ($result['dataset'] = $tipoServicio->searchRows()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                    } else {
-                        $result['error'] = 'No hay coincidencias';
-                    }
+                    $result['error'] = 'No hay coincidencias';
                 }
                 break;
             default:
@@ -106,4 +105,3 @@ if (isset($_GET['action'])) {
     // Si no se envió una acción válida, se devuelve un mensaje de recurso no disponible.
     print(json_encode('Recurso no disponible'));
 }
-?>

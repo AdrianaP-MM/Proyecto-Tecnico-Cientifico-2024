@@ -170,6 +170,83 @@ const openUpdateService = async () => {
     }
 };
 
+//Método del evento para cuando se envía el formulario de buscar.
+document
+    .getElementById("searchForm")
+    .addEventListener("submit", async (event) => {
+        // Se evita recargar la página web después de enviar el formulario.
+        event.preventDefault();
+
+        // Constante tipo objeto con los datos del formulario de barra de busqueda.
+        const formData = new FormData(document.getElementById("searchForm"));
+
+        // Verifica qué datos se están enviando
+        console.log("Form Data:", Array.from(formData.entries()));
+
+        try {
+            // Realizar una solicitud al servidor para buscar trabajadores.
+            const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
+
+            // Verifica la respuesta del servidor
+            console.log("Search Data:", searchData);
+
+            // Verificar si la búsqueda fue exitosa.
+            if (searchData.status) {
+                // Limpiar el contenedor de trabajadores.
+                CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+
+                // Se agrega la card para agregar usuario luego de vaciar el campo
+                CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                <div class="add-auto-card d-flex justify-content-center align-items-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop" alt="Add Service">
+            </div>
+            `;
+
+                // Verificar si se encontraron resultados.
+                if (searchData.dataset.length > 0) {
+                    // Dependiendo los resultados de cada línea se muestran en el contenedor.
+                    for (const row of searchData.dataset) {
+                        const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
+                        const imageExists = await checkImageExists(imageUrl);
+                        const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
+
+                        CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                        <div class="col">
+                <div class="card envelope-card" onclick="openUpdate(${row.id_servicio})">
+                    <div class="card-body">
+                        <h5 class="card-title">${row.nombre_servicio}</h5>
+                        <p class="card-text">${row.descripcion_servicio}</p>
+                    </div>
+                </div>
+            </div>
+                        `;
+                    }
+                } else {
+                    // Mostrar si no se encontró ningún resultado.
+                    sweetAlert(4, "No se encontraron resultados", false);
+                }
+            } else {
+                // Mostrar si no se encontró ningún resultado en base de un error.
+                sweetAlert(4, "No se encontraron resultados", false);
+            }
+        } catch (error) {
+            console.error("Error al buscar servicios:", error);
+            // Loguea un error si este lo presenta.
+        }
+    });
+
+// Método para obtener y mostrar los servicios
+async function checkImageExists(imageUrl) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = imageUrl;
+    });
+}
+
+
 // Función para abrir el modal de eliminación
 const openDelete = async (id) => {
     console.log('ID recibido para eliminar:', id); // Depuración
