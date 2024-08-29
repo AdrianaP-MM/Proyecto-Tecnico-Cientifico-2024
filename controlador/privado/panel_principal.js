@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     graficoDonaTipos();
     //graficaClientesMesTipos();
     graficaTop10();
-    graficaClientesMasCarros();
+    graficaClientesMasCitas();
 
 
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
@@ -185,32 +185,43 @@ const graficaClientesMesDepartamentos = async (mes, año, departamento) => {
     console.log(DATAClienteMesDep);
 
     const graficaElement = document.getElementById('clientesMesDepartamentos');
+    const noDatosElement = document.getElementById('noDatos');
 
     // Limpiar el contenido actual de la gráfica antes de actualizarla
     graficaElement.innerHTML = '';
+    noDatosElement.style.display = 'none'; // Ocultar mensaje
 
-    // Se comprueba si la respuesta es satisfactoria.
-    if (DATAClienteMesDep.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
-        const departamentos = [];
-        const clientes = [];
+    // Se declaran los arreglos para guardar los datos a graficar.
+    const departamentos = [];
+    const clientes = [];
 
+    // Se comprueba si la respuesta es satisfactoria y si hay datos en el dataset.
+    if (DATAClienteMesDep.status && DATAClienteMesDep.dataset && DATAClienteMesDep.dataset.length > 0) {
         // Se recorre el conjunto de registros para obtener las cantidades de clientes por departamento.
         DATAClienteMesDep.dataset.forEach(row => {
             departamentos.push(row.departamento_cliente);
             clientes.push(row.cantidad);
         });
 
-        // Llamada a la función que renderiza la gráfica
-        barGraph('clientesMesDepartamentos', departamentos, clientes, `Clientes registrados en ${mes}/${año}: `, 'Cantidad de clientes por departamento');
+        // Se comprueba si los arreglos de datos están vacíos.
+        if (departamentos.length > 0 && clientes.length > 0) {
+            // Llamada a la función que renderiza la gráfica
+            barGraph('clientesMesDepartamentos', departamentos, clientes, `Clientes registrados en ${mes}/${año}: `, 'Cantidad de clientes por departamento');
+        } else {
+            // Muestra el mensaje cuando no hay datos disponibles
+            graficaElement.style.display = 'none'; // Ocultar canvas
+            noDatosElement.style.display = 'block'; // Mostrar mensaje
+        }
     } else {
-        // Solo modifica el contenido de la gráfica específica
-        graficaElement.innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
+        // Muestra el mensaje cuando no hay datos disponibles
+        graficaElement.style.display = 'none'; // Ocultar canvas
+        noDatosElement.style.display = 'block'; // Mostrar mensaje
     }
 };
+
+
+
+
 
 
 const graficoBarrasTipos = async () => {
@@ -324,38 +335,41 @@ const graficaClientesMesTipos = async (año) => {
 }
 
 //JS DE GRAFICA CLIENTES CON MAYOR CANTIDAD DE AUTOS
-const graficaClientesMasCarros = async () => {
+const graficaClientesMasCitas = async () => {
     // Petición para obtener los datos del gráfico.
-    const DATAClienteMasCarros = await fetchData(CLIENTE_API, 'readClientesMasCarros');
-    console.log(DATAClienteMasCarros);
+    const DATAClienteMasCitas = await fetchData(CLIENTE_API, 'readClientesMasCitas');
+    console.log(DATAClienteMasCitas);
 
-    // Se comprueba si la respuesta es satisfactoria.
-    if (DATAClienteMasCarros.status) {
+    // Se comprueba si la respuesta es satisfactoria y si hay datos.
+    if (DATAClienteMasCitas.status && DATAClienteMasCitas.dataset.length > 0) {
         // Se declaran los arreglos para guardar los datos a graficar.
         const clientes = [];
         const cantidades = [];
 
-        // Se recorre el conjunto de registros para obtener los nombres de los clientes y la cantidad de autos.
-        DATAClienteMasCarros.dataset.forEach(row => {
-            clientes.push(row.nombre_completo);
-            cantidades.push(row.cantidad_autos);
+        // Se recorre el conjunto de registros para obtener los nombres de los clientes y la cantidad de citas.
+        DATAClienteMasCitas.dataset.forEach(row => {
+            clientes.push(row.nombre_completo_cliente);
+            cantidades.push(row.cantidad_citas);
         });
 
-        // Limitar a los primeros 4 datos
+        // Limitar a los primeros 5 datos
         const maxItems = 5;
         const topClientes = clientes.slice(0, maxItems);
         const topCantidades = cantidades.slice(0, maxItems);
 
         // Llamada a la función que renderiza el gráfico de pastel
-        pieGraph('clientesMasCarros', topClientes, topCantidades, 'Clientes con Mayor Cantidad de Autos');
+        pieGraph('clientesMasCitas', topClientes, topCantidades, 'Clientes con Mayor Cantidad de Citas');
     } else {
-        const graficaElement = document.getElementById('clientesMasCarros');
+        const graficaElement = document.getElementById('clientesMasCitas');
         graficaElement.innerHTML = `
             <div class="d-flex align-items-center justify-content-center h-100">
                 <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
             </div>`;
     }
 };
+
+
+
 
 
 

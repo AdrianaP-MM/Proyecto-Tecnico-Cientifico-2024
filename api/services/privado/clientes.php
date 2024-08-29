@@ -56,8 +56,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen clientes para mostrar';
                 }
                 break;
-            case 'readClientesMasCarros':
-                if ($result['dataset'] = $cliente->readClientesMasCarros()) {
+            case 'readClientesMasCitas':
+                if ($result['dataset'] = $cliente->readClientesMasCitas()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No existen clientes para mostrar';
