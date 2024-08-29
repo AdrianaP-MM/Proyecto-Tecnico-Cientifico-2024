@@ -19,6 +19,12 @@ class CitasHandler
     protected $estado_cita = null;
     protected $search_value = null;
 
+    public function tiempoPorServicio()
+    {
+        $sql = 'SELECT * FROM vw_tiempo_servicio;';
+        return Database::getRows($sql);
+    }
+
 
     public function autosReparados()
     {

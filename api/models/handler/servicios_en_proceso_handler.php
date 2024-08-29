@@ -24,8 +24,8 @@ class ServiciosProcesoHandler
                 fecha_aproximada_finalizacion,
                 id_cita,
                 id_servicio,
-                cantidad_servicio
-            ) VALUES (?, ?, ?, ?, ?);';
+                cantidad_servicio, fecha_finalizacion
+            ) VALUES (?, ?, ?, ?, ?, ?);';
 
         // Parámetros para la consulta SQL
         $params = array(
@@ -33,7 +33,8 @@ class ServiciosProcesoHandler
             $this->fecha_aproximada_finalizacion,
             $this->id_cita,
             $this->id_servicio,
-            $this->cantidad_servicio
+            $this->cantidad_servicio,
+            $this->fecha_aproximada_finalizacion
         );
 
         // Ejecución de la consulta SQL utilizando un método estático Database::executeRow

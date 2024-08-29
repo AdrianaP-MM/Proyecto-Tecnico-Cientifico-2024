@@ -25,16 +25,127 @@ document.addEventListener('DOMContentLoaded', async () => {
     readDUI();
     //Llamada a las diferentes funciones que muestran los datos en las gráficas
     graficaAutosReparar();
+    graficaTiempoPorServicio();
     graficoBarrasTipos();
     graficoDonaTipos();
     //graficaClientesMesTipos();
     graficaTop10();
     graficaClientesMasCarros();
-    
+
 
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
     fillSelect(SERVICIOS_API, 'readServicios', 'input_tipo_servicio');
 });
+
+
+
+const graficaTiempoPorServicio = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATATiempoPorServicio = await fetchData(CITAS_API, 'tiempoPorServicio');
+    
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATATiempoPorServicio.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let Servicios = [];
+        let Tiempo = [];
+
+        // Se recorre el conjunto de registros para obtener los servicios y tiempos estimados.
+        DATATiempoPorServicio.dataset.forEach(row => {
+            Servicios.push(row.servicio_reparacion);
+            Tiempo.push(row.tiempo_estimado);
+        });
+
+        console.log('Servicios:', Servicios);
+        console.log('Tiempo:', Tiempo);
+
+        // Llama a la función para crear el gráfico.
+        graphBarChartBorderRadius('tiempoPorServicio', 'Tiempo estimado en realizar un servicio de reparación.', 'Servicios', 'Tiempo estimado (hh:mm)', Servicios, Tiempo, 'Minutos');
+    } else {
+        document.getElementById('tiempoPorServicio').remove();
+        document.getElementById('tiempoPorServicioContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
+    }
+}
+
+
+const graficaAutosReparar = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATAReparados = await fetchData(CITAS_API, 'autosReparados');
+    const DATAAReparar = await fetchData(CITAS_API, 'autosAReparar'); //PD: Ambos TIENEN en cuenta los autos repetidos, es decir, si un mismo auto llego en enero y luego en diciembre igual se cuenta
+    const DATAARepararPasado = await fetchData(CITAS_API, 'autosARepararPasado');
+    // Se comprueba si la respuesta es satisfactoria.
+    if (DATAReparados.status && DATAAReparar.status && DATAARepararPasado.status) {
+        // Se declaran los arreglos para guardar los datos a graficar.
+        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        let reparados = Array(12).fill(0); // Inicializa con ceros
+        let aReparar = Array(12).fill(0); // Inicializa con ceros
+        let aRepararPasado = Array(12).fill(0);
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos reparados.
+        DATAReparados.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            reparados[mesIndex] = row.autos_reparados;
+        });
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar.
+        DATAAReparar.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            aReparar[mesIndex] = row.autos_esperados;
+        });
+
+        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar teniendo en cuenta solo el año pasado.
+        DATAARepararPasado.dataset.forEach(row => {
+            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
+            aRepararPasado[mesIndex] = row.autos_esperados;
+        });
+
+        // Log para verificar los datos antes de graficar
+        console.log('Reparados:', reparados);
+        console.log('A Reparar:', aReparar);
+        console.log('A Reparar(Pasado):', aRepararPasado)
+
+        // Configuración de los datos para el gráfico
+        const data = {
+            labels: Meses,
+            datasets: [
+                {
+                    label: 'Autos que se esperan reparar (Teniendo en cuenta todos los años)',
+                    fill: false,
+                    backgroundColor: 'rgb(211, 211, 211)',
+                    borderColor: 'rgb(211, 211, 211)',
+                    borderDash: [5, 5],
+                    data: aReparar,
+                },
+                {
+                    label: 'Autos que se esperan reparar (Teniendo en cuenta solo el año pasado)',
+                    fill: false,
+                    backgroundColor: 'rgb(255, 45, 49)',
+                    borderColor: 'rgb(255, 45, 49)',
+                    data: aRepararPasado,
+                    borderDash: [5, 5],
+                },
+                {
+                    label: 'Autos reparados (Año actual)',
+                    backgroundColor: 'rgb(230, 69, 71)',
+                    borderColor: 'rgb(230, 69, 71)',
+                    data: reparados,
+                    fill: true,
+                }
+            ]
+        };
+
+        graphLineStyling('autosReparar', 'Autos reparados en el año actual y previsiones.', 'Meses', 'Cantidad de autos', data);
+        graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
+    } else {
+        document.getElementById('autosReparar').remove();
+        document.getElementById('autosRepararContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
+    }
+}
 
 function configurarFechaMaxima() {
     var hoy = new Date();
@@ -72,7 +183,7 @@ const graficaClientesMesDepartamentos = async (mes, año, departamento) => {
 
     const DATAClienteMesDep = await fetchData(CLIENTE_API, 'readClientesRegistrados', formData);
     console.log(DATAClienteMesDep);
-    
+
     const graficaElement = document.getElementById('clientesMesDepartamentos');
 
     // Limpiar el contenido actual de la gráfica antes de actualizarla
@@ -139,97 +250,12 @@ const graficoDonaTipos = async () => {
             total.push(row.total);
         });
         // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
-        doughnutGraph('cantidadServicios', nombre, total, 'Cantidad de servicios');
+        doughnutGraph('cantidadServicios', nombre, total, 'Cantidad de servicios en cada categoría');
     } else {
         document.getElementById('cantidadServicios').remove();
         console.log(DATA.error);
     }
 }
-
-const graficaAutosReparar = async () => {
-    // Petición para obtener los datos del gráfico.
-    const DATAReparados = await fetchData(CITAS_API, 'autosReparados');
-    const DATAAReparar = await fetchData(CITAS_API, 'autosAReparar'); //PD: Ambos TIENEN en cuenta los autos repetidos, es decir, si un mismo auto llego en enero y luego en diciembre igual se cuenta
-    const DATAARepararPasado = await fetchData(CITAS_API, 'autosARepararPasado');
-    // Se comprueba si la respuesta es satisfactoria.
-    if (DATAReparados.status && DATAAReparar.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
-        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        let reparados = Array(12).fill(0); // Inicializa con ceros
-        let aReparar = Array(12).fill(0); // Inicializa con ceros
-        let aRepararPasado = Array(12).fill(0);
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos reparados.
-        DATAReparados.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            reparados[mesIndex] = row.autos_reparados;
-        });
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar.
-        DATAAReparar.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            aReparar[mesIndex] = row.autos_esperados;
-        });
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar teniendo en cuenta solo el año pasado.
-        DATAARepararPasado.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            aRepararPasado[mesIndex] = row.autos_esperados;
-        });
-
-        // Log para verificar los datos antes de graficar
-        console.log('Reparados:', reparados);
-        console.log('A Reparar:', aReparar);
-        console.log('A Reparar(Pasado):', aRepararPasado)
-
-        // Configuración de los datos para el gráfico
-        const data = {
-            labels: Meses,
-            datasets: [
-                {
-                    label: 'Autos que se esperan reparar (Teniendo en cuenta todos los años)',
-                    fill: false,
-                    backgroundColor: 'rgb(211, 211, 211)',
-                    borderColor: 'rgb(211, 211, 211)',
-                    borderDash: [5, 5],
-                    data: aReparar,
-                },
-                {
-                    label: 'Autos que se esperan reparar (Teniendo en cuenta solo el año pasado)',
-                    fill: false,
-                    backgroundColor: 'rgb(255, 45, 49)',
-                    borderColor: 'rgb(255, 45, 49)',
-                    data: aRepararPasado,
-                    borderDash: [5, 5],
-                },
-                {
-                    label: 'Autos Reparados (Año actual)',
-                    backgroundColor: 'rgb(230, 69, 71)',
-                    borderColor: 'rgb(230, 69, 71)',
-                    data: reparados,
-                    fill: true,
-                }
-            ]
-        };
-
-        graphLineStyling('autosReparar', 'Predicción de cantidad de carros que se espera reparar.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica2', 'Tiempo estimado en realizar un servicio de reparación.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica3', '10 servicios más frecuentados por nuestros clientes.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica7', 'Clientes registrados en el mes según su departamento.', 'Meses', 'Cantidad de autos', data);
-    } else {
-        document.getElementById('autosReparar').remove();
-        var elements = document.getElementsByClassName('graphic');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
-        }
-
-    }
-}
-
 
 //JS DE GRAFICA DE CLIENTES MES TIPOS
 document.getElementById('formClientesMesTipos').addEventListener('submit', function (event) {
@@ -290,17 +316,12 @@ const graficaClientesMesTipos = async (año) => {
         graphLineStyling('clientesMesTipos', 'Cantidad de clientes registrados por mes según su tipo.', 'Meses', 'Cantidad de clientes', data);
     } else {
         document.getElementById('clientesMesTipos').remove();
-        var elements = document.getElementsByClassName('graphic');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
-        }
+        document.getElementById('clientesMesTiposContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
     }
 }
-
-
 
 //JS DE GRAFICA CLIENTES CON MAYOR CANTIDAD DE AUTOS
 const graficaClientesMasCarros = async () => {
@@ -316,7 +337,7 @@ const graficaClientesMasCarros = async () => {
 
         // Se recorre el conjunto de registros para obtener los nombres de los clientes y la cantidad de autos.
         DATAClienteMasCarros.dataset.forEach(row => {
-            clientes.push(row.nombre_completo );
+            clientes.push(row.nombre_completo);
             cantidades.push(row.cantidad_autos);
         });
 
@@ -399,13 +420,10 @@ const graficaTop10 = async () => {
     } else {
         // Si no hay datos, muestra un mensaje
         document.getElementById('graficaTop10').remove();
-        var elements = document.getElementsByClassName('graphic');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
-        }
+        document.getElementById('graficaTop10Container').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
     }
 }
 

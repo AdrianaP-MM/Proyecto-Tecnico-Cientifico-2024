@@ -415,6 +415,68 @@ const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
     });
 }
 
+
+const graphBarChartBorderRadius = (canvas, graphTitle, XTitle, YTitle, xAsis, values, legend) => {
+    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
+    let colors = [];
+
+    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
+    xAsis.forEach(() => {
+        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
+    });
+
+    // Crear el gráfico con los datos recibidos.
+    new Chart(document.getElementById(canvas), {
+        type: 'bar',
+        data: {
+            labels: xAsis,
+            datasets: [{
+                label: legend,
+                data: values,
+                backgroundColor: colors,
+                borderRadius: 15,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: graphTitle
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: XTitle
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: YTitle
+                    },
+                    ticks: {
+                        // Convierte minutos a `hh:mm`
+                        callback: function(value, index, values) {
+                            const hours = Math.floor(value / 60);
+                            const minutes = value % 60;
+                            return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+                        }
+                    }
+                }
+            }
+        },
+    });
+}
+
 let existingDoughnutChart;
 
 const getRandomColor = () => {

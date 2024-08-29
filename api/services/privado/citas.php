@@ -139,6 +139,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen autos para contar(3)';
                 }
                 break;
+            case 'tiempoPorServicio':
+                if ($result['dataset'] = $cita->tiempoPorServicio()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }

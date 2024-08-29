@@ -79,7 +79,7 @@
                         <div class="days"></div>
                     </div>
                 </div>
-                <div class="CarGraphicContainer col-lg-7 col-12 graphic p-4 shadow">
+                <div class="CarGraphicContainer col-lg-7 col-12 graphic p-4 shadow" id="autosRepararContainer">
                     <canvas id="autosReparar"></canvas> <!--Grafica 1-->
                 </div>
             </div>
@@ -88,15 +88,12 @@
                     <h4 class="open-sans-semiBold m-0 p-0 text-center">Estadísticas de Mantenimiento y Reparación </h4>
                 </div>
                 <div class="d-flex flex-wrap justify-content-evenly w-100 mb-5">
-                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow">
-                        <canvas id="grafica2"></canvas> <!--Grafica 2-->
+                    <div class="col2Row1 col-lg-6 col-12 graphic p-4 shadow" id="tiempoPorServicioContainer">
+                        <canvas id="tiempoPorServicio"></canvas> <!--Grafica 2-->
                     </div>
-                    <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
-                        <canvas id="grafica3"></canvas> <!--Grafica 3-->
+                    <div class="col2Row2 col-lg-5 col-12 graphic p-4 shadow">
+                        <canvas id="cantidadServicios"></canvas> <!--Grafica 4-->
                     </div>
-                </div>
-                <div class="col2Row2 col-10 graphic p-4 shadow">
-                    <canvas id="cantidadServicios"></canvas> <!--Grafica 4-->
                 </div>
             </div>
             <div class="col3 my-4 d-flex flex-column align-items-center">
@@ -175,14 +172,10 @@
                     <canvas id="clientesMesDepartamentos"></canvas>
                 </div>
 
-
-
-
-
                 <div class="d-flex flex-wrap justify-content-evenly w-100">
 
                     <!--Grafica clientes mes y tipos-->
-                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow ">
+                    <div class="col2Row1 col-lg-7 col-12 graphic p-4 shadow " id="clientesMesTiposContainer">
                         <h5 class="open-sans-semiBold text-center pb-3">
                             Grafica de mayor cantidad de clientes por mes
                         </h5>
@@ -202,7 +195,7 @@
                         <canvas id="clientesMesTipos"></canvas> <!--Grafica 8-->
                     </div>
 
-                    <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
+                    <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow" id="graficaTop10Container">
                         <canvas id="graficaTop10"></canvas> <!--Grafica 9-->
                     </div>
 
