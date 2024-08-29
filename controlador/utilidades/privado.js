@@ -14,7 +14,7 @@ const loadTemplate = async () => {
 
     // *Se agrega el encabezado de la página web antes del contenido principal.
     MAIN.insertAdjacentHTML('beforebegin', `
-    <header class="sticky-top">
+    <header class="sticky-top z-3">
         <nav class="navbar navbar-expand-lg bg-color-n2 shadow px-lg-5 py-3 px-md-0">
             <div class="container-fluid">
 

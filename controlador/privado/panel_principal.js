@@ -2,6 +2,10 @@ const CITAS_API = 'services/privado/citas.php';
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
 const SERVICIOS_API = 'services/privado/servicio.php';
 const CLIENTE_API = 'services/privado/clientes.php';
+const EMPLEADOS_API = 'services/privado/trabajadores.php';
+
+const EMPLEADOS_FORM = document.getElementById('empleadosPorMesEspForm');
+
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
@@ -37,6 +41,61 @@ document.addEventListener('DOMContentLoaded', async () => {
     fillSelect(SERVICIOS_API, 'readServicios', 'input_tipo_servicio');
 });
 
+// Método del evento para cuando se envía el formulario de guardar.
+EMPLEADOS_FORM.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    graficaEmpleadosMesEspecialidad();
+});
+
+const graficaEmpleadosMesEspecialidad = async () => {
+    // Petición para obtener los datos del gráfico.
+    const isValid = await checkFormValidity(EMPLEADOS_FORM);
+    if (isValid) {
+        const FORM = new FormData(EMPLEADOS_FORM);
+        const DATAEmpleados = await fetchData(EMPLEADOS_API, 'empleadosPorMesEspecialidad', FORM);
+        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        if (DATAEmpleados.status) {
+            // Obtener todos los meses y especialidades únicos
+            const meses = [...new Set(DATAEmpleados.dataset.map(row => row.mes))];
+            const especialidades = [...new Set(DATAEmpleados.dataset.map(row => row.especializacion))];
+
+            // Crear un dataset para cada especialidad
+            const datasets = especialidades.map(especialidad => {
+                return {
+                    label: especialidad,
+                    data: meses.map(mes => {
+                        const row = DATAEmpleados.dataset.find(d => d.mes === mes && d.especializacion === especialidad);
+                        return row ? row.cantidad_empleados : 0;
+                    }),
+                    backgroundColor: '#' + (Math.random().toString(16)).substring(2, 8),
+                };
+            });
+            const allZero = datasets.every(dataset => dataset.data.every(value => value === 0));
+
+            if (allZero) {
+                document.getElementById('trabajadoresMesEspcContainer').innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+            </div>`;
+            } else {
+                console.log('Meses:', meses);
+                console.log('Datasets:', datasets);
+                document.getElementById('trabajadoresMesEspcContainer').innerHTML = `
+            <canvas id="empleadosPorMesEspecialidad"></canvas>`;
+                // Llama a la función para crear el gráfico.
+                graphBarChartBorderRadiusYAXIS('empleadosPorMesEspecialidad', 'Número de empleados registrados por especialidad cada mes', 'Meses', 'Cantidad de empleados', Meses, datasets, 'Especialidad');
+            }
+        } else {
+            document.getElementById('trabajadoresMesEspcContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
+        }
+    }
+}
+
 
 
 const graficaTiempoPorServicio = async () => {
@@ -68,7 +127,6 @@ const graficaTiempoPorServicio = async () => {
         </div>`;
     }
 }
-
 
 const graficaAutosReparar = async () => {
     // Petición para obtener los datos del gráfico.
@@ -137,7 +195,6 @@ const graficaAutosReparar = async () => {
         };
 
         graphLineStyling('autosReparar', 'Autos reparados en el año actual y previsiones.', 'Meses', 'Cantidad de autos', data);
-        graphLineStyling('grafica6', 'Servicios realizados por empleado según su especialidad.', 'Meses', 'Cantidad de autos', data);
     } else {
         document.getElementById('autosReparar').remove();
         document.getElementById('autosRepararContainer').innerHTML = `
@@ -743,3 +800,23 @@ document.getElementById('input_dui_report_servicios').addEventListener('input', 
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue;
 });
+
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()

@@ -382,6 +382,50 @@ const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
 // TODO ----------------------- FUNCIONES PARA LAS GRÁFICAS-----------------------------
+const graphBarChartBorderRadiusYAXIS = (canvas, graphTitle, XTitle, YTitle, xAsis, datasets, legend) => {
+    new Chart(document.getElementById(canvas), {
+        type: 'bar',
+        data: {
+            labels: xAsis, // Etiquetas para el eje X
+            datasets: datasets.map((dataset, index) => ({
+                label: dataset.label,
+                data: dataset.data,
+                backgroundColor: dataset.backgroundColor,
+                borderRadius: 5,
+                borderSkipped: false,
+            }))
+        },
+        options: {
+            indexAxis: 'y', // Eje X es vertical (barra horizontal)
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true
+                },
+                title: {
+                    display: true,
+                    text: graphTitle
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: YTitle
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: XTitle
+                    }
+                }
+            }
+        }
+    });
+}
 
 const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
     // Se crea una instancia para generar el gráfico con los datos recibidos.

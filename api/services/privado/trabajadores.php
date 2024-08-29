@@ -65,7 +65,7 @@ if (isset($_GET['action'])) {
                     !$trabajador->setDepartamento($_POST['departamento_trabajador']) or
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
-                    !$trabajador->setSalarioBase($_POST['input_salario_empleados']) 
+                    !$trabajador->setSalarioBase($_POST['input_salario_empleados'])
                     //!$trabajador->setFtoTrabajador($_FILES['fto_trabajador2'])
 
                 ) {
@@ -91,13 +91,13 @@ if (isset($_GET['action'])) {
                     !$trabajador->setIdEspecializacionTrabajador($_POST['especializacion_trabajador']) or
                     !$trabajador->setFechaContratacion($_POST['fecha_contratacion']) or
                     !$trabajador->setSalarioBase($_POST['input_salario_empleados']) or
-                //!$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
+                    //!$trabajador->setFtoTrabajador($_FILES['fto_trabajador']) or
                     !$trabajador->setIdTrabajador($_POST['idTrabajador'])
                 ) {
                     $result['error'] = $trabajador->getDataError();
                 } elseif ($trabajador->updateRow()) {
                     $result['status'] = 1;
-                  //  $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
+                    //  $result['fileStatus'] = Validator::saveFile($_FILES['fto_trabajador'], $trabajador::RUTA_IMAGEN);
                     $result['message'] = 'Trabajador modificado correctamente';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar un trabajador';
@@ -114,7 +114,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al remover el trabajador';
                 }
                 break;
-
+            case 'empleadosPorMesEspecialidad':
+                if (!$trabajador->setAgnoContratacion($_POST['agno_contratacion'])) {
+                    $result['error'] = $trabajador->getDataError();
+                } elseif ($result['dataset'] = $trabajador->empleadosPorMesyEsp()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen empleados';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

@@ -173,16 +173,27 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
     
+    public function setAgnoContratacion($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->agno_contratacion = $value;
+            return true;
+        } else {
+            $this->data_error = 'El año de contratación debe ser un valor númerico';
+            return false;
+        }
+    }
+
     // Función para validar el nombre del archivo
     public function setFilename()
     {
-        if ($data = $this->readFilename()) {
-            $this->filename = $data['Fto_trabajador'];
-            return true;
-        } else {
-            $this->data_error = 'Foto de trabajador inexistente';
-            return false;
-        }
+        // if ($data = $this->readFilename()) {
+        //     $this->filename = $data['Fto_trabajador'];
+        //     return true;
+        // } else {
+        //     $this->data_error = 'Foto de trabajador inexistente';
+        //     return false;
+        // }
     }
 
 

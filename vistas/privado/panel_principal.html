@@ -35,7 +35,7 @@
 <body>
     <!-- *Contenido principal del documento -->
     <main class="container-fluid open p-0 position-relative"> <!--Contenedor blanco-->
-        <div class="d-flex justify-content-center w-100 sticky-top containerSubMenu align-items-end">
+        <div class="d-flex justify-content-center w-100 sticky-top containerSubMenu align-items-end z-1">
             <div class="subMenuContainer shadow-sm d-flex justify-content-center">
                 <nav class="px-5 d-flex justify-content-center align-items-center gap-5 text-white">
                     <a href="#section1" class="subMenuItem open-sans-regular">Mantenimiento y reparación</a> |
@@ -127,8 +127,24 @@
                         <h4 class="open-sans-semiBold m-0 p-0 text-center"> Análisis del personal laboral </h4>
                     </div>
 
-                    <div class="col2Row2 col-lg-10 col-12 graphic p-4 shadow">
-                        <canvas id="grafica6"></canvas> <!--Grafica 6-->
+                    <div class="col2Row1 col-lg-9 col-12 graphic p-4 shadow">
+                        <h5 class="open-sans-semiBold text-center pb-3">
+                            Grafica de cantidad de empleados registrados por mes y especialidad.
+                        </h5>
+
+                        <form id="empleadosPorMesEspForm" name="empleadosPorMesEspForm" class="needs-validation" novalidate>
+                            <div class="form-floating mb-3">
+                                <input id="agno_contratacion" name="agno_contratacion" type="number" min="2000"
+                                    max="2099" step="1" value="2024" class="form-control" placeholder="0000" required>
+                                <label for="agno_contratacion">Año</label>
+                                <div class="invalid-feedback">Por favor ingresa un año válido.</div>
+                            </div>
+                            <button type="submit">Generar gráfica</button>
+                        </form>
+
+                        <div id="trabajadoresMesEspcContainer">
+                            <canvas id="empleadosPorMesEspecialidad"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -18,10 +18,20 @@ class TrabajadoresHandler
     protected $NIT_trabajador = null;
     protected $fecha_contratacion = null;
     protected $salario_base = null;
-   
+    protected $agno_contratacion = null;
+
 
     //Aqui se guardaran las imagenes 
     const RUTA_IMAGEN = '../../../api/images/empleados/';
+
+    public function empleadosPorMesyEsp()
+    {
+        $sql = 'CALL GetEmpleadosPorMesYEspecialidad(?);';
+        $params = array($this->agno_contratacion);
+        //Ejecucion de la consulta SQL
+        return Database::getRows($sql, $params);
+    }
+
 
     //Método para buscar trabajadores dependiendo de su nombre o dui 
     public function searchRows()
@@ -163,7 +173,4 @@ class TrabajadoresHandler
         $sql = 'SELECT id_especializacion_trabajador, nombre_especializacion_trabajador FROM tb_especializaciones_trabajadores;';
         return Database::getRows($sql); //Ejecución de la consulta SQL
     }
-
-
-    
 }
