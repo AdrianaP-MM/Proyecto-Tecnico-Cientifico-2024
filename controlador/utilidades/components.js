@@ -416,24 +416,25 @@ const graphLineStyling = (canvas, graphTitle, XTitle, YTitle, data) => {
 }
 
 let existingDoughnutChart;
+
+const getRandomColor = () => {
+    // Genera un color hexadecimal aleatorio
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 const doughnutGraph = (canvas, legends, values, title) => {
     // Destruir el gráfico existente si existe
     if (existingDoughnutChart) {
         existingDoughnutChart.destroy();
     }
 
-    const colors = [
-        '#FF0000', // Rojo
-        '#CC0000', // Rojo oscuro
-        '#990000', // Rojo más oscuro
-        '#660000', // Rojo profundo
-        '#330000', // Rojo muy oscuro
-        '#808080', // Gris
-        '#A9A9A9', // Gris oscuro
-        '#696969', // Gris más oscuro
-        '#D3D3D3', // Gris claro
-        '#C0C0C0'  // Gris plata
-    ];
+    // Generar colores aleatorios para cada segmento
+    const colors = legends.map(() => getRandomColor());
 
     // Crear el nuevo gráfico y guardar la referencia
     existingDoughnutChart = new Chart(document.getElementById(canvas), {
@@ -455,3 +456,4 @@ const doughnutGraph = (canvas, legends, values, title) => {
         }
     });
 }
+
