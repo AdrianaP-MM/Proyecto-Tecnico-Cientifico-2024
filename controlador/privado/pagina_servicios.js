@@ -55,6 +55,20 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+function buscarServicio() {
+    const buscar = document.getElementById('buscarServicio').value;
+
+    fetch(`../../api/services/privado/servicio.php?action=searchServicios&{buscar}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                readServicios(data.dataset);
+            } else {
+                readServicios([]); // Llamar a mostrarEmpleados con una lista vacía
+            }
+        })
+        .catch(error => console.error('Error al buscar servicios:', error));
+}
 
 // Método para obtener y mostrar los servicios
 async function checkImageExists(imageUrl) {

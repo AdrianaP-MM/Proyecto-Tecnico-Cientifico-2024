@@ -16,7 +16,7 @@ const SAVE_FORM = document.getElementById('save_form'),
 // Constantes para establecer los elementos del formulario
 const SAVE_FORM_2 = document.getElementById('save_form_2'),
     NOMBRE = document.getElementById('nombre_tipo_servicio'),
-    IMG_SERVICIO = document.getElementById('customFileW');
+    IMG_SERVICIO = document.getElementById('selectedImageW');
 
 const IMAGE_INPUT = document.getElementById('customFileW');
 
@@ -144,7 +144,7 @@ const openUpdateService = async () => {
     formData.append("id_tipo_servicio", idTipoServicio); // Asegúrate de que 'id' sea el valor correcto del ID del trabajador
 
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(SERVICIOS_API, "readOne", formData);
+    const DATA = await fetchData(TIPOS_API, "readOne", formData);
 
     if (DATA.status) {
         // Se prepara el formulario.
@@ -154,6 +154,8 @@ const openUpdateService = async () => {
         // Se inicializan los campos con los datos.
         const row = DATA.dataset;
         NOMBRE.value = row.nombre_tipo_servicio;
+        IMG_SERVICIO.src = SERVER_URL.concat('images/tipoServicio/', row.imagen_servicio);
+
 
         const botonTres = document.getElementById("btnDelete");
         if (botonTres) {
@@ -161,7 +163,7 @@ const openUpdateService = async () => {
         }
 
         CONTAINER_BOTONES.innerHTML += `
-              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDelete(${idTipoServicio})">Eliminar</button>
+              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDeleteServicio(${idTipoServicio})">Eliminar</button>
         `;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -226,7 +228,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     formData.append('id_tipo_servicio', idTipoServicio);
 
     try {
-        const responseData = await fetchData(SERVICIOS_API, action, formData); // Petición para guardar los datos del formulario
+        const responseData = await fetchData(SAVE_FORM, action, formData); // Petición para guardar los datos del formulario
 
         if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
             SAVE_MODAL.hide(); // Se cierra la caja de diálogo
@@ -248,7 +250,7 @@ SAVE_FORM_2.addEventListener('submit', async (event) => {
     event.preventDefault(); // Se evita recargar la página web después de enviar el formulario
 
     const formData = new FormData(SAVE_FORM_2); // Constante tipo objeto con los datos del formulario
-    formData.append('customFileW', IMAGE_INPUT.files[0]); // Usa files[0] para obtener el archivo
+    formData.append('imagen_servicio', IMAGE_INPUT.files[0]); // Usa files[0] para obtener el archivo
     // Obtener el valor del ID de tipo servicio adecuadamente según la acción
     let idTipoServicio;
     idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear

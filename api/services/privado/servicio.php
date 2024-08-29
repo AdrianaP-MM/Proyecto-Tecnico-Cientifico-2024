@@ -87,7 +87,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar un servicio';
                 }
                 break;
-
+            case 'searchServicios':
+                // Busca servicios según criterios específicos.
+                $buscar = isset($_GET['buscar']) ? $_GET['buscar'] : '';
+                if ($result['dataset'] = $servicioData->searchServicios($buscar)) {
+                    $result['status'] = 1;
+                } else {
+                    $result['status'] = 0;
+                    $result['dataset'] = [];  // Devolver un dataset vacío si no se encontraron servicios
+                    $result['message'] = 'No se encontraron servicios con los criterios especificados.';
+                }
+                break;
             case 'deleteRow':
                 if (!$servicioData->setIdTipoServicio($_POST['id_tipo_servicio'])) {
                     $result['error'] = 'ID del servicio incorrecto';
@@ -106,7 +116,7 @@ if (isset($_GET['action'])) {
     }
 
     header('content-type: application/json; charset=utf-8');
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
