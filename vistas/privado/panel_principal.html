@@ -139,12 +139,12 @@
                             <option value="12">Diciembre</option>
                         </select>
                     </div>
-
+                
                     <div class="form-group">
                         <label for="año">Año:</label>
                         <input type="number" id="año" name="año" min="2000" max="2099" step="1" value="2024">
                     </div>
-
+                
                     <div class="form-group">
                         <label for="departamento">Departamento:</label>
                         <select id="departamento" name="departamento">
@@ -164,13 +164,19 @@
                             <option value="La Union">La Union</option>
                         </select>
                     </div>
-
+                
                     <button type="submit">Generar Gráfica</button>
                 </form>
-
-                <div class="chart-container">
+                
+                <div id="graficaContainer">
                     <canvas id="clientesMesDepartamentos"></canvas>
+                    <div id="noDatos" style="display: none;">
+                        <div class="d-flex align-items-center justify-content-center h-100">
+                            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+                        </div>
+                    </div>
                 </div>
+                
 
                 <div class="d-flex flex-wrap justify-content-evenly w-100">
 
@@ -200,7 +206,7 @@
                     </div>
 
                     <div class="col2Row2 col-lg-4 col-12 graphic p-4 shadow">
-                        <canvas id="clientesMasCarros"></canvas> <!--Grafica 9-->
+                        <canvas id="clientesMasCitas"></canvas> <!--Grafica 9-->
                     </div>
                 </div>
             </div>

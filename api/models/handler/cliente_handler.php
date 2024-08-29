@@ -295,9 +295,9 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
-    public function readClientesMasCarros()
+    public function readClientesMasCitas()
     {
-        $sql = 'SELECT * FROM vista_clientes_cantidad_autos;';
+        $sql = 'SELECT * FROM vista_clientes_cantidad_citas;';
         return Database::getRows($sql);
     }
 
