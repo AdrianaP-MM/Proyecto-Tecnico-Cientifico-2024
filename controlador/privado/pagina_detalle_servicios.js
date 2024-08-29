@@ -207,10 +207,6 @@ document
                 if (searchData.dataset.length > 0) {
                     // Dependiendo los resultados de cada línea se muestran en el contenedor.
                     for (const row of searchData.dataset) {
-                        const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
-                        const imageExists = await checkImageExists(imageUrl);
-                        const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
-
                         CONTAINER_TRABAJADORES_BODY.innerHTML += `
                         <div class="col">
                 <div class="card envelope-card" onclick="openUpdate(${row.id_servicio})">

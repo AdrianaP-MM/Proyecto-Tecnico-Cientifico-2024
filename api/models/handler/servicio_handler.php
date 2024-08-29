@@ -110,15 +110,14 @@ class ServicioHandler
     // Método para buscar registros.
     public function searchRows()
     {
-        //Valores que se introducen la barra de busqueda 
+        // Valores que se introducen en la barra de búsqueda
         $value = '%' . Validator::getSearchValue() . '%';
 
-        $sql = 'SELECT id_tipo_servicio, nombre_tipo_servicio, imagen_servicio 
-                FROM tb_tipos_servicios 
-                WHERE nombre_tipo_servicio LIKE ?;';
+        $sql = 'SELECT id_servicio, nombre_servicio, descripcion_servicio 
+            FROM tb_servicios 
+            WHERE nombre_servicio LIKE ?;';
 
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-    
 }

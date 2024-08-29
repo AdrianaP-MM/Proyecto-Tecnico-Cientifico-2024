@@ -56,7 +56,6 @@ class TipoServicioHandler
         return Database::executeRow($sql, $params);
     }
 
-    //Importante
     // Método para buscar registros.
     public function searchRows()
     {
