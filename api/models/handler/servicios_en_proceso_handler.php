@@ -103,7 +103,8 @@ class ServiciosProcesoHandler
         $params = array(
             $this->id_servicio,
             $_SESSION['idUsuarioCliente']
-        );return Database::getRows($sql, $params); // Ejecución de la consulta SQL
+        );
+        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
 
@@ -111,6 +112,30 @@ class ServiciosProcesoHandler
     public function readAll()
     {
         $sql = 'SELECT id_servicio, nombre_servicio FROM tb_servicios;';
+        return Database::getRows($sql); // Ejecución de la consulta SQL
+    }
+
+    // Método para verificar Servicios en Proceso
+    public function mostrarServiciosenProceso()
+    {
+        $sql = 'SELECT 
+                sp.fecha_registro, 
+                sp.fecha_aproximada_finalizacion, 
+                sp.fecha_finalizacion, 
+                sp.cantidad_servicio, 
+                c.estado_cita, 
+                a.modelo_automovil, 
+                a.placa_automovil, 
+                s.nombre_servicio, 
+                s.descripcion_servicio
+            FROM 
+                tb_servicios_en_proceso sp
+            JOIN 
+                tb_citas c ON sp.id_cita = c.id_cita
+            JOIN 
+                tb_automoviles a ON c.id_automovil = a.id_automovil
+            JOIN 
+                tb_servicios s ON sp.id_servicio = s.id_servicio;';
         return Database::getRows($sql); // Ejecución de la consulta SQL
     }
 
