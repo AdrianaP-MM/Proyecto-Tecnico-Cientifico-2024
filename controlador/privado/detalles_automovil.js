@@ -9,6 +9,7 @@ const TABLE_BODY = document.getElementById('tableBody'),
 const MODAL = new bootstrap.Modal('#staticBackdrop2');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
+    REPORTEAUTOMOVIL = document.getElementById('idAutoReport'),
     ID_AUTOMOVIL = document.getElementById('idAuto'),
     IMG = document.getElementById('customFile2'),
     IMAGEN = document.getElementById('selectedImageA'),
@@ -97,6 +98,32 @@ const openUpdate = async () => {
     }
 }
 
+const reportEstadoAutomovil = () => {
+    // Asegúrate de que `PARAMS` esté correctamente inicializado
+    if (!PARAMS) {
+        console.error("PARAMS no está definido.");
+        return;
+    }
+
+    // Obtén el ID del automóvil desde los parámetros de la URL
+    const auto = PARAMS.get('id');
+
+    // Imprimir en consola para depuración
+    console.log("ID Automovil:", auto);
+
+    // Verifica que se haya proporcionado un ID válido
+    if (!auto) {
+        alert("ID del automóvil no proporcionado.");
+        return;
+    }
+
+    // Crea la URL con el parámetro
+    const PATH = new URL(`${SERVER_URL}reports/administrador/estadoAutomovil.php?auto=${encodeURIComponent(auto)}`);
+
+    // Abre el reporte en una nueva pestaña
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
 
 
 

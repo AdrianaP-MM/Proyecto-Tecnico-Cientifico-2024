@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla automoviles.
@@ -219,7 +219,7 @@ class AutomovilHandler
         a.estado_automovil = "Activo";';
         return Database::getRows($sql);
     }
-    
+
     public function graphicCarsByType()
     {
         // Consulta SQL para leer todos los automóviles activos
@@ -364,9 +364,35 @@ class AutomovilHandler
         a.modelo_automovil, t.nombre_tipo_automovil, c.nombres_cliente, s.nombre_servicio, cit.fecha_hora_cita
         ORDER BY 
         cantidad_servicios DESC, cit.fecha_hora_cita;';
-       $params = array($this->id_tipo_automovil, $this->fecha_inicial, $this->fecha_final);
-       return Database::getRows($sql, $params);
+        $params = array($this->id_tipo_automovil, $this->fecha_inicial, $this->fecha_final);
+        return Database::getRows($sql, $params);
     }
+
+    public function reportEstadoAutomovil($id_automovil)
+    {
+        $sql = 'SELECT 
+                        a.estado_automovil AS Estado_Automovil,
+                        s.nombre_servicio AS Servicio,
+                        COUNT(sp.id_servicio_en_proceso) AS Veces_Reparado
+                    FROM 
+                        tb_automoviles a
+                    JOIN 
+                        tb_citas c ON a.id_automovil = c.id_automovil
+                    JOIN 
+                        tb_servicios_en_proceso sp ON c.id_cita = sp.id_cita
+                    JOIN 
+                        tb_servicios s ON sp.id_servicio = s.id_servicio
+                    WHERE 
+                        a.id_automovil = ?
+                    GROUP BY 
+                        a.estado_automovil, s.nombre_servicio
+                    ORDER BY 
+                        Veces_Reparado DESC
+                    LIMIT 0, 25;';
+        $params = array($id_automovil);
+        return Database::getRows($sql, $params);
+    }
+    
 
 }
 ?>
