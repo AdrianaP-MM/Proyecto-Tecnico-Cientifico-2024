@@ -374,7 +374,11 @@
         (4, 'Cambio de llantas delanteras', 'Cambio de las llantas delanteras del vehículo'),
         (4, 'Cambio de llantas traseras', 'Cambio de las llantas traseras del vehículo'),
         (5, 'Reemplazo de batería', 'Instalación de una nueva batería'),
-        (5, 'Revisión y limpieza de bornes', 'Limpieza y ajuste de bornes de batería');
+        (5, 'Revisión y limpieza de bornes', 'Limpieza y ajuste de bornes de batería'),
+        (6, 'Cambio de aceite de motor', 'Cambio de aceite de motor de alto rendimiento'),
+        (6, 'Revisión de alineación de ruedas', 'Inspección y ajuste de alineación de ruedas'),
+        (7, 'Reparación de motor turbo', 'Reparación y ajuste de motores turboalimentados'),
+        (8, 'Limpieza de sistema de inyección', 'Limpieza profunda del sistema de inyección de combustible');
 
     -- Inserts para formas de pago
     INSERT INTO tb_formas_pagos (nombre_forma_pago)
@@ -417,19 +421,24 @@
         ('Sistema de dirección', 55.00),
         ('Diagnóstico electrónico', 70.00);
 
-        -- Inserciones para servicios en proceso
+-- Inserciones para servicios en proceso
 INSERT INTO tb_servicios_en_proceso (id_servicio_en_proceso, id_cita, id_servicio)
 VALUES 
-    (1, 1, 1),  -- Servicio 1 en la cita 1
-    (2, 1, 2),  -- Servicio 2 en la cita 1
-    (3, 2, 3),  -- Servicio 3 en la cita 2
-    (4, 2, 4),  -- Servicio 4 en la cita 2
-    (5, 3, 5),  -- Servicio 5 en la cita 3
-    (6, 4, 6),  -- Servicio 6 en la cita 4
-    (7, 4, 7),  -- Servicio 7 en la cita 4
-    (8, 5, 8),  -- Servicio 8 en la cita 5
-    (9, 6, 9),  -- Servicio 9 en la cita 6
-    (10, 7, 10); -- Servicio 10 en la cita 7
+    (1, 1, 1),  -- Cambio de aceite sintético en cita 1
+    (2, 1, 2),  -- Cambio de aceite convencional en cita 1
+    (3, 2, 3),  -- Alineación de ruedas en cita 2
+    (4, 2, 4),  -- Balanceo de llantas en cita 2
+    (5, 3, 5),  -- Revisión de frenos delanteros en cita 3
+    (6, 4, 6),  -- Revisión de frenos traseros en cita 4
+    (7, 4, 7),  -- Cambio de llantas delanteras en cita 4
+    (8, 5, 8),  -- Cambio de llantas traseras en cita 5
+    (9, 6, 9),  -- Reemplazo de batería en cita 6
+    (10, 7, 10),-- Revisión y limpieza de bornes en cita 7
+    (11, 8, 11),-- Cambio de aceite de motor en cita 8
+    (12, 9, 12),-- Revisión de alineación de ruedas en cita 9
+    (13, 10, 13),-- Reparación de motor turbo en cita 10
+    (14, 1, 14),-- Limpieza de sistema de inyección en cita 1
+    (15, 2, 1); -- Cambio de aceite sintético en cita 2 (para duplicado en top 10)
         
 #---------------------------------------------------------------------------------
 CREATE VIEW vw_autos_reparados_por_mes AS
@@ -604,50 +613,48 @@ ORDER BY
 
 
 CREATE VIEW vw_top_10_servicios AS
-SELECT 
-    COALESCE(s.nombre_servicio, 'Otros') AS servicio,
-    SUM(sep.cantidad_servicio) AS conteo
-FROM 
-    tb_servicios_en_proceso sep
-JOIN 
-    tb_servicios s ON sep.id_servicio = s.id_servicio
-GROUP BY 
-    s.nombre_servicio
-HAVING 
-    servicio IN (
-        SELECT nombre_servicio FROM (
-            SELECT 
-                s.nombre_servicio, 
-                SUM(sep.cantidad_servicio) AS conteo
-            FROM 
-                tb_servicios_en_proceso sep
-            JOIN 
-                tb_servicios s ON sep.id_servicio = s.id_servicio
-            GROUP BY 
-                s.nombre_servicio
-            ORDER BY 
-                conteo DESC
-            LIMIT 10
-        ) AS top_10
-    )
-UNION ALL
-SELECT 
-    'Otros' AS servicio,
-    SUM(conteo) AS conteo
-FROM (
+WITH servicio_conteo AS (
     SELECT 
-        s.nombre_servicio, 
-        SUM(sep.cantidad_servicio) AS conteo
+        s.nombre_servicio,
+        COUNT(sep.id_servicio_en_proceso) AS conteo
     FROM 
         tb_servicios_en_proceso sep
     JOIN 
         tb_servicios s ON sep.id_servicio = s.id_servicio
     GROUP BY 
         s.nombre_servicio
+),
+top_10 AS (
+    SELECT 
+        nombre_servicio,
+        conteo
+    FROM 
+        servicio_conteo
     ORDER BY 
         conteo DESC
-    LIMIT 10, 18446744073709551615
-) AS otros;
+    LIMIT 10
+),
+otros AS (
+    SELECT 
+        'Otros' AS nombre_servicio,
+        SUM(conteo) AS conteo
+    FROM 
+        servicio_conteo
+    WHERE 
+        nombre_servicio NOT IN (SELECT nombre_servicio FROM top_10)
+)
+SELECT 
+    nombre_servicio AS servicio,
+    conteo
+FROM 
+    top_10
+UNION ALL
+SELECT 
+    nombre_servicio AS servicio,
+    conteo
+FROM 
+    otros;
+
 
 CREATE VIEW vista_clientes_cantidad_autos AS
 SELECT c.id_cliente, 
