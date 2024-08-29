@@ -1,178 +1,210 @@
-.contenedor-total {
-    min-height: 88vh;
-    max-height: 88vh;
-}
+    .contenedor-total {
+        min-height: 88vh;
+        max-height: 88vh;
+    }
 
-.contenedor-scroll {
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: grid;
-    flex: 1;
-    gap: 30px;
-    grid-template-columns: repeat(4, 1fr);
-}
+    .contenedor-scroll {
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: grid;
+        flex: 1;
+        gap: 30px;
+        grid-template-columns: repeat(4, 1fr);
+    }
 
-.card-red {
-    position: relative;
-    background-color: #E5383B;
+    .card-red {
+        position: relative;
+        background-color: #E5383B;
+        border-radius: 10px;
+        display: grid;
+        grid-template-rows: 4fr 1fr;
+
+        justify-items: center;
+        align-items: center;
+        height: 322px;
+        width: 300px;
+    }
+
+    .img-container,
+    .text-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    /* Estilos para la imagen dentro de la tarjeta de auto */
+    .img-container>img {
+        max-inline-size: 100%;
+        block-size: auto;
+        object-fit: cover;
+
+        object-position: top center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        height: 100%;
+        min-width: 100%;
+        aspect-ratio: 2/1;
+    }
+
+    /* Estilos para la scrollbar */
+    .contenedor-scroll::-webkit-scrollbar {
+        width: 10px;
+        /* Ancho del scrollbar */
+    }
+
+    /* Estilos para el scrollbar thumb */
+    .contenedor-scroll::-webkit-scrollbar-thumb {
+        background-color: #BA181B;
+        /* Color del scrollbar thumb */
+        border-radius: 8px;
+        /* Borde redondeado del thumb */
+    }
+
+    .contenedor-scroll::-webkit-scrollbar {
+        width: 10px;
+        /* Ancho del scrollbar */
+    }
+
+    .contenedor-scroll::-webkit-scrollbar-thumb {
+        background-color: #BA181B;
+        /* Color del scrollbar thumb */
+        border-radius: 8px;
+        /* Borde redondeado del thumb */
+    }
+
+    /* Estilos para la tarjeta de auto */
+    .add-auto-card {
+        background-color: #F5F3F4;
+        border: #232323 3px solid;
+        position: relative;
+        border-radius: 10px;
+        min-height: 170px;
+    }
+
+    /* Contenido de la tarjeta */
+    .content {
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    /* Título del contenido de la tarjeta */
+    .content h4 {
+        opacity: 0;
+        margin-bottom: 12px;
+        scale: 0.7;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* Efecto de crecimiento al pasar el ratón por el contenido */
+    .card-red:hover .content h4 {
+        scale: 1;
+        opacity: 1;
+    }
+
+    /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
+    .card-red::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #00000094;
+        border-radius: inherit;
+        opacity: 0;
+    }
+
+    /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
+    .card-red:hover::after {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    /* Etiqueta flotante */
+    .form-floating>label {
+        color: red;
+    }
+
+    /* Etiqueta flotante enfocada o con contenido */
+    .form-floating .form-control:focus~label,
+    .form-floating .form-control:not(:placeholder-shown)~label {
+        color: red;
+        /* Color rojo */
+        /* Color rojo */
+    }
+
+    /* Estilos para el botón de cancelar */
+    .btnCancel {
+        background-color: black;
+    }
+
+    /* Estilos para el botón de guardar */
+    .btnSave {
+        background-color: #E5383B;
+    }
+
+    /* Estilos para los botones de guardar y cancelar */
+    .btnSave,
+    .btnCancel {
+        height: 50px;
+        width: 200px;
+    }
+
+
+
+    /* Contenedor principal para centrar el contenido */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Centra horizontalmente */
+        justify-content: center;
+        /* Centra verticalmente */
+        text-align: center;
+        /* Opcional: centra el texto */
+    }
+
+    /* Estilos para la imagen */
+    #selectedImageW {
+        max-width: 100%;
+        /* Hace que la imagen sea responsive */
+        height: auto;
+        /* Mantiene la proporción de la imagen */
+        margin-bottom: 1rem;
+        /* Espacio debajo de la imagen */
+    }
+
+    /* Contenedor del botón de archivo */
+    .btn-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+/* Buscador */
+.buscador {
+    margin-top: 30px; /* Margen superior */
+    background-color: #F8F8F8;
+    border: 0px;
     border-radius: 10px;
-    display: grid;
-    grid-template-rows: 4fr 1fr;
+  }
 
-    justify-items: center;
-    align-items: center;
-    height: 322px;
-    width: 300px; 
-}
+#searchInput{
+  background-color: #F8F8F8;
+  border: 0px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  } 
 
-.img-container,
-.text-container {
-    height: 100%;
-    width: 100%;
-}
-
-/* Estilos para la imagen dentro de la tarjeta de auto */
-.img-container>img {
-    max-inline-size: 100%;
-    block-size: auto;
-    object-fit: cover;
-
-    object-position: top center;
+  #searchButton{
+    background-color: #F8F8F8;
+    border: 0px;
     border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-
-    height: 100%;
-    min-width: 100%;
-    aspect-ratio: 2/1;
-}
-
-/* Estilos para la scrollbar */
-.contenedor-scroll::-webkit-scrollbar {
-    width: 10px;
-    /* Ancho del scrollbar */
-}
-
-/* Estilos para el scrollbar thumb */
-.contenedor-scroll::-webkit-scrollbar-thumb {
-    background-color: #BA181B;
-    /* Color del scrollbar thumb */
-    border-radius: 8px;
-    /* Borde redondeado del thumb */
-}
-
-.contenedor-scroll::-webkit-scrollbar {
-    width: 10px;
-    /* Ancho del scrollbar */
-}
-
-.contenedor-scroll::-webkit-scrollbar-thumb {
-    background-color: #BA181B;
-    /* Color del scrollbar thumb */
-    border-radius: 8px;
-    /* Borde redondeado del thumb */
-}
-/* Estilos para la tarjeta de auto */
-.add-auto-card {
-    background-color: #F5F3F4;
-    border: #232323 3px solid;
-    position: relative;
-    border-radius: 10px;
-    min-height: 170px;
-}
-
-/* Contenido de la tarjeta */
-.content {
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-/* Título del contenido de la tarjeta */
-.content h4 {
-    opacity: 0;
-    margin-bottom: 12px;
-    scale: 0.7;
-    color: white;
-    cursor: pointer;
-}
-
-/* Efecto de crecimiento al pasar el ratón por el contenido */
-.card-red:hover .content h4 {
-    scale: 1;
-    opacity: 1;
-}
-
-/* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
-.card-red::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #00000094;
-    border-radius: inherit;
-    opacity: 0;
-}
-
-/* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
-.card-red:hover::after {
-    opacity: 1;
-    cursor: pointer;
-}
-
-/* Etiqueta flotante */
-.form-floating>label {
-    color: red;
-}
-
-/* Etiqueta flotante enfocada o con contenido */
-.form-floating .form-control:focus~label,
-.form-floating .form-control:not(:placeholder-shown)~label {
-    color: red; /* Color rojo */
-    /* Color rojo */
-}
-
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
-}
-
-/* Estilos para el botón de guardar */
-.btnSave {
-    background-color: #E5383B;
-}
-/* Estilos para los botones de guardar y cancelar */
-.btnSave,
-.btnCancel {
-    height: 50px;
-    width: 200px;
-}
-
-
-
-/* Contenedor principal para centrar el contenido */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente */
-    text-align: center; /* Opcional: centra el texto */
-}
-
-/* Estilos para la imagen */
-#selectedImageW {
-    max-width: 100%; /* Hace que la imagen sea responsive */
-    height: auto; /* Mantiene la proporción de la imagen */
-    margin-bottom: 1rem; /* Espacio debajo de la imagen */
-}
-
-/* Contenedor del botón de archivo */
-.btn-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+    border-bottom-left-radius: 10px;
+  }
