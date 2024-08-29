@@ -665,3 +665,19 @@ LEFT JOIN tb_automoviles a ON c.id_cliente = a.id_cliente
 GROUP BY c.id_cliente
 ORDER BY cantidad_autos DESC;
 
+CREATE VIEW vista_clientes_cantidad_citas AS
+SELECT 
+    c.id_cliente,
+    CONCAT(c.nombres_cliente, ' ', c.apellidos_cliente) AS nombre_completo_cliente,
+    COUNT(ct.id_cita) AS cantidad_citas
+FROM 
+    tb_clientes c
+JOIN 
+    tb_automoviles a ON c.id_cliente = a.id_cliente
+JOIN 
+    tb_citas ct ON a.id_automovil = ct.id_automovil
+GROUP BY 
+    c.id_cliente, nombre_completo_cliente
+ORDER BY 
+    cantidad_citas DESC;
+
