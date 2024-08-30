@@ -18,3 +18,10 @@ const openReportAutos = () => {
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
 }
+
+const openReportTotalDeClientes = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/totalDeClientes.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+}

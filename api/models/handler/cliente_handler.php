@@ -258,6 +258,14 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
+    
+    // Método para mostrar todos los clientes
+    public function readAllReport()
+    {
+        $sql = 'SELECT * FROM tb_clientes;';
+        return Database::getRows($sql);
+    }
+
     // Método para leer los clientes
     public function readMarcas()
     {
