@@ -44,7 +44,7 @@ if ($shouldAddPage) {
     // Establecer la fuente antes de cualquier impresión
     $pdf->setFont('Arial', 'B', 11);
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(199, 0, 57);
+    $pdf->setFillColor(186, 24, 27);
     // Se establece un color para el texto de los encabezados (por ejemplo, blanco)
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
