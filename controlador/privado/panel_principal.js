@@ -688,6 +688,7 @@ const openReportServiciosCarroFechaYTipo = () => {
     console.log(PATH.href);
 }
 
+// Función para abrir el reporte del historial de servicios del cliente
 const openReportHistorialserviciosCliente = () => {
     // Obtén los valores de los inputs
     const duiInput = document.getElementById("input_dui_report_servicios");
@@ -699,22 +700,29 @@ const openReportHistorialserviciosCliente = () => {
     console.log("Tipo de Servicio:", tipoServicio);
 
     // Verifica que se hayan proporcionado valores válidos
-    if (!duiInput || !tipoServicio) {
+    if (!idCliente || !tipoServicio) {
         sweetAlert(4, 'Por favor, ingrese el DUI y seleccione un tipo de servicio.', true);
         return;
-    } else {
-        if (!idCliente) {
-            sweetAlert(4, 'No se encontró al cliente con ese DUI.', true);
-            return;
-        }
-    }
+    } 
 
     // Crea la URL con los parámetros
     const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosHistorialCliente.php?dui=${encodeURIComponent(idCliente)}&tipo=${encodeURIComponent(tipoServicio)}`);
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
     console.log(PATH.href);
+};
+
+// Agregar un event listener para limpiar el data-selected-id cuando el DUI cambia
+document.getElementById("input_dui_report_servicios").addEventListener('input', function () {
+    this.removeAttribute('data-selected-id');
+    console.log("DUI cambiado, data-selected-id limpiado.");
+});
+
+// Ejemplo de cómo establecer el data-selected-id cuando se selecciona un DUI válido
+const setSelectedClientId = (idCliente) => {
+    document.getElementById("input_dui_report_servicios").setAttribute('data-selected-id', idCliente);
 }
+
 
 
 
