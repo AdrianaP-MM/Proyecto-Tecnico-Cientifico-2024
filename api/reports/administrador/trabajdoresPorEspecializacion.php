@@ -41,7 +41,7 @@ if ($dataTrabajador = $trabajador->readAllReporte()) {
         $pdf->setFillColor(177, 167, 166);
         $pdf->cell(180, 10, $pdf->encodeString($date), 1, 1, 'C', 1);
         // Se recorren los registros fila por fila.
-        foreach ($dataTrabajador as $rowAuto) {
+        foreach ($rows as $rowAuto) {
             // Establecer color de texto a blanco
             $pdf->setTextColor(0, 0, 0);
             // Se imprimen las celdas con los datos de los productos.
