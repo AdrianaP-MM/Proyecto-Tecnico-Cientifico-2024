@@ -434,7 +434,7 @@ const graficaClientesMasCitas = async () => {
         const topCantidades = cantidades.slice(0, maxItems);
 
         // Llamada a la función que renderiza el gráfico de pastel
-        pieGraph('clientesMasCitas', topClientes, topCantidades, 'Clientes con Mayor Cantidad de Citas');
+        pieGraph('clientesMasCitas', topClientes, topCantidades, 'Clientes con mayor cantidad de citas');
     } else {
         document.getElementById('clientesMasCitas').remove();
         document.getElementById('MasCitasContainer').innerHTML = `
@@ -488,7 +488,7 @@ const graficaTop10 = async () => {
             console.log('Conteos:', topConteos);
 
             // Configuración de los datos para el gráfico
-            graphPieStyling('graficaTop10', 'Top 10 Servicios Más Solicitados y Otros', topServicios, topConteos);
+            graphPieStyling('graficaTop10', 'Top 10 servicios más solicitados y otros', topServicios, topConteos);
         } else {
             // Si hay 10 o menos servicios, simplemente grafica todos y agrega "Otros"
             const allServicios = servicios.slice(0, 10); // Limita a los primeros 10
@@ -504,7 +504,7 @@ const graficaTop10 = async () => {
             console.log('Servicios:', allServicios);
             console.log('Conteos:', allConteos);
 
-            graphPieStyling('graficaTop10', 'Top 10 Servicios Más Solicitados y Otros', allServicios, allConteos);
+            graphPieStyling('graficaTop10', 'Top 10 servicios más solicitados y otros', allServicios, allConteos);
         }
 
     } else {
