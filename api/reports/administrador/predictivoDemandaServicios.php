@@ -67,7 +67,7 @@ if ($dataCita = $cita->getDemandaServicioMensual()) {
         $pdf->setFillColor(22, 26, 29);
         $pdf->setTextColor(255, 255, 255);
         $pdf->setFont('Arial', 'B', 11);
-        $pdf->cell(104, 10, $pdf->encodeString('Total de servicios realizados'), 1, 0, 'C', 1);
+        $pdf->cell(104, 10, $pdf->encodeString('Total de servicios realizados en el año actual'), 1, 0, 'C', 1);
         $pdf->cell(82, 10, $pdf->encodeString($totalRealizados), 1, 1, 'C', 1);
         $pdf->Ln();
     }

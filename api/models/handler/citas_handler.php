@@ -21,80 +21,86 @@ class CitasHandler
 
     public function getDemandaServicioMensual()
     {
-        $sql = 'WITH servicios_por_mes AS (
-            SELECT
-                MONTH(s.fecha_aproximada_finalizacion) AS mes,
-                YEAR(s.fecha_aproximada_finalizacion) AS anio,
-                s.id_servicio,
-                COUNT(*) AS servicios_realizados
-            FROM
-                tb_servicios_en_proceso s
-            INNER JOIN
-                tb_citas c ON s.id_cita = c.id_cita
-            WHERE
-                s.fecha_aproximada_finalizacion IS NOT NULL
-                AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
-            GROUP BY
-                YEAR(s.fecha_aproximada_finalizacion),
-                MONTH(s.fecha_aproximada_finalizacion),
-                s.id_servicio
-        ),
-        servicios_esperados_por_mes AS (
-            SELECT
-                MONTH(s.fecha_aproximada_finalizacion) AS mes,
-                YEAR(s.fecha_aproximada_finalizacion) AS anio,
-                s.id_servicio,
-                COUNT(*) AS servicios_esperados
-            FROM
-                tb_servicios_en_proceso s
-            INNER JOIN
-                tb_citas c ON s.id_cita = c.id_cita
-            WHERE
-                s.fecha_aproximada_finalizacion > CURRENT_DATE()
-            GROUP BY
-                YEAR(s.fecha_aproximada_finalizacion),
-                MONTH(s.fecha_aproximada_finalizacion),
-                s.id_servicio
-        ),
-        servicios_totales AS (
-            SELECT DISTINCT
-                s.id_servicio,
-                s.nombre_servicio
-            FROM
-                tb_servicios s
-        )
+        $sql = 'WITH servicios_realizados_por_mes AS (
         SELECT
-            CASE meses.mes
-                WHEN 1 THEN "Enero"
-                WHEN 2 THEN "Febrero"
-                WHEN 3 THEN "Marzo"
-                WHEN 4 THEN "Abril"
-                WHEN 5 THEN "Mayo"
-                WHEN 6 THEN "Junio"
-                WHEN 7 THEN "Julio"
-                WHEN 8 THEN "Agosto"
-                WHEN 9 THEN "Septiembre"
-                WHEN 10 THEN "Octubre"
-                WHEN 11 THEN "Noviembre"
-                WHEN 12 THEN "Diciembre"
-            END AS mes_nombre,
-            st.nombre_servicio AS servicio,
-            IFNULL(se.servicios_esperados, 0) AS servicios_esperados,
-            IFNULL(sr.servicios_realizados, 0) AS servicios_realizados
+            MONTH(s.fecha_aproximada_finalizacion) AS mes,
+            YEAR(s.fecha_aproximada_finalizacion) AS anio,
+            s.id_servicio,
+            SUM(s.cantidad_servicio) AS servicios_realizados
         FROM
-            (
-                SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION
-                SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
-            ) AS meses
-        CROSS JOIN
-            servicios_totales st
-        LEFT JOIN
-            servicios_esperados_por_mes se ON meses.mes = se.mes AND YEAR(CURRENT_DATE()) = se.anio AND st.id_servicio = se.id_servicio
-        LEFT JOIN
-            servicios_por_mes sr ON meses.mes = sr.mes AND YEAR(CURRENT_DATE()) = sr.anio AND st.id_servicio = sr.id_servicio
-        ORDER BY
-            meses.mes,
-            st.nombre_servicio;';
+            tb_servicios_en_proceso s
+        INNER JOIN
+            tb_citas c ON s.id_cita = c.id_cita
+        WHERE
+            s.fecha_aproximada_finalizacion IS NOT NULL
+            AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
+            AND YEAR(s.fecha_aproximada_finalizacion) = YEAR(CURRENT_DATE()) -- Solo para el año actual
+        GROUP BY
+            YEAR(s.fecha_aproximada_finalizacion),
+            MONTH(s.fecha_aproximada_finalizacion),
+            s.id_servicio
+    ),
+    servicios_esperados_por_mes AS (
+        SELECT
+            MONTH(s.fecha_aproximada_finalizacion) AS mes,
+            YEAR(s.fecha_aproximada_finalizacion) AS anio,
+            s.id_servicio,
+            SUM(s.cantidad_servicio) AS servicios_esperados
+        FROM
+            tb_servicios_en_proceso s
+        INNER JOIN
+            tb_citas c ON s.id_cita = c.id_cita
+        WHERE
+            s.fecha_aproximada_finalizacion IS NOT NULL
+            AND s.fecha_aproximada_finalizacion < CURRENT_DATE() -- Cualquier fecha pasada
+            AND YEAR(s.fecha_aproximada_finalizacion) < YEAR(CURRENT_DATE()) -- Solo años anteriores
+        GROUP BY
+            YEAR(s.fecha_aproximada_finalizacion),
+            MONTH(s.fecha_aproximada_finalizacion),
+            s.id_servicio
+    ),
+    servicios_totales AS (
+        SELECT DISTINCT
+            s.id_servicio,
+            s.nombre_servicio
+        FROM
+            tb_servicios s
+    )
+    SELECT
+        CASE meses.mes
+            WHEN 1 THEN "Enero"
+            WHEN 2 THEN "Febrero"
+            WHEN 3 THEN "Marzo"
+            WHEN 4 THEN "Abril"
+            WHEN 5 THEN "Mayo"
+            WHEN 6 THEN "Junio"
+            WHEN 7 THEN "Julio"
+            WHEN 8 THEN "Agosto"
+            WHEN 9 THEN "Septiembre"
+            WHEN 10 THEN "Octubre"
+            WHEN 11 THEN "Noviembre"
+            WHEN 12 THEN "Diciembre"
+        END AS mes_nombre,
+        st.nombre_servicio AS servicio,
+        IFNULL(se.servicios_esperados, 0) AS servicios_esperados,
+        IFNULL(sr.servicios_realizados, 0) AS servicios_realizados
+    FROM
+        (
+            SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION
+            SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+        ) AS meses
+    CROSS JOIN
+        servicios_totales st
+    LEFT JOIN
+        servicios_esperados_por_mes se ON meses.mes = se.mes AND st.id_servicio = se.id_servicio
+    LEFT JOIN
+        servicios_realizados_por_mes sr ON meses.mes = sr.mes AND st.id_servicio = sr.id_servicio
+    GROUP BY
+        meses.mes,
+        st.nombre_servicio
+    ORDER BY
+        meses.mes,
+        st.nombre_servicio;';
         return Database::getRows($sql);
     }
 
