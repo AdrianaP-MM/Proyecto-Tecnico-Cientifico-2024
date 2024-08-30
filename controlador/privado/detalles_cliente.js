@@ -26,12 +26,12 @@ const DUI = document.getElementById('input_dui'),
     TIPO_CLIENTE_INPUT = document.getElementById('input_tipo_cliente');;
 
 
-let TIPO_CLIENTE;
+let TIPO_CLIENTEW = '';
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    fillData();
+    await fillData();
     graficaServiciosRecibidos();
 });
 
@@ -39,89 +39,29 @@ const graficaServiciosRecibidos = async () => {
 
     const FORM = new FormData();
     FORM.append('id_cliente', Number(getQueryParam('id_cliente')));
-    
-    const endpoint = TIPO_CLIENTE === 'natural' ? 'serviciosClienteNatural' : 'serviciosClienteJuridico';
+    console.log(TIPO_CLIENTEW);
+    const endpoint = TIPO_CLIENTEW === 'natural' ? 'serviciosClienteNatural' : 'serviciosClienteJuridico';
     const DATAServiciosClientes = await fetchData(CLIENTES_API, endpoint, FORM);
-    
-    if(DATAServiciosClientes.status){}
 
-
-    // Petición para obtener los datos del gráfico.
-    const DATAReparados = await fetchData(CITAS_API, 'autosReparados');
-    const DATAAReparar = await fetchData(CITAS_API, 'autosAReparar'); //PD: Ambos TIENEN en cuenta los autos repetidos, es decir, si un mismo auto llego en enero y luego en diciembre igual se cuenta
-    const DATAARepararPasado = await fetchData(CITAS_API, 'autosARepararPasado');
-    // Se comprueba si la respuesta es satisfactoria.
-    if (DATAReparados.status && DATAAReparar.status) {
+    if (DATAServiciosClientes.status) {
         // Se declaran los arreglos para guardar los datos a graficar.
-        const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        let reparados = Array(12).fill(0); // Inicializa con ceros
-        let aReparar = Array(12).fill(0); // Inicializa con ceros
-        let aRepararPasado = Array(12).fill(0);
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos reparados.
-        DATAReparados.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            reparados[mesIndex] = row.autos_reparados;
+        let Servicio = [];
+        let Cantidad = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATAServiciosClientes.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            Servicio.push(row.nombre_servicio);
+            Cantidad.push(row.cantidad_solicitudes);
         });
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar.
-        DATAAReparar.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            aReparar[mesIndex] = row.autos_esperados;
-        });
-
-        // Se recorre el conjunto de registros para obtener las cantidades de autos a reparar teniendo en cuenta solo el año pasado.
-        DATAARepararPasado.dataset.forEach(row => {
-            const mesIndex = row.mes - 1; // Ajuste porque el índice de mes es 1-based (1 a 12)
-            aRepararPasado[mesIndex] = row.autos_esperados;
-        });
-
-        // Log para verificar los datos antes de graficar
-        console.log('Reparados:', reparados);
-        console.log('A Reparar:', aReparar);
-        console.log('A Reparar(Pasado):', aRepararPasado)
-
-        // Configuración de los datos para el gráfico
-        const data = {
-            labels: Meses,
-            datasets: [
-                {
-                    label: 'Autos que se esperan reparar (Teniendo en cuenta todos los años)',
-                    fill: false,
-                    backgroundColor: 'rgb(211, 211, 211)',
-                    borderColor: 'rgb(211, 211, 211)',
-                    borderDash: [5, 5],
-                    data: aReparar,
-                },
-                {
-                    label: 'Autos que se esperan reparar (Teniendo en cuenta solo el año pasado)',
-                    fill: false,
-                    backgroundColor: 'rgb(255, 45, 49)',
-                    borderColor: 'rgb(255, 45, 49)',
-                    data: aRepararPasado,
-                    borderDash: [5, 5],
-                },
-                {
-                    label: 'Autos Reparados (Año actual)',
-                    backgroundColor: 'rgb(230, 69, 71)',
-                    borderColor: 'rgb(230, 69, 71)',
-                    data: reparados,
-                    fill: true,
-                }
-            ]
-        };
-
-        graphLineStyling('graficaServicios', 'Predicción de cantidad de carros que se espera reparar.', 'Meses', 'Cantidad de autos', data);
+        document.getElementById('graficaServiciosContainer').innerHTML = `
+            <canvas id="graficaServicios"></canvas> <!--Grafica-->`;
+        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+        doughnutGraph('graficaServicios', Servicio, Cantidad, 'Cantidad de servicios recibidos por el cliente.');
     } else {
-        document.getElementById('graficaServicios').remove();
-        var elements = document.getElementsByClassName('graphic');
-        for (var i = 0; i < elements.length; i++) {
-            elements[i].innerHTML = `
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-            </div>`;
-        }
-
+        document.getElementById('graficaServiciosContainer').innerHTML = `
+        <div class="d-flex align-items-center justify-content-center h-100">
+            <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
+        </div>`;
     }
 }
 
@@ -205,6 +145,11 @@ const openDelete = async () => {
     }
 }
 
+// Asignar valor a TIPO_CLIENTE según el tipo de cliente
+const asignarTipoCliente = (row) => {
+    TIPO_CLIENTEW = row.tipo_cliente === 'Persona natural' ? 'natural' : 'juridico';
+};
+
 /*
 *   Función asíncrona para llenar el contenedor de los clientes con los registros disponibles.
 *   Parámetros: form (objeto opcional con los datos de búsqueda).
@@ -220,6 +165,7 @@ const fillData = async () => {
     const DATA = await fetchData(CLIENTES_API, 'readOne', FORM);
     if (DATA.status) {
         const ROW = DATA.dataset;
+        asignarTipoCliente(ROW);
         let html = '';
 
         if (ROW.tipo_cliente == 'Persona natural') {
@@ -231,7 +177,6 @@ const fillData = async () => {
             NRF.classList.add('d-none');
             formSetValues(ROW);
             html = getPersonaNaturalTemplate(ROW);
-            TIPO_CLIENTE = 'natural';
         } else {
             RUBRO_COMERCIAL_DIV.classList.remove('d-none');
             RUBRO_COMERCIAL.classList.remove('d-none');
@@ -241,7 +186,6 @@ const fillData = async () => {
             NRF.classList.remove('d-none');
             formSetValues(ROW);
             html = getPersonaJuridicaTemplate(ROW);
-            TIPO_CLIENTE = 'juridico';
         }
 
         CLIENTE_DATA_CONTAINER.innerHTML = html;
@@ -349,7 +293,7 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
-        <div class="col2Row2 col-12 graphic p-4 shadow mb-2 mt-1">
+        <div class="col2Row2 col-10 graphic p-4 shadow mb-2 mt-1" id="graficaServiciosContainer">
             <canvas id="graficaServicios"></canvas> <!--Grafica-->
         </div>
     </div>
@@ -479,7 +423,7 @@ function getPersonaJuridicaTemplate(row) {
                 </div>
             </div>
             <!--Contenedor de la frecuencia del cliente-->
-            <div class="col2Row2 col-12 graphic p-4 shadow mb-5 mt-2">
+            <div class="col2Row2 col-10 graphic p-4 shadow mb-5 mt-2"  id="graficaServiciosContainer">
                 <canvas id="graficaServicios"></canvas> <!--Grafica-->
             </div>
         </div>

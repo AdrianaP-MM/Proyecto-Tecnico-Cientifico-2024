@@ -209,14 +209,18 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'serviciosClienteNatural':
-                if ($result['dataset'] = $cliente->serviciosClienteNatural()) {
+                if (!$cliente->setId($_POST['id_cliente'])) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($result['dataset'] = $cliente->serviciosClienteNatural()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No existen servicios';
                 }
                 break;
             case 'serviciosClienteJuridico':
-                if ($result['dataset'] = $cliente->serviciosClienteJuridico()) {
+                if (!$cliente->setId($_POST['id_cliente'])) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($result['dataset'] = $cliente->serviciosClienteJuridico()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No existen servicios';
