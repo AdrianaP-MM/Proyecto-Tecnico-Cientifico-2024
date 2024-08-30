@@ -516,6 +516,43 @@ VALUES
     (13, 10, 13),-- Reparación de motor turbo en cita 10
     (14, 1, 14),-- Limpieza de sistema de inyección en cita 1
     (15, 2, 1); -- Cambio de aceite sintético en cita 2 (para duplicado en top 10)
+
+    -- Inserciones para tb_especializaciones_trabajadores
+INSERT INTO tb_especializaciones_trabajadores (nombre_especializacion_trabajador, pago_por_especializacion)
+VALUES 
+    ('Mecánico General', 500.00),
+    ('Electricista Automotriz', 550.00),
+    ('Técnico en Suspensión', 530.00),
+    ('Especialista en Motores', 600.00),
+    ('Pintor Automotriz', 520.00);
+
+-- Inserciones para tb_trabajadores (Datos de 2022)
+INSERT INTO tb_trabajadores (id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base)
+VALUES 
+    (2, '543927644', '40494891', 'robin01@hotmail.com', 'Vickie', 'Burgess', 'East Johnburgh', '7384-498963-439-3', '2020-12-06', 594.33),
+    (1, '308856981', '16851057', 'xrodriguez@yahoo.com', 'Matthew', 'Glass', 'Rhondafort', '2863-508653-488-0', '2023-03-20', 638.01),
+    (5, '636037774', '49141630', 'herreraerika@white-evans.org', 'Michele', 'Conley', 'South Scottshire', '6616-757490-108-7', '2021-12-01', 595.73),
+    (1, '487842491', '14330495', 'joshua68@davis.biz', 'Samantha', 'Jones', 'Lake Autumn', '8439-885386-597-1', '2022-12-11', 603.33),
+    (5, '150590133', '84794197', 'katherine15@yahoo.com', 'Gabriel', 'Vaughn', 'New Jaredhaven', '9323-658057-965-0', '2024-04-22', 604.36),
+    (2, '849815787', '47259906', 'julie97@hotmail.com', 'Joseph', 'Rogers', 'North Meganton', '7441-901171-776-7', '2021-10-10', 616.26),
+    (3, '146243898', '51875858', 'emadden@lara-jones.com', 'Melissa', 'Mcdonald', 'Aprilfort', '7931-160353-452-6', '2022-07-01', 637.61),
+    (4, '346931698', '96474653', 'pjohnson@choi.com', 'Garrett', 'Weaver', 'Lake Benjamin', '1811-422927-640-6', '2021-04-06', 638.21),
+    (4, '968932781', '63992893', 'jcollins@rodriguez.com', 'William', 'Johnson', 'East April', '7146-638042-912-3', '2022-10-05', 591.96),
+    (3, '361014114', '30821162', 'imartin@gmail.com', 'Angela', 'Ramos', 'Lake Pamela', '7168-174031-655-8', '2023-10-18', 605.55);
+
+
+-- Inserciones para tb_trabajadores (Datos de 2023)
+INSERT INTO tb_trabajadores (id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base)
+VALUES 
+    (2, '467147969', '88476733', 'marshsamantha@jacobs.com', 'Christopher', 'Hays', 'New Keithland', '9060-433011-994-0', '2024-08-11', 593.76),
+    (4, '261625641', '21652424', 'fmcintyre@gmail.com', 'Joseph', 'Robertson', 'North Andre', '7838-404280-540-5', '2024-05-01', 625.48),
+    (1, '155645057', '77829279', 'rachel97@hotmail.com', 'Andrew', 'Alvarez', 'Riversburgh', '8173-581541-111-0', '2024-08-18', 618.82),
+    (4, '121647002', '29054540', 'johnmartin@martinez.org', 'Thomas', 'Pope', 'North Edwardberg', '6673-100837-619-8', '2024-01-22', 595.58),
+    (5, '271447962', '90090280', 'darrellgonzales@hale-johnson.org', 'Marissa', 'Crawford', 'North Rodney', '7273-221035-186-3', '2024-05-14', 625.42),
+    (1, '329030882', '22064937', 'bmurphy@hotmail.com', 'Samuel', 'Harris', 'New Angelabury', '5428-917946-803-3', '2024-02-02', 608.44),
+    (3, '335884471', '68719770', 'kaitlynkeith@thornton.com', 'Martin', 'Rodriguez', 'Parkerstad', '3380-427439-841-0', '2024-08-16', 629.40),
+    (4, '639581419', '68352187', 'erica51@barnes.com', 'Brittany', 'Goodman', 'Arnoldmouth', '5640-662126-234-6', '2024-06-12', 636.26),
+    (4, '884769699', '95427727', 'claudiajimenez@gmail.com', 'Mary', 'Roberts', 'Wademouth', '5253-964811-392-6', '2024-05-20', 633.26);
         
         
 #--------------------------------------------------------------------------------- USADO EN GRAFICO PREDICTIVO 1 (ADRIANA)
