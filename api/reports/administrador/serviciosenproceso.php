@@ -24,6 +24,8 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
 
     // Se establece un color de relleno para los encabezados.
     $pdf->setFillColor(199, 0, 57);
+    // Color para los encabezados
+    $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 7); // Se reduce el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
@@ -35,6 +37,8 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     $pdf->cell(18, 6, 'Placa', 1, 0, 'C', 1);
     $pdf->cell(40, 6, 'Servicio', 1, 1, 'C', 1);
 
+    // Se establece un color de texto para los datos (por ejemplo, negro)
+    $pdf->setTextColor(0, 0, 0);
     // Se establece la fuente para los datos de los servicios.
     $pdf->setFont('Arial', '', 7); // Se reduce el tamaño de la fuente
 
