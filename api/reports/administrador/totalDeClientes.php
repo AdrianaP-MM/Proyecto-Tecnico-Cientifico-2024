@@ -23,17 +23,17 @@ if ($dataCliente = $cliente->readAllReport()) {
     // Establecer color de texto a blanco
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(35, 10, 'Fecha de registro', 1, 0, 'C', 1);
+    $pdf->cell(35, 10, 'Fecha de registro', 0, 0, 'C', 1);
     $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(24, 10, 'DUI', 1, 0, 'C', 1);
+    $pdf->cell(24, 10, 'DUI', 0, 0, 'C', 1);
     $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(34, 10, 'Nombre', 1, 0, 'C', 1);
+    $pdf->cell(34, 10, 'Nombre', 0, 0, 'C', 1);
     $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(34, 10, 'Apellido', 1, 0, 'C', 1);
+    $pdf->cell(34, 10, 'Apellido', 0, 0, 'C', 1);
     $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(29, 10, 'Tipo de cliente', 1, 0, 'C', 1);
+    $pdf->cell(29, 10, 'Tipo de cliente', 0, 0, 'C', 1);
     $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(19, 10, 'Estado', 1, 1, 'C', 1);
+    $pdf->cell(19, 10, 'Estado', 0, 1, 'C', 1);
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
     // Establecer color de texto a blanco
