@@ -440,7 +440,7 @@ const graficaClientesMasCitas = async () => {
         document.getElementById('MasCitasContainer').innerHTML = `
         <div class="d-flex align-items-center justify-content-center h-100">
             <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
-        </div>`;   
+        </div>`;
     }
 };
 
@@ -699,14 +699,18 @@ const openReportHistorialserviciosCliente = () => {
     console.log("Tipo de Servicio:", tipoServicio);
 
     // Verifica que se hayan proporcionado valores válidos
-    if (!idCliente || !tipoServicio) {
+    if (!duiInput || !tipoServicio) {
         sweetAlert(4, 'Por favor, ingrese el DUI y seleccione un tipo de servicio.', true);
         return;
+    } else {
+        if (!idCliente) {
+            sweetAlert(4, 'No se encontró al cliente con ese DUI.', true);
+            return;
+        }
     }
 
     // Crea la URL con los parámetros
     const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosHistorialCliente.php?dui=${encodeURIComponent(idCliente)}&tipo=${encodeURIComponent(tipoServicio)}`);
-
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
     console.log(PATH.href);
