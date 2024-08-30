@@ -272,7 +272,7 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
-    
+
     // Método para mostrar todos los clientes
     public function readAllReport()
     {
@@ -307,10 +307,10 @@ class ClienteHandler
     public function readClientesMesTipos()
     {
         $sql = 'SELECT * 
-            FROM vw_clientes_por_mes_y_tipo
-            WHERE YEAR(fecha_registro_cliente) = ?
-            GROUP BY mes, tipo_cliente
-            ORDER BY mes ASC, tipo_cliente;';
+        FROM vw_clientes_por_mes_y_tipo
+        WHERE año_registro = ?
+        ORDER BY mes ASC, tipo_cliente;
+        ';
         $params = array(
             $this->fecha_registro_cliente
         );

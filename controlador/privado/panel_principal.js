@@ -381,10 +381,29 @@ const graficaClientesMesTipos = async (año) => {
             ]
         };
 
+        // Verifica si el canvas ya existe, en cuyo caso lo elimina antes de crear uno nuevo
+        let canvas = document.getElementById('clientesMesTipos');
+        if (canvas) {
+            canvas.remove();
+        }
+
+        // Crea un nuevo canvas y lo añade al contenedor
+        const newCanvas = document.createElement('canvas');
+        newCanvas.id = 'clientesMesTipos';
+        document.getElementById('clientesMesTiposContainer').appendChild(newCanvas);
+
+        // Dibuja el gráfico en el nuevo canvas
         graphLineStyling('clientesMesTipos', 'Cantidad de clientes registrados por mes según su tipo.', 'Meses', 'Cantidad de clientes', data);
+
     } else {
-        document.getElementById('clientesMesTipos').remove();
-        document.getElementById('clientesMesTiposContainer').innerHTML = `
+        // Si no hay datos, elimina solo el canvas y muestra el mensaje
+        let canvas = document.getElementById('clientesMesTipos');
+        if (canvas) {
+            canvas.remove();
+        }
+
+        // Añade el mensaje de "No hay datos para mostrar" al contenedor
+        document.getElementById('clientesMesTiposContainer').innerHTML += `
         <div class="d-flex align-items-center justify-content-center h-100">
             <h6 class="open-sans-semiBold m-0 p-0 text-center">No hay datos para mostrar</h6>
         </div>`;

@@ -305,6 +305,26 @@
         ('2023-05-20', '00000002', '24440000', 'cliente13@ejemplo.com', 'Fábrica S.A.', 'E', 'Persona juridica', 'Santa Ana', '3333-333333-333-3', '20436755', '00964738291', 'Belleza', 'Activo'),
         ('2023-02-10', '00000003', '21210000', 'cliente14@ejemplo.com', 'Importadora AAA', 'E', 'Persona juridica', 'San Miguel', '4444-444444-444-4', '63520984', '9453376281', 'Calzado', 'Activo'),
         ('2023-07-05', '00000004', '25250000', 'cliente15@ejemplo.com', 'Consultores B.B.', 'E', 'Persona juridica', 'San Vicente', '5555-555555-555-5', '284530093', '16437283971', 'Alimenticio', 'Activo');
+
+        -- Nuevas inserciones para personas naturales
+INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, estado_cliente)
+VALUES 
+    ('2021-03-12', '234567890', '33334444', 'cliente6@ejemplo.com', 'Luis', 'Castro', 'Persona natural', 'Sonsonate', '2333-333333-333-0', 'Activo'),
+    ('2020-08-19', '345678901', '44445555', 'cliente7@ejemplo.com', 'Elena', 'Morales', 'Persona natural', 'Ahuachapán', '3444-444444-444-0', 'Activo'),
+    ('2019-11-25', '456789012', '55556666', 'cliente8@ejemplo.com', 'Ricardo', 'Mendoza', 'Persona natural', 'Usulután', '4555-555555-555-0', 'Activo'),
+    ('2022-04-10', '567890123', '66667777', 'cliente9@ejemplo.com', 'Gabriela', 'Hernández', 'Persona natural', 'Chalatenango', '5666-666666-666-0', 'Activo'),
+    ('2023-06-15', '678901234', '88889999', 'cliente10@ejemplo.com', 'Francisco', 'Ortiz', 'Persona natural', 'La Paz', '6777-777777-777-0', 'Activo');
+
+    -- Nuevas inserciones para personas jurídicas
+INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, NRC_cliente, NRF_cliente, rubro_comercial, estado_cliente)
+VALUES 
+    ('2021-02-14', '00000005', '33331111', 'cliente16@ejemplo.com', 'Servicios Globales', 'E', 'Persona juridica', 'La Unión', '6666-666666-666-6', '35435436', '27483590235', 'Automotriz', 'Activo'),
+    ('2020-09-21', '00000006', '44441111', 'cliente17@ejemplo.com', 'Comercializadora XYZ', 'E', 'Persona juridica', 'Morazán', '7777-777777-777-7', '46464546', '37494610294', 'Belleza', 'Activo'),
+    ('2019-12-03', '00000007', '55551111', 'cliente18@ejemplo.com', 'Industria ABC', 'E', 'Persona juridica', 'Cuscatlán', '8888-888888-888-8', '54545455', '47394560295', 'Calzado', 'Activo'),
+    ('2022-05-18', '00000008', '66661111', 'cliente19@ejemplo.com', 'Tecnologías S.A.', 'E', 'Persona juridica', 'San Vicente', '9999-999999-999-9', '64646465', '57483670296', 'Alimenticio', 'Activo'),
+    ('2023-07-22', '00000009', '77771111', 'cliente20@ejemplo.com', 'Consultores XY', 'E', 'Persona juridica', 'Santa Ana', '0000-111111-111-0', '74657466', '67492780397', 'Automotriz', 'Activo');
+
+
         
     -- Inserts para marcas de automóviles
     INSERT INTO tb_marcas_automoviles (nombre_marca_automovil)
@@ -596,20 +616,22 @@ tipos_cliente AS (
 SELECT 
     m.mes,
     t.tipo_cliente,
+    EXTRACT(YEAR FROM c.fecha_registro_cliente) AS año_registro,
     COALESCE(COUNT(c.id_cliente), 0) AS cantidad_clientes
 FROM meses m
 CROSS JOIN tipos_cliente t
 LEFT JOIN tb_clientes c
     ON MONTH(c.fecha_registro_cliente) = m.mes
-    AND YEAR(c.fecha_registro_cliente) = YEAR(CURDATE())
     AND c.tipo_cliente = t.tipo_cliente
     AND c.estado_cliente = 'Activo'
 GROUP BY 
     m.mes,
-    t.tipo_cliente
+    t.tipo_cliente,
+    EXTRACT(YEAR FROM c.fecha_registro_cliente)
 ORDER BY 
     m.mes ASC,
     t.tipo_cliente;
+
 
 
 CREATE VIEW vw_top_10_servicios AS
