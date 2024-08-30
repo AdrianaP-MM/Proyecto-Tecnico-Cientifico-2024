@@ -18,7 +18,7 @@ $pdf->startReport('Servicios pendientes');
 if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
 
     // Organizar los datos por estado (primero "espera", luego "aceptado").
-    usort($dataServicios, function($a, $b) {
+    usort($dataServicios, function ($a, $b) {
         return strcmp($a['estado_cita'], $b['estado_cita']);
     });
 
@@ -27,37 +27,36 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Color para los encabezados
     $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
-    $pdf->setFont('Arial', 'B', 7); // Se reduce el tamaño de la fuente
+    $pdf->setFont('Arial', 'B', 9); // Aumentar el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(25, 6, 'Fecha Reg.', 1, 0, 'C', 1); // Reducir el ancho de las columnas
-    $pdf->cell(25, 6, 'Fecha Aprox.', 1, 0, 'C', 1);
-    $pdf->cell(14, 6, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->cell(20, 6, 'Estado', 1, 0, 'C', 1);
-    $pdf->cell(24, 6, 'Modelo Auto', 1, 0, 'C', 1);
-    $pdf->cell(18, 6, 'Placa', 1, 0, 'C', 1);
-    $pdf->cell(40, 6, 'Servicio', 1, 1, 'C', 1);
+    $pdf->cell(33, 8, 'Fecha Reg.', 1, 0, 'C', 1); // Aumentar el ancho y alto de las columnas
+    $pdf->cell(33, 8, 'Fecha Aprox.', 1, 0, 'C', 1);
+    $pdf->cell(15, 8, 'Cantidad', 1, 0, 'C', 1);
+    $pdf->cell(25, 8, 'Estado', 1, 0, 'C', 1);
+    $pdf->cell(25, 8, 'Modelo Auto', 1, 0, 'C', 1);
+    $pdf->cell(20, 8, 'Placa', 1, 0, 'C', 1);
+    $pdf->cell(45, 8, 'Servicio', 1, 1, 'C', 1);
 
     // Se establece un color de texto para los datos (por ejemplo, negro)
     $pdf->setTextColor(0, 0, 0);
     // Se establece la fuente para los datos de los servicios.
-    $pdf->setFont('Arial', '', 7); // Se reduce el tamaño de la fuente
+    $pdf->setFont('Arial', '', 9); // Aumentar el tamaño de la fuente
 
     // Se recorren los registros fila por fila.
     foreach ($dataServicios as $rowServicio) {
         // Se imprimen las celdas con los datos de los servicios, dejando en blanco si no existe el dato.
-        $pdf->cell(25, 6, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
-        $pdf->cell(25, 6, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
-        $pdf->cell(14, 6, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 0);
-        $pdf->cell(20, 6, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
-        $pdf->cell(24, 6, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
-        $pdf->cell(18, 6, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
-        $pdf->cell(40, 6, isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : '', 1, 1);
+        $pdf->cell(33, 8, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
+        $pdf->cell(33, 8, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
+        $pdf->cell(15, 8, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 0);
+        $pdf->cell(25, 8, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
+        $pdf->cell(25, 8, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
+        $pdf->cell(20, 8, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
+        $pdf->cell(45, 8, $pdf->encodeString(isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : ''), 1, 1);
     }
 } else {
     // Si no hay datos, se muestra un mensaje.
-    $pdf->cell(0, 10, $pdf->encodeString('No hay servicios para mostrar'), 1, 1);
+    $pdf->cell(0, 10, $pdf->encodeString('No hay servicios pendientes para mostrar'), 1, 1);
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'servicios_pendientes.pdf');
-?>
