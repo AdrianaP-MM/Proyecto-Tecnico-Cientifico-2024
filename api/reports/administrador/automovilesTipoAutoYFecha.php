@@ -75,5 +75,5 @@ if ($fechaInicial && $fechaFinal && $tipoAutoId) {
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'reporte_servicios.pdf');
+$pdf->output('I', 'Reporte automoviles: Tipo y rango de fechas.pdf');
 ?>

@@ -68,5 +68,5 @@ if ($estadoCita && $duiCliente) {
 }
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
-$pdf->output('I', 'citas.pdf');
+$pdf->output('I', 'Reporte citas: Tipo automovil y cliente.pdf');
 ?>
