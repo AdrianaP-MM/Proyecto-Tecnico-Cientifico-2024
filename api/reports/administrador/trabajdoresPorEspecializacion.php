@@ -23,9 +23,11 @@ if ($dataTrabajador = $trabajador->readAllReporte()) {
     // Establecer color de texto a blanco
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(75, 10, 'Nombre del trabajador', 1, 0, 'C', 1);
-    $pdf->cell(60, 10, 'Departamento', 1, 0, 'C', 1);
-    $pdf->cell(45, 10, 'Fecha contratado', 1, 1, 'C', 1);
+    $pdf->cell(75, 10, 'Nombre del trabajador', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(60, 10, 'Departamento', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(43, 10, 'Fecha contratado', 0, 1, 'C', 1);
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
     $groupedByDate = [];
@@ -36,9 +38,9 @@ if ($dataTrabajador = $trabajador->readAllReporte()) {
     // Iterar sobre las fechas agrupadas
     foreach ($groupedByDate as $date => $rows) {
         // Establecer color de texto a blanco
-        $pdf->setTextColor(255, 255, 255);
+        $pdf->setTextColor(0, 0, 0);
         $pdf->setFont('Arial', 'B', 11);
-        $pdf->setFillColor(177, 167, 166);
+        $pdf->setFillColor(234, 234, 234);
         $pdf->cell(180, 10, $pdf->encodeString($date), 1, 1, 'C', 1);
         // Se recorren los registros fila por fila.
         foreach ($rows as $rowAuto) {
