@@ -20,24 +20,28 @@ if ($dataCliente = $cliente->readAllReport()) {
     $pdf->setFillColor(199, 0, 57);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
+    // Establecer color de texto a blanco
+    $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(30, 10, 'Fecha de registro', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'DUI', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'Nombre', 1, 1, 'C', 1);
-    $pdf->cell(30, 10, 'Apellido', 1, 1, 'C', 1);
-    $pdf->cell(30, 10, 'Tipo de cliente', 1, 1, 'C', 1);
-    $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
+    $pdf->cell(35, 10, 'Fecha de registro', 1, 0, 'C', 1);
+    $pdf->cell(25, 10, 'DUI', 1, 0, 'C', 1);
+    $pdf->cell(35, 10, 'Nombre', 1, 0, 'C', 1);
+    $pdf->cell(35, 10, 'Apellido', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, 'Tipo de cliente', 1, 0, 'C', 1);
+    $pdf->cell(20, 10, 'Estado', 1, 1, 'C', 1);
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
+    // Establecer color de texto a blanco
+    $pdf->setTextColor(0, 0, 0);
     // Se recorren los registros fila por fila.
     foreach ($dataCliente as $rowCliente) {
         // Se imprimen las celdas con los datos de los productos.
-        $pdf->cell(30, 10, $pdf->encodeString($rowCliente['fecha_registro_cliente']), 1, 0);
-        $pdf->cell(30, 10, $pdf->encodeString($rowCliente['dui_cliente']), 1, 0);
-        $pdf->cell(30, 10, $pdf->encodeString($rowCliente['nombres_cliente']), 1, 0);
-        $pdf->cell(30, 10, $pdf->encodeString($rowCliente['apellidos_cliente']), 1, 0);
+        $pdf->cell(35, 10, $pdf->encodeString($rowCliente['fecha_registro_cliente']), 1, 0);
+        $pdf->cell(25, 10, $pdf->encodeString($rowCliente['dui_cliente']), 1, 0);
+        $pdf->cell(35, 10, $pdf->encodeString($rowCliente['nombres_cliente']), 1, 0);
+        $pdf->cell(35, 10, $pdf->encodeString($rowCliente['apellidos_cliente']), 1, 0);
         $pdf->cell(30, 10, $pdf->encodeString($rowCliente['tipo_cliente']), 1, 0);
-        $pdf->cell(30, 10, $pdf->encodeString($rowCliente['estado_cliente']), 1, 1);
+        $pdf->cell(20, 10, $pdf->encodeString($rowCliente['estado_cliente']), 1, 1);
     }
 } else {
     $pdf->cell(0, 10, $pdf->encodeString('No hay clientes para mostrar'), 1, 1);

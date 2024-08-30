@@ -63,7 +63,7 @@ class Report extends FPDF
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
-        $this->cell(65, 10, $this->encodeString($this->title), 0, 1, 'C');
+        $this->cell(85, 10, $this->encodeString($this->title), 0, 1, 'C');
         // Se ubica la fecha y hora del servidor.
         $this->cell(20 );
         $this->setFont('Arial', '', 10);
