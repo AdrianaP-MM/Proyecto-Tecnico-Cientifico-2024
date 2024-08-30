@@ -24,24 +24,27 @@ class ServicioHandler
     public function readReportFrecuenciaServicio()
     {
         $sql = 'SELECT 
-        c.nombres_cliente,
-        c.apellidos_cliente,
-        s.nombre_servicio,
-        a.modelo_automovil,
-        ct.fecha_hora_cita AS fecha_cita
-        FROM 
-        tb_citas ct
-        INNER JOIN 
-        tb_automoviles a ON ct.id_automovil = a.id_automovil
-        INNER JOIN 
-        tb_clientes c ON a.id_cliente = c.id_cliente
-        INNER JOIN 
-        tb_servicios s ON ct.id_servicio = s.id_servicio
-        WHERE 
-        c.id_cliente = ?
-        AND s.id_servicio = ?
-        ORDER BY 
-        ct.fecha_hora_cita;';
+                    c.nombres_cliente,
+                    c.apellidos_cliente,
+                    s.nombre_servicio,
+                    a.modelo_automovil,
+                    ct.fecha_hora_cita AS fecha_cita
+                FROM 
+                    tb_citas ct
+                INNER JOIN 
+                    tb_automoviles a ON ct.id_automovil = a.id_automovil
+                INNER JOIN 
+                    tb_clientes c ON a.id_cliente = c.id_cliente
+                INNER JOIN 
+                    tb_servicios_en_proceso sep ON ct.id_cita = sep.id_cita
+                INNER JOIN 
+                    tb_servicios s ON sep.id_servicio = s.id_servicio
+                WHERE 
+                    c.id_cliente = ?
+                    AND s.id_servicio = ?
+                ORDER BY 
+                    ct.fecha_hora_cita 
+                LIMIT 0, 25;';
         $params = array($this->id_cliente, $this->id_servicio);
         return Database::getRows($sql, $params);
     }

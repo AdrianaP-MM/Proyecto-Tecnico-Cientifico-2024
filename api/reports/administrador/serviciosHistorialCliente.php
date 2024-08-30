@@ -29,8 +29,8 @@ if ($duiCliente && $idServicio) {
             // Se establece un color de relleno para los encabezados.
             $pdf->setFillColor(186, 24, 27);
             // Se imprimen las celdas con los encabezados.
-            $pdf->cell(60, 10, 'Nombre del cliente', 1, 0, 'C', 1);
-            $pdf->cell(50, 10, 'Modelo del automóvil', 1, 0, 'C', 1);
+            $pdf->cell(40, 10, 'Nombre del cliente', 1, 0, 'C', 1);
+            $pdf->cell(50, 10, $pdf->encodeString ('Modelo del automóvil'), 1, 0, 'C', 1);
             $pdf->cell(50, 10, 'Nombre del servicio', 1, 0, 'C', 1);
             $pdf->cell(40, 10, 'Fecha de cita', 1, 1, 'C', 1);
             // Se establece la fuente para los datos de los productos.
@@ -38,7 +38,7 @@ if ($duiCliente && $idServicio) {
             // Se recorren los registros fila por fila.
             foreach ($dataCitas as $rowCita) {
                 // Se imprimen las celdas con los datos de los productos.
-                $pdf->cell(60, 10, $pdf->encodeString($rowCita['nombres_cliente'] . ' ' . $rowCita['apellidos_cliente']), 1, 0);
+                $pdf->cell(40, 10, $pdf->encodeString($rowCita['nombres_cliente'] . ' ' . $rowCita['apellidos_cliente']), 1, 0);
                 $pdf->cell(50, 10, $pdf->encodeString($rowCita['modelo_automovil']), 1, 0);
                 $pdf->cell(50, 10, $pdf->encodeString($rowCita['nombre_servicio']), 1, 0);
                 $pdf->cell(40, 10, $pdf->encodeString($rowCita['fecha_cita']), 1, 1);
