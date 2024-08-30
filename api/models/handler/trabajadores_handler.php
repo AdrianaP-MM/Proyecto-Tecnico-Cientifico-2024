@@ -167,6 +167,18 @@ class TrabajadoresHandler
         return Database::getRow($sql, $params); //Ejecución de la consulta SQL
     }
 
+    // Método para campos de todos los trabajadores
+    public function readAllReporte()
+    {
+        //consulta SQL para seleccionar todos los trabajadores de la tabla
+        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, 
+        correo_trabajador, CONCAT(nombres_trabajador , " ", apellidos_trabajador) AS trabajador, departamento_trabajador, NIT_trabajador, 
+        fecha_contratacion, salario_base, nombre_especializacion_trabajador, id_especializacion_trabajador
+        FROM tb_trabajadores
+        INNER JOIN tb_especializaciones_trabajadores USING(id_especializacion_trabajador)';
+        return Database::getRows($sql); //Ejecución de la consulta SQL
+    }
+
     public function readEspecializaciones()
     {
         // Consulta SQL para seleccionar los campos del combo box
