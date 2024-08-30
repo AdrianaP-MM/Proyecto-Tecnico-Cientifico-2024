@@ -820,3 +820,17 @@ document.getElementById('input_dui_report_servicios').addEventListener('input', 
         }, false)
     })
 })()
+
+document.getElementById('agno_contratacion').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/\D/g, '');
+
+    // Asegurar que no haya más de 4 dígitos
+    inputValue = inputValue.slice(0, 4);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});

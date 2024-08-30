@@ -31,6 +31,20 @@ class ClienteHandler
     protected $marcas_seleccionadas = null;
     protected $servicios_seleccionados = null;
 
+    public function serviciosClienteNatural()
+    {
+        $sql = 'CALL sp_servicios_solicitados_por_consumidor_final(?);';
+        $params = array($this->id_cliente);
+        return Database::getRows($sql, $params);
+    }
+
+    public function serviciosClienteJuridico()
+    {
+        $sql = 'CALL sp_servicios_solicitados_por_credito_fiscal(?);';
+        $params = array($this->id_cliente);
+        return Database::getRows($sql, $params);
+    }
+
     public function searchRows()
     {
         //var_dump($this->marcas_seleccionadas);

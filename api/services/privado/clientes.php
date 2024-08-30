@@ -208,6 +208,20 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            case 'serviciosClienteNatural':
+                if ($result['dataset'] = $cliente->serviciosClienteNatural()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios';
+                }
+                break;
+            case 'serviciosClienteJuridico':
+                if ($result['dataset'] = $cliente->serviciosClienteJuridico()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen servicios';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }

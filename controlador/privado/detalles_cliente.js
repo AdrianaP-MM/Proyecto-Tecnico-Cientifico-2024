@@ -32,10 +32,20 @@ let TIPO_CLIENTE;
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     fillData();
-    graficaAutosReparar();
+    graficaServiciosRecibidos();
 });
 
-const graficaAutosReparar = async () => {
+const graficaServiciosRecibidos = async () => {
+
+    const FORM = new FormData();
+    FORM.append('id_cliente', Number(getQueryParam('id_cliente')));
+    
+    const endpoint = TIPO_CLIENTE === 'natural' ? 'serviciosClienteNatural' : 'serviciosClienteJuridico';
+    const DATAServiciosClientes = await fetchData(CLIENTES_API, endpoint, FORM);
+    
+    if(DATAServiciosClientes.status){}
+
+
     // Petición para obtener los datos del gráfico.
     const DATAReparados = await fetchData(CITAS_API, 'autosReparados');
     const DATAAReparar = await fetchData(CITAS_API, 'autosAReparar'); //PD: Ambos TIENEN en cuenta los autos repetidos, es decir, si un mismo auto llego en enero y luego en diciembre igual se cuenta
@@ -221,6 +231,7 @@ const fillData = async () => {
             NRF.classList.add('d-none');
             formSetValues(ROW);
             html = getPersonaNaturalTemplate(ROW);
+            TIPO_CLIENTE = 'natural';
         } else {
             RUBRO_COMERCIAL_DIV.classList.remove('d-none');
             RUBRO_COMERCIAL.classList.remove('d-none');
@@ -230,6 +241,7 @@ const fillData = async () => {
             NRF.classList.remove('d-none');
             formSetValues(ROW);
             html = getPersonaJuridicaTemplate(ROW);
+            TIPO_CLIENTE = 'juridico';
         }
 
         CLIENTE_DATA_CONTAINER.innerHTML = html;
