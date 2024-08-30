@@ -25,7 +25,7 @@ if ($id_automovil) {
 
     if ($dataAutos) {
         // Se establece un color de relleno para los encabezados.
-        $pdf->setFillColor(200, 192, 203);
+        $pdf->setFillColor(186, 24, 27);
         // Se establece la fuente para los encabezados.
         $pdf->setFont('Arial', 'B', 11);
         // Se imprimen las celdas con los encabezados.

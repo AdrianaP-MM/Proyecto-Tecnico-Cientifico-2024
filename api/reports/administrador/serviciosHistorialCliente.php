@@ -27,7 +27,7 @@ if ($duiCliente && $idServicio) {
             // Establecer la fuente antes de cualquier impresión
             $pdf->setFont('Arial', 'B', 11);
             // Se establece un color de relleno para los encabezados.
-            $pdf->setFillColor(255, 192, 203);
+            $pdf->setFillColor(186, 24, 27);
             // Se imprimen las celdas con los encabezados.
             $pdf->cell(60, 10, 'Nombre del cliente', 1, 0, 'C', 1);
             $pdf->cell(50, 10, 'Modelo del automóvil', 1, 0, 'C', 1);
