@@ -23,7 +23,7 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     });
 
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(199, 0, 57);
+    $pdf->setFillColor(186, 24, 27);
     // Color para los encabezados
     $pdf->setTextColor(255, 255, 255);
     // Se establece la fuente para los encabezados.
