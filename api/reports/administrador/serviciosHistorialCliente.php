@@ -28,13 +28,21 @@ if ($duiCliente && $idServicio) {
             $pdf->setFont('Arial', 'B', 11);
             // Se establece un color de relleno para los encabezados.
             $pdf->setFillColor(186, 24, 27);
+            // Restablecer el color del texto a negro.
+            $pdf->setTextColor(255, 255, 255);
             // Se imprimen las celdas con los encabezados.
-            $pdf->cell(40, 10, 'Nombre del cliente', 1, 0, 'C', 1);
-            $pdf->cell(50, 10, $pdf->encodeString ('Modelo del automóvil'), 1, 0, 'C', 1);
-            $pdf->cell(50, 10, 'Nombre del servicio', 1, 0, 'C', 1);
-            $pdf->cell(40, 10, 'Fecha de cita', 1, 1, 'C', 1);
+            $pdf->cell(39, 10, 'Nombre del cliente', 0, 0, 'C', 1);
+            $pdf->cell(1, 5, '', 0, 0, 'C');
+            $pdf->cell(49, 10, $pdf->encodeString('Modelo del automóvil'), 0, 0, 'C', 1);
+            $pdf->cell(1, 5, '', 0, 0, 'C');
+            $pdf->cell(50, 10, 'Nombre del servicio', 0, 0, 'C', 1);
+            $pdf->cell(1, 5, '', 0, 0, 'C');
+            $pdf->cell(39, 10, 'Fecha de cita', 0, 1, 'C', 1);
+            // Restablecer el color del texto a negro.
+            $pdf->setTextColor(0, 0, 0);
             // Se establece la fuente para los datos de los productos.
             $pdf->setFont('Arial', '', 11);
+
             // Se recorren los registros fila por fila.
             foreach ($dataCitas as $rowCita) {
                 // Se imprimen las celdas con los datos de los productos.

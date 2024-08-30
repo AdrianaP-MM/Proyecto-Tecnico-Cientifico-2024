@@ -30,9 +30,11 @@ if ($dataCita = $cita->getTiempoAtencionNatural()) {
 
     $pdf->setFont('Arial', '', 11);
     $groupedByTipo = [];
+
     // Agrupar los datos por tipo
     foreach ($dataCita as $rowTipo) {
-        $tipo = $rowTipo['Tipo'];
+        // Codificar el valor del tipo usando $pdf->encodeString
+        $tipo = $pdf->encodeString($rowTipo['Tipo']);
         $groupedByTipo[$tipo][] = $rowTipo;
     }
 
@@ -43,7 +45,7 @@ if ($dataCita = $cita->getTiempoAtencionNatural()) {
         $pdf->setTextColor(0, 0, 0);
         $pdf->setFont('Arial', 'B', 11);
         $pdf->cell(192, 10, strtoupper($tipo), 1, 1, 'C', true);
-        
+
         $totalMinutes = 0;
         $count = 0;
 
