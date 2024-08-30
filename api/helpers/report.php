@@ -55,21 +55,23 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../images/report/1.png', 170, 0, 50);
-        $this->image('../../images/report/5.png', 0, 1, 35);
-        $this->image('../../images/report/2.png', 198, 75, 35);
-        $this->image('../../images/report/6.png', -18, 110, 35);
-        $this->image('../../images/report/logo_1.png', 15, 12, 25);
+        $this->image('../../images/report/1.png', 0, 0, 35 );
+        $this->image('../../images/report/5.png', 185, -24, 35);
+        $this->image('../../images/report/2.png', 198, 85, 35);
+        $this->image('../../images/report/6.png', -18, 120, 35);
+        $this->image('../../images/report/logo_3.png', 0, 1, 30);
+        // Se ubica la fecha y hora del servidor.
+        $this->cell(20);
+        $this->setFont('Arial', '', 10);
+        $this->setXY(15, 20); // Ajustar posición inicial para la fecha.
+        $this->cell(0, 5, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se ubica el título.
         $this->cell(20);
-        $this->setFont('Arial', 'B', 15);
-        $this->cell(85, 10, $this->encodeString($this->title), 0, 1, 'C');
-        // Se ubica la fecha y hora del servidor.
-        $this->cell(20 );
-        $this->setFont('Arial', '', 10);
-        $this->cell(68, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->setFont('Arial', 'B', 13); // Reducir la fuente del título.
+        $this->setXY(15, 30); // Ajustar la posición inicial del título.
+        $this->MultiCell(0, 7, $this->encodeString($this->title), 0, 'C'); // Reducir la altura de línea.
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
-        $this->ln(10);
+        $this->ln(8);
     }
 
     /*
