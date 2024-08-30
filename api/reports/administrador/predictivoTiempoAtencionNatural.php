@@ -13,9 +13,8 @@ $cita = new CitasData;
 
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataCita = $cita->getTiempoAtencionNatural()) {
-
     // Se inicia el reporte con el encabezado del documento.
-    $pdf->startReport('Predicción del tiempo de atención por tipo de automóvil para clientes naturales.');
+    $pdf->startReport('Predicción del tiempo de atención por tipo de automóvil y servicio brindado.');
     // Se establece un color de relleno para los encabezados.
     $pdf->setFillColor(186, 24, 27);
     // Se establece la fuente para los encabezados.

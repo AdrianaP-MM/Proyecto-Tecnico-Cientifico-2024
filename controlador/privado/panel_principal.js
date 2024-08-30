@@ -728,6 +728,14 @@ const openReportPrediccionTiempoNatural = () => {
     console.log(PATH.href);
 }
 
+const openReportPrediccionDemandaServicios = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/predictivoDemandaServicios.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
+
 async function readDUI() {
     try {
         const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
