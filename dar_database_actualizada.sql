@@ -31,6 +31,40 @@
     ADD CONSTRAINT u_NIT_cliente UNIQUE (NIT_cliente),
     ADD CONSTRAINT u_NRC_cliente UNIQUE (NRC_cliente),
     ADD CONSTRAINT u_NRF_cliente UNIQUE (NRF_cliente);
+    
+        CREATE TABLE tb_especializaciones_trabajadores
+    (
+        id_especializacion_trabajador INT PRIMARY KEY AUTO_INCREMENT,
+        nombre_especializacion_trabajador VARCHAR(100) NOT NULL, #NN
+        pago_por_especializacion DECIMAL NOT NULL #NN
+    );
+
+    CREATE TABLE tb_trabajadores
+    (
+        id_trabajador INT PRIMARY KEY AUTO_INCREMENT, #PK
+        id_especializacion_trabajador INT NOT NULL, /*FK*/
+        dui_trabajador VARCHAR(9) NOT NULL,  #NN U 
+        telefono_trabajador VARCHAR(9) NOT NULL, #NN U
+        correo_trabajador VARCHAR(50) NOT NULL, #NN U 
+        nombres_trabajador VARCHAR(50) NOT NULL, #NN
+        apellidos_trabajador VARCHAR(50) NOT NULL, #NN
+        departamento_trabajador ENUM('Ahuachapán', 'Cabañas', 'Chalatenango', 'Cuscatlán', 'La Libertad', 'La Paz', 'La Unión', 'Morazán', 'San Miguel', 'San Salvador', 'San Vicente', 'Santa Ana', 'Sonsonate', 'Usulután'),  
+        NIT_trabajador VARCHAR(18) NULL, #N U
+        fecha_contratacion DATE NOT NULL, 
+        salario_base DECIMAL(5, 2) NOT NULL
+        /*Fto_trabajador VARCHAR(50)*/
+    );
+
+    SELECT * FROM tB_trabajadores;
+
+    /**FOREIGN KEY**/
+    ALTER TABLE tb_trabajadores
+    ADD CONSTRAINT u_fk_especializacion_trabajador_trabajador FOREIGN KEY (id_especializacion_trabajador) REFERENCES tb_especializaciones_trabajadores(id_especializacion_trabajador),
+    ADD CONSTRAINT u_dui_trabajador UNIQUE (dui_trabajador),
+    ADD CONSTRAINT u_telefono_trabajador UNIQUE (telefono_trabajador),
+    ADD CONSTRAINT u_correo_trabajador UNIQUE (correo_trabajador),
+    ADD CONSTRAINT u_NIT_trabajador UNIQUE (NIT_trabajador);
+        /**Constraint**/
 
     CREATE TABLE tb_marcas_automoviles
     (
@@ -38,13 +72,11 @@
         nombre_marca_automovil VARCHAR(50) NOT NULL
     );
 
-
     CREATE TABLE tb_tipos_automoviles
     (
         id_tipo_automovil INT auto_increment PRIMARY KEY ,
         nombre_tipo_automovil VARCHAR(80) NOT NULL
     );
-
 
     CREATE TABLE tb_automoviles
     (
@@ -85,8 +117,6 @@
         descripcion_servicio VARCHAR(50) NOT NULL 
     );
 
-
-
     /**FOREIGN KEY**/
     ALTER TABLE tb_servicios
     ADD CONSTRAINT u_fk_tipo_servicio_servicio FOREIGN KEY (id_tipo_servicio) REFERENCES tb_tipos_servicios(id_tipo_servicio);
@@ -124,7 +154,6 @@
         id_servicio INT,
         cantidad_servicio INT NOT NULL
     );
-
     /**FOREIGN KEY**/
     ALTER TABLE tb_servicios_en_proceso
     ADD CONSTRAINT u_fk_cita_servicio_en_proceso FOREIGN KEY (id_cita) REFERENCES tb_citas(id_cita),
@@ -134,7 +163,7 @@
     (
         id_consumidor_final INT PRIMARY KEY AUTO_INCREMENT,
         numero_factura VARCHAR(5) NOT NULL,
-        fecha_registro_factura DATE DEFAULT(CURRENT_DATE()) NOT NULL,
+        fecha_registro_factura DATETIME DEFAULT(CURRENT_DATE()) NOT NULL,
         venta_a_cuenta_de ENUM('CONTADO','TARJETA'),
         duracion_garantia INT,
         nota VARCHAR(100),
@@ -183,15 +212,14 @@
     (
         id_detalle_credito_fiscal INT PRIMARY KEY AUTO_INCREMENT,
         id_credito_fiscal INT , /**FK**/
-        id_servicio INT , /**FK**/
-        cantidad_servicio INT NOT NULL,
+        id_servicio_en_proceso INT, /*FK*/
         precio_servicio DECIMAL NOT NULL
     );
 
     /**FOREIGN KEY**/
     ALTER TABLE tb_detalles_creditos_fiscales
     ADD CONSTRAINT u_fk_credito_fiscal_detalle_credito_fiscal FOREIGN KEY (id_credito_fiscal) REFERENCES tb_creditos_fiscales(id_credito_fiscal),
-    ADD CONSTRAINT u_fk_servicio_detalle_credito_fiscal FOREIGN KEY (id_servicio) REFERENCES tb_servicios(id_servicio);
+    ADD CONSTRAINT u_fk_servicio_detalle_credito_fiscal FOREIGN KEY (id_servicio_en_proceso) REFERENCES tb_servicios_en_proceso(id_servicio_en_proceso);
     
     CREATE TABLE tb_seguimientos_consumidores_finales
     (
@@ -232,40 +260,6 @@
     ADD CONSTRAINT u_cliente_usuarios_clientes UNIQUE (id_cliente);
     */
 
-    CREATE TABLE tb_especializaciones_trabajadores
-    (
-        id_especializacion_trabajador INT PRIMARY KEY AUTO_INCREMENT,
-        nombre_especializacion_trabajador VARCHAR(100) NOT NULL, #NN
-        pago_por_especializacion DECIMAL NOT NULL #NN
-    );
-
-    CREATE TABLE tb_trabajadores
-    (
-        id_trabajador INT PRIMARY KEY AUTO_INCREMENT, #PK
-        id_especializacion_trabajador INT NOT NULL, /*FK*/
-        dui_trabajador VARCHAR(9) NOT NULL,  #NN U 
-        telefono_trabajador VARCHAR(9) NOT NULL, #NN U
-        correo_trabajador VARCHAR(50) NOT NULL, #NN U 
-        nombres_trabajador VARCHAR(50) NOT NULL, #NN
-        apellidos_trabajador VARCHAR(50) NOT NULL, #NN
-        departamento_trabajador ENUM('Ahuachapán', 'Cabañas', 'Chalatenango', 'Cuscatlán', 'La Libertad', 'La Paz', 'La Unión', 'Morazán', 'San Miguel', 'San Salvador', 'San Vicente', 'Santa Ana', 'Sonsonate', 'Usulután'),  
-        NIT_trabajador VARCHAR(18) NULL, #N U
-        fecha_contratacion DATE NOT NULL, 
-        salario_base DECIMAL(5, 2) NOT NULL
-        /*Fto_trabajador VARCHAR(50)*/
-    );
-
-    SELECT * FROM tB_trabajadores;
-
-    /**FOREIGN KEY**/
-    ALTER TABLE tb_trabajadores
-    ADD CONSTRAINT u_fk_especializacion_trabajador_trabajador FOREIGN KEY (id_especializacion_trabajador) REFERENCES tb_especializaciones_trabajadores(id_especializacion_trabajador),
-    ADD CONSTRAINT u_dui_trabajador UNIQUE (dui_trabajador),
-    ADD CONSTRAINT u_telefono_trabajador UNIQUE (telefono_trabajador),
-    ADD CONSTRAINT u_correo_trabajador UNIQUE (correo_trabajador),
-    ADD CONSTRAINT u_NIT_trabajador UNIQUE (NIT_trabajador);
-        /**Constraint**/
-
     CREATE TABLE tb_usuarios
     (
         id_usuario INT PRIMARY KEY AUTO_INCREMENT, #PK
@@ -274,8 +268,6 @@
         telefono_usuario VARCHAR(9),
         tipo_usuario ENUM('Administrador') NOT NULL
     );
-
-    SELECT * FROM tb_usuarios;
 
     CREATE TABLE tb_formas_pagos_consumidores_finales
     (
@@ -306,7 +298,7 @@
         ('2023-02-10', '00000003', '21210000', 'cliente14@ejemplo.com', 'Importadora AAA', 'E', 'Persona juridica', 'San Miguel', '4444-444444-444-4', '63520984', '9453376281', 'Calzado', 'Activo'),
         ('2023-07-05', '00000004', '25250000', 'cliente15@ejemplo.com', 'Consultores B.B.', 'E', 'Persona juridica', 'San Vicente', '5555-555555-555-5', '284530093', '16437283971', 'Alimenticio', 'Activo');
 
-        -- Nuevas inserciones para personas naturales
+         -- Nuevas inserciones para personas naturales
 INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, estado_cliente)
 VALUES 
     ('2021-03-12', '234567890', '33334444', 'cliente6@ejemplo.com', 'Luis', 'Castro', 'Persona natural', 'Sonsonate', '2333-333333-333-0', 'Activo'),
@@ -323,8 +315,6 @@ VALUES
     ('2019-12-03', '00000007', '55551111', 'cliente18@ejemplo.com', 'Industria ABC', 'E', 'Persona juridica', 'Cuscatlán', '8888-888888-888-8', '54545455', '47394560295', 'Calzado', 'Activo'),
     ('2022-05-18', '00000008', '66661111', 'cliente19@ejemplo.com', 'Tecnologías S.A.', 'E', 'Persona juridica', 'San Vicente', '9999-999999-999-9', '64646465', '57483670296', 'Alimenticio', 'Activo'),
     ('2023-07-22', '00000009', '77771111', 'cliente20@ejemplo.com', 'Consultores XY', 'E', 'Persona juridica', 'Santa Ana', '0000-111111-111-0', '74657466', '67492780397', 'Automotriz', 'Activo');
-
-
         
     -- Inserts para marcas de automóviles
     INSERT INTO tb_marcas_automoviles (nombre_marca_automovil)
@@ -460,7 +450,8 @@ VALUES
     (14, 1, 14),-- Limpieza de sistema de inyección en cita 1
     (15, 2, 1); -- Cambio de aceite sintético en cita 2 (para duplicado en top 10)
         
-#---------------------------------------------------------------------------------
+        
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PREDICTIVO 1 (ADRIANA)
 CREATE VIEW vw_autos_reparados_por_mes AS
 WITH meses AS (
     SELECT 1 AS mes UNION ALL
@@ -492,7 +483,7 @@ GROUP BY
 ORDER BY 
     m.mes;
     
-#---------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PREDICTIVO 1 (ADRIANA)
 CREATE VIEW vw_autos_esperados_por_mes AS
 WITH historico_reparaciones AS (
     SELECT 
@@ -546,8 +537,8 @@ INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacio
 VALUES 
 ('2023-01-01', '2012-6-10 10:00:00', 1, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 1, San Salvador', 'Calle 1, San Salvador', 'Finalizada');
 SELECT * FROM vw_autos_esperados_por_mes_pasado;
-DROP VIEW vw_autos_esperados_por_mes;*/
-
+DROP VIEW vw_autos_esperados_por_mes;*/ 
+## USADO EN GRAFICO PREDICTIVO 1 (ADRIANA)
 CREATE VIEW vw_autos_esperados_por_mes_pasado AS
 WITH historico_reparaciones AS (
     SELECT 
@@ -592,7 +583,8 @@ LEFT JOIN
     ON m.mes = p.mes
 ORDER BY 
     m.mes;
-
+    
+#---------------------------------------------------------------------------------  USADO EN GRAFICO PARAMETRIZADO 1 (AXEL)
 CREATE VIEW vw_clientes_por_mes_y_tipo AS
 WITH meses AS (
     SELECT 1 AS mes UNION ALL
@@ -632,8 +624,7 @@ ORDER BY
     m.mes ASC,
     t.tipo_cliente;
 
-
-
+#---------------------------------------------------------------------------------  USADO EN GRAFICO PARAMETRIZADO 2 (AXEL)
 CREATE VIEW vw_top_10_servicios AS
 WITH servicio_conteo AS (
     SELECT 
@@ -677,15 +668,118 @@ SELECT
 FROM 
     otros;
 
+#--------------------------------------------------------------------------------- USADO EN GRAFICO AUTOMATICO 1 (MELANIE)
+CREATE VIEW vw_autos_por_tipo AS SELECT COUNT(id_automovil) AS total,
+    nombre_tipo_automovil AS tipo FROM tb_automoviles a INNER JOIN tb_tipos_automoviles t ON t.id_tipo_automovil = a.id_tipo_automovil
+    GROUP BY nombre_tipo_automovil;
+    
+#--------------------------------------------------------------------------------- USADO EN GRAFICO AUTOMATICO 2 (EMILY)
+CREATE VIEW vw_cantidad_servicios_por_tipo AS SELECT COUNT(id_servicio) AS total,
+    nombre_tipo_servicio AS nombre FROM tb_servicios s INNER JOIN tb_tipos_servicios ts ON s.id_tipo_servicio = ts.id_tipo_servicio
+    GROUP BY nombre_tipo_servicio;
+    
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PREDICTIVO 2 (ADRIANA)
+CREATE VIEW vw_tiempo_servicio AS
+SELECT 
+    s.nombre_servicio AS servicio_reparacion,
+    AVG(TIMESTAMPDIFF(MINUTE, sp.fecha_registro, sp.fecha_finalizacion)) AS tiempo_estimado_minutos
+FROM 
+    tb_servicios_en_proceso sp
+JOIN 
+    tb_servicios s ON sp.id_servicio = s.id_servicio
+JOIN 
+    tb_citas c ON sp.id_cita = c.id_cita
+WHERE 
+    sp.fecha_finalizacion IS NOT NULL
+    AND c.estado_cita = 'Finalizada'
+GROUP BY 
+    s.nombre_servicio;
 
-CREATE VIEW vista_clientes_cantidad_autos AS
-SELECT c.id_cliente, 
-       CONCAT(c.nombres_cliente, ' ', c.apellidos_cliente) AS nombre_completo,
-       COUNT(a.id_automovil) AS cantidad_autos
-FROM tb_clientes c
-LEFT JOIN tb_automoviles a ON c.id_cliente = a.id_cliente
-GROUP BY c.id_cliente
-ORDER BY cantidad_autos DESC;
+
+   SELECT * FROM vw_tiempo_servicio;
+    SELECT * FROM tb_servicios_en_proceso;
+    SELECT * FROM tb_citas;
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PREDICTIVO 2 (ADRIANA)
+    
+CREATE VIEW vw_tiempo_servicio_por_tipo_carro AS
+SELECT 
+    t.nombre_tipo_automovil AS tipo_carro,
+    s.nombre_servicio AS servicio_reparacion,
+    ROUND(AVG(TIMESTAMPDIFF(MINUTE, sp.fecha_registro, sp.fecha_finalizacion) / 60), 2) AS tiempo_estimado
+FROM 
+    tb_servicios_en_proceso sp
+JOIN 
+    tb_servicios s ON sp.id_servicio = s.id_servicio
+JOIN 
+    tb_citas c ON sp.id_cita = c.id_cita
+JOIN 
+    tb_automoviles a ON c.id_automovil = a.id_automovil
+JOIN 
+    tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+WHERE 
+    sp.fecha_finalizacion IS NOT NULL
+    AND c.estado_cita = 'Finalizada'
+GROUP BY 
+    t.nombre_tipo_automovil, s.nombre_servicio;
+
+    UPDATE tb_citas SET estado_cita = 'Finalizada' WHERE id_cita = 6;
+    
+    INSERT INTO tb_servicios_en_proceso (
+                fecha_registro,
+                fecha_aproximada_finalizacion,
+                id_cita,
+                id_servicio,
+                cantidad_servicio, fecha_finalizacion
+            ) VALUES ('2024-05-29 10:30:00', '2024-05-29 12:30:00', 2, 5, 1, '2024-05-29 12:30:00');
+
+SELECT * FROM tb_tipos_servicios;
+
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PARAMETRIZADO 3 (ADRIANA)
+SELECT * FROM tb_trabajadores;
+
+DELIMITER //
+CREATE PROCEDURE GetEmpleadosPorMesYEspecialidad(IN año INT)
+BEGIN
+    SELECT 
+        m.mes,
+        e.nombre_especializacion_trabajador AS especializacion,
+        COALESCE(ep.cantidad_empleados, 0) AS cantidad_empleados
+    FROM 
+        (SELECT 1 AS mes UNION ALL
+         SELECT 2 UNION ALL
+         SELECT 3 UNION ALL
+         SELECT 4 UNION ALL
+         SELECT 5 UNION ALL
+         SELECT 6 UNION ALL
+         SELECT 7 UNION ALL
+         SELECT 8 UNION ALL
+         SELECT 9 UNION ALL
+         SELECT 10 UNION ALL
+         SELECT 11 UNION ALL
+         SELECT 12) m
+    CROSS JOIN 
+        (SELECT DISTINCT nombre_especializacion_trabajador
+         FROM tb_especializaciones_trabajadores) e
+    LEFT JOIN 
+        (SELECT 
+            MONTH(t.fecha_contratacion) AS mes,
+            et.nombre_especializacion_trabajador AS especializacion,
+            COUNT(t.id_trabajador) AS cantidad_empleados
+         FROM 
+            tb_trabajadores t
+         JOIN 
+            tb_especializaciones_trabajadores et ON t.id_especializacion_trabajador = et.id_especializacion_trabajador
+         WHERE 
+            YEAR(t.fecha_contratacion) = año
+         GROUP BY 
+            MONTH(t.fecha_contratacion), et.nombre_especializacion_trabajador) ep
+    ON 
+        m.mes = ep.mes AND e.nombre_especializacion_trabajador = ep.especializacion
+    ORDER BY 
+        m.mes, e.nombre_especializacion_trabajador;
+END //
+DELIMITER ;
+#--------------------------------------------------------------------------------- USADO EN GRAFICO AUTOMATICO 4 (DANIEL)
 
 CREATE VIEW vista_clientes_cantidad_citas AS
 SELECT 
@@ -702,4 +796,226 @@ GROUP BY
     c.id_cliente, nombre_completo_cliente
 ORDER BY 
     cantidad_citas DESC;
+    
+CALL GetEmpleadosPorMesYEspecialidad(2023);
+
+#--------------------------------------------------------------------------------- USADO EN GRAFICO PARAMETRIZADO 4 (ADRIANA)
+
+SELECT * FROM tb_detalles_creditos_fiscales;
+SELECT * FROM tb_detalles_consumidores_finales;
+
+SELECT * FROM tb_citas;
+SELECT * FROM tb_automoviles;
+SELECT * FROM tb_clientes;
+
+DELIMITER //
+CREATE PROCEDURE sp_servicios_solicitados_por_consumidor_final(IN idCliente INT)
+BEGIN
+    SELECT 
+        s.nombre_servicio, 
+        COUNT(*) AS cantidad_solicitudes, 
+        c.id_cliente 
+    FROM 
+        tb_detalles_consumidores_finales dcf
+        JOIN tb_servicios_en_proceso sp ON dcf.id_servicio_en_proceso = sp.id_servicio_en_proceso 
+        JOIN tb_servicios s ON sp.id_servicio = s.id_servicio 
+        JOIN tb_citas ci ON sp.id_cita = ci.id_cita 
+        JOIN tb_automoviles a ON ci.id_automovil = a.id_automovil 
+        JOIN tb_clientes c ON a.id_cliente = c.id_cliente 
+    WHERE 
+        c.id_cliente = idCliente 
+    GROUP BY 
+        s.nombre_servicio, 
+        c.id_cliente;
+END //
+DELIMITER ;
+    
+CALL sp_servicios_solicitados_por_consumidor_final(1);
+
+
+SELECT * FROM tb_clientes;
+SELECT * FROM tb_citas;
+SELECT * FROM tb_automoviles;
+
+SELECT * FROM tb_consumidores_finales;
+SELECT * FROM tb_creditos_fiscales;
+/*
+INSERT INTO tb_consumidores_finales (numero_factura, fecha_registro_factura, venta_a_cuenta_de, duracion_garantia, nota, id_cita, estado_consumidor_final) VALUES
+##('001', NOW(), 'CONTADO', 2, 'nota', 1, 'Completado'),
+##('002', '2025-08-29', 'TARJETA', 2,'nota', '1', 'Completado'),
+##('003', '2024-08-30 14:30:00', 'TARJETA', 2, 'nota', 11, 'Completado')
+##('004', '2024-08-30 14:30:00', 'TARJETA', 2, 'nota', 11, 'Completado')
+('005', '2024-08-31 14:30:00', 'TARJETA', 2, 'nota', 12, 'Completado');
+
+INSERT INTO tb_creditos_fiscales (numero_factura, fecha_registro_factura, venta_a_cuenta_de, duracion_garantia, nota, id_cita, nombre_emisor, dui_emisor, estado_credito_fiscal) VALUES
+('001', NOW(), 'CONTADO', 2, 'nota', 6, 'Pancho', '12345628-9','Completado');
+
+SELECT * FROM tb_detalles_consumidores_finales;
+
+INSERT INTO tb_detalles_consumidores_finales(id_consumidor_final, id_servicio_en_proceso, precio_servicio) VALUES
+(1, 1, 20);
+
+SELECT * FROM tb_detalles_creditos_fiscales;
+INSERT INTO tb_detalles_creditos_fiscales(id_credito_fiscal, id_Servicio_en_proceso, precio_servicio) VALUES 
+(1, 9, 20);
+SELECT * FROM tb_servicios_en_proceso;*/
+#---------------------------------------------------------
+DELIMITER //
+CREATE PROCEDURE sp_servicios_solicitados_por_credito_fiscal(IN idCliente INT)
+BEGIN
+    SELECT 
+        s.nombre_servicio, 
+        COUNT(*) AS cantidad_solicitudes, 
+        c.id_cliente 
+    FROM 
+        tb_detalles_creditos_fiscales dcf
+        JOIN tb_servicios_en_proceso sp ON dcf.id_servicio_en_proceso = sp.id_servicio_en_proceso 
+        JOIN tb_servicios s ON sp.id_servicio = s.id_servicio 
+        JOIN tb_citas ci ON sp.id_cita = ci.id_cita 
+        JOIN tb_automoviles a ON ci.id_automovil = a.id_automovil 
+        JOIN tb_clientes c ON a.id_cliente = c.id_cliente 
+    WHERE 
+        c.id_cliente = idCliente 
+    GROUP BY 
+        s.nombre_servicio, 
+        c.id_cliente;
+END // 
+DELIMITER ;
+CALL sp_servicios_solicitados_por_credito_fiscal(6);
+
+##TOTAL ESPERADO 4 AUTOMATICOS 4 PARAMETRIZADOS 2 PREDICTIVOS
+## TOTAL GENERAL 10
+## TOTAL GENERAL 10
+
+
+WITH servicios_por_mes AS (
+    SELECT
+        MONTH(s.fecha_aproximada_finalizacion) AS mes,
+        YEAR(s.fecha_aproximada_finalizacion) AS anio,
+        s.id_servicio,
+        SUM(s.cantidad_servicio) AS servicios_realizados
+    FROM
+        tb_servicios_en_proceso s
+    INNER JOIN
+        tb_citas c ON s.id_cita = c.id_cita
+    WHERE
+        s.fecha_aproximada_finalizacion IS NOT NULL
+        AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
+    GROUP BY
+        YEAR(s.fecha_aproximada_finalizacion),
+        MONTH(s.fecha_aproximada_finalizacion),
+        s.id_servicio
+),
+servicios_esperados_por_mes AS (
+    SELECT
+        MONTH(s.fecha_aproximada_finalizacion) AS mes,
+        YEAR(s.fecha_aproximada_finalizacion) AS anio,
+        s.id_servicio,
+        SUM(s.cantidad_servicio) AS servicios_esperados
+    FROM
+        tb_servicios_en_proceso s
+    INNER JOIN
+        tb_citas c ON s.id_cita = c.id_cita
+    WHERE
+        s.fecha_aproximada_finalizacion > CURRENT_DATE()
+    GROUP BY
+        YEAR(s.fecha_aproximada_finalizacion),
+        MONTH(s.fecha_aproximada_finalizacion),
+        s.id_servicio
+),
+servicios_totales AS (
+    SELECT DISTINCT
+        s.id_servicio,
+        s.nombre_servicio
+    FROM
+        tb_servicios s
+)
+SELECT
+    CASE meses.mes
+        WHEN 1 THEN "Enero"
+        WHEN 2 THEN "Febrero"
+        WHEN 3 THEN "Marzo"
+        WHEN 4 THEN "Abril"
+        WHEN 5 THEN "Mayo"
+        WHEN 6 THEN "Junio"
+        WHEN 7 THEN "Julio"
+        WHEN 8 THEN "Agosto"
+        WHEN 9 THEN "Septiembre"
+        WHEN 10 THEN "Octubre"
+        WHEN 11 THEN "Noviembre"
+        WHEN 12 THEN "Diciembre"
+    END AS mes_nombre,
+    st.nombre_servicio AS servicio,
+    IFNULL(se.servicios_esperados, 0) AS servicios_esperados,
+    IFNULL(sr.servicios_realizados, 0) AS servicios_realizados
+FROM
+    (
+        SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION
+        SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+    ) AS meses
+CROSS JOIN
+    servicios_totales st
+LEFT JOIN
+    servicios_esperados_por_mes se ON meses.mes = se.mes AND YEAR(CURRENT_DATE()) = se.anio AND st.id_servicio = se.id_servicio
+LEFT JOIN
+    servicios_por_mes sr ON meses.mes = sr.mes AND YEAR(CURRENT_DATE()) = sr.anio AND st.id_servicio = sr.id_servicio
+ORDER BY
+    meses.mes,
+    st.nombre_servicio;
+
+
+
+SELECT * FROM tb_citas;
+SELECT * FROM tb_Servicios_en_proceso;
+SELECT * FROM tb_servicios;
+
+
+INSERT INTO tb_servicios_en_proceso (
+                fecha_registro,
+                fecha_aproximada_finalizacion,
+                id_cita,
+                id_servicio,
+                cantidad_servicio, fecha_finalizacion
+            ) VALUES ('2023-05-29 10:30:00', '2023-05-29 15:30:00', 2, 6, 2, '2023-05-29 10:30:00');
+
+
+SELECT 
+    CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automovil",
+    s.nombre_servicio AS "Servicio_Realizado",
+    CONCAT(
+        FLOOR(avg_service_time / 1440), " días ",
+        FLOOR((avg_service_time % 1440) / 60), " horas y ",
+        ROUND(avg_service_time % 60), " minutos"
+    ) AS "Tiempo_Promedio",
+    t.nombre_tipo_automovil AS "Tipo"
+FROM 
+    tb_automoviles a
+JOIN 
+    tb_citas c ON a.id_automovil = c.id_automovil
+JOIN 
+    tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+JOIN 
+    tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+JOIN 
+    tb_servicios s ON se.id_servicio = s.id_servicio
+JOIN (
+    SELECT 
+        a.id_automovil,
+        s.id_servicio,
+        AVG(TIMESTAMPDIFF(MINUTE, se.fecha_registro, COALESCE(se.fecha_finalizacion, se.fecha_aproximada_finalizacion))) AS avg_service_time
+    FROM 
+        tb_automoviles a
+    JOIN 
+        tb_citas c ON a.id_automovil = c.id_automovil
+    JOIN 
+        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+    JOIN 
+        tb_servicios s ON se.id_servicio = s.id_servicio
+    WHERE 
+        se.fecha_finalizacion IS NOT NULL
+    GROUP BY 
+        a.id_automovil, s.id_servicio
+) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
+GROUP BY 
+    a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;
 
