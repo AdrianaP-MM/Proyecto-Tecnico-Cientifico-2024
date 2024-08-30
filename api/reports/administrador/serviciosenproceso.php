@@ -34,8 +34,8 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     $pdf->cell(15, 8, 'Cantidad', 1, 0, 'C', 1);
     $pdf->cell(25, 8, 'Estado', 1, 0, 'C', 1);
     $pdf->cell(25, 8, 'Modelo Auto', 1, 0, 'C', 1);
-    $pdf->cell(20, 8, 'Placa', 1, 0, 'C', 1);
-    $pdf->cell(45, 8, 'Servicio', 1, 1, 'C', 1);
+    $pdf->cell(15, 8, 'Placa', 1, 0, 'C', 1);
+    $pdf->cell(50, 8, 'Servicio', 1, 1, 'C', 1);
 
     // Se establece un color de texto para los datos (por ejemplo, negro)
     $pdf->setTextColor(0, 0, 0);
@@ -50,8 +50,8 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
         $pdf->cell(15, 8, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 0);
         $pdf->cell(25, 8, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
         $pdf->cell(25, 8, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
-        $pdf->cell(20, 8, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
-        $pdf->cell(45, 8, $pdf->encodeString(isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : ''), 1, 1);
+        $pdf->cell(15, 8, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
+        $pdf->cell(50, 8, $pdf->encodeString(isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : ''), 1, 1);
     }
 } else {
     // Si no hay datos, se muestra un mensaje.

@@ -12,7 +12,7 @@ require_once('../../models/data/automoviles_data.php');
 $auto = new AutomovilData;
 
 // Se inicia el reporte con el encabezado del documento.
-$pdf->startReport('Estado del automovil, servicos y cantidad de visitas');
+$pdf->startReport('Estado del automóvil, servicios y cantidad de visitas');
 
 // Se obtiene el ID del automóvil desde la solicitud GET.
 // Se obtiene el ID del automóvil desde la solicitud GET.
