@@ -358,6 +358,39 @@ VALUES
     ('Modelo I', 3, 'Tornasol', 2023, 'STU567', 'imagen_auto9.jpg', 9, 3, '2023-06-20', 'Activo'),
     ('Modelo J', 1, 'Plata', 2023, 'VWX890', 'imagen_auto10.jpg', 10, 1, '2023-08-10', 'Activo');
 
+-- Nuevas inserciones para tb_automoviles
+INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, id_marca_automovil, fecha_registro, estado_automovil)
+VALUES 
+    ('Modelo K', 4, 'Plata', 2024, 'YZA123', 'imagen_auto11.jpg', 1, 4, '2024-01-10', 'Activo'),
+    ('Modelo L', 5, 'Negro', 2024, 'BCD456', 'imagen_auto12.jpg', 2, 5, '2024-02-15', 'Activo'),
+    ('Modelo M', 6, 'Rojo', 2024, 'EFG789', 'imagen_auto13.jpg', 3, 6, '2024-03-20', 'Activo'),
+    ('Modelo N', 7, 'Blanco', 2024, 'HIJ012', 'imagen_auto14.jpg', 4, 7, '2024-04-25', 'Activo'),
+    ('Modelo O', 8, 'Gris', 2024, 'KLM345', 'imagen_auto15.jpg', 5, 8, '2024-05-30', 'Activo');
+
+-- Inserciones para automóviles asociados a clientes
+INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, id_marca_automovil, fecha_registro, estado_automovil)
+VALUES 
+    ('Modelo K', 1, 'Rojo', 2024, 'ABC123', 'imagen_auto11.jpg', 1, 1, '2024-01-01', 'Activo'),
+    ('Modelo L', 2, 'Azul', 2024, 'DEF456', 'imagen_auto12.jpg', 2, 2, '2024-01-02', 'Activo'),
+    ('Modelo M', 3, 'Gris', 2024, 'GHI789', 'imagen_auto13.jpg', 3, 3, '2024-01-03', 'Activo'),
+    ('Modelo N', 1, 'Blanco', 2024, 'JKL012', 'imagen_auto14.jpg', 4, 1, '2024-01-04', 'Activo'),
+    ('Modelo O', 2, 'Negro', 2024, 'MNO345', 'imagen_auto15.jpg', 5, 2, '2024-01-05', 'Activo'),
+    ('Modelo P', 3, 'Amarillo', 2024, 'PQR678', 'imagen_auto16.jpg', 6, 3, '2024-01-06', 'Activo'),
+    ('Modelo Q', 1, 'Verde', 2024, 'STU901', 'imagen_auto17.jpg', 7, 1, '2024-01-07', 'Activo'),
+    ('Modelo R', 2, 'Anaranjado', 2024, 'VWX234', 'imagen_auto18.jpg', 8, 2, '2024-01-08', 'Activo'),
+    ('Modelo S', 3, 'Tornasol', 2024, 'YZA567', 'imagen_auto19.jpg', 9, 3, '2024-01-09', 'Activo'),
+    ('Modelo T', 1, 'Plata', 2024, 'BCD890', 'imagen_auto20.jpg', 10, 1, '2024-01-10', 'Activo');
+
+-- Inserciones para automóviles (cubre año pasado)
+INSERT INTO tb_automoviles (modelo_automovil, id_tipo_automovil, color_automovil, fecha_fabricacion_automovil, placa_automovil, imagen_automovil, id_cliente, id_marca_automovil, fecha_registro, estado_automovil)
+VALUES 
+    ('Modelo K', 1, 'Rojo', 2022, 'XYZ999', 'imagen_auto11.jpg', 1, 1, '2022-01-10', 'Activo'),
+    ('Modelo L', 2, 'Azul', 2021, 'LMN456', 'imagen_auto12.jpg', 2, 2, '2022-02-20', 'Activo'),
+    ('Modelo M', 3, 'Gris', 2022, 'OPQ789', 'imagen_auto13.jpg', 3, 3, '2022-03-15', 'Activo'),
+    ('Modelo N', 1, 'Blanco', 2022, 'RST012', 'imagen_auto14.jpg', 4, 1, '2022-04-05', 'Activo'),
+    ('Modelo O', 2, 'Negro', 2021, 'UVW345', 'imagen_auto15.jpg', 5, 2, '2022-05-10', 'Activo');
+
+
     -- Inserts para tipos de servicios
     INSERT INTO tb_tipos_servicios (nombre_tipo_servicio, imagen_servicio)
     VALUES 
@@ -417,6 +450,40 @@ VALUES
         ('2023-01-08', '2023-01-17 17:00:00', 8, 'Yo solo regreso el auto', 'Aguilares', 'Calle 8, San Salvador', 'Calle 8, San Salvador', 'Finalizada'),
         ('2023-01-09', '2023-01-18 18:00:00', 9, 'Yo solo llevo el auto', 'Ayutuxtepeque', 'Calle 9, San Salvador', NULL, 'En espera'),
         ('2023-01-10', '2023-01-19 19:00:00', 10, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 10, San Salvador', 'Calle 10, San Salvador', 'Aceptado');
+
+    -- Nuevas inserciones para tb_citas
+INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacion_vehiculo, zona_habilitada, direccion_ida, direccion_regreso, estado_cita)
+VALUES 
+    ('2023-08-01', '2023-08-10 10:00:00', 7, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 7, San Salvador', 'Calle 7, San Salvador', 'Finalizada'),
+    ('2023-08-02', '2023-08-11 11:00:00', 8, 'Yo solo llevo el auto', 'Aguilares', 'Calle 8, San Salvador', 'Calle 8, San Salvador', 'Aceptado'),
+    ('2023-08-03', '2023-08-12 12:00:00', 9, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 9, San Salvador', NULL, 'Cancelado'),
+    ('2023-08-04', '2023-08-13 13:00:00', 10, 'Yo solo regreso el auto', 'Aguilares', 'Calle 10, San Salvador', 'Calle 10, San Salvador', 'En espera'),
+    ('2023-08-05', '2023-08-14 14:00:00', 1, 'Yo solo llevar el auto', 'Ayutuxtepeque', 'Calle 1, San Salvador', 'Calle 1, San Salvador', 'Finalizada');
+
+    -- Inserciones para citas
+INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacion_vehiculo, zona_habilitada, direccion_ida, direccion_regreso, estado_cita)
+VALUES 
+    ('2024-01-05', '2024-01-10 09:00:00', 1, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 11, San Salvador', 'Calle 11, San Salvador', 'Finalizada'),
+    ('2024-01-15', '2024-01-20 10:00:00', 2, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 12, San Salvador', 'Calle 12, San Salvador', 'Finalizada'),
+    ('2024-02-05', '2024-02-12 11:00:00', 3, 'Yo solo llevo el auto', 'Aguilares', 'Calle 13, San Salvador', NULL, 'Finalizada'),
+    ('2024-02-25', '2024-02-28 12:00:00', 4, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 14, San Salvador', 'Calle 14, San Salvador', 'Finalizada'),
+    ('2024-03-15', '2024-03-18 13:00:00', 5, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 15, San Salvador', 'Calle 15, San Salvador', 'Finalizada'),
+    ('2024-03-20', '2024-03-25 14:00:00', 6, 'Yo solo llevo el auto', 'Aguilares', 'Calle 16, San Salvador', NULL, 'Finalizada'),
+    ('2024-04-05', '2024-04-10 15:00:00', 7, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 17, San Salvador', 'Calle 17, San Salvador', 'Finalizada'),
+    ('2024-04-15', '2024-04-20 16:00:00', 8, 'Yo solo regreso el auto', 'Aguilares', 'Calle 18, San Salvador', 'Calle 18, San Salvador', 'Finalizada'),
+    ('2024-05-10', '2024-05-15 17:00:00', 9, 'Yo solo llevo el auto', 'Ayutuxtepeque', 'Calle 19, San Salvador', NULL, 'Finalizada'),
+    ('2024-05-20', '2024-05-25 18:00:00', 10, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 20, San Salvador', 'Calle 20, San Salvador', 'Finalizada');
+
+    -- Inserciones para citas del año pasado
+INSERT INTO tb_citas (fecha_registro, fecha_hora_cita, id_automovil, movilizacion_vehiculo, zona_habilitada, direccion_ida, direccion_regreso, estado_cita)
+VALUES 
+    ('2022-01-01', '2022-01-10 10:00:00', 1, 'Yo llevo el auto y lo traigo de regreso', 'Ayutuxtepeque', 'Calle 1, San Salvador', 'Calle 1, San Salvador', 'Finalizada'),
+    ('2022-02-02', '2022-02-11 11:00:00', 2, 'Yo solo regreso el auto', 'Aguilares', 'Calle 2, San Salvador', 'Calle 2, San Salvador', 'Finalizada'),
+    ('2022-03-03', '2022-03-12 12:00:00', 3, 'Yo solo llevo el auto', 'Ayutuxtepeque', 'Calle 3, San Salvador', NULL, 'Finalizada'),
+    ('2022-04-04', '2022-04-13 13:00:00', 4, 'Yo llevo el auto y lo traigo de regreso', 'Aguilares', 'Calle 4, San Salvador', 'Calle 4, San Salvador', 'Finalizada'),
+    ('2022-05-05', '2022-05-14 14:00:00', 5, 'Yo solo regreso el auto', 'Ayutuxtepeque', 'Calle 5, San Salvador', 'Calle 5, San Salvador', 'Finalizada');
+
+
 
     INSERT INTO tb_especializaciones_trabajadores (nombre_especializacion_trabajador, pago_por_especializacion)
     VALUES
