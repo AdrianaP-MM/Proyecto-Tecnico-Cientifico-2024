@@ -33,7 +33,7 @@ class CitasHandler
             tb_citas c ON s.id_cita = c.id_cita
         WHERE
             s.fecha_aproximada_finalizacion IS NOT NULL
-            AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
+            ###AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
             AND YEAR(s.fecha_aproximada_finalizacion) = YEAR(CURRENT_DATE()) -- Solo para el año actual
         GROUP BY
             YEAR(s.fecha_aproximada_finalizacion),
