@@ -12,7 +12,7 @@ require_once('../../models/data/trabajadores_data.php');
 $trabajador = new TrabajadoresData;
 
 // Se inicia el reporte con el encabezado del documento.
-$pdf->startReport('Automóviles según su año de fabricación');
+$pdf->startReport('Resumen de todos los trabajadores');
 
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataTrabajador = $trabajador->readAllReporte()) {
@@ -51,7 +51,7 @@ if ($dataTrabajador = $trabajador->readAllReporte()) {
         }
     }
 } else {
-    $pdf->cell(0, 10, $pdf->encodeString('No hay autos para mostrar'), 1, 1);
+    $pdf->cell(0, 10, $pdf->encodeString('No hay trabajadores para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'DARG - Automoviles por ano.pdf');
