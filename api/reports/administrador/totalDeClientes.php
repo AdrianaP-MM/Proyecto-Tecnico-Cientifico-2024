@@ -17,7 +17,7 @@ $pdf->startReport('Total de clientes registrados');
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
 if ($dataCliente = $cliente->readAllReport()) {
     // Se establece un color de relleno para los encabezados.
-    $pdf->setFillColor(199, 0, 57);
+    $pdf->setFillColor(186, 24, 27);
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     // Establecer color de texto a blanco
