@@ -23,24 +23,44 @@ class CitasHandler
     public function getTiempoAtencionNatural()
     {
         $sql = 'SELECT 
-            CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automóvil atendido",
-            CONCAT(
-                FLOOR(TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) / 1440), " días ",
-                FLOOR((TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) % 1440) / 60), " horas y ",
-                TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) % 60, " minutos"
-            ) AS "Tiempo esperado de despacho",
-            t.nombre_tipo_automovil AS "Tipo"
+        CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automovil",
+        s.nombre_servicio AS "Servicio_Realizado",
+        CONCAT(
+            FLOOR(avg_service_time / 1440), " días ",
+            FLOOR((avg_service_time % 1440) / 60), " horas y ",
+            ROUND(avg_service_time % 60), " minutos"
+        ) AS "Tiempo_Promedio",
+        t.nombre_tipo_automovil AS "Tipo"
+    FROM 
+        tb_automoviles a
+    JOIN 
+        tb_citas c ON a.id_automovil = c.id_automovil
+    JOIN 
+        tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+    JOIN 
+        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+    JOIN 
+        tb_servicios s ON se.id_servicio = s.id_servicio
+    JOIN (
+        SELECT 
+            a.id_automovil,
+            s.id_servicio,
+            AVG(TIMESTAMPDIFF(MINUTE, se.fecha_registro, COALESCE(se.fecha_finalizacion, se.fecha_aproximada_finalizacion))) AS avg_service_time
         FROM 
             tb_automoviles a
         JOIN 
             tb_citas c ON a.id_automovil = c.id_automovil
         JOIN 
-            tb_consumidores_finales cf ON c.id_cita = cf.id_cita
+            tb_servicios_en_proceso se ON c.id_cita = se.id_cita
         JOIN 
-            tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+            tb_servicios s ON se.id_servicio = s.id_servicio
         WHERE 
-            cf.estado_consumidor_final = "Completado";';
-            
+            se.fecha_finalizacion IS NOT NULL
+        GROUP BY 
+            a.id_automovil, s.id_servicio
+    ) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
+    GROUP BY 
+        a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;';
         return Database::getRows($sql);
     }
 
