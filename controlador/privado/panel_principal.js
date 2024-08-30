@@ -689,6 +689,7 @@ const openReportServiciosCarroFechaYTipo = () => {
 }
 
 // Función para abrir el reporte del historial de servicios del cliente
+// Función para abrir el reporte del historial de servicios del cliente
 const openReportHistorialserviciosCliente = () => {
     // Obtén los valores de los inputs
     const duiInput = document.getElementById("input_dui_report_servicios");
@@ -700,10 +701,15 @@ const openReportHistorialserviciosCliente = () => {
     console.log("Tipo de Servicio:", tipoServicio);
 
     // Verifica que se hayan proporcionado valores válidos
-    if (!idCliente || !tipoServicio) {
-        sweetAlert(4, 'Por favor, ingrese el DUI y seleccione un tipo de servicio.', true);
+    if (!idCliente) {
+        sweetAlert(4, 'Seleccione un DUI existente.', true);
         return;
-    } 
+    }
+
+    if (!tipoServicio) {
+        sweetAlert(4, 'Por favor, seleccione un tipo de servicio.', true);
+        return;
+    }
 
     // Crea la URL con los parámetros
     const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosHistorialCliente.php?dui=${encodeURIComponent(idCliente)}&tipo=${encodeURIComponent(tipoServicio)}`);
@@ -722,6 +728,7 @@ document.getElementById("input_dui_report_servicios").addEventListener('input', 
 const setSelectedClientId = (idCliente) => {
     document.getElementById("input_dui_report_servicios").setAttribute('data-selected-id', idCliente);
 }
+
 
 
 
