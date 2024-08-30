@@ -43,7 +43,8 @@
                     <a href="#section3" class="subMenuItem open-sans-regular">Personal laboral</a> |
                     <a href="#section4" class="subMenuItem open-sans-regular">Panorama de la clientela</a> |
                     <a href="#section5" class="subMenuItem open-sans-regular">Reportes parametrizados</a> |
-                    <a href="#section6" class="subMenuItem open-sans-regular">Reportes automaticos</a>
+                    <a href="#section6" class="subMenuItem open-sans-regular">Reportes automaticos</a> |
+                    <a href="#section7" class="subMenuItem open-sans-regular">Reportes predictivos</a>
                 </nav>
             </div>
         </div>
@@ -453,6 +454,42 @@
                     </div>
                 </div>
 
+            </section>
+
+            <section id="section7">
+                <div class="col5 my-4 d-flex flex-column align-items-center">
+                    <div class="titleContainer p-3 mb-5 w-100">
+                        <h4 class="open-sans-semiBold m-0 p-0 text-center">Apartado de reportes predictivos</h4>
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-evenly w-100">
+                        <div
+                            class="col2Row2 col-lg-3 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+                            <h4 class="open-sans-semiBold text-center titleCard">
+                                Predicción del tiempo de atención por tipo de automóvil para clientes naturales</h4>
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+                            <p class="text-center textCard">Este reporte proporciona una predicción del tiempo necesario
+                                para atender un automóvil en función de su tipo, específicamente para clientes
+                                naturales. Mide el tiempo total desde la llegada del automóvil al taller hasta su
+                                salida, desglosado por tipo de automóvil.
+                            </p>
+                            <button type="button" class="btn btnReport btn-light mb-5" onclick="openReportPrediccionTiempoNatural()">
+                                Abrir reporte
+                            </button>
+
+                            <h4 class="open-sans-semiBold text-center titleCard">
+                                Predicción del tiempo de atención por tipo de automóvil para clientes juridicos</h4>
+                            <img src="../../recursos/imagenes/icons/IconClientesBlck.png" alt="" class="imgCard">
+                            <p class="text-center textCard">Este reporte proporciona una predicción del tiempo necesario
+                                para atender un automóvil en función de su tipo, específicamente para clientes
+                                juridicos. Mide el tiempo total desde la llegada del automóvil al taller hasta su
+                                salida, desglosado por tipo de automóvil. </p>
+                            <button type="button" class="btn btnReport btn-light" onclick="openReportPrediccionTiempoJuridico()">
+                                Abrir reporte
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
             </section>
         </div>
     </main>

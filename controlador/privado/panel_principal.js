@@ -6,6 +6,7 @@ const EMPLEADOS_API = 'services/privado/trabajadores.php';
 
 const EMPLEADOS_FORM = document.getElementById('empleadosPorMesEspForm');
 
+
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
@@ -583,19 +584,12 @@ const graphPieStyling = (canvasId, title, dataLabels, dataValues) => {
 /*JS de reportes*/
 
 /*Abrir reportes*/
-const openReportAutosPorAño = () => {
+const openReportAutos = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesPorAño.php`);
+    const PATH = new URL(`${SERVER_URL}reports/administrador/automoviles.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
     console.log(PATH.href);
-}
-
-const openReportTotalDeClientes = () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/administrador/totalDeClientes.php`);
-    // Se abre el reporte en una nueva pestaña.or
-    window.open(PATH.href);
 }
 
 const openReportServiciosPendientes = () => {
@@ -692,6 +686,14 @@ const openReportHistorialserviciosCliente = () => {
 
 
 /*Js referente al apartado de reportes*/
+
+const openReportPrediccionTiempoNatural = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/administrador/predictivoTiempoAtencionNatural.php`);
+    // Se abre el reporte en una nueva pestaña.or
+    window.open(PATH.href);
+    console.log(PATH.href);
+}
 
 async function readDUI() {
     try {

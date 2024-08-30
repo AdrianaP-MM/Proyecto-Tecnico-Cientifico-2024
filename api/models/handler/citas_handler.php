@@ -19,6 +19,32 @@ class CitasHandler
     protected $estado_cita = null;
     protected $search_value = null;
 
+
+    public function getTiempoAtencionNatural()
+    {
+        $sql = 'SELECT 
+            CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automóvil atendido",
+            CONCAT(
+                FLOOR(TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) / 1440), " días ",
+                FLOOR((TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) % 1440) / 60), " horas y ",
+                TIMESTAMPDIFF(MINUTE, c.fecha_hora_cita, cf.fecha_registro_factura) % 60, " minutos"
+            ) AS "Tiempo esperado de despacho",
+            t.nombre_tipo_automovil AS "Tipo"
+        FROM 
+            tb_automoviles a
+        JOIN 
+            tb_citas c ON a.id_automovil = c.id_automovil
+        JOIN 
+            tb_consumidores_finales cf ON c.id_cita = cf.id_cita
+        JOIN 
+            tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+        WHERE 
+            cf.estado_consumidor_final = "Completado";';
+            
+        return Database::getRows($sql);
+    }
+
+
     public function tiempoPorServicio()
     {
         $sql = 'SELECT * FROM vw_tiempo_servicio;';
