@@ -29,13 +29,19 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 9); // Aumentar el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(33, 8, 'Fecha Reg.', 1, 0, 'C', 1); // Aumentar el ancho y alto de las columnas
-    $pdf->cell(33, 8, 'Fecha Aprox.', 1, 0, 'C', 1);
-    $pdf->cell(15, 8, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->cell(25, 8, 'Estado', 1, 0, 'C', 1);
-    $pdf->cell(25, 8, 'Modelo Auto', 1, 0, 'C', 1);
+    $pdf->cell(32, 8, 'Fecha Reg.', 1, 0, 'C', 1); 
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(32, 8, 'Fecha Aprox.', 1, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(14, 8, 'Cantidad', 1, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(24, 8, 'Estado', 1, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(24, 8, 'Modelo Auto', 1, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
     $pdf->cell(15, 8, 'Placa', 1, 0, 'C', 1);
-    $pdf->cell(50, 8, 'Servicio', 1, 1, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(49, 8, 'Servicio', 1, 1, 'C', 1);
 
     // Se establece un color de texto para los datos (por ejemplo, negro)
     $pdf->setTextColor(0, 0, 0);

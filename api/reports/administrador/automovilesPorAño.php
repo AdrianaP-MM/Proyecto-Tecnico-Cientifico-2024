@@ -24,8 +24,10 @@ if ($dataAutos = $auto->readAll()) {
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
     $pdf->cell(120, 10, 'Modelo', 1, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
     $pdf->cell(30, 10, 'Placa', 1, 0, 'C', 1);
-    $pdf->cell(30, 10, 'Estado', 1, 1, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(28, 10, 'Estado', 1, 1, 'C', 1);
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);
     $groupedByDate = [];
