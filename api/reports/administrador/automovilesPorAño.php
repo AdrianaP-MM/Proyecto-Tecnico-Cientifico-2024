@@ -38,9 +38,9 @@ if ($dataAutos = $auto->readAll()) {
     // Iterar sobre las fechas agrupadas
     foreach ($groupedByDate as $date => $rows) {
         // Establecer color de texto a blanco
-        $pdf->setTextColor(255, 255, 255);
+        $pdf->setTextColor(0, 0, 0);
         $pdf->setFont('Arial', 'B', 11);
-        $pdf->setFillColor(177, 167, 166);
+        $pdf->setFillColor(234, 234, 234);
         $pdf->cell(180, 10, $pdf->encodeString($date), 1, 1, 'C', 1);
         // Se recorren los registros fila por fila.
         foreach ($dataAutos as $rowAuto) {
