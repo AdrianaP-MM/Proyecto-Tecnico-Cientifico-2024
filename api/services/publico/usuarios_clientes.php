@@ -17,6 +17,49 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'checkCorreo':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuarioCliente->setCorreo($_POST['user_correo'])) {
+                    $result['error'] = 'Correo electrónico incorrecto';
+                } elseif ($result['dataset'] = $usuarioCliente->checkCorreo()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Correo electrónico inexistente';
+                }
+                break;
+            case 'enviarCodigoRecuperacion':
+                // Generar un código de recuperación
+                $codigoRecuperacion = $mandarCorreo->generarCodigoRecuperacion();
+
+                // Preparar el cuerpo del correo electrónico
+                $correoDestino = $_POST['user_correo'];
+                $asunto = 'Código de recuperación';
+                // Enviar el correo electrónico y verificar si hubo algún error
+                $envioExitoso = $mandarCorreo->enviarCorreoPassword($correoDestino, $asunto, $codigoRecuperacion);
+
+                if ($envioExitoso === true) {
+                    $result['status'] = 1;
+                    $result['codigo'] = $codigoRecuperacion;
+                    $result['message'] = 'Código de recuperación enviado correctamente';
+                } else {
+                    $result['status'] = 0;
+                    $result['error'] = 'Error al enviar el correo: ' . $envioExitoso;
+                }
+                break;
+            case 'updatePassword':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuarioCliente->setClave($_POST['user_contra']) or
+                    !$usuarioCliente->setCorreo($_POST['user_correo'])
+                ) {
+                    $result['error'] = $usuarioCliente->getDataError();
+                } elseif ($usuarioCliente->updatePassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Se ha actualizado correctamente la contraseña';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar la contraseña';
+                }
+                break;
             case 'logOut':
                 if (session_destroy()) {
                     $result['status'] = 1;
@@ -25,39 +68,44 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al cerrar la sesión';
                 }
                 break;
-                case 'readProfile':
-                    if ($result['dataset'] = $usuarioCliente->readProfile()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al leer el perfil';
+            case 'readProfile':
+                if ($result['dataset'] = $usuarioCliente->readProfile()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrió un problema al leer el perfil';
+                }
+                break;
+            case 'editProfile':
+                $_POST = Validator::validateForm($_POST);
+                $RUBRO = isset($_POST['user_rubro']) ? $_POST['user_rubro'] : '';
+                $NRC = isset($_POST['user_nrc']) ? $_POST['user_nrc'] : '';
+                $NRF = isset($_POST['user_nrf']) ? $_POST['user_nrf'] : '';
+                $IMG = isset($_FILES['user_img']) ? $_FILES['user_img'] : null;
+                if (
+                    !$usuarioCliente->setIdCliente($_SESSION['idUsuarioCliente']) or
+                    !$usuarioCliente->setDUI($_POST['user_dui']) or
+                    !$usuarioCliente->setTelefono($_POST['user_telefono']) or
+                    !$usuarioCliente->setCorreoRow($_POST['user_correo']) or
+                    !$usuarioCliente->setNombres($_POST['user_nombres']) or
+                    !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
+                    !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
+                    !$usuarioCliente->setNIT($_POST['user_nit']) or
+                    (!empty($NRC) && !$usuarioCliente->setNRC($NRC)) or
+                    (!empty($NRF) && !$usuarioCliente->setNRF($NRF)) or
+                    (!empty($RUBRO) && !$usuarioCliente->setRubro($RUBRO)) or
+                    ($IMG && !$usuarioCliente->setImagen($IMG))
+                ) {
+                    $result['error'] = $usuarioCliente->getDataError();
+                } elseif ($usuarioCliente->editProfile()) {
+                    $result['status'] = 1;
+                    if (!empty($IMG) && is_array($IMG)) {
+                        $result['fileStatus'] = Validator::saveFile($IMG, $usuarioCliente::RUTA_IMAGEN);
                     }
-                    break;
-                    case 'editProfile':
-                        $_POST = Validator::validateForm($_POST);
-                        $RUBRO = isset($_POST['user_rubro']) ? $_POST['user_rubro'] : '';
-                        $NRC = isset($_POST['user_nrc']) ? $_POST['user_nrc'] : '';
-                        $NRF = isset($_POST['user_nrf']) ? $_POST['user_nrf'] : '';
-                        if (
-                            !$usuarioCliente->setIdCliente($_SESSION['idUsuarioCliente']) or
-                            !$usuarioCliente->setDUI($_POST['user_dui']) or
-                            !$usuarioCliente->setTelefono($_POST['user_telefono']) or
-                            !$usuarioCliente->setCorreoRow($_POST['user_correo']) or
-                            !$usuarioCliente->setNombres($_POST['user_nombres']) or
-                            !$usuarioCliente->setApellidos($_POST['user_apellidos']) or
-                            !$usuarioCliente->setDepartamento($_POST['user_departamento']) or
-                            !$usuarioCliente->setNIT($_POST['user_nit']) or
-                            (!empty($NRC) && !$usuarioCliente->setNRC($NRC)) or
-                            (!empty($NRF) && !$usuarioCliente->setNRF($NRF)) or
-                            (!empty($RUBRO) && !$usuarioCliente->setRubro($RUBRO))
-                        ) {
-                            $result['error'] = $usuarioCliente->getDataError();
-                        } elseif ($usuarioCliente->editProfile()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Perfil modificado correctamente';
-                        } else {
-                            $result['error'] = 'Ocurrió un problema al modificar el perfil';
-                        }
-                    break;
+                    $result['message'] = 'Perfil modificado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

@@ -23,8 +23,11 @@ class UsuariosClientesHandler
     protected $NRF_cliente = null;
     protected $rubro_comercial = null;
     protected $estado_cliente = null;
+    protected $fto_cliente = null;
 
     /*Metodos para administrar las cuentas de Usuarios*/
+    
+    const RUTA_IMAGEN = '../../../api/images/clientes/';
 
     //Esta funcion edita los datos del usuario
     public function editProfile()
@@ -39,7 +42,8 @@ class UsuariosClientesHandler
         NIT_cliente = ?,
         NRC_cliente = ?,
         NRF_cliente = ?,
-        rubro_comercial = ?
+        rubro_comercial = ?,
+        fto_cliente = ?
         WHERE id_cliente = ?;';
 
         $params = array(
@@ -53,6 +57,7 @@ class UsuariosClientesHandler
         $this->NRC_cliente,
         $this->NRF_cliente,
         $this->rubro_comercial,
+        $this->fto_cliente,
         $this->id_cliente
         );
 

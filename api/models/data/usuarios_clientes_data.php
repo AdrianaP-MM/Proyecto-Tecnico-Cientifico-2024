@@ -10,17 +10,17 @@ class UsuariosClientesData extends UsuariosClientesHandler
     //Atributo Para el manejo de errores
     private $data_error = null;
 
-        //Funcion para validar el id
-        public function setIdCliente($value)
-        {
-            if (Validator::validateNaturalNumber($value)) {
-                $this->id_cliente = $value;
-                return true;
-            } else {
-                $this->data_error = 'El identificador del cliente es incorrecto';
-                return false;
-            }
+    //Funcion para validar el id
+    public function setIdCliente($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_cliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
+            return false;
         }
+    }
 
     //Funciones para validar y establecer los datos
     public function setCorreo($value)
@@ -194,6 +194,23 @@ class UsuariosClientesData extends UsuariosClientesHandler
             return false;
         } else {
             $this->estado_cliente = $value;
+            return true;
+        }
+    }
+
+    public function setImagen($file, $filename = null)
+    {
+        if (Validator::validateImageFile($file, 1000)) {
+            $this->fto_cliente = Validator::getFilename();
+            return true;
+        } elseif (Validator::getFileError()) {
+            $this->data_error = Validator::getFileError();
+            return false;
+        } elseif ($filename) {
+            $this->fto_cliente = $filename;
+            return true;
+        } else {
+            $this->fto_cliente = 'default.png';
             return true;
         }
     }
