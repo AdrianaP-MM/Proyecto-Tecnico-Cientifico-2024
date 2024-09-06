@@ -255,7 +255,7 @@ class CitasHandler
     public function readAllEspecific()
     {
         $sql = 'SELECT c.*, a.*, cl.*,
-    CONCAT(
+        CONCAT(
         CASE DAYOFWEEK(c.fecha_hora_cita)
             WHEN 1 THEN "Domingo"
             WHEN 2 THEN "Lunes"
@@ -280,14 +280,47 @@ class CitasHandler
             WHEN 11 THEN "Noviembre"
             WHEN 12 THEN "Diciembre"
         END
-    ) AS fecha_cita,
-    DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
-    DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
-    FROM tb_citas c
-    INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-    INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-    WHERE c.estado_cita != "Cancelado" 
-    AND cl.id_cliente = ?';
+        ) AS fecha_cita,
+        DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
+        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
+        FROM tb_citas c
+        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+        WHERE c.estado_cita != "Cancelado" 
+        AND cl.id_cliente = ?';
+
+        // Inicializar los parámetros con el id del cliente
+        $params = array($_SESSION['idUsuarioCliente']);
+
+        // Añadir el id_cita si está definido
+        if ($this->id_cita) {
+            $sql .= ' AND c.id_cita = ?';
+            $params[] = $this->id_cita;
+        }
+
+        // Ejecutar la consulta con los parámetros adecuados
+        return Database::getRows($sql, $params);
+    }
+
+    public function readAllNotisCitas()
+    {
+        $sql = 'SELECT 
+        c.*, 
+        a.*, 
+        cl.*, 
+        s.*,
+        srv.nombre_servicio, -- Agregar el nombre del servicio de tb_servicios
+        DATE_FORMAT(c.fecha_hora_cita, "%Y-%m-%d") AS fecha_cita, -- Mostrar la fecha en formato estándar (YYYY-MM-DD)
+        DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,   -- Mostrar la hora en formato estándar (H:MM AM/PM)
+        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita            -- Mostrar solo el año
+        FROM tb_citas c
+        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+            LEFT JOIN tb_servicios_en_proceso s ON c.id_cita = s.id_cita
+        LEFT JOIN tb_servicios srv ON s.id_servicio = srv.id_servicio -- Agregar JOIN con la nueva tabla tb_servicios
+        WHERE c.estado_cita != "Cancelado" 
+        AND cl.id_cliente = ?
+        ';
 
         // Inicializar los parámetros con el id del cliente
         $params = array($_SESSION['idUsuarioCliente']);
