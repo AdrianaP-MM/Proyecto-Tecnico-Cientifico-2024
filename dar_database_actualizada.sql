@@ -291,6 +291,40 @@
     FOREIGN KEY (id_cita) REFERENCES tb_citas(id_cita)
 );
 
+--Triggers de prueba
+
+DELIMITER $$
+
+CREATE TRIGGER after_cita_insert
+AFTER INSERT ON tb_citas
+FOR EACH ROW
+BEGIN
+    -- Verifica si el estado de la nueva cita es 'En espera'
+    IF NEW.estado_cita = 'En espera' THEN
+        -- Inserta un nuevo registro en tb_notificaciones con el estado anterior como NULL
+        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
+        VALUES (NEW.id_cita, NULL, NEW.estado_cita);
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER after_cita_update
+AFTER UPDATE ON tb_citas
+FOR EACH ROW
+BEGIN
+    -- Verifica si el estado de la cita ha cambiado
+    IF OLD.estado_cita <> NEW.estado_cita THEN
+        -- Inserta un nuevo registro en tb_notificaciones con el estado anterior y el nuevo
+        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
+        VALUES (NEW.id_cita, OLD.estado_cita, NEW.estado_cita);
+    END IF;
+END $$
+
+DELIMITER ;
+
 
     -- Inserciones para personas naturales
     INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, estado_cliente)
@@ -1135,33 +1169,5 @@ JOIN (
 GROUP BY 
     a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;
 
---Triggers de prueba
 
-DELIMITER $$
-
-CREATE TRIGGER after_cita_insert
-AFTER INSERT ON tb_citas
-FOR EACH ROW
-BEGIN
-    IF NEW.estado_cita = 'En espera' THEN
-        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
-        VALUES (NEW.id_cita, NULL, NEW.estado_cita);
-    END IF;
-END $$
-
-DELIMITER ;
-
-DELIMITER $$
-
-CREATE TRIGGER after_cita_update
-AFTER UPDATE ON tb_citas
-FOR EACH ROW
-BEGIN
-    IF OLD.estado_cita <> NEW.estado_cita THEN
-        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
-        VALUES (NEW.id_cita, OLD.estado_cita, NEW.estado_cita);
-    END IF;
-END $$
-
-DELIMITER ;
 
