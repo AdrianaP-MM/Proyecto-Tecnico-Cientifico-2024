@@ -280,6 +280,18 @@
     ADD CONSTRAINT u_fk_forma_pago_forma_pago_consumidor_final FOREIGN KEY (id_forma_pago) REFERENCES tb_formas_pagos(id_forma_pago),
     ADD CONSTRAINT u_fk_consumidor_final_forma_pago_forma_pago_consumidor_final FOREIGN KEY (id_consumidor_final) REFERENCES tb_consumidores_finales(id_consumidor_final);
 
+    CREATE TABLE tb_notificaciones
+(
+    id_notificacion INT PRIMARY KEY AUTO_INCREMENT,
+    id_cita INT,  -- FK a tb_citas
+    estado_anterior ENUM('En espera', 'Aceptado', 'Cancelado', 'Finalizada'),
+    estado_nuevo ENUM('En espera', 'Aceptado', 'Cancelado', 'Finalizada'),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    leido BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_cita) REFERENCES tb_citas(id_cita)
+);
+
+
     -- Inserciones para personas naturales
     INSERT INTO tb_clientes (fecha_registro_cliente, dui_cliente, telefono_cliente, correo_cliente, nombres_cliente, apellidos_cliente, tipo_cliente, departamento_cliente, NIT_cliente, estado_cliente)
     VALUES 
@@ -1122,4 +1134,34 @@ JOIN (
 ) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
 GROUP BY 
     a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;
+
+--Triggers de prueba
+
+DELIMITER $$
+
+CREATE TRIGGER after_cita_insert
+AFTER INSERT ON tb_citas
+FOR EACH ROW
+BEGIN
+    IF NEW.estado_cita = 'En espera' THEN
+        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
+        VALUES (NEW.id_cita, NULL, NEW.estado_cita);
+    END IF;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER after_cita_update
+AFTER UPDATE ON tb_citas
+FOR EACH ROW
+BEGIN
+    IF OLD.estado_cita <> NEW.estado_cita THEN
+        INSERT INTO tb_notificaciones (id_cita, estado_anterior, estado_nuevo)
+        VALUES (NEW.id_cita, OLD.estado_cita, NEW.estado_cita);
+    END IF;
+END $$
+
+DELIMITER ;
 
