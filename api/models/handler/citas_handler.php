@@ -335,6 +335,36 @@ class CitasHandler
         return Database::getRows($sql, $params);
     }
 
+    public function actualizacionCitaNoti()
+    {
+        $sql = 'SELECT 
+        n.id_cita,
+        n.estado_nuevo,
+        a.modelo_automovil,
+        c.fecha_registro,
+        s.nombre_servicio
+        FROM 
+        tb_notificaciones n
+        JOIN 
+        tb_citas c ON n.id_cita = c.id_cita
+        JOIN 
+        tb_automoviles a ON c.id_automovil = a.id_automovil
+        JOIN 
+        tb_clientes cl ON a.id_cliente = cl.id_cliente
+        JOIN 
+        tb_servicios_en_proceso sp ON c.id_cita = sp.id_cita
+        JOIN 
+        tb_servicios s ON sp.id_servicio = s.id_servicio
+        WHERE 
+        n.leido = FALSE
+        AND cl.id_cliente = ?;
+        ';
+        $params = array(
+            $this->$_SESSION['idUsuarioCliente']
+        );
+        return Database::getRows($sql, $params);
+    }
+
     public function readOne()
     {
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
