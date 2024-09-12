@@ -18,6 +18,7 @@ class CitasHandler
     protected $direccion_regreso = null;
     protected $estado_cita = null;
     protected $search_value = null;
+    protected $id_notificacion = null;
 
     public function getDemandaServicioMensual()
     {
@@ -388,11 +389,12 @@ class CitasHandler
     public function actualizacionCitaNoti()
     {
         $sql = 'SELECT 
+        n.id_notificacion,
         n.id_cita,
         n.estado_nuevo,
         n.fecha_creacion,
         a.modelo_automovil,
-        c.fecha_registro,
+        c.fecha_hora_cita,
         s.nombre_servicio
         FROM 
         tb_notificaciones n
@@ -415,6 +417,24 @@ class CitasHandler
         return Database::getRows($sql, $params);
     }
 
+
+    public function marcarComoLeido()
+    {
+        // Consulta SQL para actualizar una cita existente
+        $sql = 'UPDATE tb_notificaciones SET
+                leido = ?
+            WHERE id_notificacion = ?';
+
+        // Parámetros para la consulta SQL
+        $params = array(
+            '1', $this->id_notificacion
+        );
+
+        // Ejecución de la consulta SQL
+        return Database::executeRow($sql, $params);
+    }
+
+    
     public function readOne()
     {
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c

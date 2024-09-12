@@ -28,6 +28,17 @@ class CitasData extends CitasHandler
         }
     }
 
+    public function setIdNotificacion($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_notificacion = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la cita es incorrecto';
+            return false;
+        }
+    }
+
     public function setIdCliente($value)
     {
         if (Validator::validateNaturalNumber($value)) {

@@ -110,6 +110,19 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la cita';
                 }
                 break;
+            case 'marcarComoLeido':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cita->setIdNotificacion($_POST['id_notificacion'])
+                ) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($cita->marcarComoLeido()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Se ha marcado como leido';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al marcar como leido';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }
