@@ -302,6 +302,56 @@ class CitasHandler
         return Database::getRows($sql, $params);
     }
 
+    public function readAllEspecificProximas()
+    {
+        $sql = 'SELECT c.*, a.*, cl.*,
+        CONCAT(
+        CASE DAYOFWEEK(c.fecha_hora_cita)
+            WHEN 1 THEN "Domingo"
+            WHEN 2 THEN "Lunes"
+            WHEN 3 THEN "Martes"
+            WHEN 4 THEN "Miércoles"
+            WHEN 5 THEN "Jueves"
+            WHEN 6 THEN "Viernes"
+            WHEN 7 THEN "Sábado"
+        END, 
+        " ", DATE_FORMAT(c.fecha_hora_cita, "%d de "),
+        CASE MONTH(c.fecha_hora_cita)
+            WHEN 1 THEN "Enero"
+            WHEN 2 THEN "Febrero"
+            WHEN 3 THEN "Marzo"
+            WHEN 4 THEN "Abril"
+            WHEN 5 THEN "Mayo"
+            WHEN 6 THEN "Junio"
+            WHEN 7 THEN "Julio"
+            WHEN 8 THEN "Agosto"
+            WHEN 9 THEN "Septiembre"
+            WHEN 10 THEN "Octubre"
+            WHEN 11 THEN "Noviembre"
+            WHEN 12 THEN "Diciembre"
+        END
+        ) AS fecha_cita,
+        DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
+        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
+        FROM tb_citas c
+        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+        WHERE c.estado_cita != "Cancelado" 
+        AND cl.id_cliente = ?';
+
+        // Inicializar los parámetros con el id del cliente
+        $params = array($_SESSION['idUsuarioCliente']);
+
+        // Añadir el id_cita si está definido
+        if ($this->id_cita) {
+            $sql .= ' AND c.id_cita = ?';
+            $params[] = $this->id_cita;
+        }
+
+        // Ejecutar la consulta con los parámetros adecuados
+        return Database::getRows($sql, $params);
+    }
+
     public function readAllNotisCitas()
     {
         $sql = 'SELECT 

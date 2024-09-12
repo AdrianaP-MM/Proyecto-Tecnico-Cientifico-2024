@@ -20,6 +20,13 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen citas del cliente para mostrar';
                 }
                 break;
+            case 'readAllEspecificProximas':
+                if ($result['dataset'] = $cita->readAllEspecificProximas()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No existen citas del cliente para mostrar';
+                }
+                break;
             case 'readAllNotisCitas':
                 if ($result['dataset'] = $cita->readAllNotisCitas()) {
                     $result['status'] = 1;
@@ -118,8 +125,8 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print(json_encode($result));
+    print (json_encode($result));
 } else {
     // Si no se envió una acción válida, se devuelve un mensaje de recurso no disponible.
-    print(json_encode('Recurso no disponible'));
+    print (json_encode('Recurso no disponible'));
 }
