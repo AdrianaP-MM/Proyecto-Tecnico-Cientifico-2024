@@ -318,7 +318,7 @@ class CitasHandler
         INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
             LEFT JOIN tb_servicios_en_proceso s ON c.id_cita = s.id_cita
         LEFT JOIN tb_servicios srv ON s.id_servicio = srv.id_servicio -- Agregar JOIN con la nueva tabla tb_servicios
-        WHERE c.estado_cita != "Cancelado" 
+        WHERE c.estado_cita = "Aceptado"
         AND cl.id_cliente = ?
         ';
 
@@ -340,6 +340,7 @@ class CitasHandler
         $sql = 'SELECT 
         n.id_cita,
         n.estado_nuevo,
+        n.fecha_creacion,
         a.modelo_automovil,
         c.fecha_registro,
         s.nombre_servicio
@@ -357,7 +358,8 @@ class CitasHandler
         tb_servicios s ON sp.id_servicio = s.id_servicio
         WHERE 
         n.leido = FALSE
-        AND cl.id_cliente = ?;
+        AND cl.id_cliente = ?
+        AND n.estado_nuevo != "En espera";
         ';
         $params = array(
             $this->$_SESSION['idUsuarioCliente']
