@@ -255,40 +255,40 @@ class CitasHandler
 
     public function readAllEspecific()
     {
+        // Construcción de la consulta SQL
         $sql = 'SELECT c.*, a.*, cl.*,
-        CONCAT(
-        CASE DAYOFWEEK(c.fecha_hora_cita)
-            WHEN 1 THEN "Domingo"
-            WHEN 2 THEN "Lunes"
-            WHEN 3 THEN "Martes"
-            WHEN 4 THEN "Miércoles"
-            WHEN 5 THEN "Jueves"
-            WHEN 6 THEN "Viernes"
-            WHEN 7 THEN "Sábado"
-        END, 
-        " ", DATE_FORMAT(c.fecha_hora_cita, "%d de "),
-        CASE MONTH(c.fecha_hora_cita)
-            WHEN 1 THEN "Enero"
-            WHEN 2 THEN "Febrero"
-            WHEN 3 THEN "Marzo"
-            WHEN 4 THEN "Abril"
-            WHEN 5 THEN "Mayo"
-            WHEN 6 THEN "Junio"
-            WHEN 7 THEN "Julio"
-            WHEN 8 THEN "Agosto"
-            WHEN 9 THEN "Septiembre"
-            WHEN 10 THEN "Octubre"
-            WHEN 11 THEN "Noviembre"
-            WHEN 12 THEN "Diciembre"
-        END
-        ) AS fecha_cita,
-        DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
-        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
-        FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-        WHERE c.estado_cita != "Cancelado" 
-        AND cl.id_cliente = ?';
+                CONCAT(
+                CASE DAYOFWEEK(c.fecha_hora_cita)
+                    WHEN 1 THEN "Domingo"
+                    WHEN 2 THEN "Lunes"
+                    WHEN 3 THEN "Martes"
+                    WHEN 4 THEN "Miércoles"
+                    WHEN 5 THEN "Jueves"
+                    WHEN 6 THEN "Viernes"
+                    WHEN 7 THEN "Sábado"
+                END, 
+                " ", DATE_FORMAT(c.fecha_hora_cita, "%d de "),
+                CASE MONTH(c.fecha_hora_cita)
+                    WHEN 1 THEN "Enero"
+                    WHEN 2 THEN "Febrero"
+                    WHEN 3 THEN "Marzo"
+                    WHEN 4 THEN "Abril"
+                    WHEN 5 THEN "Mayo"
+                    WHEN 6 THEN "Junio"
+                    WHEN 7 THEN "Julio"
+                    WHEN 8 THEN "Agosto"
+                    WHEN 9 THEN "Septiembre"
+                    WHEN 10 THEN "Octubre"
+                    WHEN 11 THEN "Noviembre"
+                    WHEN 12 THEN "Diciembre"
+                END
+                ) AS fecha_cita,
+                DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
+                DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
+                FROM tb_citas c
+                INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
+                INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
+                WHERE cl.id_cliente = ?';
 
         // Inicializar los parámetros con el id del cliente
         $params = array($_SESSION['idUsuarioCliente']);
@@ -299,59 +299,25 @@ class CitasHandler
             $params[] = $this->id_cita;
         }
 
-        // Ejecutar la consulta con los parámetros adecuados
-        return Database::getRows($sql, $params);
-    }
-
-    public function readAllEspecificProximas()
-    {
-        $sql = 'SELECT c.*, a.*, cl.*,
-        CONCAT(
-        CASE DAYOFWEEK(c.fecha_hora_cita)
-            WHEN 1 THEN "Domingo"
-            WHEN 2 THEN "Lunes"
-            WHEN 3 THEN "Martes"
-            WHEN 4 THEN "Miércoles"
-            WHEN 5 THEN "Jueves"
-            WHEN 6 THEN "Viernes"
-            WHEN 7 THEN "Sábado"
-        END, 
-        " ", DATE_FORMAT(c.fecha_hora_cita, "%d de "),
-        CASE MONTH(c.fecha_hora_cita)
-            WHEN 1 THEN "Enero"
-            WHEN 2 THEN "Febrero"
-            WHEN 3 THEN "Marzo"
-            WHEN 4 THEN "Abril"
-            WHEN 5 THEN "Mayo"
-            WHEN 6 THEN "Junio"
-            WHEN 7 THEN "Julio"
-            WHEN 8 THEN "Agosto"
-            WHEN 9 THEN "Septiembre"
-            WHEN 10 THEN "Octubre"
-            WHEN 11 THEN "Noviembre"
-            WHEN 12 THEN "Diciembre"
-        END
-        ) AS fecha_cita,
-        DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,
-        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita
-        FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-        WHERE c.estado_cita != "Cancelado" 
-        AND cl.id_cliente = ?';
-
-        // Inicializar los parámetros con el id del cliente
-        $params = array($_SESSION['idUsuarioCliente']);
-
-        // Añadir el id_cita si está definido
-        if ($this->id_cita) {
-            $sql .= ' AND c.id_cita = ?';
-            $params[] = $this->id_cita;
+        // Añadir las condiciones basadas en el estado de la cita
+        if ($this->estado_cita) {
+            if ($this->estado_cita == 'proximas') {
+                // Solo citas aceptadas y futuras
+                $sql .= ' AND c.estado_cita = "Aceptada" AND c.fecha_hora_cita > NOW()';
+            } else {
+                // Filtrar por el estado de cita proporcionado
+                $sql .= ' AND c.estado_cita = ?';
+                $params[] = $this->estado_cita;
+            }
+        } else {
+            // Filtrar para que no incluya citas canceladas
+            $sql .= ' AND c.estado_cita != "Cancelado"';
         }
 
         // Ejecutar la consulta con los parámetros adecuados
         return Database::getRows($sql, $params);
     }
+
 
     public function readAllNotisCitas()
     {
@@ -427,14 +393,15 @@ class CitasHandler
 
         // Parámetros para la consulta SQL
         $params = array(
-            '1', $this->id_notificacion
+            '1',
+            $this->id_notificacion
         );
 
         // Ejecución de la consulta SQL
         return Database::executeRow($sql, $params);
     }
 
-    
+
     public function readOne()
     {
         $sql = 'SELECT c.*, a.*, cl.* FROM tb_citas c
@@ -513,7 +480,7 @@ class CitasHandler
     {
         // Consulta SQL para eliminar un automóvil basado en su ID
         $sql = 'UPDATE tb_citas SET estado_cita = "Cancelado"
-            WHERE id_cita = ?';
+            WHERE id_cita = ? AND estado_cita = "En espera"';
         // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
         $params = array($this->id_cita);
         // Ejecuta la consulta de eliminación y devuelve el resultado

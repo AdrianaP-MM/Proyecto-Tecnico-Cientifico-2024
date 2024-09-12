@@ -14,17 +14,13 @@ if (isset($_GET['action'])) {
         $result['session'] = 1; // Indica que hay una sesión activa.
         switch ($_GET['action']) {
             case 'readAllEspecific':
-                if ($result['dataset'] = $cita->readAllEspecific()) {
+                if (!$cita->setEstadoCita($_POST['estado_cita'])) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($result['dataset'] = $cita->readAllEspecific()) {
                     $result['status'] = 1;
-                } else {
                     $result['error'] = 'No existen citas del cliente para mostrar';
-                }
-                break;
-            case 'readAllEspecificProximas':
-                if ($result['dataset'] = $cita->readAllEspecificProximas()) {
-                    $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No existen citas del cliente para mostrar';
+                    $result['error'] = 'Cita inexistente';
                 }
                 break;
             case 'readAllNotisCitas':
@@ -107,7 +103,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Cita eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la cita';
+                    $result['error'] = 'Solo se pueden eliminar las citas en espera';
                 }
                 break;
             case 'marcarComoLeido':
