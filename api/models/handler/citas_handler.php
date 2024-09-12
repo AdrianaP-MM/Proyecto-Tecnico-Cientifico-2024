@@ -358,12 +358,10 @@ class CitasHandler
         tb_servicios s ON sp.id_servicio = s.id_servicio
         WHERE 
         n.leido = FALSE
+        AND n.estado_nuevo != "En espera"
         AND cl.id_cliente = ?
-        AND n.estado_nuevo != "En espera";
         ';
-        $params = array(
-            $this->$_SESSION['idUsuarioCliente']
-        );
+        $params = array($_SESSION['idUsuarioCliente']);
         return Database::getRows($sql, $params);
     }
 
