@@ -13,6 +13,19 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idUsuarioCliente'])) {
         $result['session'] = 1; // Indica que hay una sesión activa.
         switch ($_GET['action']) {
+            case 'searchByFechaLLegada': //No puede agregar una cita con el mismo carro 
+                if (
+                    !$cita->setFechaHora($_POST['fecha_llegada']) or
+                    !$cita->setEstadoCita($_POST['estado_cita'])
+                ) {
+                    $result['error'] = $cita->getDataError();
+                } elseif ($result['dataset'] = $cita->searchByFechaLLegada()) {
+                    $result['status'] = 1;
+                    $result['error'] = 'No se encontraron citas';
+                } else {
+                    $result['error'] = 'Cita inexistente';
+                }
+                break;
             case 'readAllEspecific':
                 if (!$cita->setEstadoCita($_POST['estado_cita'])) {
                     $result['error'] = $cita->getDataError();
@@ -134,8 +147,8 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
     // Si no se envió una acción válida, se devuelve un mensaje de recurso no disponible.
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

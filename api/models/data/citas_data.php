@@ -132,8 +132,12 @@ class CitasData extends CitasHandler
 
     public function setEstadoCita($value)
     {
-        $this->estado_cita = $value;
-        return true;
+        if (Validator::validateAlphabetic($value)) {
+            $this->estado_cita = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del estado de la cita es incorrecto';
+            return false;
+        }
     }
-
 }

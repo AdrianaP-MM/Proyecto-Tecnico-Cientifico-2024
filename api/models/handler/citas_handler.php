@@ -20,6 +20,15 @@ class CitasHandler
     protected $search_value = null;
     protected $id_notificacion = null;
 
+    public function searchByFechaLLegada()
+    {
+        $sql = 'SELECT * FROM tb_citas;';
+        $params = array(
+            $this->id_automovil
+        );
+        return Database::getRow($sql, $params);
+    }
+
     public function getDemandaServicioMensual()
     {
         $sql = 'WITH servicios_realizados_por_mes AS (
