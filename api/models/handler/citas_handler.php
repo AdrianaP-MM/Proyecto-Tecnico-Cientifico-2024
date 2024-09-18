@@ -416,17 +416,17 @@ class CitasHandler
         c.*, 
         a.*, 
         cl.*, 
-        s.*,
-        srv.nombre_servicio, -- Agregar el nombre del servicio de tb_servicios
         DATE_FORMAT(c.fecha_hora_cita, "%Y-%m-%d") AS fecha_cita, -- Mostrar la fecha en formato estándar (YYYY-MM-DD)
         DATE_FORMAT(c.fecha_hora_cita, "%l:%i %p") AS hora_cita,   -- Mostrar la hora en formato estándar (H:MM AM/PM)
-        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita            -- Mostrar solo el año
-        FROM tb_citas c
-        INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
-        INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
-            LEFT JOIN tb_servicios_en_proceso s ON c.id_cita = s.id_cita
-        LEFT JOIN tb_servicios srv ON s.id_servicio = srv.id_servicio -- Agregar JOIN con la nueva tabla tb_servicios
-        WHERE c.estado_cita = "Aceptado"
+        DATE_FORMAT(c.fecha_hora_cita, "%Y") AS anio_cita          -- Mostrar solo el año
+        FROM 
+        tb_citas c
+        INNER JOIN 
+        tb_automoviles a ON c.id_automovil = a.id_automovil
+        INNER JOIN 
+        tb_clientes cl ON a.id_cliente = cl.id_cliente
+        WHERE 
+        c.estado_cita = "Aceptado"
         AND cl.id_cliente = ?
         ';
 
@@ -451,8 +451,7 @@ class CitasHandler
         n.estado_nuevo,
         n.fecha_creacion,
         a.modelo_automovil,
-        c.fecha_hora_cita,
-        s.nombre_servicio
+        c.fecha_hora_cita
         FROM 
         tb_notificaciones n
         JOIN 
@@ -461,10 +460,6 @@ class CitasHandler
         tb_automoviles a ON c.id_automovil = a.id_automovil
         JOIN 
         tb_clientes cl ON a.id_cliente = cl.id_cliente
-        JOIN 
-        tb_servicios_en_proceso sp ON c.id_cita = sp.id_cita
-        JOIN 
-        tb_servicios s ON sp.id_servicio = s.id_servicio
         WHERE 
         n.leido = FALSE
         AND n.estado_nuevo != "En espera"
