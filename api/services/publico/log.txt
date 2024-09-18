@@ -1,0 +1,111 @@
+Datos POST: Array
+(
+    [modelo_automovil] => julia
+    [color_automovil] => Azul
+    [id_tipo_automovil] => 6
+    [id_marca_automovil] => 7
+    [fecha_fabricacion_automovil] => 2008
+    [placa_automovil] => 132456
+)
+Datos FILES: Array
+(
+    [imagen_automovil] => Array
+        (
+            [name] => 22ce96cb-cc02-424c-85f5-dacad1e4d6c3.jpeg
+            [full_path] => 22ce96cb-cc02-424c-85f5-dacad1e4d6c3.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\phpD0E7.tmp
+            [error] => 0
+            [size] => 48858
+        )
+
+)
+Error: Datos POST: Array
+(
+    [modelo_automovil] => juliaa
+    [color_automovil] => Azul
+    [id_tipo_automovil] => 6
+    [id_marca_automovil] => 8
+    [fecha_fabricacion_automovil] => 2006
+    [placa_automovil] => 284615
+)
+Datos FILES: Array
+(
+    [imagen_automovil] => Array
+        (
+            [name] => b61dbf2c-cced-4c51-92b6-10c72d661d59.jpeg
+            [full_path] => b61dbf2c-cced-4c51-92b6-10c72d661d59.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\php2BA6.tmp
+            [error] => 0
+            [size] => 48858
+        )
+
+)
+Error: Datos POST: Array
+(
+    [modelo_automovil] => juliaa
+    [color_automovil] => Azul
+    [id_tipo_automovil] => 6
+    [id_marca_automovil] => 8
+    [fecha_fabricacion_automovil] => 2006
+    [placa_automovil] => 284615
+)
+Datos FILES: Array
+(
+    [imagen_automovil] => Array
+        (
+            [name] => b61dbf2c-cced-4c51-92b6-10c72d661d59.jpeg
+            [full_path] => b61dbf2c-cced-4c51-92b6-10c72d661d59.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\php8773.tmp
+            [error] => 0
+            [size] => 48858
+        )
+
+)
+Error: Datos POST: Array
+(
+    [modelo_automovil] => axen
+    [color_automovil] => Azul
+    [id_tipo_automovil] => 6
+    [id_marca_automovil] => 8
+    [fecha_fabricacion_automovil] => 2008
+    [placa_automovil] => 257416
+)
+Datos FILES: Array
+(
+    [imagen_automovil] => Array
+        (
+            [name] => f3258fe0-914b-4bd4-80fb-72a5032ba5d6.jpeg
+            [full_path] => f3258fe0-914b-4bd4-80fb-72a5032ba5d6.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\php4CAF.tmp
+            [error] => 0
+            [size] => 48858
+        )
+
+)
+Error: Datos POST: Array
+(
+    [modelo_automovil] => axen
+    [color_automovil] => Azul
+    [id_tipo_automovil] => 6
+    [id_marca_automovil] => 8
+    [fecha_fabricacion_automovil] => 2008
+    [placa_automovil] => 257416
+)
+Datos FILES: Array
+(
+    [imagen_automovil] => Array
+        (
+            [name] => f3258fe0-914b-4bd4-80fb-72a5032ba5d6.jpeg
+            [full_path] => f3258fe0-914b-4bd4-80fb-72a5032ba5d6.jpeg
+            [type] => image/jpeg
+            [tmp_name] => C:\xampp\tmp\phpB5CA.tmp
+            [error] => 0
+            [size] => 48858
+        )
+
+)
+Error: 

@@ -28,7 +28,7 @@ if ($duiCliente && $idServicio) {
             $pdf->setFont('Arial', 'B', 11);
             // Se establece un color de relleno para los encabezados.
             $pdf->setFillColor(186, 24, 27);
-            // Restablecer el color del texto a negro.
+            // Restablecer el color del texto a blanco en los encabezados de la tabla.
             $pdf->setTextColor(255, 255, 255);
             // Se imprimen las celdas con los encabezados.
             $pdf->cell(39, 10, 'Nombre del cliente', 0, 0, 'C', 1);
@@ -38,7 +38,7 @@ if ($duiCliente && $idServicio) {
             $pdf->cell(50, 10, 'Nombre del servicio', 0, 0, 'C', 1);
             $pdf->cell(1, 5, '', 0, 0, 'C');
             $pdf->cell(39, 10, 'Fecha de cita', 0, 1, 'C', 1);
-            // Restablecer el color del texto a negro.
+            // Restablecer el color del texto a negro en los campos de la tabla.
             $pdf->setTextColor(0, 0, 0);
             // Se establece la fuente para los datos de los productos.
             $pdf->setFont('Arial', '', 11);
