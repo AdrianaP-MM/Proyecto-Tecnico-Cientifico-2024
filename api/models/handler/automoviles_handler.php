@@ -103,28 +103,33 @@ class AutomovilHandler
     {
         // Consulta SQL para actualizar un automóvil
         $sql = 'UPDATE tb_automoviles SET 
-        modelo_automovil = ?, // Cambio aquí
+        modelo_automovil = ?,
         id_tipo_automovil = ?,
         color_automovil = ?,
         fecha_fabricacion_automovil = ?,
         placa_automovil = ?,
         imagen_automovil = ?,
+        id_marca_automovil = ?,
         id_cliente = ?
         WHERE id_automovil = ?';
-
+    
+        // Asegúrate de que las propiedades están bien asignadas
         $params = array(
             $this->modelo_automovil,
             $this->id_tipo_automovil,
             $this->color_automovil,
             $this->fecha_fabricacion_automovil,
             $this->placa_automovil,
-            $this->imagen_automovil,
-            $this->id_cliente,
+            $this->imagen_automovil, // Verifica que este campo se maneje correctamente si la imagen no se actualiza
+            $this->id_marca_automovil,
+            $this->id_cliente, // Verifica si este campo es necesario
             $this->id_automovil
-        ); // Parámetros para la consulta SQL
-
-        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+        );
+    
+        // Ejecutar la consulta
+        return Database::executeRow($sql, $params);
     }
+
 
     public function deleteRow()
     {
