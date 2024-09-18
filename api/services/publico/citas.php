@@ -132,6 +132,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al marcar como leido';
                 }
                 break;
+            case 'searchCitaByNumber':
+                if (!$cita->setIdCita($_POST['search_value'])) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cita->searchCitaByNumber()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Cita encontrada correctamente';
+                } else {}
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }

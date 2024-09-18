@@ -24,6 +24,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Cliente inexistente';
                 }
                 break;
+            case 'searchServicioByName':
+                if (!$serviciodisponible->setNombreServicio($_POST['search_value'])) {
+                    $result['error'] = $serviciodisponible->getDataError();
+                } elseif ($result['dataset'] = $serviciodisponible->searchServicioByName()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Servicio inexistente';
+                }
+                break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();

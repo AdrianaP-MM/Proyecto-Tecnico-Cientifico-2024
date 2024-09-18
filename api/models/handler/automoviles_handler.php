@@ -26,6 +26,21 @@ class AutomovilHandler
 
     const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
+    public function searchAutosByPlaca()
+    {
+        // Consulta SQL para leer todos los automóviles eliminados del cliente actual
+        $sql = 'SELECT *
+            FROM tb_automoviles
+            WHERE placa_automovil = ?
+            AND id_cliente = ?;';
+        $params = array(
+            $this->placa_automovil,
+            $_SESSION['idUsuarioCliente']
+        );
+        
+        return Database::getRows($sql, $params);
+    }
+
     public function searchRows()
     {
         // Consulta SQL para buscar automóviles
@@ -231,9 +246,9 @@ class AutomovilHandler
     {
         // Consulta SQL para leer todos los automóviles del cliente actual, incluyendo la imagen del automóvil
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
-                       c.dui_cliente AS dui_cliente,
-                       a.*,
-                       a.imagen_automovil
+                    c.dui_cliente AS dui_cliente,
+                    a.*,
+                    a.imagen_automovil
                 FROM tb_automoviles a
                 INNER JOIN tb_clientes c USING(id_cliente)
                 WHERE estado_automovil = "Activo" AND id_cliente = ?;';
@@ -248,17 +263,12 @@ class AutomovilHandler
     {
         // Consulta SQL para leer todos los automóviles eliminados del cliente actual
         $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
-        c.dui_cliente AS dui_cliente,
-        co.nombre_color AS nombre_color,
-        mo.nombre_modelo_automovil AS nombre_modelo,
-        ma.nombre_marca_automovil AS nombre_marca,
-        a.*
-        FROM tb_automoviles a
-        INNER JOIN tb_clientes c USING(id_cliente)
-        INNER JOIN tb_colores co USING(id_color)
-        INNER JOIN tb_modelos_automoviles mo USING(modelo_automovil) // Cambio aquí
-        INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
-        WHERE estado_automovil = "Eliminado" AND id_cliente = ?;';
+                    c.dui_cliente AS dui_cliente,
+                    a.*,
+                    a.imagen_automovil
+                FROM tb_automoviles a
+                INNER JOIN tb_clientes c USING(id_cliente)
+                WHERE estado_automovil = "Eliminado" AND id_cliente = ?;';
         $params = array(
             $_SESSION['idUsuarioCliente']
         );
@@ -392,7 +402,4 @@ class AutomovilHandler
         $params = array($id_automovil);
         return Database::getRows($sql, $params);
     }
-    
-
 }
-?>

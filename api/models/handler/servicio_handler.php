@@ -14,6 +14,24 @@ class ServicioHandler
     protected $nombre_servicio = null;
     protected $descripcion_servicio = null;
 
+    public function searchServicioByName()
+    {
+        // Agrega los comodines '%' a la variable de búsqueda
+        $searchTerm = '%' . $this->nombre_servicio . '%';
+
+        // Prepara la consulta con el marcador de posición '?'
+        $sql = 'SELECT *
+                FROM tb_servicios
+                WHERE nombre_servicio LIKE ?';
+
+        // Define los parámetros para la consulta
+        $params = array($searchTerm);
+
+        // Ejecuta la consulta y retorna los resultados
+        return Database::getRows($sql, $params);
+    }
+
+
     // Método para leer todos los registros.
     public function readAll()
     {

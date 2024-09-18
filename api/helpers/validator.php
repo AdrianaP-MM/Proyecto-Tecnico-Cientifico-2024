@@ -393,9 +393,8 @@ class Validator
 
         /*
          // Retornar el resultado en formato JSON para pruebas
-         header('Content-Type: application/json');
-         echo json_encode(['isValid' => $isValid]);
-         return $isValid;*/
-
+        header('Content-Type: application/json');
+        echo json_encode(['isValid' => $isValid]);
+        return $isValid;*/
     }
 }

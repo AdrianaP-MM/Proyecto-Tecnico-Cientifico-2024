@@ -111,7 +111,7 @@ class AutomovilData extends AutomovilHandler
             $this->placa_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El formato de la placa es incorrecto';
+            $this->data_error = 'El formato de la placa es incorrecto.';
             return false;
         }
     }
