@@ -135,7 +135,7 @@ if (isset($_GET['action'])) {
             case 'searchCitaByNumber':
                 if (!$cita->setIdCita($_POST['search_value'])) {
                     $result['error'] = $cliente->getDataError();
-                } elseif ($cita->searchCitaByNumber()) {
+                } elseif ($result['dataset'] = $cita->searchCitaByNumber()) {
                     $result['status'] = 1;
                     $result['message'] = 'Cita encontrada correctamente';
                 } else {}

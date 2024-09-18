@@ -22,6 +22,7 @@ class CitasHandler
 
     public function searchCitaByNumber()
     {
+        // Consulta SQL con marcadores de posición
         $sql = 'SELECT c.*, a.*, cl.*,
                 CONCAT(
                 CASE DAYOFWEEK(c.fecha_hora_cita)
@@ -55,12 +56,17 @@ class CitasHandler
                 INNER JOIN tb_automoviles a ON c.id_automovil = a.id_automovil
                 INNER JOIN tb_clientes cl ON a.id_cliente = cl.id_cliente
                 WHERE cl.id_cliente = ? AND c.id_cita = ?';
+
+        // Parámetros para la consulta
         $params = array(
             $_SESSION['idUsuarioCliente'],
             $this->id_cita
         );
-        return Database::getRow($sql, $params);
+
+        // Ejecuta la consulta y devuelve los resultados
+        return Database::getRows($sql, $params);
     }
+
 
     public function searchByFechaLLegada()
     {
