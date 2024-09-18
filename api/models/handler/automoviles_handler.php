@@ -29,10 +29,13 @@ class AutomovilHandler
     public function searchAutosByPlaca()
     {
         // Consulta SQL para leer todos los automóviles eliminados del cliente actual
-        $sql = 'SELECT *
-            FROM tb_automoviles
-            WHERE placa_automovil = ?
-            AND id_cliente = ?;';
+        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
+                    c.dui_cliente AS dui_cliente,
+                    a.*,
+                    a.imagen_automovil
+                FROM tb_automoviles a
+                INNER JOIN tb_clientes c USING(id_cliente)
+                WHERE estado_automovil = "Activo" AND a.placa_automovil = ? AND id_cliente = ?;';
         $params = array(
             $this->placa_automovil,
             $_SESSION['idUsuarioCliente']

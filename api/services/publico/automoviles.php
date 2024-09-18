@@ -114,11 +114,11 @@ if (isset($_GET['action'])) {
             case 'searchAutosByPlaca':
                 if (!$automovil->setPlaca($_POST['search_value'])) {
                     $result['error'] = $automovil->getDataError();
-                } elseif ($automovil->searchAutosByPlaca()) {
+                } elseif ($result['dataset'] = $automovil->searchAutosByPlaca()) {
                     $result['status'] = 1;
                     $result['message'] = 'Carro encontrado.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al buscar el carro.';
+                    $result['error'] = 'No se encontró el automóvil.';
                 }
                 break;
         }
