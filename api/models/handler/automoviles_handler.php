@@ -37,7 +37,7 @@ class AutomovilHandler
             $this->placa_automovil,
             $_SESSION['idUsuarioCliente']
         );
-        
+
         return Database::getRows($sql, $params);
     }
 
@@ -133,8 +133,8 @@ class AutomovilHandler
     }
 
     public function createRow()
-{
-    $sql = 'INSERT INTO tb_automoviles(
+    {
+        $sql = 'INSERT INTO tb_automoviles(
         modelo_automovil,
         id_tipo_automovil, 
         color_automovil,
@@ -146,18 +146,16 @@ class AutomovilHandler
         fecha_registro,
         estado_automovil) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), "Activo")';
 
-    $params = array(
-        $this->modelo_automovil,
-        $this->id_tipo_automovil,
-        $this->color_automovil,
-        $this->fecha_fabricacion_automovil,
-        $this->placa_automovil,
-        $this->imagen_automovil,
-        $this->id_marca_automovil,
-        $this->id_cliente
-    );
-
-
+        $params = array(
+            $this->modelo_automovil,
+            $this->id_tipo_automovil,
+            $this->color_automovil,
+            $this->fecha_fabricacion_automovil,
+            $this->placa_automovil,
+            $this->imagen_automovil,
+            $this->id_marca_automovil,
+            $_SESSION['idUsuarioCliente']
+        );
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 

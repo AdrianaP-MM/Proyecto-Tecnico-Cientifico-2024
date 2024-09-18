@@ -56,41 +56,35 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen tipos de automóviles registrados';
                 }
                 break;
-                case 'readMarcas':
-                    if ($result['dataset'] = $automovil->readMarcas()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' marcas de autom贸viles registrados';
-                    } else {
-                        $result['error'] = 'No existen tipos de autom贸viles registrados';
-                    }
-                    break;
-                    case 'createRow':
-                        // Valida los datos del formulario
-                        $_POST = Validator::validateForm($_POST);
-                        print_r($_POST);
-                        // Registra los datos recibidos para depuraci贸n
-                       
-                        // Verifica los datos y maneja los errores
-                        if (
-                            !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
-                            !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
-                            !$automovil->setColor($_POST['color_automovil']) or
-                            !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
-                            !$automovil->setPlaca($_POST['placa_automovil']) or
-                            !$automovil->setIdMarcaAutomovil($_POST['id_marca_automovil']) or
-                            !$automovil->setImagen($_FILES['imagen_automovil']) 
-                            
-                        ) {
-                            $result['error'] = $automovil->getDataError();
-                            file_put_contents('log.txt', "Error: " . $result['error'], FILE_APPEND);
-                        } elseif ($automovil->createRow()) {
-                            $result['status'] = 1;
-                            $result['fileStatus'] = Validator::saveFile($_FILES['imagen_automovil'], $automovil::RUTA_IMAGEN);
-                            $result['message'] = 'Carro creado correctamente';
-                        } else {
-                            $result['error'] = 'Ocurri贸 un problema al crear el tipo de servicio';
-                        }
-                        break;
+            case 'readMarcas':
+                if ($result['dataset'] = $automovil->readMarcas()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' marcas de autom贸viles registrados';
+                } else {
+                    $result['error'] = 'No existen tipos de autom贸viles registrados';
+                }
+                break;
+            case 'createRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
+                    !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
+                    !$automovil->setColor($_POST['color_automovil']) or
+                    !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
+                    !$automovil->setPlaca($_POST['placa_automovil']) or
+                    !$automovil->setIdMarcaAutomovil($_POST['id_marca_automovil']) or
+                    !$automovil->setImagen($_FILES['imagen_automovil'])
+
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->createRow()) {
+                    $result['status'] = 1;
+                    $result['fileStatus'] = Validator::saveFile($_FILES['imagen_automovil'], $automovil::RUTA_IMAGEN);
+                    $result['message'] = 'Carro creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrio un problema al crear el tipo de servicio';
+                }
+                break;
             case 'readAllMyCars':
                 if ($result['dataset'] = $automovil->readAllMyCars()) {
                     $result['status'] = 1;
