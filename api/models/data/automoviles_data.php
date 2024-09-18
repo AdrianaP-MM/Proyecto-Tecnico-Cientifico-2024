@@ -107,7 +107,13 @@ class AutomovilData extends AutomovilHandler
     // Método para validar y asignar la placa del automóvil.
     public function setPlaca($value)
     {
-        $this->placa_automovil = $value;
+        if ($value) {
+            $this->placa_automovil = $value;
+            return true;
+        } else {
+            $this->data_error = 'La placa es incorrecta';
+            return false;
+        }
     }
 
     public function setIdCliente($value)
@@ -178,6 +184,4 @@ class AutomovilData extends AutomovilHandler
         $this->fecha_final = $value;
         return true;
     }
-
-
 }

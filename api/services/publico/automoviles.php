@@ -66,6 +66,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
+                $IMG = isset($_FILES['imagen_automovil']) ? $_FILES['imagen_automovil'] : null;
                 if (
                     !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
                     !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
@@ -73,8 +74,7 @@ if (isset($_GET['action'])) {
                     !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
                     !$automovil->setPlaca($_POST['placa_automovil']) or
                     !$automovil->setIdMarcaAutomovil($_POST['id_marca_automovil']) or
-                    !$automovil->setImagen($_FILES['imagen_automovil'])
-
+                    ($IMG && !$automovil->setImagen($IMG))
                 ) {
                     $result['error'] = $automovil->getDataError();
                 } elseif ($automovil->createRow()) {
@@ -82,7 +82,7 @@ if (isset($_GET['action'])) {
                     $result['fileStatus'] = Validator::saveFile($_FILES['imagen_automovil'], $automovil::RUTA_IMAGEN);
                     $result['message'] = 'Carro creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrio un problema al crear el tipo de servicio';
+                    $result['error'] = 'Ocurrio un problema al insertar el automovil';
                 }
                 break;
             case 'readAllMyCars':
