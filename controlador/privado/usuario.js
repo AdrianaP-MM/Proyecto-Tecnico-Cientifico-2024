@@ -22,12 +22,44 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (DATA.session) {
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
+        var primeraPestana = document.querySelector('#infoPersonal-tab');
+        primeraPestana.click();
         readUsuarios();
+        
     } else { // Acciones si la sesión NO está activa
         await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
 });
 
+const INFO_PERSONAL =  document.getElementById('infoPersonal');
+const CHANGE_CONTRA = document.getElementById('changeContra');
+
+// Función para mostrar el div de agregar trabajador y ocultar el div de la tabla.
+function showInfoPersonal(boton) {
+    CHANGE_CONTRA.classList.add('d-none');
+    INFO_PERSONAL.classList.remove('d-none');
+    updateButtonColors(boton);
+}
+
+// Función para mostrar el div de la tabla y ocultar el div de agregar trabajador.
+function showChangeContra(boton) {
+    CHANGE_CONTRA.classList.remove('d-none');
+    INFO_PERSONAL.classList.add('d-none');
+    updateButtonColors(boton);
+}
+
+function updateButtonColors(boton) {
+    var botones = document.querySelectorAll('.boton-cambiar-color');
+    botones.forEach(function (b) {
+        b.style.backgroundColor = 'white';
+        b.style.color = 'black';
+        b.style.borderBottom = '0px solid red';
+        b.style.border = '0px';
+    });
+    boton.style.backgroundColor = 'white';
+    boton.style.color = 'black';
+    boton.style.borderBottom = '3px solid red';
+}
 
 async function readUsuarios() {
     // Petición para obtener los datos del registro solicitado.

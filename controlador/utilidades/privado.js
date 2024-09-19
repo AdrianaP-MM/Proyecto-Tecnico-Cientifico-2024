@@ -61,7 +61,7 @@ const loadTemplate = async () => {
 
                         <li class="nav-item animation">
                         <a class="nav-link" aria-current="page" href="../../vistas/privado/manual_usuario.html">
-                            <h5 class="text-white open-sans-regular m-0 px-4">Manual de usuario</h5>
+                            <h5 class="text-white open-sans-regular m-0 px-4">Manuales</h5>
                         </a>
                     </li>
                     </ul>
