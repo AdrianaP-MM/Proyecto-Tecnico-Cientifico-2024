@@ -8,6 +8,7 @@ const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
+    MARCAS_MODAL = new bootstrap.Modal('#marcasModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
@@ -179,6 +180,19 @@ const openCreate = () => {
     fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP');
     fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto');
 }
+
+const openCRUDMarcas = () => {
+    // Se muestra la caja de diálogo con su título.
+    MARCAS_MODAL.show();
+}
+
+const openCloseCRUDMarcas = async () => {
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+    if (RESPONSE.isConfirmed) {
+        MARCAS_MODAL.hide();
+    }
+}
+
 
 function gotoDetail(id) {
     location.href = "../../vistas/privado/detalles_automovil.html?id=" + id;
@@ -410,3 +424,13 @@ document.getElementById('year').addEventListener('input', function (event) {
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue;
 });
+
+//JS DE CRUD DE MARCAS
+
+function selectMarca(id, nombre) {
+    // Establece el valor del input de ID Marca
+    document.getElementById('setIdMarcaAutomovil').value = id;
+    // Establece el valor del input de nombre
+    document.getElementById('input_marca_automovil').value = nombre;
+}
+

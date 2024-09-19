@@ -41,6 +41,17 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
+    public function setMarcaAutomovil($value)
+    {
+        if (Validator::validateString($value)) { // Cambiado a validación de cadena
+            $this->nombre_marca_automovil = $value;
+            return true;
+        } else {
+            $this->data_error = 'El modelo del automóvil es incorrecto';
+            return false;
+        }
+    }
+
     public function setIdTipo($value)
     {
         if (Validator::validateNaturalNumber($value)) {

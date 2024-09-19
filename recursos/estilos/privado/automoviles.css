@@ -460,9 +460,21 @@ hr {
 }
 
 /* Estilos para el botón de guardar */
-.btnSave {
-    background-color: #E5383B;
+.btnSave,
+.btnMarcas {
+    background-color: #E00D11;
 }
+
+.btnMarcas{
+    width: 100%;
+    color: whitesmoke;
+}
+
+.btnMarcas:hover{
+   background-color: #E5383B;
+   color: white;
+}
+
 
 /* Estilos para los botones de guardar y cancelar */
 .btnSave,
@@ -498,4 +510,14 @@ hr {
 /* Contenido adicional de la imagen */
 .content-add-img {
     min-height: 40vh;
+}
+
+/* Estilos para la tabla */
+.table th{
+    background: #E00D11;
+    color: white;
+}
+
+.table tr{
+    cursor:pointer;
 }

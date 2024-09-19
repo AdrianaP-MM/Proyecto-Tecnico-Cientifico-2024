@@ -18,6 +18,7 @@ class AutomovilHandler
     protected $fecha_registro = null;
     protected $estado_automovil = null;
     protected $id_marca_automovil = null;
+    protected $nombre_marca_automovil = null;
     protected $search_value = null;
     protected $fecha_desde = null;
     protected $fecha_hasta = null;
@@ -410,4 +411,64 @@ class AutomovilHandler
         $params = array($id_automovil);
         return Database::getRows($sql, $params);
     }
+
+    public function createMarcaAutomovil()
+    {
+        $sql = 'INSERT INTO tb_marcas_automoviles(
+        nombre_marca_automovil) VALUES (?)';
+
+        $params = array(
+            $this->nombre_marca_automovil
+        );
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    public function updateRowMarcaAutomovil()
+    {
+        // Consulta SQL para actualizar un automóvil
+        $sql = 'UPDATE tb_marcas_automoviles SET 
+        nombre_marca_automovil = ?
+        WHERE id_marca_automovil = ?';
+    
+        // Asegúrate de que las propiedades están bien asignadas
+        $params = array(
+            $this->nombre_marca_automovil,
+            $this->id_marca_automovil
+        );
+    
+        // Ejecutar la consulta
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteRowMarcaAutomovil()
+    {
+        // Consulta SQL para eliminar un cliente basado en su ID
+        $sql = 'DELETE FROM tb_marcas_automoviles
+            WHERE id_marca_automovil = ?';
+        // Parámetros de la consulta SQL, usando el ID del cliente proporcionado por la clase
+        $params = array($this->id_marca_automovil);
+        // Ejecuta la consulta de eliminación y devuelve el resultado
+        return Database::executeRow($sql, $params);
+    }
+
+    public function readAllMarcasAutomoviles()
+    {
+        // Consulta SQL para leer todos los automóviles activos
+        $sql = 'SELECT * FROM tb_marcas_automoviles;';
+        return Database::getRows($sql);
+    }
+
+    public function searchRowsMarcasAutomoviles()
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT id_marca_automovil, nombre_marca_automovil
+                FROM tb_marcas_automoviles
+                WHERE nombre_marca_automovil LIKE ?
+                ORDER BY nombre_marca_automovil';
+        $params = array($value, $value);
+        return Database::getRows($sql, $params);
+    }
+
 }
+
+

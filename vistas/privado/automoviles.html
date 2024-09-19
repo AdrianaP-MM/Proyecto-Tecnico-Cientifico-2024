@@ -53,6 +53,10 @@
                         <button type="button" class="btn btn-outline"><i class="bi-search"><img
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
+
+                    <div class="d-flex justify-content-center align-content-center" id="asd">
+                        <button class="btn btnMarcas" onclick="openCRUDMarcas()">Administrar marcas</button>
+                    </div>
                     <div class="d-flex justify-content-center d-flex align-items-baseline">
                         <!-- Contenedor del los input de entrada -->
                         <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
@@ -447,6 +451,83 @@
                             <button type="button" class="btn btn-secondary btnCancel mx-5"
                                 onclick="openClose()">Cancelar</button>
                             <button type="submit" class="btn btn-primary btnSave">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--Modal para administrar marcas-->
+        <div class="modal fade" id="marcasModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <!-- Contenedor del modal dialog-->
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <form id="saveFormMarcas" class="needs-validation" novalidate> <!--Formulario de guardado-->
+                    <!-- Contenedor del modal content-->
+                    <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                        <!-- Contenedor del modal body-->
+                        <div class="modal-body column">
+                            <!-- Contenedor de la izquierda, imagen del automóvil-->
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <h4>Administrar marcas</h4>
+                            </div>
+                            <hr>
+                            <!-- Contenedor de la derecha, información del automóvil-->
+                            <div class="content-add-info">
+                                <input type="number" id="input_id_marca_automovil" name="input_id_marca_automovil" class="invisible">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="input_marca_automovil"
+                                        name="input_marca_automovil" required placeholder="...">
+                                    <label for="input_modelo_auto">Marca</label>
+                                    <div class="invalid-feedback">Por favor ingrese un modelo</div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="containerTabla">
+                                <form id="searchForm">
+                                    <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
+                                        <input type="search" name="searchMarca" class="form-control "
+                                            placeholder="Buscar..." aria-label="Buscar..."
+                                            aria-describedby="basic-addon2" required id="searchButton">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-outline" id="searchInput"
+                                                data-bs-toggle="popover" data-bs-placement="bottom"
+                                                data-bs-content="Buscador habilitado para: Nombre y Dui del trabajador.">
+                                                <i class="bi-search"><img
+                                                        src="../../recursos/imagenes/icons/icon-search.svg"
+                                                        alt="search icon"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <table class="table table-bordered" id="tablaMarcas">
+                                    <thead>
+                                        <tr>
+                                            <th>ID Marca</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr onclick="selectMarca(1, 'Marca Ejemplo 1')">
+                                            <td>1</td>
+                                            <td>Marca Ejemplo 1</td>
+                                        </tr>
+                                        <tr onclick="selectMarca(2, 'Marca Ejemplo 2')">
+                                            <td>2</td>
+                                            <td>Marca Ejemplo 2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Contenedor del footer del modal (contenedor de los botones)-->
+                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                            <button type="button" class="btn btn-secondary btnCancel"
+                                onclick="openCloseCRUDMarcas()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btnSave">Guardar</button>
+                            <button type="button" class="btn btn-secondary btnCancel">Eliminar</button>
                         </div>
                     </div>
                 </form>

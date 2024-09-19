@@ -63,6 +63,45 @@ if (isset($_GET['action'])) {
                     $result['error'] = $automovil->getDataError();
                 }
                 break;
+            case 'createMarcaAutomovil':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$automovil->setMarcaAutomovil($_POST['input_marca_automovil'])
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->createMarcaAutomovil()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Marca agregada correctamente';
+                } else {
+                    $result['error'] = $automovil->getDataError();
+                }
+                break;
+            case 'updateRowMarcaAutomovil':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$automovil->setMarcaAutomovil(value: $_POST['input_marca_automovil']) or
+                    !$automovil->setIdMarcaAutomovil($_POST['input_id_marca_automovil'])
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->updateRowMarcaAutomovil()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Marca modificada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el automóvil';
+                }
+                break;
+            case 'deleteRowMarcaAutomovil':
+                if (
+                    !$automovil->setIdMarcaAutomovil($_POST['input_id_marca_automovil'])
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->deleteRowMarcaAutomovil()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Marca eliminada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
+                }
+                break;
             case 'readAll':
                 if ($result['dataset'] = $automovil->readAll()) {
                     $result['status'] = 1;
@@ -71,14 +110,32 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-                case 'readGraphicCarsByType':
-                    if ($result['dataset'] = $automovil->graphicCarsByType()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
-                    } else {
-                        $result['error'] = 'No existen automóviles registrados';
-                    }
-                    break;
+            case 'readAllMarcasAutomoviles':
+                if ($result['dataset'] = $automovil->readAllMarcasAutomoviles()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
+            case 'searchRowsMarcasAutomoviles':
+                if (!Validator::validateSearch($_POST['searchMarca'])) {
+                    $result['error'] = Validator::getSearchError();
+                } elseif ($result['dataset'] = $automovil->searchRowsMarcasAutomoviles()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
+            case 'readGraphicCarsByType':
+                if ($result['dataset'] = $automovil->graphicCarsByType()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
+                } else {
+                    $result['error'] = 'No existen automóviles registrados';
+                }
+                break;
             case 'readTipos':
                 if ($result['dataset'] = $automovil->readTipos()) {
                     $result['status'] = 1;
