@@ -429,7 +429,7 @@ document.getElementById('year').addEventListener('input', function (event) {
 
 function selectMarca(id, nombre) {
     // Establece el valor del input de ID Marca
-    document.getElementById('setIdMarcaAutomovil').value = id;
+    document.getElementById('input_id_marca_automovil').value = id;
     // Establece el valor del input de nombre
     document.getElementById('input_marca_automovil').value = nombre;
 }
