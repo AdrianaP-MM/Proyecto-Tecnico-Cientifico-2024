@@ -58,14 +58,20 @@ const loadTemplate = async () => {
                                 <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Servicios</h5>
                             </a>
                         </li>
+
+                        <li class="nav-item animation">
+                        <a class="nav-link" aria-current="page" href="../../vistas/privado/manual_usuario.html">
+                            <h5 class="text-white open-sans-regular m-0 px-4">Manual de usuario</h5>
+                        </a>
+                    </li>
                     </ul>
 
                     <ul class="navbar-nav nav-underline flex-grow-1 justify-content-center">
                         <li class="nav-item animation">
-                            <a class="nav-link" aria-current="page" href="../../vistas/privado/panel_principal.html">
-                                <h3 class="text-white open-sans-semibold m-0 px-4">INICIO</h3>
-                            </a>
-                        </li>
+                        <a class="nav-link" aria-current="page" href="../../vistas/privado/panel_principal.html">
+                            <h3 class="text-white open-sans-semibold m-0 px-4">INICIO</h3>
+                        </a>
+                    </li>
                     </ul>
 
                     <button class="btn btn-outline-primary d-flex flex-wrap justify-content-center" type="button">
