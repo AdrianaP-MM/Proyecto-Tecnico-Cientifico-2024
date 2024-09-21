@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class mandarCorreo
 {
-    //Funcion para enviar el correo
+    // Función para enviar el correo
     function enviarCorreoPassword($correoDestino, $asunto, $codigoRecuperacion)
     {
         // Instanciar la clase PHPMailer
@@ -21,9 +21,13 @@ class mandarCorreo
             $mail->Host       = 'smtp.gmail.com'; // Servidor SMTP de Gmail
             $mail->SMTPAuth   = true;
             $mail->Username   = 'revolutiongarageofficialsv@gmail.com'; // Tu dirección de correo electrónico de Gmail
-            $mail->Password   = 'vuaf aedc kmfb dshi'; // Tu contraseña de Gmail
-            $mail->SMTPSecure = 'tls';
+            $mail->Password   = 'akxt lkpp sdfi nmzf'; // Tu contraseña de Gmail
+            $mail->SMTPSecure ='tls';
             $mail->Port       = 587;
+
+            // Habilitar depuración detallada
+            $mail->SMTPDebug  = 2; // Nivel de depuración
+            $mail->Debugoutput = 'html'; // Mostrar salida de depuración en formato HTML
 
             // Configuración del correo electrónico
             $mail->setFrom('revolutiongarageofficialsv@gmail.com', 'RevolutionGarageSupport');
@@ -82,7 +86,7 @@ class mandarCorreo
                 </div>
             </body>
             </html>
-        ';
+            ';
 
             $mail->Body = $cuerpo;
 
@@ -100,7 +104,7 @@ class mandarCorreo
     function generarCodigoRecuperacion($longitud = 8)
     {
         // Caracteres permitidos para el código de recuperación
-        $caracteresPermitidos = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?';
+        $caracteresPermitidos = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#$';
 
         // Longitud del conjunto de caracteres permitidos
         $longitudCaracteres = strlen($caracteresPermitidos);
