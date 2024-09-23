@@ -25,9 +25,6 @@ class mandarCorreo
             $mail->SMTPSecure ='tls';
             $mail->Port       = 587;
 
-            // Habilitar depuración detallada
-            $mail->SMTPDebug  = 2; // Nivel de depuración
-            $mail->Debugoutput = 'html'; // Mostrar salida de depuración en formato HTML
 
             // Configuración del correo electrónico
             $mail->setFrom('revolutiongarageofficialsv@gmail.com', 'RevolutionGarageSupport');
