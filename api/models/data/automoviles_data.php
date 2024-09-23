@@ -47,7 +47,7 @@ class AutomovilData extends AutomovilHandler
             $this->nombre_marca_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El modelo del automóvil es incorrecto';
+            $this->data_error = 'La marca de automóvil es incorrecto';
             return false;
         }
     }

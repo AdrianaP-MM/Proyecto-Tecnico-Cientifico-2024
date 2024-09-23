@@ -465,7 +465,7 @@ class AutomovilHandler
                 FROM tb_marcas_automoviles
                 WHERE nombre_marca_automovil LIKE ?
                 ORDER BY nombre_marca_automovil';
-        $params = array($value, $value);
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
 

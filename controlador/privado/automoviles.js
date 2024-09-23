@@ -8,7 +8,6 @@ const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MARCAS_MODAL = new bootstrap.Modal('#marcasModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
@@ -21,6 +20,14 @@ const SAVE_FORM = document.getElementById('saveForm'),
     COLOR = document.getElementById('input_color_auto'),
     PLACA = document.getElementById('input_placa'),
     CLIENTE = document.getElementById('input_duiP');
+
+//Constantes de CRUD de marcas
+const TABLE_MARCAS = document.getElementById('tablaMarcas');
+const TABLE_MARCAS_ROWS = document.getElementById('tablaMarcasRows');
+const MARCAS_MODAL = new bootstrap.Modal(document.getElementById('marcasModal'));
+const SAVE_FORM_MARCAS = document.getElementById('saveFormMarcas'),
+    ID_MARCA = document.getElementById('input_id_marca_automovil');
+const SEARCH_FORM_MARCAS = document.getElementById('searchMarca');
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
 
@@ -181,10 +188,6 @@ const openCreate = () => {
     fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto');
 }
 
-const openCRUDMarcas = () => {
-    // Se muestra la caja de diálogo con su título.
-    MARCAS_MODAL.show();
-}
 
 const openCloseCRUDMarcas = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
@@ -402,6 +405,7 @@ function rotarImagen(idImagen) {
     }
 }
 
+/*
 // Obtener el elemento de entrada por su ID
 const yearInput = document.getElementById('year');
 
@@ -410,7 +414,6 @@ const currentYear = new Date().getFullYear();
 
 // Establecer el atributo max del campo de entrada como el año actual
 yearInput.setAttribute('max', currentYear);
-
 document.getElementById('year').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
     let inputValue = event.target.value;
@@ -424,8 +427,17 @@ document.getElementById('year').addEventListener('input', function (event) {
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue;
 });
+*/
+
+
 
 //JS DE CRUD DE MARCAS
+
+const openCRUDMarcas = () => {
+    // Se muestra la caja de diálogo con su título.
+    MARCAS_MODAL.show();
+    fillTableMarcas();
+}
 
 function selectMarca(id, nombre) {
     // Establece el valor del input de ID Marca
@@ -434,3 +446,110 @@ function selectMarca(id, nombre) {
     document.getElementById('input_marca_automovil').value = nombre;
 }
 
+/*JS PARA ADMINISTRAR CRUD DE MARCAS*/
+
+const fillTableMarcas = async () => {
+    TABLE_MARCAS_ROWS.innerHTML = '';
+    SAVE_FORM_MARCAS.reset();
+    ID_MARCA.value = '';
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, "readAllMarcasAutomoviles");
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            TABLE_MARCAS_ROWS.innerHTML += `
+                <tr onclick="selectMarca(${row.id_marca_automovil}, '${row.nombre_marca_automovil}')">
+                                            <td>${row.id_marca_automovil}</td>
+                                            <td>${row.nombre_marca_automovil}</td>
+                                        </tr>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+
+
+const searchMarcas = async () => {
+    const FORM = new FormData();
+    FORM.append('searchMarca', SEARCH_FORM_MARCAS.value);
+
+    const DATA = await fetchData(AUTOMOVILES_API, "searchRowsMarcasAutomoviles", FORM);
+    
+    if (DATA.status) {
+        DATA.dataset.forEach(row => {
+            TABLE_MARCAS_ROWS.innerHTML += `
+                <tr onclick="selectMarca(${row.id_marca_automovil}, '${row.nombre_marca_automovil}')">
+                    <td>${row.id_marca_automovil}</td>
+                    <td>${row.nombre_marca_automovil}</td>
+                </tr>`;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+};
+
+
+// Método del evento para cuando se envía el formulario de guardar.
+SAVE_FORM_MARCAS.addEventListener('submit', async (event) => {
+    // Se evita recargar la página web después de enviar el formulario.
+    event.preventDefault();
+    // Se verifica la acción a realizar.
+    (ID_MARCA.value) ? action = 'updateRowMarcaAutomovil' : action = 'createMarcaAutomovil';
+    // Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(SAVE_FORM_MARCAS);
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(AUTOMOVILES_API, action, FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se cierra la caja de diálogo.
+        SAVE_MODAL.hide();
+        // Se muestra un mensaje de éxito.
+        sweetAlert(1, DATA.message, true);
+        // Se carga nuevamente la tabla para visualizar los cambios.
+        fillTableMarcas();
+    } else {
+        if (DATA.error == 'Acción no disponible fuera de la sesión') {
+            await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
+        }
+        else {
+            sweetAlert(4, DATA.error, true);
+        }
+    }
+});
+
+const openDeleteMarca = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2('¿Desea eliminar la marca de forma permanente?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('input_id_marca_automovil', ID_MARCA.value);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(AUTOMOVILES_API, 'deleteRowMarcaAutomovil', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            fillTableMarcas();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+};
+
+// Evento para el envío del formulario de búsqueda
+SEARCH_FORM_MARCAS.addEventListener('submit', async (event) => {
+    // Prevenir el comportamiento por defecto (recargar la página)
+    event.preventDefault();
+
+    // Crear un objeto FormData con los datos del formulario de búsqueda
+    const FORM = new FormData(SEARCH_FORM_MARCAS);
+
+    // Llamar a la función para llenar la tabla, pasando el formulario como parámetro para la búsqueda
+    await fillTableMarcas(FORM);
+});

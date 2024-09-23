@@ -462,7 +462,8 @@
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                <form id="saveFormMarcas" class="needs-validation" novalidate> <!--Formulario de guardado-->
+                <!-- Formulario de guardado (separado del buscador) -->
+                <form id="saveFormMarcas" class="needs-validation" novalidate>
                     <!-- Contenedor del modal content-->
                     <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <!-- Contenedor del modal body-->
@@ -474,7 +475,8 @@
                             <hr>
                             <!-- Contenedor de la derecha, información del automóvil-->
                             <div class="content-add-info">
-                                <input type="number" id="input_id_marca_automovil" name="input_id_marca_automovil" class="invisible">
+                                <input type="number" id="input_id_marca_automovil" name="input_id_marca_automovil"
+                                    class="invisible" inert>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_marca_automovil"
                                         name="input_marca_automovil" required placeholder="...">
@@ -483,25 +485,25 @@
                                 </div>
                                 <hr>
                             </div>
+                            <!-- Tabla de marcas y buscador -->
                             <div class="containerTabla">
-                                <form id="searchForm">
-                                    <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
-                                        <input type="search" name="searchMarca" class="form-control "
-                                            placeholder="Buscar..." aria-label="Buscar..."
-                                            aria-describedby="basic-addon2" required id="searchButton">
+                                <!-- Buscador separado del formulario principal -->
+                                <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
+                                    <input type="text" name="searchMarca" class="form-control" placeholder="Buscar..."
+                                        aria-label="Buscar..." aria-describedby="basic-addon2" required
+                                        id="searchMarca">
 
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-outline" id="searchInput"
-                                                data-bs-toggle="popover" data-bs-placement="bottom"
-                                                data-bs-content="Buscador habilitado para: Nombre y Dui del trabajador.">
-                                                <i class="bi-search"><img
-                                                        src="../../recursos/imagenes/icons/icon-search.svg"
-                                                        alt="search icon"></i>
-                                            </button>
-
-                                        </div>
+                                    <div>
+                                        <button onclick="searchMarcas()" class="btn btn-outline" id="searchInput"
+                                            data-bs-toggle="popover" data-bs-placement="bottom"
+                                            data-bs-content="Buscador habilitado para: Nombre de marca">
+                                            <i class="bi-search"><img
+                                                    src="../../recursos/imagenes/icons/icon-search.svg"
+                                                    alt="search icon"></i>
+                                        </button>
                                     </div>
-                                </form>
+                                </div>
+                                <!-- Tabla -->
                                 <table class="table table-bordered" id="tablaMarcas">
                                     <thead>
                                         <tr>
@@ -509,7 +511,7 @@
                                             <th>Nombre</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tablaMarcasRows">
                                         <tr onclick="selectMarca(1, 'Marca Ejemplo 1')">
                                             <td>1</td>
                                             <td>Marca Ejemplo 1</td>
@@ -527,12 +529,14 @@
                             <button type="button" class="btn btn-secondary btnCancel"
                                 onclick="openCloseCRUDMarcas()">Cancelar</button>
                             <button type="submit" class="btn btn-primary btnSave">Guardar</button>
-                            <button type="button" class="btn btn-secondary btnCancel">Eliminar</button>
+                            <button type="button" class="btn btn-secondary btnCancel"
+                                onclick="openDeleteMarca()">Eliminar</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+
 
 
     </main>
