@@ -94,6 +94,11 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     (ID_AUTOMOVIL.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
+
+    // Imprime los campos del formulario en la consola
+    for (let [key, value] of FORM.entries()) {
+        console.log(`${key}: ${value}`);
+    }
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(AUTOMOVILES_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -184,7 +189,7 @@ const openCreate = () => {
     // Se prepara el formulario.
     SAVE_FORM.reset();
     fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
-    fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP');
+    readDUI();
     fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto');
 }
 
@@ -477,7 +482,7 @@ const searchMarcas = async () => {
     FORM.append('searchMarca', SEARCH_FORM_MARCAS.value);
 
     const DATA = await fetchData(AUTOMOVILES_API, "searchRowsMarcasAutomoviles", FORM);
-    
+
     if (DATA.status) {
         DATA.dataset.forEach(row => {
             TABLE_MARCAS_ROWS.innerHTML += `
@@ -553,3 +558,34 @@ SEARCH_FORM_MARCAS.addEventListener('submit', async (event) => {
     // Llamar a la función para llenar la tabla, pasando el formulario como parámetro para la búsqueda
     await fillTableMarcas(FORM);
 });
+
+/*Extra*/
+
+async function readDUI() {
+    try {
+        const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
+
+        if (DATA && DATA.status) {
+            const duiOptions = DATA.dataset.map(item => ({
+                label: item.dui_cliente,
+                value: item.id_cliente
+            }));
+
+            $("#label_dui").autocomplete({
+                source: duiOptions,
+                select: function (event, ui) {
+                    $('#label_dui').val(ui.item.label);
+                    $('#input_duiP').val(ui.item.value); // Guardar el id_cliente como data en el input
+                    console.log("ID Cliente seleccionado:", ui.item.value);
+                    return false;
+                }
+            });
+
+        } else {
+            sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false);
+        }
+    } catch (error) {
+        console.error('Error al leer los servicios:', error);
+        sweetAlert(4, 'No se pudo obtener los datos de los servicios.', false);
+    }
+}

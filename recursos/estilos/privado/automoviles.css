@@ -521,3 +521,22 @@ hr {
 .table tr{
     cursor:pointer;
 }
+
+.ui-autocomplete {
+    z-index: 9999;
+    background-color: white; /* Asegura que el fondo sea visible */
+    border: 1px solid #ccc;
+    max-height: 100px; /* Limita la altura si hay muchos elementos */
+    overflow-y: auto; /* Permite scroll si es necesario */
+    width: 20%;
+}
+
+.ui-menu-item {
+    padding: 8px;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.ui-menu-item:hover {
+    background-color: #f0f0f0; /* Resalta los elementos al pasar el cursor */
+}
