@@ -46,7 +46,7 @@
                     <form id="searchForm">
                         <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
                             <input type="search" name="search" class="form-control " placeholder="Buscar..."
-                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="search">
+                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="search" autocomplete="off">
     
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Buscador para servicios por nombre de servicio.">
@@ -97,17 +97,17 @@
                 <!-- Cuerpo del modal -->
                 <form id="save_form" class="needs-validation" novalidate>
                     <div class="modal-body form-floating mb-0 p-0 col-12 mb-4 custom-label-spacing">
-                        <input type="number" class="d-none" id="id_tipo_servicio" name="id_tipo_servicio">
+                        <input type="number" class="d-none" id="id_tipo_servicio" name="id_tipo_servicio" autocomplete="off">
                         <!-- Campo de entrada para el nombre del servicio -->
                         <div class="form-floating mb-2 p-0">
-                            <input type="text" class="form-control" id="nombre_servicio" placeholder=""
-                                name="nombre_servicio" required>
+                            <input type="text" class="form-control" id="nombre_servicio" autocomplete="off" placeholder=""
+                                name="nombre_servicio" required >
                             <label for="nombre_servicio" class="form-label">Nombre del servicio</label>
                             <div class="invalid-feedback">Por favor ingresa un nombre del servicio.</div>
                         </div>
                         <!-- Campo de entrada para la descripción del servicio -->
                         <div class="form-floating mb-2 p-0">
-                            <input type="text" class="form-control" id="descripcion_servicio" placeholder=""
+                            <input type="text" class="form-control" id="descripcion_servicio" autocomplete="off" placeholder=""
                                 name="descripcion_servicio" required>
                             <label for="descripcion_servicio" class="form-label">Descripción del servicio</label>
                             <div class="invalid-feedback">Por favor ingresa una descripción del servicio.</div>
@@ -145,7 +145,7 @@
                             class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">
                             <div class="form-floating mb-0 p-0 col-12 mb-4">
                                 <input type="text" class="form-control" id="nombre_tipo_servicio"
-                                    name="nombre_tipo_servicio" placeholder="..." required>
+                                    name="nombre_tipo_servicio" autocomplete="off" placeholder="..." required>
                                 <label for="nombre_tipo_servicio">Nombre de la categoría</label>
                                 <div class="invalid-feedback">Por favor ingresa un nombre de la categoría.</div>
                                 <br>
@@ -157,7 +157,7 @@
                                     <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
                                         <label class="form-label text-white m-1" for="customFileW">Seleccionar
                                             imagen</label>
-                                        <input type="file" class="form-control d-none" id="customFileW"
+                                        <input type="file" class="form-control d-none" autocomplete="off" id="customFileW"
                                             name="customFileW"
                                             onchange="displaySelectedImage(event, 'selectedImageW')" />
                                     </div>
