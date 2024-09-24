@@ -421,3 +421,17 @@ document.getElementById('registro_input_contrasena2').addEventListener('input', 
     // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
     event.target.value = inputValue;
 });
+
+document.getElementById('inputValidarCod').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar cualquier espacio en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Asegurar que el valor no supere los 8 caracteres
+    inputValue = inputValue.slice(0, 8);
+
+    // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
+    event.target.value = inputValue;
+});
