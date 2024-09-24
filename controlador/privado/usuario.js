@@ -4,16 +4,10 @@ const USER_API = 'services/privado/usuarios.php';
 CORREO = document.getElementById('correoUsuario');
 TELEFONO = document.getElementById('telefonoUsuario');
 SAVE_FORM = document.getElementById('inputUsuario');
-CONTRASEÑA = document.getElementById('input_contra');
-REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
-PASSWORD_FORM = document.getElementById('saveForm');
 ID_USUARIO = document.getElementById('id_usuario');
 EMAIL = document.getElementById('userEmail');
 LOGIN_FORM = document.getElementById('loginForm');
 CONTENEDOR_CORREO = document.getElementById('userEmaill');
-
-// Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#staticBackdrop');
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -21,8 +15,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const DATA = await fetchData(USER_API, 'readUsers');
     disablePasteAndDrop(CORREO);
     disableCopy(CORREO);
+
     disablePasteAndDrop(TELEFONO);
     disableCopy(TELEFONO);
+
+    disablePasteAndDrop(CONTRASENA_ACTUAL);
+    disableCopy(CONTRASENA_ACTUAL);
+
+    disablePasteAndDrop(CONTRASENA_NUEVA);
+    disableCopy(CONTRASENA_NUEVA);
+
+    disablePasteAndDrop(REPETIR_CONTRASENA);
+    disableCopy(REPETIR_CONTRASENA);
+
     if (DATA.session) {
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
@@ -219,14 +224,88 @@ _ (guion bajo)
 - (guion)
 @ (arroba)*/
 
+
+PASSWORD_FORM = document.getElementById('saveForm');
+
+const CONTRASENA_ACTUAL = document.getElementById('input_contra_actual');
+const passwordErrorACTUAL = document.getElementById('passwordErrorACTUAL');
+
+CONTRASENA_ACTUAL.addEventListener('input', function () {
+    const validationMessage = validatePassword(CONTRASENA_ACTUAL.value); // Usar el valor del input correcto
+    if (validationMessage) {
+        passwordErrorACTUAL.textContent = validationMessage;
+    } else {
+        passwordErrorACTUAL.textContent = ''; // Limpia el mensaje si es válida
+    }
+});
+
+const CONTRASENA_NUEVA = document.getElementById('input_contra');
+const passwordErrorNUEVA = document.getElementById('passwordErrorNUEVA');
+
+CONTRASENA_NUEVA.addEventListener('input', function () {
+    const validationMessage = validatePassword(CONTRASENA_NUEVA.value); // Usar el valor del input correcto
+    if (validationMessage) {
+        passwordErrorNUEVA.textContent = validationMessage;
+    } else {
+        passwordErrorNUEVA.textContent = ''; // Limpia el mensaje si es válida
+    }
+});
+
+const REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
+const passwordErrorREPIT = document.getElementById('passwordErrorREPIT');
+
+REPETIR_CONTRASENA.addEventListener('input', function () {
+    const isMatching = REPETIR_CONTRASENA.value === CONTRASENA_NUEVA.value;
+    if (!isMatching) {
+        passwordErrorREPIT.textContent = 'Las contraseñas no coinciden.';
+    } else {
+        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coincide
+    }
+});
+
 // Método del evento para cuando se envía el formulario de cambiar contraseña.
 PASSWORD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+
+    // Obtener los valores de las contraseñas
+    const currentPassword = CONTRASENA_ACTUAL.value;
+    const newPassword = CONTRASENA_NUEVA.value;
+    const repeatPassword = REPETIR_CONTRASENA.value;
+
+    // Validar las contraseñas
+    const currentPasswordValidation = validatePassword(currentPassword);
+    const newPasswordValidation = validatePassword(newPassword);
+    const repeatPasswordValidation = validatePassword(repeatPassword);
+
+    // Verificar si hay errores de validación
+    if (currentPasswordValidation || newPasswordValidation || repeatPasswordValidation) {
+        // Si hay errores, puedes mostrarlos en el lugar correspondiente
+        if (currentPasswordValidation) {
+            passwordErrorACTUAL.textContent = currentPasswordValidation;
+        }
+        if (newPasswordValidation) {
+            passwordErrorNUEVA.textContent = newPasswordValidation;
+        }
+        if (repeatPasswordValidation) {
+            passwordErrorREPIT.textContent = repeatPasswordValidation;
+        }
+        return; // No enviar el formulario si hay errores
+    }
+
+    // Verificar que las contraseñas nueva y repetir coincidan
+    if (newPassword !== repeatPassword) {
+        passwordErrorREPIT.textContent = 'Las contraseñas no coinciden.';
+        return; // No enviar el formulario si las contraseñas no coinciden
+    } else {
+        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coinciden
+    }
+
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(PASSWORD_FORM);
     // Petición para guardar los datos del formulario.
     const responseData = await fetchData(USER_API, 'changePasswordDos', formData);
+
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (responseData.status) {
         // Se muestra un mensaje de éxito.
@@ -235,18 +314,10 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         readUsuarios();
     } else {
         if (responseData.error == 'Acción no disponible fuera de la sesión') {
-            await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true); location.href = 'index.html'
-        }
-        else {
-            sweetAlert(4, responseData.error, true);
+            await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true);
+            location.href = 'index.html';
+        } else {
+            sweetAlert(2, responseData.error, true);
         }
     }
 });
-
-const openPassword = async () => {
-    // Se abre el modal para cambiar la info de
-    SAVE_MODAL.show();
-}
-
-
-

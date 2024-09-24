@@ -65,12 +65,6 @@ class Database
     {
         if (self::executeRow($query, $values)) {
             $row = self::$statement->fetch(PDO::FETCH_ASSOC);
-
-            // Escapar cada valor del array
-            foreach ($row as $key => $value) {
-                $row[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-            }
-
             return $row;
         } else {
             return false;
@@ -87,14 +81,6 @@ class Database
     {
         if (self::executeRow($query, $values)) {
             $rows = self::$statement->fetchAll(PDO::FETCH_ASSOC);
-
-            // Escapar cada valor de cada fila
-            foreach ($rows as &$row) {
-                foreach ($row as $key => $value) {
-                    $row[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-                }
-            }
-
             return $rows;
         } else {
             return false;

@@ -86,7 +86,8 @@
                                                     name="telefonoUsuario" placeholder="0000-0000" required
                                                     minlength="9" maxlength="15" autocomplete="off">
                                                 <label for="telefonoUsuario">Teléfono</label>
-                                                <div class="invalid-feedback">Por favor ingresa un teléfono válido.</div>
+                                                <div class="invalid-feedback">Por favor ingresa un teléfono válido.
+                                                </div>
                                             </div>
                                             <!-- Botones de acción -->
                                             <div
@@ -105,12 +106,52 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane1 fade z-2 position-relative d-none pt-3 d-flex flex-column align-items-center"
+                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start"
                                 role="tabpanel" id="changeContra" aria-labelledby="changeContra-tab">
-                                <button type="button" class="btn btn-primary btnAceptar col-lg-5 col-md-5 col-10 mt-3"
-                                    onclick="openPassword()">
-                                    <h6 class="open-sans-bold p-0 m-0 z-3">Cambiar contraseña</h6>
-                                </button>
+                                <form id="saveForm" class="needs-validation col-9" novalidate>
+                                    <div class="content-add-info col-12">
+                                        <!-- Input para contraseña actual -->
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="password" class="form-control" id="input_contra_actual"
+                                                name="input_contra_actual" placeholder="Contraseña actual" required
+                                                minlength="8" maxlength="50" autocomplete="off">
+                                            <label for="input_contra_actual">Contraseña actual</label>
+                                            <span id="passwordErrorACTUAL" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="content-add-info col-12">
+                                        <!-- Input para nueva contraseña -->
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="password" class="form-control" id="input_contra"
+                                                name="input_contra" placeholder="Nueva contraseña" required
+                                                minlength="8" maxlength="50" autocomplete="off">
+                                            <label for="input_contra">Nueva contraseña</label>
+                                            <span id="passwordErrorNUEVA" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="content-add-info col-12">
+                                        <!-- Input para repetir nueva contraseña -->
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="password" class="form-control" id="input_repetircontra"
+                                                name="input_repetircontra" placeholder="Repetir contraseña" required
+                                                minlength="8" maxlength="50" autocomplete="off">
+                                            <label for="input_repetircontra">Repetir contraseña</label>
+                                            <span id="passwordErrorREPIT" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <!-- Botones del modal -->
+                                    <div
+                                        class="contenedor_botones d-flex align-items-end justify-content-end col-12 flex-wrap mt-3">
+                                        <button type="button" class="btn btn-dark btnCancelar col-lg-4 col-md-5 col-10"
+                                            onclick="openClose()">
+                                            <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
+                                        </button>
+                                        <button type="submit"
+                                            class="btn btn-primary btnAceptar col-lg-4 col-md-5 col-10">
+                                            <h6 class="open-sans-regular p-0 m-0 z-3">Guardar</h6>
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -121,51 +162,6 @@
                 <!-- Imagen decorativa (mujer) -->
             </div>
             <!-- Modal para cambiar contraseña -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3 text-center">
-                        <form id="saveForm" class="needs-validation" novalidate>
-                            <div class="modal-body row justify-content-center">
-                                <div class="content-add-info col-md-7">
-                                    <!-- Input para contraseña actual -->
-                                    <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_contra_actual"
-                                            name="input_contra_actual" placeholder="Contraseña actual" required>
-                                        <label for="input_contra_actual">Contraseña actual</label>
-                                        <div class="invalid-feedback">Por favor ingresa la contraseña actual.</div>
-                                    </div>
-                                </div>
-                                <div class="content-add-info col-md-7">
-                                    <!-- Input para nueva contraseña -->
-                                    <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_contra"
-                                            name="input_contra" placeholder="Nueva contraseña" required>
-                                        <label for="input_contra">Nueva contraseña</label>
-                                        <div class="invalid-feedback">Por favor ingresa la nueva contraseña.</div>
-                                    </div>
-                                </div>
-                                <div class="content-add-info col-md-7">
-                                    <!-- Input para repetir nueva contraseña -->
-                                    <div class="form-floating mb-0 p-0">
-                                        <input type="password" class="form-control" id="input_repetircontra"
-                                            name="input_repetircontra" placeholder="Repetir contraseña" required>
-                                        <label for="input_repetircontra">Repetir contraseña</label>
-                                        <div class="invalid-feedback">Por favor repite la nueva contraseña.</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Botones del modal -->
-                            <div class="modal-footer justify-content-center">
-                                <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
-                                    onclick="openClose()">Cancelar</button>
-                                <button type="submit"
-                                    class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>
     <!-- Scripts de Bootstrap y otros scripts personalizados -->

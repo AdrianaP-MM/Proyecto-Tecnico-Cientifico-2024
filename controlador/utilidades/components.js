@@ -416,6 +416,26 @@ function validatePhoneNumber(phone) {
     return { valid: true, message: 'Número de teléfono válido.' };
 }
 
+function validatePassword(password) {
+    const minLength = 8;
+    const maxLength = 50;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChars = /[!@#$%^&*]/.test(password);
+
+    if (password.length < minLength) {
+        return 'La contraseña debe tener al menos 8 caracteres.';
+    }
+    if (password.length > maxLength) {
+        return 'La contraseña no debe exceder los 50 caracteres.';
+    }
+    if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
+        return 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.';
+    }
+    return null;
+}
+
 
 function getDateToMysql() {
     // Crear un nuevo objeto Date para obtener la fecha y hora actual
