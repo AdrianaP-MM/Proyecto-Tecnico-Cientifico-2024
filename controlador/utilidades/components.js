@@ -759,6 +759,7 @@ function validatePassword(password, userData) {
     const hasLowercase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
     const hasSpecialChars = /[!@#$%^&*]/.test(password);
+    const hasSpaces = /\s/.test(password); // Verificar si hay espacios
 
     // Verificar si la contraseña contiene datos del usuario
     const userFields = [userData.telefono, userData.email.split('@')[0]];
@@ -769,14 +770,23 @@ function validatePassword(password, userData) {
         }
     }
 
+    // Validar si contiene espacios en blanco
+    if (hasSpaces) {
+        return { valid: false, message: 'La contraseña no debe contener espacios en blanco.' };
+    }
+
+    // Validar longitud mínima y máxima
     if (password.length < minLength) {
         return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres.' };
     }
     if (password.length > maxLength) {
         return { valid: false, message: 'La contraseña no debe exceder los 50 caracteres.' };
     }
+
+    // Verificar los demás requisitos de la contraseña
     if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
         return { valid: false, message: 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.' };
     }
+
     return { valid: true, message: 'Contraseña válida' };
 }
