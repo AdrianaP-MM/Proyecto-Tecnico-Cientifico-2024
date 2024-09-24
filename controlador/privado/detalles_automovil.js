@@ -76,6 +76,7 @@ const openUpdate = async () => {
         ID_AUTOMOVIL.value = ROW.id_automovil;
         MODELO.value = ROW.modelo_automovil;
         fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto', ROW.id_tipo_automovil);
+        fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto', ROW.id_marca_automovil);
         //fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto', ROW.id_color);
         fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP', ROW.id_cliente);
         PLACA.value = ROW.placa_automovil;

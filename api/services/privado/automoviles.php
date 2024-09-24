@@ -188,6 +188,7 @@ if (isset($_GET['action'])) {
                     !$automovil->setFechaFabricacion($_POST['fechanInput']) or
                     !$automovil->setPlaca($_POST['input_placa']) or
                     !$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename()) or
+                    !$automovil->setIdMarcaAutomovil($_POST['input_marca_auto']) or
                     !$automovil->setIdCliente($_POST['input_duiP']) or
                     !$automovil->setId($_POST['idAutomovil'])
                 ) {
