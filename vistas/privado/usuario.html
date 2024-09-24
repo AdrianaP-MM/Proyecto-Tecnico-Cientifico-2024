@@ -66,7 +66,7 @@
                             <div class="tab-pane fade z-3 d-none m-5 pt-5" role="tabpanel" id="infoPersonal"
                                 aria-labelledby="infoPersonal-tab">
                                 <div class="contenedor-form col-10 col-lg-10 col-md-9">
-                                    <form id="loginForm">
+                                    <form id="loginForm" autocomplete="off">
                                         <div id="userEmaill" class="contenedorTitulo col overflow-x-auto">
                                             <h3 id="emailMostrado" class="email"></h3>
                                             <!-- Título para mostrar el correo electrónico -->
@@ -74,7 +74,7 @@
                                     </form>
 
                                     <div class="contenedor-inputs col-12 open-sans-regular">
-                                        <form id="inputUsuario" class="needs-validation" novalidate>
+                                        <form id="inputUsuario" class="needs-validation" novalidate autocomplete="off">
                                             <input type="number" class="d-none" id="id_usuario" name="id_usuario">
                                             <!-- Campo oculto para ID de usuario -->
                                             <!-- Input para correo electrónico -->
@@ -113,7 +113,7 @@
                             </div>
                             <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start open-sans-regular"
                                 role="tabpanel" id="changeContra" aria-labelledby="changeContra-tab">
-                                <form id="saveForm" class="needs-validation col-9" novalidate>
+                                <form id="saveForm" class="needs-validation col-9" novalidate autocomplete="off">
                                     <div class="content-add-info col-12">
                                         <!-- Input para contraseña actual -->
                                         <div class="form-floating mb-0 p-0">
