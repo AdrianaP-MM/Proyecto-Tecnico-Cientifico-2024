@@ -336,6 +336,87 @@ const checkFormValidity = form => {
     return validities.every(valid => valid); // Retorna true si todos los elementos son válidos.
 };
 
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Validar formato
+    const allowedDomains = [
+        'gmail.com',
+        'hotmail.com',
+        'yahoo.com',
+        'outlook.com',
+        'aol.com',          // Añadido: AOL
+        'icloud.com',       // Añadido: iCloud
+        'mail.com',         // Añadido: Mail.com
+        'zoho.com',         // Añadido: Zoho
+        'gmx.com',          // Añadido: GMX
+        'protonmail.com',   // Añadido: ProtonMail
+        'gmail.sv',
+        'hotmail.sv',
+        'yahoo.sv',
+        'outlook.sv',
+        'icloud.sv',
+        'ricaldone.edu.sv'
+    ];
+
+    // Validar longitud
+    if (email.length < 5 || email.length > 50) {
+        return { valid: false, message: 'El correo debe tener entre 5 y 50 caracteres.' };
+    }
+
+    // Validar formato
+    if (!emailRegex.test(email)) {
+        return { valid: false, message: 'Formato de correo electrónico no válido.' };
+    }
+
+    // Extrae el dominio del correo electrónico
+    const domain = email.split('@')[1];
+
+    // Validar dominio
+    if (!allowedDomains.includes(domain)) {
+        return { valid: false, message: 'Dominio del correo electrónico no permitido.' };
+    }
+
+    return { valid: true, message: 'Correo electrónico válido.' };
+}
+
+function disablePasteAndDrop(inputElement) {
+    // Evitar que el usuario pegue texto
+    inputElement.addEventListener('paste', function (event) {
+        event.preventDefault(); // Prevenir la acción de pegar
+    });
+
+    // Evitar que el usuario suelte texto
+    inputElement.addEventListener('drop', function (event) {
+        event.preventDefault(); // Prevenir la acción de soltar
+    });
+}
+
+function disableCopy(inputElement) {
+    // Evitar que el usuario copie el texto
+    inputElement.addEventListener('copy', function (event) {
+        event.preventDefault(); // Prevenir la acción de copiar
+    });
+}
+
+function validatePhoneNumber(phone) {
+    // Expresión regular para validar el formato 0000-0000 o solo números
+    const phoneRegex = /^(?:[0-9]{4}-[0-9]{4}|[0-9]{10})$/;
+    const minLength = 9;  // La longitud mínima puede ser 9 para permitir el formato con guion
+    const maxLength = 15; // Longitud máxima para el número de teléfono
+
+    // Validar longitud
+    if (phone.length < minLength || phone.length > maxLength) {
+        return { valid: false, message: `El número de teléfono debe tener entre ${minLength} y ${maxLength} caracteres.` };
+    }
+
+    // Validar formato
+    if (!phoneRegex.test(phone)) {
+        return { valid: false, message: 'Formato de número de teléfono no válido. Debe seguir el formato 0000-0000.' };
+    }
+
+    return { valid: true, message: 'Número de teléfono válido.' };
+}
+
+
 function getDateToMysql() {
     // Crear un nuevo objeto Date para obtener la fecha y hora actual
     let fechaActual = new Date();
@@ -561,4 +642,3 @@ const doughnutGraph = (canvas, legends, values, title) => {
         }
     });
 }
-

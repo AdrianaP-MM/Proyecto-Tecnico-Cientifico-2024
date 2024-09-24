@@ -11,6 +11,15 @@ class Database
     private static $statement = null;
     private static $error = null;
 
+
+    /* ¿Qué hace exactamente htmlspecialchars?
+        Convierte caracteres especiales en entidades HTML:
+        & se convierte en &amp;
+        " se convierte en &quot;
+        ' se convierte en &apos;
+        < se convierte en &lt;
+        > se convierte en &gt; */
+
     /*
      *   Método para ejecutar las sentencias SQL.
      *   Parámetros: $query (sentencia SQL) y $values (arreglo con los valores para la sentencia SQL).
@@ -55,11 +64,19 @@ class Database
     public static function getRow($query, $values = null)
     {
         if (self::executeRow($query, $values)) {
-            return self::$statement->fetch(PDO::FETCH_ASSOC);
+            $row = self::$statement->fetch(PDO::FETCH_ASSOC);
+
+            // Escapar cada valor del array
+            foreach ($row as $key => $value) {
+                $row[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            }
+
+            return $row;
         } else {
             return false;
         }
     }
+
 
     /*
      *   Método para obtener todos los registros de una sentencia SQL tipo SELECT.
@@ -69,11 +86,21 @@ class Database
     public static function getRows($query, $values = null)
     {
         if (self::executeRow($query, $values)) {
-            return self::$statement->fetchAll(PDO::FETCH_ASSOC);
+            $rows = self::$statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // Escapar cada valor de cada fila
+            foreach ($rows as &$row) {
+                foreach ($row as $key => $value) {
+                    $row[$key] = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+                }
+            }
+
+            return $rows;
         } else {
             return false;
         }
     }
+
 
     /*
      *   Método para establecer un mensaje de error personalizado al ocurrir una excepción.

@@ -19,19 +19,23 @@ const SAVE_MODAL = new bootstrap.Modal('#staticBackdrop');
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA = await fetchData(USER_API, 'readUsers');
+    disablePasteAndDrop(CORREO);
+    disableCopy(CORREO);
+    disablePasteAndDrop(TELEFONO);
+    disableCopy(TELEFONO);
     if (DATA.session) {
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
         var primeraPestana = document.querySelector('#infoPersonal-tab');
         primeraPestana.click();
         readUsuarios();
-        
+
     } else { // Acciones si la sesión NO está activa
         await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
 });
 
-const INFO_PERSONAL =  document.getElementById('infoPersonal');
+const INFO_PERSONAL = document.getElementById('infoPersonal');
 const CHANGE_CONTRA = document.getElementById('changeContra');
 
 // Función para mostrar el div de agregar trabajador y ocultar el div de la tabla.
@@ -71,7 +75,7 @@ async function readUsuarios() {
         CORREO.value = row.correo_usuario;
         TELEFONO.value = row.telefono_usuario;
         CONTENEDOR_CORREO.innerHTML += `
-       <h3 id="userEmail"  class="email">${row.correo_usuario}</h3>
+        <h3 id="userEmail"  class="email">${row.correo_usuario}</h3>
         <div class="lineR3"></div>
         `;
     } else {
@@ -86,25 +90,39 @@ async function readUsuarios() {
 
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const isValid = await checkFormValidity(SAVE_FORM);
-    if (isValid) {
-        const formData = new FormData(SAVE_FORM);
-        const responseData = await fetchData(USER_API, 'editProfile', formData);
-        if (responseData.status) {
-            // Mostrar modal de éxito
-            sweetAlert(1, 'Datos actualizados correctamente', true);
 
-            // Agregar un pequeño retardo antes de recargar la página (opcional)
-            setTimeout(() => {
-                location.reload();
-            }, 1000); // 1000 milisegundos = 1 segundo
+    const phone = TELEFONO.value; // Obtener el valor del teléfono
+    const validationResultPhone = validatePhoneNumber(phone); // Validar el número de teléfono
+    const email = CORREO.value; // Obtener el valor del correo
+    const validationResultEmail = validateEmail(email); // Validar el correo electrónico
+
+    // Comprobar la validez del correo
+    if (!validationResultEmail.valid) {
+        await sweetAlert(2, validationResultEmail.message);
+        return; // Detiene la ejecución si hay un error de validación
+    }
+
+    // Comprobar la validez del teléfono
+    if (!validationResultPhone.valid) {
+        await sweetAlert(2, validationResultPhone.message);
+        return; // Detiene la ejecución si hay un error de validación
+    }
+
+    // Si ambos son válidos, continúa con el procesamiento
+    const formData = new FormData(SAVE_FORM);
+    const responseData = await fetchData(USER_API, 'editProfile', formData);
+
+    if (responseData.status) {
+        sweetAlert(1, 'Datos actualizados correctamente', true);
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
+    } else {
+        if (responseData.error === 'Acción no disponible fuera de la sesión') {
+            await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true);
+            location.href = 'index.html';
         } else {
-            if (responseData.error == 'Acción no disponible fuera de la sesión') {
-                await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true); location.href = 'index.html'
-            }
-            else {
-                sweetAlert(4, responseData.error, true);
-            }
+            sweetAlert(2, responseData.error, true);
         }
     }
 });
@@ -112,7 +130,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 // Función para mostrar un mensaje de confirmación y redirigir
 const openClose = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán actualizados');
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres cancelar?', 'Los datos ingresados no serán actualizados');
     if (RESPONSE.isConfirmed) {
         location.href = '../../vistas/privado/usuario.html';
     }
@@ -182,9 +200,24 @@ document.getElementById('correoUsuario').addEventListener('input', function (eve
     // Asegurar que el correo electrónico no supere los 50 caracteres
     inputValue = inputValue.slice(0, 50);
 
+    // Expresión regular para permitir solo caracteres válidos en un correo electrónico
+    const validEmailChars = /^[a-zA-Z0-9._%+-@]+$/;
+
+    // Filtrar caracteres inválidos
+    inputValue = inputValue.split('').filter(char => validEmailChars.test(char)).join('');
+
     // Actualizar el valor del campo de texto con la entrada limitada
     event.target.value = inputValue;
 });
+/*
+algunos caracteres especiales que son válidos en correos electrónicos:
+
+. (punto)
+_ (guion bajo)
+% (porcentaje)
++ (más)
+- (guion)
+@ (arroba)*/
 
 // Método del evento para cuando se envía el formulario de cambiar contraseña.
 PASSWORD_FORM.addEventListener('submit', async (event) => {

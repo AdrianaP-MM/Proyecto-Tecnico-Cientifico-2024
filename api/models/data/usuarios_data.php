@@ -6,13 +6,14 @@ require_once('../../models/handler/usuarios_handler.php');
 
 /**Clase para manejar el encapsulamiento de los datos de usuario**/
 
-class UsuarioData extends UsuariosHandler{
+class UsuarioData extends UsuariosHandler
+{
 
     //Atributo Para el manejo de errores
     private $data_error = null;
 
     //Funciones para validar y establecer los datos
-    
+
     //Funcion para validar el id
     public function setId($value)
     {
@@ -24,14 +25,14 @@ class UsuarioData extends UsuariosHandler{
             return false;
         }
     }
-    
+
     //Funcion para validar el correo
     public function setCorreo($value)
     {
-        if(!Validator::validateEmail($value)){
+        if (!Validator::validateEmail($value)) {
             $this->data_error = 'Ingrese un correo válido';
             return false;
-        } else{
+        } else {
             $this->correoUsuario = $value;
             return true;
         }
@@ -40,22 +41,22 @@ class UsuarioData extends UsuariosHandler{
     //Funcion para validar el correo
     public function setNumeroTelefonico($value)
     {
-        if(!Validator::validatePhone($value)){
-            $this->data_error = 'Ingrese un telefono valido';
+        if (!Validator::validatePhone($value)) {
+            $this->data_error = 'Ingrese un número telefónico válido. Asegúrese de que inicie con 2, 6 o 7.';
             return false;
-        } else{
+        } else {
             $this->telefonoUsuario = $value;
             return true;
         }
     }
-    
+
     //Funcion para validar la clave
     public function setTipoUsuario($value)
     {
-        if(!Validator::validateAlphabetic($value)){
+        if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'Ingrese un tipo de usuario valido';
             return false;
-        } else{
+        } else {
             $this->tipoUsuario = $value;
             return true;
         }
@@ -73,13 +74,11 @@ class UsuarioData extends UsuariosHandler{
         }
     }
 
-    
+
 
     //Funcion para obtener el error
     public function getDataError()
     {
         return $this->data_error;
     }
-
-
 }

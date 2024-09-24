@@ -73,17 +73,20 @@
                                             <div class="form-floating mb-3">
                                                 <input type="email" class="form-control" id="correoUsuario"
                                                     name="correoUsuario" placeholder="name@example.com"
-                                                    value="correoelectrionico@gmail.com" required>
+                                                    value="correoelectrionico@gmail.com" required minlength="5"
+                                                    maxlength="50" autocomplete="off">
                                                 <label for="correoUsuario">Correo electrónico</label>
-                                                <div class="invalid-feedback">Por favor ingresa un correo electrónico.
+                                                <div class="invalid-feedback">Por favor ingresa un correo electrónico
+                                                    válido.
                                                 </div>
                                             </div>
                                             <!-- Input para teléfono -->
                                             <div class="form-floating mb-4">
                                                 <input type="tel" class="form-control" id="telefonoUsuario"
-                                                    name="telefonoUsuario" placeholder="0000-0000" required>
+                                                    name="telefonoUsuario" placeholder="0000-0000" required
+                                                    minlength="9" maxlength="15" autocomplete="off">
                                                 <label for="telefonoUsuario">Teléfono</label>
-                                                <div class="invalid-feedback">Por favor ingresa un teléfono.</div>
+                                                <div class="invalid-feedback">Por favor ingresa un teléfono válido.</div>
                                             </div>
                                             <!-- Botones de acción -->
                                             <div
