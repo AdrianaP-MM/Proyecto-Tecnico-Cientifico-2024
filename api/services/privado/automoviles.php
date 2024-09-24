@@ -182,10 +182,10 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$automovil->setIdModelo($_POST['input_modelo_auto']) or
+                    !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or
-                    !$automovil->setIdColor($_POST['input_color_auto']) or
-                    !$automovil->setFechaFabricacion2($_POST['fechanInput']) or
+                    !$automovil->setColor($_POST['input_color_auto']) or
+                    !$automovil->setFechaFabricacion($_POST['fechanInput']) or
                     !$automovil->setPlaca($_POST['input_placa']) or
                     !$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename()) or
                     !$automovil->setIdCliente($_POST['input_duiP']) or
