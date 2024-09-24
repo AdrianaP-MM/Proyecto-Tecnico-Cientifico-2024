@@ -28,9 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const INFO_PERSONAL = document.getElementById('infoPersonal');
 const CHANGE_CONTRA = document.getElementById('changeContra');
+const AJUSTES = document.getElementById('ajustes');
 
 // Función para mostrar el div de agregar trabajador y ocultar el div de la tabla.
 function showInfoPersonal(boton) {
+    AJUSTES.classList.add('d-none');
     CHANGE_CONTRA.classList.add('d-none');
     INFO_PERSONAL.classList.remove('d-none');
     updateButtonColors(boton);
@@ -38,7 +40,16 @@ function showInfoPersonal(boton) {
 
 // Función para mostrar el div de la tabla y ocultar el div de agregar trabajador.
 function showChangeContra(boton) {
+    AJUSTES.classList.add('d-none');
     CHANGE_CONTRA.classList.remove('d-none');
+    INFO_PERSONAL.classList.add('d-none');
+    updateButtonColors(boton);
+}
+
+// Función para mostrar el div de la tabla y ocultar el div de agregar trabajador.
+function showAjustes(boton) {
+    AJUSTES.classList.remove('d-none');
+    CHANGE_CONTRA.classList.add('d-none');
     INFO_PERSONAL.classList.add('d-none');
     updateButtonColors(boton);
 }
@@ -70,48 +81,18 @@ const emailERROR = document.getElementById('emailERROR');
 const phoneERROR = document.getElementById('phoneERROR');
 
 TELEFONO.addEventListener('input', function () {
-    const validationResult = validatePhoneNumber(TELEFONO.value); // Usar el valor del input correcto
-    if (!validationResult.valid) {
-        phoneERROR.textContent = validationResult.message;
-        changeInput(TELEFONO, false);
-    } else {
-        phoneERROR.textContent = ''; // Limpia el mensaje si es válida
-        changeInput(TELEFONO, true);
-    }
+    checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, phoneERROR);
 });
 
 CORREO.addEventListener('input', function () {
-    const validationResult = validateEmail(CORREO.value); // Usar el valor del input correcto
-    if (!validationResult.valid) {
-        emailERROR.textContent = validationResult.message;
-        changeInput(CORREO, false);
-    } else {
-        emailERROR.textContent = ''; // Limpia el mensaje si es válida
-        changeInput(CORREO, true);
-    }
+    checkInput(validateEmail(CORREO.value), CORREO, emailERROR);
 });
 
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const phone = TELEFONO.value; // Obtener el valor del teléfono
-    const validationResultPhone = validatePhoneNumber(phone); // Validar el número de teléfono
-    const email = CORREO.value; // Obtener el valor del correo
-    const validationResultEmail = validateEmail(email); // Validar el correo electrónico
-
-    // Comprobar la validez del correo y del teléfono
-    if (!validationResultEmail.valid || !validationResultPhone.valid) {
-        // Si hay un error de validación para el correo
-        if (!validationResultEmail.valid) {
-            emailERROR.textContent = validationResultEmail.message;
-        } else { emailERROR.textContent = '' }
-
-        // Si hay un error de validación para el teléfono
-        if (!validationResultPhone.valid) {
-            phoneERROR.textContent = validationResultPhone.message;
-        } else { phoneERROR.textContent = '' }
-
-        return; // Detiene la ejecución si hay un error de validación
+    if (!checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, phoneERROR) || !checkInput(validateEmail(CORREO.value), CORREO, emailERROR)) {
+        return;
     }
 
     // Si ambos son válidos, continúa con el procesamiento
@@ -149,43 +130,22 @@ PASSWORD_FORM = document.getElementById('saveForm');
 const CONTRASENA_ACTUAL = document.getElementById('input_contra_actual');
 const passwordErrorACTUAL = document.getElementById('passwordErrorACTUAL');
 
-CONTRASENA_ACTUAL.addEventListener('input', function () {
-    const validationMessage = validatePassword(CONTRASENA_ACTUAL.value); // Usar el valor del input correcto
-    if (validationMessage) {
-        passwordErrorACTUAL.textContent = validationMessage;
-        changeInput(CONTRASENA_ACTUAL, false);
-    } else {
-        passwordErrorACTUAL.textContent = ''; // Limpia el mensaje si es válida
-        changeInput(CONTRASENA_ACTUAL, true);
-    }
-});
-
 const CONTRASENA_NUEVA = document.getElementById('input_contra');
 const passwordErrorNUEVA = document.getElementById('passwordErrorNUEVA');
-
-CONTRASENA_NUEVA.addEventListener('input', function () {
-    const validationMessage = validatePassword(CONTRASENA_NUEVA.value); // Usar el valor del input correcto
-    if (validationMessage) {
-        passwordErrorNUEVA.textContent = validationMessage;
-        changeInput(CONTRASENA_NUEVA, false);
-    } else {
-        passwordErrorNUEVA.textContent = ''; // Limpia el mensaje si es válida
-        changeInput(CONTRASENA_NUEVA, true);
-    }
-});
 
 const REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 const passwordErrorREPIT = document.getElementById('passwordErrorREPIT');
 
+CONTRASENA_ACTUAL.addEventListener('input', function () {
+    checkInput(validatePassword(CONTRASENA_ACTUAL.value), CONTRASENA_ACTUAL, passwordErrorACTUAL);
+});
+
+CONTRASENA_NUEVA.addEventListener('input', function () {
+    checkInput(validatePassword(CONTRASENA_NUEVA.value), CONTRASENA_NUEVA, passwordErrorNUEVA);
+});
+
 REPETIR_CONTRASENA.addEventListener('input', function () {
-    const isMatching = REPETIR_CONTRASENA.value === CONTRASENA_NUEVA.value;
-    if (!isMatching) {
-        passwordErrorREPIT.textContent = 'Las contraseñas no coinciden.';
-        changeInput(REPETIR_CONTRASENA, false);
-    } else {
-        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coincide
-        changeInput(REPETIR_CONTRASENA, true);
-    }
+    compare(REPETIR_CONTRASENA, CONTRASENA_NUEVA, passwordErrorREPIT);
 });
 
 // Método del evento para cuando se envía el formulario de cambiar contraseña.
@@ -193,45 +153,24 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    // Obtener los valores de las contraseñas
-    const currentPassword = CONTRASENA_ACTUAL.value;
-    const newPassword = CONTRASENA_NUEVA.value;
-    const repeatPassword = REPETIR_CONTRASENA.value;
-
-    // Validar las contraseñas
-    const currentPasswordValidation = validatePassword(currentPassword);
-    const newPasswordValidation = validatePassword(newPassword);
-    const repeatPasswordValidation = validatePassword(repeatPassword);
-
-    // Verificar si hay errores de validación
-    if (currentPasswordValidation || newPasswordValidation || repeatPasswordValidation) {
-        // Si hay errores, puedes mostrarlos en el lugar correspondiente
-        if (currentPasswordValidation) {
-            passwordErrorACTUAL.textContent = currentPasswordValidation;
-        }
-        if (newPasswordValidation) {
-            passwordErrorNUEVA.textContent = newPasswordValidation;
-        }
-        if (repeatPasswordValidation) {
-            passwordErrorREPIT.textContent = repeatPasswordValidation;
-        }
-        return; // No enviar el formulario si hay errores
+    if (!checkInput(validatePassword(CONTRASENA_ACTUAL.value), CONTRASENA_ACTUAL, passwordErrorACTUAL) ||
+        !checkInput(validatePassword(CONTRASENA_NUEVA.value), CONTRASENA_NUEVA, passwordErrorNUEVA) ||
+        !checkInput(validatePassword(REPETIR_CONTRASENA.value), REPETIR_CONTRASENA, passwordErrorREPIT)) {
+        return;
     }
 
-    // Verificar que las contraseñas nueva y repetir coincidan
-    if (newPassword !== repeatPassword) {
-        passwordErrorREPIT.textContent = 'Las contraseñas no coinciden.';
-        return; // No enviar el formulario si las contraseñas no coinciden
-    } else {
-        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coinciden
+    if (!compare(REPETIR_CONTRASENA, CONTRASENA_NUEVA, passwordErrorREPIT)) {
+        return;
     }
 
     // Verificar que la nueva contraseña no sea igual a la contraseña actual
-    if (currentPassword === newPassword) {
+    if (CONTRASENA_ACTUAL.value === CONTRASENA_NUEVA.value) {
         passwordErrorNUEVA.textContent = 'La nueva contraseña no puede ser la misma que la actual.';
+        changeInput(CONTRASENA_NUEVA, false);
         return; // No enviar el formulario si son iguales
     } else {
         passwordErrorNUEVA.textContent = ''; // Limpia el mensaje si son diferentes
+        changeInput(CONTRASENA_NUEVA, true);
     }
 
     // Constante tipo objeto con los datos del formulario.
@@ -252,6 +191,10 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
             location.href = 'index.html';
         } else {
             sweetAlert(2, responseData.error, true);
+            if (responseData.error === 'Contraseña actual incorrecta') {
+                passwordErrorACTUAL.textContent = responseData.error;
+                changeInput(CONTRASENA_ACTUAL, false);
+            }
         }
     }
 });

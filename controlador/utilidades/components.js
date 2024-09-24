@@ -575,16 +575,6 @@ function updateButtonColors(boton) {
     boton.style.borderBottom = '3px solid red';
 }
 
-function changeInput(INPUT, STATE) {
-    if (STATE) {
-        INPUT.classList.add('is-valid');
-        INPUT.classList.remove('is-invalid');
-    } else {
-        INPUT.classList.remove('is-valid');
-        INPUT.classList.add('is-invalid');
-    }
-}
-
 function disablePasteAndDrop(inputElement) {
     // Evitar que el usuario pegue texto
     inputElement.addEventListener('paste', function (event) {
@@ -602,6 +592,41 @@ function disableCopy(inputElement) {
     inputElement.addEventListener('copy', function (event) {
         event.preventDefault(); // Prevenir la acción de copiar
     });
+}
+
+function checkInput(FUNCTION, INPUT, SPAN) {
+    if (!FUNCTION.valid) {
+        SPAN.textContent = FUNCTION.message;
+        changeInput(INPUT, false);
+        return false;
+    } else {
+        SPAN.textContent = ''; // Limpia el mensaje si es válida
+        changeInput(INPUT, true);
+        return true;
+    }
+}
+
+function changeInput(INPUT, STATE) {
+    if (STATE) {
+        INPUT.classList.add('is-valid');
+        INPUT.classList.remove('is-invalid');
+    } else {
+        INPUT.classList.remove('is-valid');
+        INPUT.classList.add('is-invalid');
+    }
+}
+
+function compare(INPUT1, INPUT2, SPAN) {
+    const isMatching = INPUT1.value === INPUT2.value;
+    if (!isMatching) {
+        SPAN.textContent = 'Las contraseñas no coinciden.';
+        changeInput(INPUT1, false);
+        return false;
+    } else {
+        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coincide
+        changeInput(INPUT1, true);
+        return true;
+    }
 }
 
 /*-----------------------------------------------------------------FORMATOS------------------------------------------------------------------*/
@@ -736,13 +761,13 @@ function validatePassword(password) {
     const hasSpecialChars = /[!@#$%^&*]/.test(password);
 
     if (password.length < minLength) {
-        return 'La contraseña debe tener al menos 8 caracteres.';
+        return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres.' };
     }
     if (password.length > maxLength) {
-        return 'La contraseña no debe exceder los 50 caracteres.';
+        return { valid: false, message: 'La contraseña no debe exceder los 50 caracteres.' };
     }
     if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
-        return 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.';
+        return { valid: false, message: 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.' };
     }
-    return null;
+    return { valid: true, message: 'Contraseña válida' };
 }

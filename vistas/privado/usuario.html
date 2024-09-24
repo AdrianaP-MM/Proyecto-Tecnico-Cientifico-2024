@@ -52,6 +52,14 @@
                                     Cambiar contraseña
                                 </button>
                             </li>
+
+                            <li class="nav-item ms-4" role="presentation">
+                                <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab" id="ajustes-tab"
+                                    type="button" data-bs-target="#ajustes" role="tab" aria-controls="ajustes"
+                                    aria-selected="true" onclick="showAjustes(this)">
+                                    Ajustes
+                                </button>
+                            </li>
                         </ul>
 
                         <div class="tab-content contenidoP position-relative justify-content-start">
@@ -149,6 +157,11 @@
                                         </button>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start open-sans-regular"
+                                role="tabpanel" id="ajustes" aria-labelledby="ajustes-tab">
+                                Pone aqui una card tipo como las del panel para poner "Segundo factor de autenticación"
+                                un toggle buton y la descripcion
                             </div>
                         </div>
                     </div>
