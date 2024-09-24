@@ -718,6 +718,12 @@ function validateEmail(email) {
         'icloud.sv',
         'ricaldone.edu.sv'
     ];
+    const hasSpaces = /\s/.test(email); // Verificar si hay espacios
+
+    // Validar si contiene espacios en blanco
+    if (hasSpaces) {
+        return { valid: false, message: 'La correo no debe contener espacios en blanco.' };
+    }
 
     // Validar longitud
     if (email.length < 5 || email.length > 50) {
