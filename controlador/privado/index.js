@@ -14,6 +14,9 @@ const ADD_FORM = document.getElementById('addForm');
 
 const CONTENEDOR_REGISTRO = document.getElementById('contenedorRegistro');
 
+const DOS_PASOS_MODAL = new bootstrap.Modal(document.getElementById('dosPasosModal'));
+const DOS_PASOS_FORM = document.getElementById('formDosPasos');
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     CONTENEDOR_REGISTRO.classList.add('d-none');
@@ -100,19 +103,58 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
         // Constante tipo objeto con los datos del formulario.
         const FORM = new FormData(FORM_LOGIN_INPUTS);
         // Petición para iniciar sesión.
-        const DATA = await fetchData(USER_API, 'logIn', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // sweetAlert(1, DATA.message, true, 'panel_principal.html');
-            location.href = 'panel_principal.html';
-            // Evitar que el usuario regrese después de iniciar sesión
+        const DATADOSPASOS = await fetchData(USER_API, 'readDosPasos', FORM);
+
+        console.log("Ahuevo si es" + DATADOSPASOS.dataset.dos_pasos)
+
+        if (DATADOSPASOS.status) {
+
+            if (DATADOSPASOS.dataset.dos_pasos == 1) {
+                mandarCodigoDosPasos();
+                openDosPasos();
+                document.getElementById('formDosPasos').addEventListener('submit', async function (event) {
+                    event.preventDefault(); // Evita que el formulario se envíe y recargue la página
+                    const INPUTCODIGO = document.getElementById("inputValidarCod").value;
+                    if (INPUTCODIGO.trim() === DATA2.codigo) {
+                        // Petición para iniciar sesión.
+                        const DATA = await fetchData(USER_API, 'logIn', FORM);
+                        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                        if (DATA.status) {
+                            await sweetAlert(1, 'Codigo verificado correctamente para iniciar sesion.', true); location.href = 'panel_principal.html'
+                        } else {
+                            if (DATA.error == 'Acción no disponible dentro de la sesión') {
+                                await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
+                            }
+                            else {
+                                await sweetAlert(2, DATA.error, false);
+                                closePasosIncorrecto();
+                            }
+                        }
+                    } else {
+                        await sweetAlert(2, 'Ingrese el codigo enviado en el correo.', true);
+                    }
+                });
+
+            } else {
+                // Petición para iniciar sesión.
+                const DATA = await fetchData(USER_API, 'logIn', FORM);
+                // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                if (DATA.status) {
+                    // sweetAlert(1, DATA.message, true, 'panel_principal.html');
+                    location.href = 'panel_principal.html';
+                    // Evitar que el usuario regrese después de iniciar sesión
+                } else {
+                    if (DATA.error == 'Acción no disponible dentro de la sesión') {
+                        await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
+                    }
+                    else {
+                        await sweetAlert(2, DATA.error, false);
+                    }
+                }
+            }
+
         } else {
-            if (DATA.error == 'Acción no disponible dentro de la sesión') {
-                await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
-            }
-            else {
-                await sweetAlert(2, DATA.error, false);
-            }
+            await sweetAlert(2, DATADOSPASOS.error, false);
         }
     }
     else { }
@@ -272,6 +314,52 @@ document.getElementById("forgetPasswordStepThree").addEventListener("submit", as
     }
 });
 
+/*JS DE VALIDACION EN DOS PASOS*/
+
+const openDosPasos = () => {
+    // Se muestra la caja de diálogo con su título.
+    DOS_PASOS_MODAL.show();
+    // Se prepara el formulario.
+    DOS_PASOS_FORM.reset();
+}
+
+const closeDosPasos = async () => {
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Tendras que ingresar el codigo de nuevo');
+    if (RESPONSE.isConfirmed) {
+        DOS_PASOS_MODAL.hide();
+    }
+}
+
+const closePasosIncorrecto = async () => {
+    DOS_PASOS_MODAL.hide();
+}
+
+const mandarCodigoDosPasos = async () => {
+    const INPUTCONTRA = document.getElementById("correoLogin");
+    FORM1 = new FormData();
+    FORM1.append('correoLogin', INPUTCONTRA.value);
+
+    // Lógica asíncrona para obtener los datos del usuario
+    const DATA = await fetchData(USER_API, 'searchMailDosPasos', FORM1);
+    if (DATA.status) {
+        FORM2 = new FormData();
+        var resultado = DATA.dataset;
+        FORM2.append('correoLogin', INPUTCONTRA.value);
+
+        id = resultado.id_usuario;
+
+        DATA2 = await fetchData(USER_API, 'enviarCodigoDosPasos', FORM2); // Asigna el valor de DATA2 aquí
+
+        if (DATA2.status) {
+            await sweetAlert(1, '!Revisa tu correo!, se ha mandado un codigo para esta medida de seguridad', true);
+        } else {
+            await sweetAlert(2, DATA2.error, false);
+        }
+
+    } else {
+        await sweetAlert(2, DATA.error, false);
+    }
+}
 
 document.getElementById('registro_input_correo').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto

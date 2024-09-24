@@ -267,6 +267,7 @@
         clave_usuario VARCHAR(100) /*(min-6 max-50)*/,
         telefono_usuario VARCHAR(9),
         tipo_usuario ENUM('Administrador') NOT NULL
+        dos_pasos BOOLEAN DEFAULT TRUE
     );
 
     CREATE TABLE tb_formas_pagos_consumidores_finales

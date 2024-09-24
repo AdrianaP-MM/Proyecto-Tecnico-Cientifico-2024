@@ -247,6 +247,44 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el la contraseña';
                 }
                 break;
+                case 'readDosPasos':
+                    if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                        $result['error'] = $usuario->getDataError();
+                    } elseif ($result['dataset'] = $usuario->readDosPasos()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Usuario no encontrado';
+                    }
+                    break;
+                case 'enviarCodigoDosPasos':
+                    // Generar un código de recuperación
+                    $codigoRecuperacion = $mandarCorreo->generarCodigoRecuperacion();
+    
+                    // Preparar el cuerpo del correo electrónico
+                    $correoDestino = $_POST['correoLogin'];
+                    $asunto = 'Código de recuperación';
+                    // Enviar el correo electrónico y verificar si hubo algún error
+                    $envioExitoso = $mandarCorreo->enviarCorreoPassword($correoDestino, $asunto, $codigoRecuperacion);
+    
+                    if ($envioExitoso === true) {
+                        $result['status'] = 1;
+                        $result['codigo'] = $codigoRecuperacion;
+                        $result['message'] = 'Código de recuperación enviado correctamente';
+                    } else {
+                        $result['status'] = 0;
+                        $result['error'] = 'Error al enviar el correo: ' . $envioExitoso;
+                    }
+                    break;
+                case 'searchMailDosPasos':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                        $result['error'] = 'Correo electrónico incorrecto';
+                    } elseif ($result['dataset'] = $usuario->checkMail()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Correo electrónico inexistente';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }

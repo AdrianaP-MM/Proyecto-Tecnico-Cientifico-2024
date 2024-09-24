@@ -275,6 +275,40 @@
                         <img src="../../recursos/imagenes/img-index/img-woman-1.svg">
                     </div>
                 </div>
+
+                <!--Modal para dos pasos-->
+                <div class="modal fade" id="dosPasosModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <!-- Contenedor del modal dialog-->
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <form id="formDosPasos" class="needs-validation" novalidate>
+                            <!-- Contenedor del modal content-->
+                            <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                                <!-- Contenedor del modal body-->
+                                <div class="modal-body column">
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <h4>Medida de seguridad: Dos pasos</h4>
+                                    </div>
+                                    <hr>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="inputValidarCod"
+                                            name="inputValidarCod" required placeholder="...">
+                                        <label for="inputValidarCod">Codigo</label>
+                                        <div class="invalid-feedback">Por favor ingrese el codigo</div>
+                                    </div>
+                                </div>
+                                <!-- Contenedor del footer del modal (contenedor de los botones)-->
+                                <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                                    <button type="button" class="btn btn-secondary btnCancel"
+                                        onclick="closeDosPasos()">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary btnSave">Ingresar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
             </div>
             <footer class="footer d-flex justify-content-center"> <!--Pie de página negro con img-->
                 <div class="img-container">

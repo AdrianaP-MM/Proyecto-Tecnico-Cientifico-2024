@@ -177,6 +177,13 @@ class UsuariosHandler
         return Database::executeRow($sql, $params);
     }
 
-    
+    public function readDosPasos()
+    {
+        $sql = 'SELECT dos_pasos
+                FROM tb_usuarios
+                WHERE correo_usuario = ?';
+        $params = array($this->correoUsuario);
+        return Database::getRow($sql, $params);
+    }
 
 }

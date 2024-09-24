@@ -258,3 +258,14 @@ main,
   background-color: #E5383B;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
 }
+
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Centrado vertical completo */
+}
+
+.modal-content {
+  margin: 0 auto;
+}
