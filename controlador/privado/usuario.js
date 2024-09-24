@@ -67,6 +67,12 @@ async function readUsuarios() {
         <h3 id="userEmail"  class="email">${row.correo_usuario}</h3>
         <div class="lineR3"></div>
         `;
+
+        userData = {
+            telefono: row.telefono_usuario,
+            email: row.correo_usuario
+        };
+
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
             await sweetAlert(4, DATA.error, true); location.href = 'index.html'
@@ -136,12 +142,14 @@ const passwordErrorNUEVA = document.getElementById('passwordErrorNUEVA');
 const REPETIR_CONTRASENA = document.getElementById('input_repetircontra');
 const passwordErrorREPIT = document.getElementById('passwordErrorREPIT');
 
+let userData = {};
+
 CONTRASENA_ACTUAL.addEventListener('input', function () {
-    checkInput(validatePassword(CONTRASENA_ACTUAL.value), CONTRASENA_ACTUAL, passwordErrorACTUAL);
+    checkInput(validatePassword(CONTRASENA_ACTUAL.value, userData), CONTRASENA_ACTUAL, passwordErrorACTUAL);
 });
 
 CONTRASENA_NUEVA.addEventListener('input', function () {
-    checkInput(validatePassword(CONTRASENA_NUEVA.value), CONTRASENA_NUEVA, passwordErrorNUEVA);
+    checkInput(validatePassword(CONTRASENA_NUEVA.value, userData), CONTRASENA_NUEVA, passwordErrorNUEVA);
 });
 
 REPETIR_CONTRASENA.addEventListener('input', function () {
@@ -153,9 +161,9 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    if (!checkInput(validatePassword(CONTRASENA_ACTUAL.value), CONTRASENA_ACTUAL, passwordErrorACTUAL) ||
-        !checkInput(validatePassword(CONTRASENA_NUEVA.value), CONTRASENA_NUEVA, passwordErrorNUEVA) ||
-        !checkInput(validatePassword(REPETIR_CONTRASENA.value), REPETIR_CONTRASENA, passwordErrorREPIT)) {
+    if (!checkInput(validatePassword(CONTRASENA_ACTUAL.value, userData), CONTRASENA_ACTUAL, passwordErrorACTUAL) ||
+        !checkInput(validatePassword(CONTRASENA_NUEVA.value, userData), CONTRASENA_NUEVA, passwordErrorNUEVA) ||
+        !checkInput(validatePassword(REPETIR_CONTRASENA.value, userData), REPETIR_CONTRASENA, passwordErrorREPIT)) {
         return;
     }
 

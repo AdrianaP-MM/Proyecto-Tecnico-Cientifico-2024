@@ -752,13 +752,22 @@ function validatePhoneNumber(phone) {
     return { valid: true, message: 'Número de teléfono válido.' };
 }
 
-function validatePassword(password) {
+function validatePassword(password, userData) {
     const minLength = 8;
     const maxLength = 50;
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
     const hasSpecialChars = /[!@#$%^&*]/.test(password);
+
+    // Verificar si la contraseña contiene datos del usuario
+    const userFields = [userData.telefono, userData.email.split('@')[0]];
+
+    for (let field of userFields) {
+        if (password.toLowerCase().includes(field.toLowerCase())) {
+            return { valid: false, message: 'La contraseña no debe contener información personal del usuario (número telefónico o correo).' };
+        }
+    }
 
     if (password.length < minLength) {
         return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres.' };
