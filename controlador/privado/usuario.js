@@ -13,22 +13,8 @@ CONTENEDOR_CORREO = document.getElementById('userEmaill');
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA = await fetchData(USER_API, 'readUsers');
-    disablePasteAndDrop(CORREO);
-    disableCopy(CORREO);
-
-    disablePasteAndDrop(TELEFONO);
-    disableCopy(TELEFONO);
-
-    disablePasteAndDrop(CONTRASENA_ACTUAL);
-    disableCopy(CONTRASENA_ACTUAL);
-
-    disablePasteAndDrop(CONTRASENA_NUEVA);
-    disableCopy(CONTRASENA_NUEVA);
-
-    disablePasteAndDrop(REPETIR_CONTRASENA);
-    disableCopy(REPETIR_CONTRASENA);
-
     if (DATA.session) {
+        applicateRules();
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
         var primeraPestana = document.querySelector('#infoPersonal-tab');
@@ -57,19 +43,6 @@ function showChangeContra(boton) {
     updateButtonColors(boton);
 }
 
-function updateButtonColors(boton) {
-    var botones = document.querySelectorAll('.boton-cambiar-color');
-    botones.forEach(function (b) {
-        b.style.backgroundColor = 'white';
-        b.style.color = 'black';
-        b.style.borderBottom = '0px solid red';
-        b.style.border = '0px';
-    });
-    boton.style.backgroundColor = 'white';
-    boton.style.color = 'black';
-    boton.style.borderBottom = '3px solid red';
-}
-
 async function readUsuarios() {
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(USER_API, 'readProfile');
@@ -93,6 +66,31 @@ async function readUsuarios() {
     }
 }
 
+const emailERROR = document.getElementById('emailERROR');
+const phoneERROR = document.getElementById('phoneERROR');
+
+TELEFONO.addEventListener('input', function () {
+    const validationResult = validatePhoneNumber(TELEFONO.value); // Usar el valor del input correcto
+    if (!validationResult.valid) {
+        phoneERROR.textContent = validationResult.message;
+        changeInput(TELEFONO, false);
+    } else {
+        phoneERROR.textContent = ''; // Limpia el mensaje si es válida
+        changeInput(TELEFONO, true);
+    }
+});
+
+CORREO.addEventListener('input', function () {
+    const validationResult = validateEmail(CORREO.value); // Usar el valor del input correcto
+    if (!validationResult.valid) {
+        emailERROR.textContent = validationResult.message;
+        changeInput(CORREO, false);
+    } else {
+        emailERROR.textContent = ''; // Limpia el mensaje si es válida
+        changeInput(CORREO, true);
+    }
+});
+
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -101,15 +99,18 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     const email = CORREO.value; // Obtener el valor del correo
     const validationResultEmail = validateEmail(email); // Validar el correo electrónico
 
-    // Comprobar la validez del correo
-    if (!validationResultEmail.valid) {
-        await sweetAlert(2, validationResultEmail.message);
-        return; // Detiene la ejecución si hay un error de validación
-    }
+    // Comprobar la validez del correo y del teléfono
+    if (!validationResultEmail.valid || !validationResultPhone.valid) {
+        // Si hay un error de validación para el correo
+        if (!validationResultEmail.valid) {
+            emailERROR.textContent = validationResultEmail.message;
+        } else { emailERROR.textContent = '' }
 
-    // Comprobar la validez del teléfono
-    if (!validationResultPhone.valid) {
-        await sweetAlert(2, validationResultPhone.message);
+        // Si hay un error de validación para el teléfono
+        if (!validationResultPhone.valid) {
+            phoneERROR.textContent = validationResultPhone.message;
+        } else { phoneERROR.textContent = '' }
+
         return; // Detiene la ejecución si hay un error de validación
     }
 
@@ -132,88 +133,6 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-// Función para mostrar un mensaje de confirmación y redirigir
-const openClose = async () => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2('¿Seguro qué quieres cancelar?', 'Los datos ingresados no serán actualizados');
-    if (RESPONSE.isConfirmed) {
-        location.href = '../../vistas/privado/usuario.html';
-    }
-}
-
-// Función para mostrar una notificación
-const openNoti = async () => {
-    sweetAlert(1, 'Se ha actualizado con éxito', 300);
-}
-
-// Función para cerrar sesión
-const openLogout = async () => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2('¿Está seguro de cerrar la sesión?');
-    if (RESPONSE.isConfirmed) {
-        location.href = '../../vistas/privado/index.html';
-    }
-}
-
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
-
-// Validación del campo teléfono
-document.getElementById('telefonoUsuario').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 8 dígitos
-    inputValue = inputValue.slice(0, 8);
-
-    // Formatear el número agregando el guión
-    if (inputValue.length > 4) {
-        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-// Validación del campo correo
-document.getElementById('correoUsuario').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Asegurar que el correo electrónico no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Expresión regular para permitir solo caracteres válidos en un correo electrónico
-    const validEmailChars = /^[a-zA-Z0-9._%+-@]+$/;
-
-    // Filtrar caracteres inválidos
-    inputValue = inputValue.split('').filter(char => validEmailChars.test(char)).join('');
-
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
-});
 /*
 algunos caracteres especiales que son válidos en correos electrónicos:
 
@@ -234,8 +153,10 @@ CONTRASENA_ACTUAL.addEventListener('input', function () {
     const validationMessage = validatePassword(CONTRASENA_ACTUAL.value); // Usar el valor del input correcto
     if (validationMessage) {
         passwordErrorACTUAL.textContent = validationMessage;
+        changeInput(CONTRASENA_ACTUAL, false);
     } else {
         passwordErrorACTUAL.textContent = ''; // Limpia el mensaje si es válida
+        changeInput(CONTRASENA_ACTUAL, true);
     }
 });
 
@@ -246,8 +167,10 @@ CONTRASENA_NUEVA.addEventListener('input', function () {
     const validationMessage = validatePassword(CONTRASENA_NUEVA.value); // Usar el valor del input correcto
     if (validationMessage) {
         passwordErrorNUEVA.textContent = validationMessage;
+        changeInput(CONTRASENA_NUEVA, false);
     } else {
         passwordErrorNUEVA.textContent = ''; // Limpia el mensaje si es válida
+        changeInput(CONTRASENA_NUEVA, true);
     }
 });
 
@@ -258,8 +181,10 @@ REPETIR_CONTRASENA.addEventListener('input', function () {
     const isMatching = REPETIR_CONTRASENA.value === CONTRASENA_NUEVA.value;
     if (!isMatching) {
         passwordErrorREPIT.textContent = 'Las contraseñas no coinciden.';
+        changeInput(REPETIR_CONTRASENA, false);
     } else {
         passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coincide
+        changeInput(REPETIR_CONTRASENA, true);
     }
 });
 
@@ -301,6 +226,14 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coinciden
     }
 
+    // Verificar que la nueva contraseña no sea igual a la contraseña actual
+    if (currentPassword === newPassword) {
+        passwordErrorNUEVA.textContent = 'La nueva contraseña no puede ser la misma que la actual.';
+        return; // No enviar el formulario si son iguales
+    } else {
+        passwordErrorNUEVA.textContent = ''; // Limpia el mensaje si son diferentes
+    }
+
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(PASSWORD_FORM);
     // Petición para guardar los datos del formulario.
@@ -310,8 +243,9 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
     if (responseData.status) {
         // Se muestra un mensaje de éxito.
         sweetAlert(1, responseData.message, true);
-        // Se carga nuevamente la tabla para visualizar los cambios.
-        readUsuarios();
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
     } else {
         if (responseData.error == 'Acción no disponible fuera de la sesión') {
             await sweetAlert(4, responseData.error, ', debe ingresar para continuar', true);
@@ -321,3 +255,46 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
         }
     }
 });
+
+function applicateRules() {
+    // Agregar evento a cada campo de contraseña
+    formatPassword(CONTRASENA_ACTUAL);
+    formatPassword(CONTRASENA_NUEVA);
+    formatPassword(REPETIR_CONTRASENA);
+    formatPhone(TELEFONO);
+    formatEmail(CORREO);
+
+    disablePasteAndDrop(CORREO);
+    disableCopy(CORREO);
+    disablePasteAndDrop(TELEFONO);
+    disableCopy(TELEFONO);
+    disablePasteAndDrop(CONTRASENA_ACTUAL);
+    disableCopy(CONTRASENA_ACTUAL);
+    disablePasteAndDrop(CONTRASENA_NUEVA);
+    disableCopy(CONTRASENA_NUEVA);
+    disablePasteAndDrop(REPETIR_CONTRASENA);
+    disableCopy(REPETIR_CONTRASENA);
+}
+
+// Función para mostrar un mensaje de confirmación y redirigir
+const openClose = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres cancelar?', 'Los datos ingresados no serán actualizados');
+    if (RESPONSE.isConfirmed) {
+        location.href = '../../vistas/privado/usuario.html';
+    }
+}
+
+// Función para mostrar una notificación
+const openNoti = async () => {
+    sweetAlert(1, 'Se ha actualizado con éxito', 300);
+}
+
+// Función para cerrar sesión
+const openLogout = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2('¿Está seguro de cerrar la sesión?');
+    if (RESPONSE.isConfirmed) {
+        location.href = '../../vistas/privado/index.html';
+    }
+}

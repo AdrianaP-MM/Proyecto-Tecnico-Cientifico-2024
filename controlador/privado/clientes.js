@@ -477,21 +477,6 @@ $('#datepicker-hastaRE').datepicker({
     uiLibrary: 'bootstrap5'
 });
 
-
-// Función para cambiar el color de los botones según el que se haya clicado.
-function updateButtonColors(boton) {
-    var botones = document.querySelectorAll('.boton-cambiar-color');
-    botones.forEach(function (b) {
-        b.style.backgroundColor = 'white';
-        b.style.color = 'black';
-        b.style.borderBottom = '0px solid red';
-        b.style.border = '0px';
-    });
-    boton.style.backgroundColor = 'white';
-    boton.style.color = 'black';
-    boton.style.borderBottom = '3px solid red';
-}
-
 //----------------------------VALIDACIONES-----------------
 
 document.getElementById('input_nrf').addEventListener('input', function (event) {

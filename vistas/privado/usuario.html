@@ -65,7 +65,7 @@
                                         </div>
                                     </form>
 
-                                    <div class="contenedor-inputs text-center col-12">
+                                    <div class="contenedor-inputs col-12 open-sans-regular">
                                         <form id="inputUsuario" class="needs-validation" novalidate>
                                             <input type="number" class="d-none" id="id_usuario" name="id_usuario">
                                             <!-- Campo oculto para ID de usuario -->
@@ -76,18 +76,15 @@
                                                     value="correoelectrionico@gmail.com" required minlength="5"
                                                     maxlength="50" autocomplete="off">
                                                 <label for="correoUsuario">Correo electrónico</label>
-                                                <div class="invalid-feedback">Por favor ingresa un correo electrónico
-                                                    válido.
-                                                </div>
+                                                <span id="emailERROR" class="text-danger"></span>
                                             </div>
                                             <!-- Input para teléfono -->
                                             <div class="form-floating mb-4">
                                                 <input type="tel" class="form-control" id="telefonoUsuario"
                                                     name="telefonoUsuario" placeholder="0000-0000" required
-                                                    minlength="9" maxlength="15" autocomplete="off">
+                                                    minlength="9" maxlength="9" autocomplete="off">
                                                 <label for="telefonoUsuario">Teléfono</label>
-                                                <div class="invalid-feedback">Por favor ingresa un teléfono válido.
-                                                </div>
+                                                <span id="phoneERROR" class="text-danger"></span>
                                             </div>
                                             <!-- Botones de acción -->
                                             <div
@@ -106,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start"
+                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start open-sans-regular"
                                 role="tabpanel" id="changeContra" aria-labelledby="changeContra-tab">
                                 <form id="saveForm" class="needs-validation col-9" novalidate>
                                     <div class="content-add-info col-12">
@@ -116,7 +113,7 @@
                                                 name="input_contra_actual" placeholder="Contraseña actual" required
                                                 minlength="8" maxlength="50" autocomplete="off">
                                             <label for="input_contra_actual">Contraseña actual</label>
-                                            <span id="passwordErrorACTUAL" style="color: red;"></span>
+                                            <span id="passwordErrorACTUAL" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="content-add-info col-12">
@@ -126,7 +123,7 @@
                                                 name="input_contra" placeholder="Nueva contraseña" required
                                                 minlength="8" maxlength="50" autocomplete="off">
                                             <label for="input_contra">Nueva contraseña</label>
-                                            <span id="passwordErrorNUEVA" style="color: red;"></span>
+                                            <span id="passwordErrorNUEVA" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="content-add-info col-12">
@@ -136,7 +133,7 @@
                                                 name="input_repetircontra" placeholder="Repetir contraseña" required
                                                 minlength="8" maxlength="50" autocomplete="off">
                                             <label for="input_repetircontra">Repetir contraseña</label>
-                                            <span id="passwordErrorREPIT" style="color: red;"></span>
+                                            <span id="passwordErrorREPIT" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <!-- Botones del modal -->

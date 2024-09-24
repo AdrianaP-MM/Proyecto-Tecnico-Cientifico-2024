@@ -319,124 +319,6 @@ const fillSelect = async (filename, action, select, selected = null, form = null
     document.getElementById(select).innerHTML = content;
 }
 
-const checkFormValidity = form => {
-    const validities = [];
-    Array.from(form.elements).forEach(element => {
-        // Verificar si el campo está visible
-        const isVisible = !element.classList.contains('d-none');
-        // Verificar si el campo es un elemento de formulario (input, select, textarea)
-        const isFormElement = ['INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName);
-
-        if (isVisible && isFormElement) {
-            validities.push(element.checkValidity());
-            console.log(`Elemento: ${element.id}, Validez: ${element.checkValidity()}, Mensaje de error: ${element.validationMessage}`);
-        }
-    });
-
-    return validities.every(valid => valid); // Retorna true si todos los elementos son válidos.
-};
-
-function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Validar formato
-    const allowedDomains = [
-        'gmail.com',
-        'hotmail.com',
-        'yahoo.com',
-        'outlook.com',
-        'aol.com',          // Añadido: AOL
-        'icloud.com',       // Añadido: iCloud
-        'mail.com',         // Añadido: Mail.com
-        'zoho.com',         // Añadido: Zoho
-        'gmx.com',          // Añadido: GMX
-        'protonmail.com',   // Añadido: ProtonMail
-        'gmail.sv',
-        'hotmail.sv',
-        'yahoo.sv',
-        'outlook.sv',
-        'icloud.sv',
-        'ricaldone.edu.sv'
-    ];
-
-    // Validar longitud
-    if (email.length < 5 || email.length > 50) {
-        return { valid: false, message: 'El correo debe tener entre 5 y 50 caracteres.' };
-    }
-
-    // Validar formato
-    if (!emailRegex.test(email)) {
-        return { valid: false, message: 'Formato de correo electrónico no válido.' };
-    }
-
-    // Extrae el dominio del correo electrónico
-    const domain = email.split('@')[1];
-
-    // Validar dominio
-    if (!allowedDomains.includes(domain)) {
-        return { valid: false, message: 'Dominio del correo electrónico no permitido.' };
-    }
-
-    return { valid: true, message: 'Correo electrónico válido.' };
-}
-
-function disablePasteAndDrop(inputElement) {
-    // Evitar que el usuario pegue texto
-    inputElement.addEventListener('paste', function (event) {
-        event.preventDefault(); // Prevenir la acción de pegar
-    });
-
-    // Evitar que el usuario suelte texto
-    inputElement.addEventListener('drop', function (event) {
-        event.preventDefault(); // Prevenir la acción de soltar
-    });
-}
-
-function disableCopy(inputElement) {
-    // Evitar que el usuario copie el texto
-    inputElement.addEventListener('copy', function (event) {
-        event.preventDefault(); // Prevenir la acción de copiar
-    });
-}
-
-function validatePhoneNumber(phone) {
-    // Expresión regular para validar el formato 0000-0000 o solo números
-    const phoneRegex = /^(?:[0-9]{4}-[0-9]{4}|[0-9]{10})$/;
-    const minLength = 9;  // La longitud mínima puede ser 9 para permitir el formato con guion
-    const maxLength = 15; // Longitud máxima para el número de teléfono
-
-    // Validar longitud
-    if (phone.length < minLength || phone.length > maxLength) {
-        return { valid: false, message: `El número de teléfono debe tener entre ${minLength} y ${maxLength} caracteres.` };
-    }
-
-    // Validar formato
-    if (!phoneRegex.test(phone)) {
-        return { valid: false, message: 'Formato de número de teléfono no válido. Debe seguir el formato 0000-0000.' };
-    }
-
-    return { valid: true, message: 'Número de teléfono válido.' };
-}
-
-function validatePassword(password) {
-    const minLength = 8;
-    const maxLength = 50;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChars = /[!@#$%^&*]/.test(password);
-
-    if (password.length < minLength) {
-        return 'La contraseña debe tener al menos 8 caracteres.';
-    }
-    if (password.length > maxLength) {
-        return 'La contraseña no debe exceder los 50 caracteres.';
-    }
-    if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
-        return 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.';
-    }
-    return null;
-}
-
-
 function getDateToMysql() {
     // Crear un nuevo objeto Date para obtener la fecha y hora actual
     let fechaActual = new Date();
@@ -661,4 +543,206 @@ const doughnutGraph = (canvas, legends, values, title) => {
             }
         }
     });
+}
+/*-----------------------------------------------------------------FUNCIONES REPETITIVAS------------------------------------------------------------------*/
+const checkFormValidity = form => {
+    const validities = [];
+    Array.from(form.elements).forEach(element => {
+        // Verificar si el campo está visible
+        const isVisible = !element.classList.contains('d-none');
+        // Verificar si el campo es un elemento de formulario (input, select, textarea)
+        const isFormElement = ['INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName);
+
+        if (isVisible && isFormElement) {
+            validities.push(element.checkValidity());
+            console.log(`Elemento: ${element.id}, Validez: ${element.checkValidity()}, Mensaje de error: ${element.validationMessage}`);
+        }
+    });
+
+    return validities.every(valid => valid); // Retorna true si todos los elementos son válidos.
+};
+
+function updateButtonColors(boton) {
+    var botones = document.querySelectorAll('.boton-cambiar-color');
+    botones.forEach(function (b) {
+        b.style.backgroundColor = 'white';
+        b.style.color = 'black';
+        b.style.borderBottom = '0px solid red';
+        b.style.border = '0px';
+    });
+    boton.style.backgroundColor = 'white';
+    boton.style.color = 'black';
+    boton.style.borderBottom = '3px solid red';
+}
+
+function changeInput(INPUT, STATE) {
+    if (STATE) {
+        INPUT.classList.add('is-valid');
+        INPUT.classList.remove('is-invalid');
+    } else {
+        INPUT.classList.remove('is-valid');
+        INPUT.classList.add('is-invalid');
+    }
+}
+
+function disablePasteAndDrop(inputElement) {
+    // Evitar que el usuario pegue texto
+    inputElement.addEventListener('paste', function (event) {
+        event.preventDefault(); // Prevenir la acción de pegar
+    });
+
+    // Evitar que el usuario suelte texto
+    inputElement.addEventListener('drop', function (event) {
+        event.preventDefault(); // Prevenir la acción de soltar
+    });
+}
+
+function disableCopy(inputElement) {
+    // Evitar que el usuario copie el texto
+    inputElement.addEventListener('copy', function (event) {
+        event.preventDefault(); // Prevenir la acción de copiar
+    });
+}
+
+/*-----------------------------------------------------------------FORMATOS------------------------------------------------------------------*/
+function formatPhone(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea un número
+        inputValue = inputValue.replace(/\D/g, '');
+
+        // Asegurar que no haya más de 8 dígitos
+        inputValue = inputValue.slice(0, 8);
+
+        // Formatear el número agregando el guión
+        if (inputValue.length > 4) {
+            inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
+        }
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = inputValue;
+    });
+}
+
+function formatEmail(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\s/g, '');
+
+        // Asegurar que el correo electrónico no supere los 50 caracteres
+        inputValue = inputValue.slice(0, 50);
+
+        // Expresión regular para permitir solo caracteres válidos en un correo electrónico
+        const validEmailChars = /^[a-zA-Z0-9._%+-@]+$/;
+
+        // Filtrar caracteres inválidos
+        inputValue = inputValue.split('').filter(char => validEmailChars.test(char)).join('');
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
+}
+
+// Función para formatear la contraseña
+function formatPassword(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\s/g, '');
+
+        // Asegurar que la contraseña no supere los 50 caracteres
+        inputValue = inputValue.slice(0, 50);
+
+        // Expresión regular para permitir solo caracteres válidos en una contraseña
+        const validPasswordChars = /^[a-zA-Z0-9._%+-@!#$%^&*]+$/;
+
+        // Filtrar caracteres inválidos
+        inputValue = inputValue.split('').filter(char => validPasswordChars.test(char)).join('');
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
+}
+
+/*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
+
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Validar formato
+    const allowedDomains = [
+        'gmail.com',
+        'hotmail.com',
+        'yahoo.com',
+        'outlook.com',
+        'aol.com',          // Añadido: AOL
+        'icloud.com',       // Añadido: iCloud
+        'mail.com',         // Añadido: Mail.com
+        'zoho.com',         // Añadido: Zoho
+        'gmx.com',          // Añadido: GMX
+        'protonmail.com',   // Añadido: ProtonMail
+        'gmail.sv',
+        'hotmail.sv',
+        'yahoo.sv',
+        'outlook.sv',
+        'icloud.sv',
+        'ricaldone.edu.sv'
+    ];
+
+    // Validar longitud
+    if (email.length < 5 || email.length > 50) {
+        return { valid: false, message: 'El correo debe tener entre 5 y 50 caracteres.' };
+    }
+
+    // Validar formato
+    if (!emailRegex.test(email)) {
+        return { valid: false, message: 'Formato de correo electrónico no válido.' };
+    }
+
+    // Extrae el dominio del correo electrónico
+    const domain = email.split('@')[1];
+
+    // Validar dominio
+    if (!allowedDomains.includes(domain)) {
+        return { valid: false, message: 'Dominio del correo electrónico no permitido.' };
+    }
+
+    return { valid: true, message: 'Correo electrónico válido.' };
+}
+
+function validatePhoneNumber(phone) {
+    // Expresión regular para validar el formato nnnn-nnnn que inicie con 2, 6 o 7
+    const phoneRegex = /^[267][0-9]{3}-[0-9]{4}$/;
+
+    // Validar formato
+    if (!phoneRegex.test(phone)) {
+        return { valid: false, message: 'Formato de número de teléfono no válido. Debe iniciar con 2, 6 o 7 y seguir el formato nnnn-nnnn.' };
+    }
+
+    return { valid: true, message: 'Número de teléfono válido.' };
+}
+
+function validatePassword(password) {
+    const minLength = 8;
+    const maxLength = 50;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChars = /[!@#$%^&*]/.test(password);
+
+    if (password.length < minLength) {
+        return 'La contraseña debe tener al menos 8 caracteres.';
+    }
+    if (password.length > maxLength) {
+        return 'La contraseña no debe exceder los 50 caracteres.';
+    }
+    if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
+        return 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.';
+    }
+    return null;
 }
