@@ -276,6 +276,6 @@ class UsuariosHandler
         SET dos_pasos = ?
         WHERE correo_usuario = ?;';
         $params = array($this->estadoToggle, $_SESSION['aliasAdmin']);
-        return Database::getRow($sql, $params);
+        return Database::executeRow($sql, $params);
     }
 }

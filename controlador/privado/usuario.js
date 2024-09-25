@@ -295,12 +295,6 @@ document.getElementById('toggleButton').addEventListener('change', async functio
         const FORM = new FormData();
         FORM.append('estadoToggle', toggleState);
 
-        // Verificar que el FormData está bien formado
-        console.log("Campos enviados:");
-        for (const [key, value] of FORM.entries()) {
-            console.log(`${key}: ${value}`); // Esto debería mostrar el campo agregado
-        }
-
         // Enviar la solicitud
         const DATADOSPASOS = await fetchData(USER_API, 'updateToggle', FORM);
 

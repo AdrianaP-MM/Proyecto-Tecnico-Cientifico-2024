@@ -84,21 +84,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar un admin';
                 }
                 break;
-            case 'updateToggle':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuario->setEstadoToggle($_POST['estadoToggle'])
-                ) {
-                    $result['error'] = $usuario->getDataError();
-                } elseif ($usuario->updateToggle()) {
-                    $result['CASACA'] = "ESTE PINCHE ERROR QUE";
-                    $result['status'] = 1;
-                    $result['message'] = 'Automóvil modificado correctamente';
-                } else {
-                    $result['CASACA'] = "NO SE QUE ESTOY PAGANDOOOOOO";
-                    $result['error'] = 'Ocurrió un problema al modificar el automóvil';
-                }
-                break;
+                case 'updateToggle':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$usuario->setEstadoToggle($_POST['estadoToggle'])
+                    ) {
+                        $result['error'] = $usuario->getDataError();
+                    } elseif ($usuario->updateToggle()) {
+                        $result['CASACA'] = "AHUEVOOOOOOOOOOO";
+                        $result['status'] = 1;
+                        $result['message'] = 'Seguridad modificada correctamente';
+                    } else {
+                        $result['CASACA'] = "NO SE QUE ESTOY PAGANDOOOOOO";
+                        $result['error'] = 'Ocurrio un problema al modificar la seguridad';
+                    }
+                    break;
             case 'deleteRow':
                 if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
