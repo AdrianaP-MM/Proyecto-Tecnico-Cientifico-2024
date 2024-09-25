@@ -74,8 +74,6 @@ class UsuarioData extends UsuariosHandler
         }
     }
 
-
-
     //Funcion para obtener el error
     public function getDataError()
     {

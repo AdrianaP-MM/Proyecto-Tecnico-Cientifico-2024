@@ -75,15 +75,14 @@
                                             placeholder="name@example.com" required minlength="5" maxlength="50"
                                             autocomplete="off">
                                         <label for="correoLogin">Correo electrónico</label>
-                                        <div class="invalid-feedback text-white">Por favor ingresa tu correo
-                                            electrónico.</div>
+                                        <span id="ERROR-CORREO-LOGIN" class="text-white px16"></span>
                                     </div>
                                     <div class="form-floating z-2">
                                         <input type="password" class="form-control" id="claveLogin" name="claveLogin"
                                             placeholder="Password" required minlength="8" maxlength="50"
                                             autocomplete="off">
                                         <label for="claveLogin">Contraseña</label>
-                                        <div class="invalid-feedback text-white">Por favor ingresa tu contraseña.</div>
+                                        <span id="ERROR-CONTRA-LOGIN" class="text-white px16"></span>
                                     </div>
                                 </div>
 
@@ -273,7 +272,7 @@
                 </div>
 
                 <!--Modal para dos pasos-->
-                <div class="modal fade" id="dosPasosModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                <div class="modal fade hImplement" id="dosPasosModal" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <!-- Contenedor del modal dialog-->
                     <div class="modal-dialog modal-dialog-centered modal-lg">
