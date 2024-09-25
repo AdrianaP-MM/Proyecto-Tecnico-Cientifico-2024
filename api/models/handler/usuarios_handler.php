@@ -18,18 +18,27 @@ class UsuariosHandler
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
+    public function getIdAdministrador($correo)
+    {
+        $sql = 'SELECT id_usuario FROM tb_usuarios WHERE correo_usuario = ? AND tipo_usuario = "Administrador"';
+        $params = array($correo);
+
+        // Ejecuta la consulta y retorna el resultado
+        return Database::getRow($sql, $params)['id_usuario'] ?? null; // Devuelve null si no se encuentra el usuario
+    }
+
+
     public function getFechaCreacionClave($correoUsuario)
     {
         $sql = 'SELECT fecha_ultima_modificacion FROM tb_usuarios WHERE correo_usuario = ?';
         $params = array($correoUsuario);
         // Ejecuta la consulta y devuelve la fecha de creación de la clave
         if ($data = Database::getRow($sql, $params)) {
-            return $data['fecha_creacion_clave'];
+            return $data['fecha_ultima_modificacion'];
         } else {
             return null; // Si no se encuentra el usuario, retorna null
         }
     }
-
 
     public function resetFailedAttempts()
     {

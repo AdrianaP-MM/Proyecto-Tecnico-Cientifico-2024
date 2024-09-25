@@ -263,35 +263,38 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
 
                         // Intentar iniciar sesión
                         const DATA = await fetchData(USER_API, 'logIn', FORM);
-                        const isPasswordCorrect = DATA.status;
 
-                        if (isPasswordCorrect) {
+                        if (DATA.status) {
                             const RESULT_RESET = await fetchData(USER_API, 'resetFailedAttempts', FORM2); // Restablecer intentos fallidos
                             if (RESULT_RESET.status) {
                                 console.log('// Restablecer intentos fallidos, inicia sesión');
                                 location.href = 'panel_principal.html'; // Redirigir al panel principal
                             }
                         } else {
-                            // Incrementar intentos fallidos
-                            const newFailedAttempts = user.failed_attempts + 1;
-
-                            if (newFailedAttempts >= 3) {
-                                // Bloquear cuenta por 24 horas
-                                const lockDuration = 24 * 60 * 60 * 1000; // 24 horas
-                                const now = new Date();
-                                const accountLockedUntil = new Date(now.getTime() + lockDuration);
-
-                                const accountLockedUntilSQL = formatDateForSQL(accountLockedUntil);
-                                FORM2.append('accountLockedUntil', accountLockedUntilSQL);
-
-                                const REULST_BLOCK = await fetchData(USER_API, 'blockAccount', FORM2);
-                                if (REULST_BLOCK.status) {
-                                    await sweetAlert(2, 'Tu cuenta ha sido bloqueada por 24 horas debido a múltiples intentos fallidos.', false);
-                                }
+                            if (DATA.error != 'Credenciales incorrectas') {
+                                await sweetAlert(2, `Su contraseña ha expirado. Para restablecerla, haga clic en "¿Olvidaste tu contraseña?" y siga el proceso correspondiente.`, false);
+                                return;
                             } else {
-                                const REULST_INCREMENT = await fetchData(USER_API, 'incrementFailedAttempts', FORM2);
-                                if (REULST_INCREMENT.status) {
-                                    await sweetAlert(2, `Contraseña incorrecta. Tienes ${3 - newFailedAttempts} intentos restantes.`, false);
+                                // Incrementar intentos fallidos
+                                const newFailedAttempts = user.failed_attempts + 1;
+                                if (newFailedAttempts >= 3) {
+                                    // Bloquear cuenta por 24 horas
+                                    const lockDuration = 24 * 60 * 60 * 1000; // 24 horas
+                                    const now = new Date();
+                                    const accountLockedUntil = new Date(now.getTime() + lockDuration);
+
+                                    const accountLockedUntilSQL = formatDateForSQL(accountLockedUntil);
+                                    FORM2.append('accountLockedUntil', accountLockedUntilSQL);
+
+                                    const REULST_BLOCK = await fetchData(USER_API, 'blockAccount', FORM2);
+                                    if (REULST_BLOCK.status) {
+                                        await sweetAlert(2, 'Tu cuenta ha sido bloqueada por 24 horas debido a múltiples intentos fallidos.', false);
+                                    }
+                                } else {
+                                    const REULST_INCREMENT = await fetchData(USER_API, 'incrementFailedAttempts', FORM2);
+                                    if (REULST_INCREMENT.status) {
+                                        await sweetAlert(2, `Contraseña incorrecta. Tienes ${3 - newFailedAttempts} intentos restantes.`, false);
+                                    }
                                 }
                             }
                         }
