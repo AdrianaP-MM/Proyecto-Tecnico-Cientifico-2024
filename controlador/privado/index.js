@@ -10,17 +10,21 @@ const textREST = document.getElementById('textREST');
 
 //Constante para llamar al form de inicio de sesion
 const FORM_LOGIN_INPUTS = document.getElementById('FormLoginInputs');
-const ADD_FORM = document.getElementById('addForm');
-
 const CONTENEDOR_REGISTRO = document.getElementById('contenedorRegistro');
-
 const DOS_PASOS_MODAL = new bootstrap.Modal(document.getElementById('dosPasosModal'));
 const DOS_PASOS_FORM = document.getElementById('formDosPasos');
+// Formulario de REGISTRO
+const ADD_FORM = document.getElementById('addForm');
+// Inputs del LOGIN
+const INPUT_CONTRA2 = document.getElementById('Input_Contra2');
+const CORREO_LOGIN = document.getElementById('correoLogin');
+const CONTRA_LOGIN = document.getElementById('claveLogin');
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     CONTENEDOR_REGISTRO.classList.add('d-none');
     const DATA = await fetchData(USER_API, 'readUsers');
+    applicateRules();
     if (DATA.session) {
         // Hay una sesión activa
         location.href = 'panel_principal.html'; // Redirigir a la página principal o realizar acciones adicionales
@@ -34,15 +38,111 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+//Funcion para mostrar el formulario de recuperar contraseña
+function showRecCon() {
+    LOGIN_FORM.classList.add('d-none');
+    CONREC_FORM.classList.remove('d-none');
+    textREC.classList.remove('d-none');
+    textREST.classList.add('d-none');
+    CONREST_FORM.classList.add('d-none');
+}
+
+//Funcion para mostrar el formulario de recuperacion de contraseña cuando se ha verificado la direccion de correo electronico
+function showRestCon() {
+    sweetAlert(1, 'Seguridad aprobada para recuperar contraseña', 250);
+    LOGIN_FORM.classList.add('d-none');
+    CONREC_FORM.classList.add('d-none');
+    textREC.classList.add('d-none');
+    textREST.classList.remove('d-none');
+    CONREST_FORM.classList.remove('d-none');
+}
+
+//Funcion para mostrar el formulario de login
+function showLogin() {
+    CONTENEDOR_REGISTRO.classList.add('d-none');
+    LOGIN_FORM.classList.remove('d-none');
+    CONREC_FORM.classList.add('d-none');
+    textREC.classList.add('d-none');
+    textREST.classList.add('d-none');
+    CONREST_FORM.classList.add('d-none');
+}
+
+const openNoti1 = async () => { sweetAlert(1, 'El <span class="open-sans-bold-italic">código de verificación</span> ha sido enviado a su direcciòn de corrreo electrónico', 250); }
+const openClose = async () => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
+    if (RESPONSE.isConfirmed) {
+        MODAL.hide();
+        ADD_FORM.reset();
+    }
+}
+
+//Inputs del REGISTRO (4)
+const CORREO_REGISTRO = document.getElementById('registro_input_correo');
+const ERROR_CORREO_REGISTRO = document.getElementById('ERROR-CORREO-REGISTRO');
+
+const TELEFONO_REGISTRO = document.getElementById('registro_input_telefono');
+const ERROR_TELEFONO_REGISTRO = document.getElementById('ERROR-TELEFONO-REGISTRO');
+
+const CONTRA_REGISTRO = document.getElementById('registro_input_contrasena');
+const ERROR_CONTRA_REGISTRO = document.getElementById('ERROR-CONTRA-REGISTRO');
+
+const CONTRA_REPIT_REGISTRO = document.getElementById('registro_input_contrasena2');
+const ERROR_CONTRA_REPIT_REGISTRO = document.getElementById('ERROR-CONTRA2-REGISTRO');
+
+let userData = {};
+
+CORREO_REGISTRO.addEventListener('input', function () {
+    checkInput(validateEmail(CORREO_REGISTRO.value), CORREO_REGISTRO, ERROR_CORREO_REGISTRO);
+});
+
+TELEFONO_REGISTRO.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(TELEFONO_REGISTRO.value), TELEFONO_REGISTRO, ERROR_TELEFONO_REGISTRO);
+});
+
+CONTRA_REGISTRO.addEventListener('input', function () {
+    checkInput(validatePassword(CONTRA_REGISTRO.value), CONTRA_REGISTRO, ERROR_CONTRA_REGISTRO);
+});
+
+CONTRA_REPIT_REGISTRO.addEventListener('input', function () {
+    compare(CONTRA_REPIT_REGISTRO, CONTRA_REGISTRO, ERROR_CONTRA_REPIT_REGISTRO);
+});
+
+
 // Método del evento para cuando se envía el formulario de registro de usuario
 ADD_FORM.addEventListener('submit', async (event) => {
     event.preventDefault(); // Evitar la recarga de la página después de enviar el formulario
+
+    if (CORREO_REGISTRO.value === '' || TELEFONO_REGISTRO.value === '' || CONTRA_REGISTRO.value === '' || CONTRA_REPIT_REGISTRO.value === ''
+    ) {
+        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        return;
+    }
+
+    if (!checkInput(validateEmail(CORREO_REGISTRO.value), CORREO_REGISTRO, ERROR_CORREO_REGISTRO) ||
+        !checkInput(validatePhoneNumber(TELEFONO_REGISTRO.value), TELEFONO_REGISTRO, ERROR_TELEFONO_REGISTRO)) {
+        return;
+    } else {
+        userData = {
+            telefono: TELEFONO_REGISTRO.value,
+            email: CORREO_REGISTRO.value
+        };
+    }
+
+    if (!checkInput(validatePassword(CONTRA_REGISTRO.value, userData), CONTRA_REGISTRO, ERROR_CONTRA_REGISTRO) ||
+        !checkInput(validatePassword(CONTRA_REPIT_REGISTRO.value, userData), CONTRA_REPIT_REGISTRO, ERROR_CONTRA_REPIT_REGISTRO)) {
+        return;
+    }
+
+    if (!compare(CONTRA_REPIT_REGISTRO, CONTRA_REGISTRO, ERROR_CONTRA_REPIT_REGISTRO)) {
+        return;
+    }
+
     try {
         const DATA = await fetchData(USER_API, 'readUsers');
         if (DATA.error && DATA.error === 'Debe crear un administrador para comenzar') {
             // No hay usuarios registrados, se permite enviar el formulario
             const isValid = await checkFormValidity(ADD_FORM);
-
             if (isValid) {
                 const FORM = new FormData(ADD_FORM);
                 const DATA2 = await fetchData(USER_API, 'signUp', FORM);
@@ -70,28 +170,6 @@ ADD_FORM.addEventListener('submit', async (event) => {
         await sweetAlert(2, 'Error al procesar la solicitud. Intente nuevamente más tarde.', false);
     }
 });
-
-
-
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
-
 
 // Método del evento para cuando se envía el formulario de inicio de sesión.
 FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
@@ -159,63 +237,27 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
     else { }
 });
 
-//Funcion para mostrar el formulario de recuperar contraseña
-function showRecCon() {
-    LOGIN_FORM.classList.add('d-none');
-    CONREC_FORM.classList.remove('d-none');
-    textREC.classList.remove('d-none');
-    textREST.classList.add('d-none');
-    CONREST_FORM.classList.add('d-none');
+function applicateRules() {
+    //Formatos del registro
+    formatEmail(CORREO_REGISTRO);
+    formatPhone(TELEFONO_REGISTRO);
+    formatPassword(CONTRA_REGISTRO);
+    formatPassword(CONTRA_REPIT_REGISTRO);
+
+    disablePasteAndDrop(CORREO_REGISTRO);
+    disableCopy(CORREO_REGISTRO);
+    disablePasteAndDrop(TELEFONO_REGISTRO);
+    disableCopy(TELEFONO_REGISTRO);
+    disablePasteAndDrop(CONTRA_REGISTRO);
+    disableCopy(CONTRA_REGISTRO);
+    disablePasteAndDrop(CONTRA_REPIT_REGISTRO);
+    disableCopy(CONTRA_REPIT_REGISTRO);
+
+    //Formatos del login
+    formatEmail(CORREO_LOGIN);
+    formatPassword(INPUT_CONTRA2);
+    formatPassword(CONTRA_LOGIN);
 }
-
-//Funcion para mostrar el formulario de recuperacion de contraseña cuando se ha verificado la direccion de correo electronico
-function showRestCon() {
-    sweetAlert(1, 'Seguridad aprobada para recuperar contraseña', 250);
-    LOGIN_FORM.classList.add('d-none');
-    CONREC_FORM.classList.add('d-none');
-    textREC.classList.add('d-none');
-    textREST.classList.remove('d-none');
-    CONREST_FORM.classList.remove('d-none');
-}
-
-//Funcion para mostrar el formulario de login
-function showLogin() {
-    CONTENEDOR_REGISTRO.classList.add('d-none');
-    LOGIN_FORM.classList.remove('d-none');
-    CONREC_FORM.classList.add('d-none');
-    textREC.classList.add('d-none');
-    textREST.classList.add('d-none');
-    CONREST_FORM.classList.add('d-none');
-}
-
-
-const openNoti1 = async () => {
-    // Llamada a la función para mostrar una notificación
-    sweetAlert(1, 'El <span class="open-sans-bold-italic">código de verificación</span> ha sido enviado a su direcciòn de corrreo electrónico', 250);
-}
-
-const openClose = async () => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
-    if (RESPONSE.isConfirmed) {
-        MODAL.hide();
-        ADD_FORM.reset();
-    }
-}
-
-document.getElementById('Input_Contra2').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar los espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Limitar la longitud máxima a 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
-});
 
 
 document.getElementById('Input_ContraNEW').addEventListener('input', function (event) {
@@ -278,7 +320,7 @@ document.getElementById("forgetpasswordsteptwo").addEventListener("submit", asyn
     }
 });
 
-function validatePassword(password) {
+function validatePassword2(password) {
     // Expresión regular para validar que la contraseña cumpla con los requisitos
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])[A-Za-z\d!@#$%^&*()_+}{":;'?/>.<,]{8,}$/;
     return regex.test(password);
@@ -292,7 +334,7 @@ document.getElementById("forgetPasswordStepThree").addEventListener("submit", as
     // Validar que las contraseñas coincidan
     if (INPUTCONTRA === INPUTCONFIRMARCONTRA) {
         // Validar que la contraseña cumpla con los requisitos
-        if (validatePassword(INPUTCONTRA)) {
+        if (validatePassword2(INPUTCONTRA)) {
             const FORM1 = new FormData();
             FORM1.append('claveTrabajador', INPUTCONTRA);
             FORM1.append('confirmarTrabajador', INPUTCONFIRMARCONTRA);
@@ -359,67 +401,6 @@ const mandarCodigoDosPasos = async () => {
         await sweetAlert(2, DATA.error, false);
     }
 }
-
-document.getElementById('registro_input_correo').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Asegurar que el correo electrónico no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
-});
-
-document.getElementById('registro_input_telefono').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 8 dígitos
-    inputValue = inputValue.slice(0, 8);
-
-    // Formatear el número agregando el guión
-    if (inputValue.length > 4) {
-        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-document.getElementById('registro_input_contrasena').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Asegurar que la contraseña no supere los 30 caracteres
-    inputValue = inputValue.slice(0, 30);
-
-    // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
-    event.target.value = inputValue;
-});
-
-document.getElementById('registro_input_contrasena2').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Asegurar que la contraseña no supere los 30 caracteres
-    inputValue = inputValue.slice(0, 30);
-
-    // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
-    event.target.value = inputValue;
-});
 
 document.getElementById('inputValidarCod').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto

@@ -623,7 +623,7 @@ function compare(INPUT1, INPUT2, SPAN) {
         changeInput(INPUT1, false);
         return false;
     } else {
-        passwordErrorREPIT.textContent = ''; // Limpia el mensaje si coincide
+        SPAN.textContent = ''; // Limpia el mensaje si coincide
         changeInput(INPUT1, true);
         return true;
     }
@@ -758,7 +758,7 @@ function validatePhoneNumber(phone) {
     return { valid: true, message: 'Número de teléfono válido.' };
 }
 
-function validatePassword(password, userData) {
+function validatePassword(password, userData = null) {
     const minLength = 8;
     const maxLength = 50;
     const hasUppercase = /[A-Z]/.test(password);
@@ -767,12 +767,14 @@ function validatePassword(password, userData) {
     const hasSpecialChars = /[!@#$%^&*]/.test(password);
     const hasSpaces = /\s/.test(password); // Verificar si hay espacios
 
-    // Verificar si la contraseña contiene datos del usuario
-    const userFields = [userData.telefono, userData.email.split('@')[0]];
+    if (userData) {
+        // Verificar si la contraseña contiene datos del usuario
+        const userFields = [userData.telefono, userData.email.split('@')[0]];
 
-    for (let field of userFields) {
-        if (password.toLowerCase().includes(field.toLowerCase())) {
-            return { valid: false, message: 'La contraseña no debe contener información personal del usuario (número telefónico o correo).' };
+        for (let field of userFields) {
+            if (password.toLowerCase().includes(field.toLowerCase())) {
+                return { valid: false, message: 'La contraseña no debe contener información personal del usuario (número telefónico o correo).' };
+            }
         }
     }
 
