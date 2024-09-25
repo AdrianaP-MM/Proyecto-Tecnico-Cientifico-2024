@@ -207,7 +207,6 @@
                                         required minlength="8" maxlength="8" autocomplete="off">
                                     <label for="codigoContra">Código de verificación</label>
                                     <span id="ERROR-CODIGO-RECUPERAR" class="text-white px16"></span>
-
                                 </div>
                                 <div class="d-flex align-items-center flex-column">
                                     <button type="submit" class="btn btn-dark btnInicio col-10 col-lg-7">
@@ -231,7 +230,6 @@
                     <!-- TODO ----------------------------RESTABLECER CONTRASEÑA-------------------->
                     <div class="contenedor-form d-flex flex-column align-items-center col-12 col-md-10 col-lg-6 p-3 d-none py-5"
                         id="RestForm">
-
                         <form id="forgetPasswordStepThree" autocomplete="off">
                             <div class="grupo_1 col-11 col-md-10 open-sans-regular">
                                 <h6 class="text-white">Ingrese su nueva contraseña.</h6>
@@ -239,9 +237,9 @@
                                     <input type="password" class="form-control" id="Input_ContraNEW"
                                         placeholder="Password" required minlength="8" maxlength="50" autocomplete="off">
                                     <label for="Input_ContraNEW">Contraseña</label>
+                                    <span id="ERROR-CONTRASEÑA-RECUPERAR" class="text-white px16"></span>
                                 </div>
                             </div>
-
                             <!-- Verificacion nuevamente de la contraseña -->
                             <div class="grupo_1 col-11
                             col-md-10 open-sans-regular">
@@ -250,6 +248,7 @@
                                     <input type="password" class="form-control" id="Input_Contra2"
                                         placeholder="Password" required minlength="8" maxlength="50" autocomplete="off">
                                     <label for="Input_Contra2">Verificación de contraseña</label>
+                                    <span id="ERROR-CONTRASEÑA2-RECUPERAR" class="text-white px16"></span>
                                 </div>
                                 <div class="d-flex align-items-center flex-column">
                                     <button type="submit" class="btn btn-dark btnInicio col-10 col-lg-7">
@@ -260,7 +259,6 @@
                                 </div>
                             </div>
                         </form>
-
                         <!-- Boton para volver al formulario en caso hayan cometido un error -->
                         <div class="position-absolute returnText px-lg-5 pb-0 pb-lg-2" onclick="showRecCon()">
                             <h4 class="open-sans-regular text-black">

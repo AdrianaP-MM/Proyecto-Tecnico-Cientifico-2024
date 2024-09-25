@@ -345,35 +345,54 @@ document.getElementById("forgetpasswordsteptwo").addEventListener("submit", asyn
     }
 });
 
-function validatePassword2(password) {
-    // Expresión regular para validar que la contraseña cumpla con los requisitos
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;'?/>.<,])[A-Za-z\d!@#$%^&*()_+}{":;'?/>.<,]{8,}$/;
-    return regex.test(password);
-}
+// Inputs del Recuperación de contraseña PASO 2---------------------------------------------------------------------------------------
+const CONTRA_RECUPERAR = document.getElementById('Input_ContraNEW');
+const ERROR_CONTRA_RECUPERAR = document.getElementById('ERROR-CONTRASEÑA-RECUPERAR');
+
+const CONTRA_REPIT_RECUPERAR = document.getElementById('Input_Contra2');
+const ERROR_CONTRA_REPIT_RECUPERAR = document.getElementById('ERROR-CONTRASEÑA2-RECUPERAR');
+
+CONTRA_RECUPERAR.addEventListener('input', function () {
+    checkInput(validatePassword(CONTRA_RECUPERAR.value), CONTRA_RECUPERAR, ERROR_CONTRA_RECUPERAR);
+});
+
+CONTRA_REPIT_RECUPERAR.addEventListener('input', function () {
+    compare(CONTRA_REPIT_RECUPERAR, CONTRA_RECUPERAR, ERROR_CONTRA_REPIT_RECUPERAR);
+});
 
 document.getElementById("forgetPasswordStepThree").addEventListener("submit", async function (event) {
     event.preventDefault(); // Esto evita que el formulario se envíe de forma predeterminada
-    const INPUTCONTRA = document.getElementById("Input_ContraNEW").value.trim();
-    const INPUTCONFIRMARCONTRA = document.getElementById("Input_Contra2").value.trim();
+    const INPUTCONTRA = CONTRA_RECUPERAR.value.trim();
+    const INPUTCONFIRMARCONTRA = CONTRA_REPIT_RECUPERAR.value.trim();
+
+    if (CONTRA_RECUPERAR.value === '' || CONTRA_REPIT_RECUPERAR === '') {
+        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        return;
+    }
+
+    if (!checkInput(validatePassword(CONTRA_RECUPERAR.value), CONTRA_RECUPERAR, ERROR_CONTRA_RECUPERAR) ||
+        !checkInput(validatePassword(CONTRA_REPIT_RECUPERAR.value), CONTRA_REPIT_RECUPERAR, ERROR_CONTRA_REPIT_RECUPERAR)) {
+        return;
+    }
+
+    if (!compare(CONTRA_REPIT_RECUPERAR, CONTRA_RECUPERAR, ERROR_CONTRA_REPIT_RECUPERAR)) {
+        return;
+    }
 
     // Validar que las contraseñas coincidan
     if (INPUTCONTRA === INPUTCONFIRMARCONTRA) {
         // Validar que la contraseña cumpla con los requisitos
-        if (validatePassword2(INPUTCONTRA)) {
-            const FORM1 = new FormData();
-            FORM1.append('claveTrabajador', INPUTCONTRA);
-            FORM1.append('confirmarTrabajador', INPUTCONFIRMARCONTRA);
-            FORM1.append('idTrabajador', id);
+        const FORM1 = new FormData();
+        FORM1.append('claveTrabajador', INPUTCONTRA);
+        FORM1.append('confirmarTrabajador', INPUTCONFIRMARCONTRA);
+        FORM1.append('idTrabajador', id);
 
-            const DATA = await fetchData(USER_API, 'changePasswordLogin', FORM1);
-            if (DATA.status) {
-                sweetAlert(1, 'La contraseña ha sido restablecida correctamente', true);
-                showLogin()
-            } else {
-                sweetAlert(2, DATA.error, false);
-            }
+        const DATA = await fetchData(USER_API, 'changePasswordLogin', FORM1);
+        if (DATA.status) {
+            sweetAlert(1, 'La contraseña ha sido restablecida correctamente', true);
+            showLogin()
         } else {
-            sweetAlert(2, 'La contraseña debe tener al menos 8 caracteres, incluir letras mayúsculas y minúsculas, dígitos y caracteres especiales.', true);
+            sweetAlert(2, DATA.error, false);
         }
     } else {
         sweetAlert(2, 'Los campos de contraseña no coinciden.', true);
@@ -418,6 +437,16 @@ function applicateRules() {
 
     disablePasteAndDrop(CODIGO_RECUPERAR);
     disableCopy(CODIGO_RECUPERAR);
+
+    //Formatos de recuperar PASO 2----------
+    formatPassword(CONTRA_RECUPERAR)
+    formatPassword(CONTRA_REPIT_RECUPERAR);
+
+    disablePasteAndDrop(CONTRA_RECUPERAR);
+    disableCopy(CONTRA_RECUPERAR);
+
+    disablePasteAndDrop(CONTRA_REPIT_RECUPERAR);
+    disableCopy(CONTRA_REPIT_RECUPERAR);
 }
 
 /*JS DE VALIDACION EN DOS PASOS*/
@@ -478,20 +507,5 @@ document.getElementById('inputValidarCod').addEventListener('input', function (e
     inputValue = inputValue.slice(0, 8);
 
     // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
-    event.target.value = inputValue;
-});
-
-
-document.getElementById('Input_ContraNEW').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar los espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Limitar la longitud máxima a 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
     event.target.value = inputValue;
 });
