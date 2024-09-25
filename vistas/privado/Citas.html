@@ -205,7 +205,6 @@
                                                 <input id="datepicker_llegada_UPDATE"
                                                     class="open-sans-regular datepickerA form-control"
                                                     name="datepicker_llegada_UPDATE" required autocomplete="off" />
-                                                <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -215,8 +214,6 @@
                                                     id="input_automovil_UPDATE" name="input_automovil_UPDATE"
                                                     aria-label="Default select example" required>
                                                 </select>
-                                                <div class="invalid-feedback">Por favor selecciona un automovil para
-                                                    la cita.</div>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -357,7 +354,7 @@
                                                     <input id="datepicker_llegada"
                                                         class="open-sans-regular datepickerA form-control"
                                                         name="datepicker_llegada" required autocomplete="off" />
-                                                    <div class="invalid-feedback">Por favor ingresa una fecha.</div>
+                                                    <span id="ERROR_DATEPICKER_CREAR" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="Automovil">
@@ -367,8 +364,7 @@
                                                         id="input_automovil" name="input_automovil"
                                                         aria-label="Default select example" required>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor selecciona un automovil para
-                                                        la cita.</div>
+                                                    <span id="ERROR_AUTOMOVIL_CREAR" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="zonaHabilitada">
@@ -380,8 +376,7 @@
                                                         <option value="Ayutuxtepeque">Ayutuxtepeque</option>
                                                         <option value="Aguilares">Aguilares</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor selecciona una zona para el
-                                                        servicio.</div>
+                                                    <span id="ERROR_ZONA_CREAR" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -718,7 +713,8 @@
                                         <div class="mb-3" id="juridico_input3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="rubro_cliente"
-                                                    name="rubro_cliente" placeholder="..." required readonly disabled  autocomplete="off">
+                                                    name="rubro_cliente" placeholder="..." required readonly disabled
+                                                    autocomplete="off">
                                                 <label for="rubro_cliente">Rubro comercial del cliente</label>
                                             </div>
                                         </div>

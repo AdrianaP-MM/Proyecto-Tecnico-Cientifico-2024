@@ -6,21 +6,10 @@ const FACTURAS_API = 'services/privado/facturas.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
 const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
-//Formulario para agregar la cita
-const ADD_FORM = document.getElementById('addForm');
-
 // Constantes para establecer los elementos del componente Modal.
 const MODAL = new bootstrap.Modal('#modalAgregarCita');
 // Constantes para establecer los elementos del componente Modal.
 const MODAL_SERVICIOS = new bootstrap.Modal('#modalAgregarServicio');
-
-const INPUT_FECHA_LLEGADA = document.getElementById('datepicker_llegada');
-const INPUT_AUTOMOVIL = document.getElementById('input_automovil');
-const INPUT_ZONA = document.getElementById('input_zona');
-const INPUT_DIRECCION_REGRESO = document.getElementById('input_regreso');
-const INPUT_HORA = document.getElementById('input_hora');
-const INPUT_MOVILIZACION = document.getElementById('input_movilizacion');
-const INPUT_DIRECCION_IDA = document.getElementById('input_ida');
 
 const INPUT_FECHA_LLEGADA_UPDATE = document.getElementById('datepicker_llegada_UPDATE');
 const INPUT_AUTOMOVIL_UPDATE = document.getElementById('input_automovil_UPDATE');
@@ -69,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   id_serviciow = 0;
   // BTN_ELIMINAR_CITA.classList.add('d-none');
   const DATA = await fetchData(USER_API, 'readUsers');
+  applicateRules();
   if (DATA.session) {
     // Acciones si la sesión SI está activa
     fillData();
@@ -216,6 +206,98 @@ function formSetValues(row) {
   INPUT_HORA_UPDATE.value = formattedTime;
   INPUT_MOVILIZACION_UPDATE.value = row.movilizacion_vehiculo;
   INPUT_DIRECCION_IDA_UPDATE.value = row.direccion_ida;
+}
+
+//Inputs del Crear cita---------------------------------------------------------------------------------------
+const ADD_FORM = document.getElementById('addForm');
+
+const INPUT_FECHA_LLEGADA = document.getElementById('datepicker_llegada');
+const ERROR_INPUT_FECHA_LLEGADA = document.getElementById('ERROR_DATEPICKER_CREAR');
+
+const INPUT_AUTOMOVIL = document.getElementById('input_automovil');
+const ERRROR_INPUT_AUTOMOVIL = document.getElementById('ERROR_AUTOMOVIL_CREAR');
+
+const INPUT_ZONA = document.getElementById('input_zona');
+const ERROR_INPUT_ZONA = document.getElementById('ERROR_ZONA_CREAR');
+
+const INPUT_DIRECCION_REGRESO = document.getElementById('input_regreso');
+const INPUT_HORA = document.getElementById('input_hora');
+const INPUT_MOVILIZACION = document.getElementById('input_movilizacion');
+const INPUT_DIRECCION_IDA = document.getElementById('input_ida');
+
+INPUT_FECHA_LLEGADA.addEventListener('input', function () {
+  checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA);
+});
+
+// INPUT_AUTOMOVIL.addEventListener('input', function () {
+//   checkInput(validatePlaca(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL);
+// });
+
+// INPUT_ZONA.addEventListener('input', function () {
+//   checkInput(validateFecha(INPUT_ZONA.value), INPUT_ZONA, ERROR_INPUT_ZONA);
+// });
+
+const addSave = async (action, form, fecha, hora) => {
+  // Validaciones de campos vacíos
+  if (INPUT_FECHA_LLEGADA.value === '' || INPUT_AUTOMOVIL.value === '' || INPUT_ZONA.value === '' ||
+    INPUT_DIRECCION_REGRESO.value === '' || INPUT_HORA.value === '' || INPUT_MOVILIZACION.value === '' || INPUT_DIRECCION_IDA.value === '') {
+    await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+    return;
+  }
+
+  const isValid = await checkFormValidity(form);
+  if (isValid) {
+    // Validaciones de formato (correo y contraseña)
+    if (!checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA)) {
+      return;
+    }
+
+    console.log('TodoGud'); // Código a ejecutar después de la validación
+    //Constante tipo objeto con los datos del formulario.
+    const FORM = new FormData(form);
+    FORM.append('fecha_hora_cita', convertToMySQLDatetime(fecha, hora));
+    FORM.append('fecha_registro', getDateToMysql())
+    FORM.append('id_cita', id_citaW)
+
+    // Petición para guardar los datos del formulario.
+    const DATA = await fetchData(CITAS_API, action, FORM);
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+      if (action == 'createRow') {
+        sweetAlert(1, 'Se ha guardado con éxito', 300);
+        reload();
+        MODAL.hide();
+        ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+      }
+      else {
+        sweetAlert(1, 'Se ha actualizado con éxito', 300);
+        reload();
+        noVerNada();
+        UPDATE_FORM.classList.remove('was-validated'); // Quita la clase de validación
+      }
+    } else {
+      if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+      }
+      else {
+        sweetAlert(4, DATA.error, true);
+      }
+    }
+  } else {
+    console.log('Que paso?: Formulario no válido');
+  }
+};
+
+function reload() {
+  ADD_FORM.reset();
+  UPDATE_FORM.reset();
+  fillData('readAll');
+}
+
+function applicateRules() {
+  //Formatos del CREATE CITA----------
+  configurarDatepicker(INPUT_FECHA_LLEGADA.id);
 }
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -415,71 +497,6 @@ const updateEstado = async (estado_cita) => {
   else {
   }
 }
-
-const addSave = async (action, form, fecha, hora) => {
-  const isValid = await checkFormValidity(form);
-  if (isValid) {
-    console.log('TodoGud'); // Código a ejecutar después de la validación
-    //Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(form);
-    FORM.append('fecha_hora_cita', convertToMySQLDatetime(fecha, hora));
-    FORM.append('fecha_registro', getDateToMysql())
-    FORM.append('id_cita', id_citaW)
-
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(CITAS_API, action, FORM);
-
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-      if (action == 'createRow') {
-        sweetAlert(1, 'Se ha guardado con éxito', 300);
-        reload();
-        MODAL.hide();
-        ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
-      }
-      else {
-        sweetAlert(1, 'Se ha actualizado con éxito', 300);
-        reload();
-        noVerNada();
-        UPDATE_FORM.classList.remove('was-validated'); // Quita la clase de validación
-      }
-    } else {
-      if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-        //await sweetAlert(4, DATA.error, true); location.href = 'index.html'
-      }
-      else {
-        sweetAlert(4, DATA.error, true);
-      }
-    }
-  } else {
-    console.log('Que paso?: Formulario no válido');
-  }
-};
-
-function reload() {
-  ADD_FORM.reset();
-  UPDATE_FORM.reset();
-  fillData('readAll');
-}
-
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-  'use strict'
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  const forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      form.classList.add('was-validated')
-    }, false)
-  })
-})()
 
 const search = async (value) => {
   const FORM = new FormData();
@@ -745,10 +762,7 @@ const openCloseServicios = async () => {
   }
 }
 
-// Desactivar la edición directa del input
-document.getElementById('datepicker_llegada').addEventListener('keydown', function (event) {
-  event.preventDefault(); // Prevenir la entrada de texto
-});
+
 
 document.getElementById('fecha_aprox_finalizacion').addEventListener('keydown', function (event) {
   event.preventDefault(); // Prevenir la entrada de texto
@@ -758,11 +772,6 @@ document.getElementById('fecha_finalizacion').addEventListener('keydown', functi
   event.preventDefault(); // Prevenir la entrada de texto
 });
 
-$('#datepicker_llegada').datepicker({
-  autoclose: true, // Cierra automáticamente después de seleccionar
-  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
-  minDate: new Date() // Establece la fecha máxima como hoy
-});
 $('#datepicker_llegada_UPDATE').datepicker({
   autoclose: true, // Cierra automáticamente después de seleccionar
   uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5

@@ -736,6 +736,20 @@ function formatCodigo(input) {
     });
 }
 
+function configurarDatepicker(datepickerId) {
+    // Inicializar el datepicker
+    $('#' + datepickerId).datepicker({
+        autoclose: true, // Cierra automáticamente después de seleccionar
+        uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
+        minDate: new Date() // Establece la fecha mínima como hoy
+    });
+
+    // Desactivar la edición directa
+    $('#' + datepickerId).on('keydown', function (event) {
+        event.preventDefault(); // Prevenir la entrada de texto
+    });
+}
+
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
 function validateEmail(email) {
@@ -899,7 +913,6 @@ function validateYear(year) {
     return { valid: true, message: 'Año válido.' };
 }
 
-
 function validateName(name) {
     // Expresión regular para validar que el nombre solo contenga letras y sea menor de 20 caracteres
     const nameRegex = /^[A-Za-zÀ-ÿ\s]{1,19}$/; // Incluye letras acentuadas y espacios
@@ -910,4 +923,35 @@ function validateName(name) {
     }
 
     return { valid: true, message: 'Nombre válido.' };
+}
+
+function validateFecha(date) {
+    const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/; // Validar formato mm/dd/yyyy
+    const hasSpaces = /\s/.test(date); // Verificar si hay espacios
+
+    // Validar si está vacío o contiene espacios
+    if (!date || hasSpaces) {
+        return { valid: false, message: 'La fecha no debe estar vacía y no debe contener espacios en blanco.' };
+    }
+
+    // Validar formato
+    if (!dateRegex.test(date)) {
+        return { valid: false, message: 'Formato de fecha no válido. Debe ser mm/dd/yyyy.' };
+    }
+
+    // Extraer partes de la fecha
+    const [month, day, year] = date.split('/').map(Number);
+
+    // Validar la fecha (días por mes)
+    const isValidDate = (month, day, year) => {
+        const daysInMonth = [31, (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return day > 0 && day <= daysInMonth[month - 1];
+    };
+
+    // Comprobar si la fecha es válida
+    if (!isValidDate(month, day, year)) {
+        return { valid: false, message: 'La fecha no es válida. Comprueba el día y el mes.' };
+    }
+
+    return { valid: true, message: 'Fecha válida.' };
 }
