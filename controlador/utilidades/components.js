@@ -695,6 +695,7 @@ function formatPassword(input) {
         event.target.value = inputValue;
     });
 }
+
 // Función para formatear la entrada del input con un máximo de 10 caracteres
 function formatLimitedInput(input) {
     input.addEventListener('input', function (event) {
@@ -718,6 +719,22 @@ function formatLimitedInput(input) {
     });
 }
 
+// Función para formatear la entrada del input con un máximo de 50 caracteres
+function formatCodigo(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\s/g, '');
+
+        // Asegurar que el input no supere los 8 caracteres
+        inputValue = inputValue.slice(0, 8);
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
+}
 
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
@@ -769,81 +786,6 @@ function validateEmail(email) {
     return { valid: true, message: 'Correo electrónico válido.' };
 }
 
-function validateDUI(dui) {
-    // Expresión regular para validar el formato de DUI salvadoreño
-    const duiRegex = /^[0-9]{8}[0-9]$/;
-
-    // Validar formato
-    if (!duiRegex.test(dui)) {
-        return { valid: false, message: 'Formato de DUI no válido. Debe seguir el formato nnnnnnnn-n.' };
-    }
-
-    return { valid: true, message: 'DUI válido.' };
-}
-
-
-function validatePhoneNumber(phone) {
-    // Expresión regular para validar el formato nnnn-nnnn que inicie con 2, 6 o 7
-    const phoneRegex = /^[267][0-9]{3}-[0-9]{4}$/;
-
-    // Validar formato
-    if (!phoneRegex.test(phone)) {
-        return { valid: false, message: 'Formato de número de teléfono no válido. Debe iniciar con 2, 6 o 7 y seguir el formato nnnn-nnnn.' };
-    }
-
-    return { valid: true, message: 'Número de teléfono válido.' };
-}
-
-function validateSalvadoranPlate(plate) {
-    // Expresión regular para permitir un guion opcional entre el prefijo y los números
-    const plateRegex = /^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{3}-[0-9]{3}$|^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{5,6}$/;
-
-    // Validar formato
-    if (!plateRegex.test(plate)) {
-        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña.' };
-    }
-
-    return { valid: true, message: 'Placa válida.' };
-}
-
-
-
-function validateCarModelName(modelName) {
-    // Expresión regular para validar que el nombre solo contenga letras, números, guiones y espacios intermedios
-    const modelNameRegex = /^[A-Za-z0-9]+(?:[-\s][A-Za-z0-9]+)*$/;
-
-    // Validar si el campo está vacío
-    if (!modelName.trim()) {
-        return { valid: false, message: 'El nombre del modelo no puede estar vacío.' };
-    }
-
-    // Validar formato
-    if (!modelNameRegex.test(modelName)) {
-        return { valid: false, message: 'El nombre del modelo solo puede contener letras, números, guiones y no debe tener espacios innecesarios.' };
-    }
-
-    return { valid: true, message: 'Nombre de modelo válido.' };
-}
-
-function validateYear(year) {
-    const currentYear = new Date().getFullYear(); // Obtiene el año actual
-    const yearRegex = /^\d{4}$/; // Expresión regular para validar que tenga exactamente 4 dígitos
-
-    // Validar que solo tenga 4 dígitos
-    if (!yearRegex.test(year)) {
-        return { valid: false, message: 'El año debe tener exactamente 4 dígitos.' };
-    }
-
-    // Validar que no exceda el año actual
-    if (parseInt(year) > currentYear) {
-        return { valid: false, message: 'El año no puede ser mayor al año actual.' };
-    }
-
-    return { valid: true, message: 'Año válido.' };
-}
-
-
-
 function validatePassword(password, userData = null) {
     const minLength = 8;
     const maxLength = 50;
@@ -884,3 +826,76 @@ function validatePassword(password, userData = null) {
 
     return { valid: true, message: 'Contraseña válida' };
 }
+
+
+function validateDUI(dui) {
+    // Expresión regular para validar el formato de DUI salvadoreño
+    const duiRegex = /^[0-9]{8}[0-9]$/;
+
+    // Validar formato
+    if (!duiRegex.test(dui)) {
+        return { valid: false, message: 'Formato de DUI no válido. Debe seguir el formato nnnnnnnn-n.' };
+    }
+
+    return { valid: true, message: 'DUI válido.' };
+}
+
+
+function validatePhoneNumber(phone) {
+    // Expresión regular para validar el formato nnnn-nnnn que inicie con 2, 6 o 7
+    const phoneRegex = /^[267][0-9]{3}-[0-9]{4}$/;
+
+    // Validar formato
+    if (!phoneRegex.test(phone)) {
+        return { valid: false, message: 'Formato de número de teléfono no válido. Debe iniciar con 2, 6 o 7 y seguir el formato nnnn-nnnn.' };
+    }
+
+    return { valid: true, message: 'Número de teléfono válido.' };
+}
+
+function validateSalvadoranPlate(plate) {
+    // Expresión regular para permitir un guion opcional entre el prefijo y los números
+    const plateRegex = /^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{3}-[0-9]{3}$|^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{5,6}$/;
+
+    // Validar formato
+    if (!plateRegex.test(plate)) {
+        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña.' };
+    }
+
+    return { valid: true, message: 'Placa válida.' };
+}
+
+function validateCarModelName(modelName) {
+    // Expresión regular para validar que el nombre solo contenga letras, números, guiones y espacios intermedios
+    const modelNameRegex = /^[A-Za-z0-9]+(?:[-\s][A-Za-z0-9]+)*$/;
+
+    // Validar si el campo está vacío
+    if (!modelName.trim()) {
+        return { valid: false, message: 'El nombre del modelo no puede estar vacío.' };
+    }
+
+    // Validar formato
+    if (!modelNameRegex.test(modelName)) {
+        return { valid: false, message: 'El nombre del modelo solo puede contener letras, números, guiones y no debe tener espacios innecesarios.' };
+    }
+
+    return { valid: true, message: 'Nombre de modelo válido.' };
+}
+
+function validateYear(year) {
+    const currentYear = new Date().getFullYear(); // Obtiene el año actual
+    const yearRegex = /^\d{4}$/; // Expresión regular para validar que tenga exactamente 4 dígitos
+
+    // Validar que solo tenga 4 dígitos
+    if (!yearRegex.test(year)) {
+        return { valid: false, message: 'El año debe tener exactamente 4 dígitos.' };
+    }
+
+    // Validar que no exceda el año actual
+    if (parseInt(year) > currentYear) {
+        return { valid: false, message: 'El año no puede ser mayor al año actual.' };
+    }
+
+    return { valid: true, message: 'Año válido.' };
+}
+

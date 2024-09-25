@@ -67,7 +67,7 @@
                         </div>
 
                         <!--Contenedor de inputs para llenar los campos para poder ingresar al sistema-->
-                        <div class="contenedor-inputs text-center col-11 col-lg-8 col-md-10">
+                        <div class="contenedor-inputs col-11 col-lg-8 col-md-10">
                             <form id="FormLoginInputs" class="needs-validation" novalidate autocomplete="off">
                                 <div class="inputsGrap">
                                     <div class="form-floating mb-0">
@@ -175,7 +175,8 @@
                         id="RecForm">
                         <div class="grupo_1 col-11 col-lg-8 col-md-10 open-sans-regular">
                             <!--Formulario con inputs para enviar el correo al usuario-->
-                            <form id="forgetpasswordstepone" autocomplete="off">
+                            <form id="forgetpasswordstepone" name="forgetpasswordstepone" autocomplete="off"
+                                class="needs-validation" novalidate>
                                 <h6 class="text-white">Ingrese el correo electrónico con el que registró su cuenta.
                                 </h6>
                                 <div class="form-floating mb-0">
@@ -183,6 +184,7 @@
                                         placeholder="name@example.com" required minlength="5" maxlength="50"
                                         autocomplete="off">
                                     <label for="Input_Correo2">Correo electrónico</label>
+                                    <span id="ERROR-CORREO-RECUPERAR" class="text-white px16"></span>
                                 </div>
                                 <div class="d-flex align-items-center flex-column z-3">
                                     <button type="submit" class="btn btn-dark btnInicio col-10 col-lg-7">
@@ -197,13 +199,15 @@
                         <!-- Formulario que permite verificar la identidad del usuario y pide un codigo de verificacion -->
                         <div class="grupo_1 col-11 col-lg-8 col-md-10 open-sans-regular">
 
-                            <form id="forgetpasswordsteptwo" autocomplete="off">
+                            <form id="forgetpasswordsteptwo" name="forgetpasswordsteptwo" autocomplete="off" class="needs-validation" novalidate>
                                 <h6 class="text-white">Ingrese el código enviado a su correo electrónico para
                                     restablecer su contraseña.</h6>
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="codigoContra" placeholder="Password"
                                         required minlength="8" maxlength="8" autocomplete="off">
                                     <label for="codigoContra">Código de verificación</label>
+                                    <span id="ERROR-CODIGO-RECUPERAR" class="text-white px16"></span>
+
                                 </div>
                                 <div class="d-flex align-items-center flex-column">
                                     <button type="submit" class="btn btn-dark btnInicio col-10 col-lg-7">

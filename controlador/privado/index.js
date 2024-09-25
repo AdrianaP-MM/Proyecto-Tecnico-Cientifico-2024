@@ -81,7 +81,7 @@ const openClose = async () => {
     }
 }
 
-//Inputs del REGISTRO (4)
+//Inputs del REGISTRO (4)---------------------------------------------------------------------------------------
 const CORREO_REGISTRO = document.getElementById('registro_input_correo');
 const ERROR_CORREO_REGISTRO = document.getElementById('ERROR-CORREO-REGISTRO');
 
@@ -175,7 +175,7 @@ ADD_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-// Inputs del LOGIN (2)
+// Inputs del LOGIN (2)---------------------------------------------------------------------------------------
 const CORREO_LOGIN = document.getElementById('correoLogin');
 const ERROR_CORREO_LOGIN = document.getElementById('ERROR-CORREO-LOGIN');
 
@@ -271,59 +271,38 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
 
 });
 
-function applicateRules() {
-    //Formatos del registro
-    formatEmail(CORREO_REGISTRO);
-    formatPhone(TELEFONO_REGISTRO);
-    formatPassword(CONTRA_REGISTRO);
-    formatPassword(CONTRA_REPIT_REGISTRO);
+// Inputs del Recuperación de contraseña PASO 1---------------------------------------------------------------------------------------
+const CORREO_RECUPERAR = document.getElementById('Input_Correo2');
+const ERROR_CORREO_RECUPERAR = document.getElementById('ERROR-CORREO-RECUPERAR');
 
-    disablePasteAndDrop(CORREO_REGISTRO);
-    disableCopy(CORREO_REGISTRO);
-    disablePasteAndDrop(TELEFONO_REGISTRO);
-    disableCopy(TELEFONO_REGISTRO);
-    disablePasteAndDrop(CONTRA_REGISTRO);
-    disableCopy(CONTRA_REGISTRO);
-    disablePasteAndDrop(CONTRA_REPIT_REGISTRO);
-    disableCopy(CONTRA_REPIT_REGISTRO);
-
-    //Formatos del login
-    formatEmail(CORREO_LOGIN);
-    formatPassword(CONTRA_LOGIN);
-}
-
-
-document.getElementById('Input_ContraNEW').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar los espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Limitar la longitud máxima a 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
+CORREO_RECUPERAR.addEventListener('input', function () {
+    checkInput(validateEmail(CORREO_RECUPERAR.value), CORREO_RECUPERAR, ERROR_CORREO_RECUPERAR);
 });
 
-/**Aqui empiesa el script para poder recuperar la contraseña**/
-
-let DATA2; // Declara DATA2 en un ámbito más amplio para que sea accesible desde ambos eventos
+let DATA2;
 let id;
 
 document.getElementById("forgetpasswordstepone").addEventListener("submit", async function (event) {
     event.preventDefault(); // Esto evita que el formulario se envíe de forma predeterminada
-    const INPUTCONTRA = document.getElementById("Input_Correo2");
+
+    if (CORREO_RECUPERAR.value === '') {
+        await sweetAlert(2, 'Por favor, ingrese su correo electrónico.', true);
+        return;
+    }
+
+    if (!checkInput(validateEmail(CORREO_RECUPERAR.value), CORREO_RECUPERAR, ERROR_CORREO_RECUPERAR)) {
+        return;
+    }
+
     FORM1 = new FormData();
-    FORM1.append('Input_Correo2', INPUTCONTRA.value);
+    FORM1.append('Input_Correo2', CORREO_RECUPERAR.value);
 
     // Lógica asíncrona para obtener los datos del usuario
     const DATA = await fetchData(USER_API, 'searchMail', FORM1);
     if (DATA.status) {
         FORM2 = new FormData();
         var resultado = DATA.dataset;
-        FORM2.append('Input_Correo2', INPUTCONTRA.value);
+        FORM2.append('Input_Correo2', CORREO_RECUPERAR.value);
 
         id = resultado.id_usuario;
 
@@ -340,16 +319,29 @@ document.getElementById("forgetpasswordstepone").addEventListener("submit", asyn
     }
 });
 
+const CODIGO_RECUPERAR = document.getElementById('codigoContra');
+const ERROR_CODIGO_RECUPERAR = document.getElementById('ERROR-CODIGO-RECUPERAR');
+
+CODIGO_RECUPERAR.addEventListener('input', function () {
+    checkInput(validateCodigo(CODIGO_RECUPERAR.value), CODIGO_RECUPERAR, ERROR_CODIGO_RECUPERAR);
+});
 
 document.getElementById("forgetpasswordsteptwo").addEventListener("submit", async function (event) {
     event.preventDefault(); // Esto evita que el formulario se envíe de forma predeterminada
-
-    const INPUTCODIGO = document.getElementById("codigoContra").value;
-    if (INPUTCODIGO.trim() === DATA2.codigo) {
-        await sweetAlert(1, 'Codigo verificado correctamente.', true);
-        showRestCon();
+    if (DATA2) {
+        if (CODIGO_RECUPERAR.value === '') {
+            await sweetAlert(2, 'Por favor, complete este campo.', true);
+            return;
+        }
+        const INPUTCODIGO = CODIGO_RECUPERAR.value;
+        if (INPUTCODIGO.trim() === DATA2.codigo) {
+            await sweetAlert(1, 'Codigo verificado correctamente.', true);
+            showRestCon();
+        } else {
+            await sweetAlert(2, 'Ingrese el codigo enviado en el correo.', true);
+        }
     } else {
-        await sweetAlert(2, 'Ingrese el codigo enviado en el correo.', true);
+        await sweetAlert(2, 'No se le ha mandado ningún código, por favor, complete el campo anterior y haga click en enviar.', true);
     }
 });
 
@@ -387,6 +379,46 @@ document.getElementById("forgetPasswordStepThree").addEventListener("submit", as
         sweetAlert(2, 'Los campos de contraseña no coinciden.', true);
     }
 });
+
+function applicateRules() {
+    //Formatos del registro----------
+    formatEmail(CORREO_REGISTRO);
+    formatPhone(TELEFONO_REGISTRO);
+    formatPassword(CONTRA_REGISTRO);
+    formatPassword(CONTRA_REPIT_REGISTRO);
+
+    disablePasteAndDrop(CORREO_REGISTRO);
+    disableCopy(CORREO_REGISTRO);
+
+    disablePasteAndDrop(TELEFONO_REGISTRO);
+    disableCopy(TELEFONO_REGISTRO);
+
+    disablePasteAndDrop(CONTRA_REGISTRO);
+    disableCopy(CONTRA_REGISTRO);
+
+    disablePasteAndDrop(CONTRA_REPIT_REGISTRO);
+    disableCopy(CONTRA_REPIT_REGISTRO);
+
+    //Formatos del login----------
+    formatEmail(CORREO_LOGIN);
+    formatPassword(CONTRA_LOGIN);
+
+    disablePasteAndDrop(CORREO_LOGIN);
+    disableCopy(CORREO_LOGIN);
+
+    disablePasteAndDrop(CONTRA_LOGIN);
+    disableCopy(CONTRA_LOGIN);
+
+    //Formatos de recuperar PASO 1----------
+    formatEmail(CORREO_RECUPERAR)
+    formatCodigo(CODIGO_RECUPERAR);
+
+    disablePasteAndDrop(CORREO_RECUPERAR);
+    disableCopy(CORREO_RECUPERAR);
+
+    disablePasteAndDrop(CODIGO_RECUPERAR);
+    disableCopy(CODIGO_RECUPERAR);
+}
 
 /*JS DE VALIDACION EN DOS PASOS*/
 
@@ -446,5 +478,20 @@ document.getElementById('inputValidarCod').addEventListener('input', function (e
     inputValue = inputValue.slice(0, 8);
 
     // Actualizar el valor del campo de texto con la entrada limitada y sin espacios
+    event.target.value = inputValue;
+});
+
+
+document.getElementById('Input_ContraNEW').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Eliminar los espacios en blanco
+    inputValue = inputValue.replace(/\s/g, '');
+
+    // Limitar la longitud máxima a 50 caracteres
+    inputValue = inputValue.slice(0, 50);
+
+    // Actualizar el valor del campo de texto con la entrada limitada
     event.target.value = inputValue;
 });
