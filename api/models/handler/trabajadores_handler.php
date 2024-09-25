@@ -125,25 +125,25 @@ class TrabajadoresHandler
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
-    public function checkDuplicate($value)
+    public function checkDuplicate($value, $field)
     {
-        $sql = 'SELECT id_trabajador FROM tb_trabajadores 
-        WHERE (dui_trabajador = ? OR correo_trabajador = ? OR telefono_trabajador = ? OR NIT_trabajador = ?)';
-        // Consulta SQL para verificar duplicados por valor (DUI o correo) excluyendo el ID actual
-        $params = array(
-            $value,
-            $value,
-            $value,
-            $value,
-        ); // Parámetros para la consulta SQL
-
+        // Construir la consulta SQL para verificar duplicados
+        $sql = "SELECT id_trabajador FROM tb_trabajadores WHERE $field = ?";
+        
+        // Parámetro para la consulta SQL
+        $params = array($value);
+        
+        // Si se está actualizando (ya hay un id_trabajador), excluir ese ID de la búsqueda
         if ($this->id_trabajador) {
-            $sql .= ' AND id_trabajador <> ?;';
-            $params[] = $this->id_trabajador;
+            $sql .= " AND id_trabajador <> ?";
+            $params[] = $this->id_trabajador; // Añadir el ID del trabajador actual como parámetro
         }
-
-        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
+    
+        // Ejecuta la consulta SQL y devuelve los resultados
+        return Database::getRows($sql, $params);
     }
+    
+    
 
     // Método para campos de todos los trabajadores
     public function readAll()

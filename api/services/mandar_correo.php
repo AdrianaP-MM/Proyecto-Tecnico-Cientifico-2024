@@ -73,7 +73,7 @@ class mandarCorreo
                     <div class="content">
                         <div class="card">
                             <p>Hola querido usuario,</p>
-                            <p>Recibiste este correo electrónico porque solicitaste un código de recuperación para restablecer tu contraseña en DARG.SV.</p>
+                            <p>Recibiste este correo electrónico porque solicitaste un código de recuperación para restablecer tu contraseña en DARG.SV o para la seguridad de dos pasos.</p>
                             <p>Tu código de recuperación es: <strong>' . $codigoRecuperacion . '</strong></p>
                             <p>Por favor, guarda este código de forma segura y no lo compartas con nadie.</p>
                             <p>Si no solicitaste este código, puedes ignorar este correo electrónico de manera segura.</p>

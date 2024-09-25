@@ -540,3 +540,14 @@ hr {
 .ui-menu-item:hover {
     background-color: #f0f0f0; /* Resalta los elementos al pasar el cursor */
 }
+
+.modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Centrado vertical completo */
+}
+
+.modal-content {
+    margin: 0 auto;
+}

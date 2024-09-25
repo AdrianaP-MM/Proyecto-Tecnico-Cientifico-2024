@@ -303,14 +303,13 @@ const openUpdate = async (id) => {
 
   // Se define una constante tipo objeto con los datos del registro seleccionado.
   const formData = new FormData();
-  formData.append("idTrabajador", id); //Se agrega el id trabajador al form
+  formData.append("idTrabajador", id); // Se agrega el id trabajador al form
 
   // Petición para obtener los datos del registro solicitado.
   const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
+  
 
   if (DATA.status) {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
     // Se prepara el formulario.
     SAVE_FORM.reset();
 
@@ -360,6 +359,7 @@ const openUpdate = async (id) => {
   document.getElementById("btnUno").innerText = "Cancelar";
   document.getElementById("btnDos").innerText = "Guardar";
 };
+ 
 
 
 /*
@@ -399,6 +399,8 @@ const openDelete = async (id) => {
     }
   }
 };
+
+
 
 // Función principal para abrir el formulario de creación
 async function openCreate() {
