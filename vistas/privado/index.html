@@ -60,27 +60,28 @@
                             <h2>¡Bienvenido de vuelta!</h2>
                             <div class="d-flex justify-content-center">
                                 <p class="open-sans-regular col-12 col-lg-8 col-md-8">
-                                    Para acceder al sistema Inicia sesión
-                                    en tu cuenta de DARG ingresando
-                                    la información solicitada debajo
+                                    Para acceder al sistema, inicia sesión en tu cuenta de DARG ingresando la
+                                    información solicitada a continuación.
                                 </p>
                             </div>
                         </div>
 
                         <!--Contenedor de inputs para llenar los campos para poder ingresar al sistema-->
                         <div class="contenedor-inputs text-center col-11 col-lg-8 col-md-10">
-                            <form id="FormLoginInputs" class="needs-validation" novalidate>
+                            <form id="FormLoginInputs" class="needs-validation" novalidate autocomplete="off">
                                 <div class="inputsGrap">
                                     <div class="form-floating mb-0">
                                         <input type="email" class="form-control" id="correoLogin" name="correoLogin"
-                                            placeholder="name@example.com" required>
+                                            placeholder="name@example.com" required minlength="5" maxlength="50"
+                                            autocomplete="off">
                                         <label for="correoLogin">Correo electrónico</label>
                                         <div class="invalid-feedback text-white">Por favor ingresa tu correo
                                             electrónico.</div>
                                     </div>
                                     <div class="form-floating z-2">
                                         <input type="password" class="form-control" id="claveLogin" name="claveLogin"
-                                            placeholder="Password" required>
+                                            placeholder="Password" required minlength="8" maxlength="50"
+                                            autocomplete="off">
                                         <label for="claveLogin">Contraseña</label>
                                         <div class="invalid-feedback text-white">Por favor ingresa tu contraseña.</div>
                                     </div>
@@ -110,21 +111,21 @@
                             <h2>¡Bienvenido!</h2>
                             <div class="d-flex justify-content-center">
                                 <p class="open-sans-regular col-12 col-lg-8 col-md-8">
-                                    Para acceder al sistema primero necesitas registrarte ingresando los campos a
-                                    continuación,
-                                    luego, podrás ¡Iniciar Sesión!
+                                    Para acceder al sistema, primero necesitas registrarte ingresando los campos a
+                                    continuación. Luego, ¡podrás iniciar sesión!
                                 </p>
                             </div>
                         </div>
-                        <form id="addForm" name="addForm" class="needs-validation col-12" novalidate>
+                        <form id="addForm" name="addForm" class="needs-validation col-12" novalidate autocomplete="off">
                             <!-- Columna izquierda -->
                             <div class="row mb-5 justify-content-between">
                                 <div class="col-md-6 inputsGrap2">
                                     <div class="mb-3">
                                         <div class="form-floating formRegistroU mb-0 p-0">
                                             <input type="email" class="form-control" id="registro_input_correo"
-                                                name="registro_input_correo" placeholder="..." required>
-                                            <label for="registro_input_correo">Correo electrònico</label>
+                                                name="registro_input_correo" placeholder="..." required minlength="5"
+                                                maxlength="50" autocomplete="off">
+                                            <label for="registro_input_correo">Correo electrónico</label>
                                             <div class="invalid-feedback text-white">Por favor ingresa un correo
                                                 válido.</div>
                                         </div>
@@ -132,7 +133,8 @@
                                     <div class="mb-3">
                                         <div class="form-floating formRegistroU  mb-0 p-0">
                                             <input type="password" class="form-control" id="registro_input_contrasena"
-                                                placeholder="Password" name="registro_input_contrasena" required>
+                                                placeholder="Password" name="registro_input_contrasena" required
+                                                minlength="8" maxlength="50" autocomplete="off">
                                             <label for="registro_input_contrasena">Contraseña</label>
                                             <div class="invalid-feedback text-white">Por favor ingresa una contraseña
                                                 válida.</div>
@@ -143,17 +145,19 @@
                                 <div class="col-md-6 inputsGrap2">
                                     <div class="mb-3">
                                         <div class="form-floating formRegistroU  mb-0 p-0">
-                                            <input type="phone" class="form-control" id="registro_input_telefono"
-                                                placeholder="Password" name="registro_input_telefono" required>
-                                            <label for="registro_input_telefono">Nùmero telefònonico</label>
-                                            <div class="invalid-feedback text-white">Por favor ingresa un nùmero
-                                                telefònico vàlido.</div>
+                                            <input type="tel" class="form-control" id="registro_input_telefono"
+                                                name="registro_input_telefono" placeholder="0000-0000" required
+                                                minlength="9" maxlength="9" autocomplete="off">
+                                            <label for="registro_input_telefono">Número telefónico</label>
+                                            <div class="invalid-feedback text-white">Por favor ingresa un número
+                                                telefónico válido.</div>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-floating formRegistroU  mb-0 p-0">
                                             <input type="password" class="form-control" id="registro_input_contrasena2"
-                                                placeholder="Password" name="registro_input_contrasena2" required>
+                                                placeholder="Password" name="registro_input_contrasena2" required
+                                                minlength="8" maxlength="50" autocomplete="off">
                                             <label for="registro_input_contrasena2">Confirmar contraseña</label>
                                             <div class="invalid-feedback text-white">Por favor ingresa tu contraseña.
                                             </div>
@@ -176,14 +180,14 @@
                         id="RecForm">
                         <div class="grupo_1 col-11 col-lg-8 col-md-10 open-sans-regular">
                             <!--Formulario con inputs para enviar el correo al usuario-->
-                            <form id="forgetpasswordstepone">
-                                <h6 class="text-white">Ingrese el correo electrónico con el cual registró su cuenta.
+                            <form id="forgetpasswordstepone" autocomplete="off">
+                                <h6 class="text-white">Ingrese el correo electrónico con el que registró su cuenta.
                                 </h6>
-
                                 <div class="form-floating mb-0">
                                     <input type="email" class="form-control" id="Input_Correo2" name="Input_Correo2"
-                                        placeholder="name@example.com">
-                                    <label for="Input_Correo2">Correo Electrónico</label>
+                                        placeholder="name@example.com" required minlength="5" maxlength="50"
+                                        autocomplete="off">
+                                    <label for="Input_Correo2">Correo electrónico</label>
                                 </div>
                                 <div class="d-flex align-items-center flex-column z-3">
                                     <button type="submit" class="btn btn-dark btnInicio col-10 col-lg-7">
@@ -192,22 +196,18 @@
                                         </h6>
                                     </button>
                                 </div>
-
                             </form>
-
-
                         </div>
 
                         <!-- Formulario que permite verificar la identidad del usuario y pide un codigo de verificacion -->
                         <div class="grupo_1 col-11 col-lg-8 col-md-10 open-sans-regular">
 
-                            <form id="forgetpasswordsteptwo">
+                            <form id="forgetpasswordsteptwo" autocomplete="off">
                                 <h6 class="text-white">Ingrese el código enviado a su correo electrónico para
-                                    reestablecer
-                                    su contraseña.</h6>
+                                    restablecer su contraseña.</h6>
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" id="codigoContra"
-                                        placeholder="Password">
+                                    <input type="password" class="form-control" id="codigoContra" placeholder="Password"
+                                        required minlength="8" maxlength="8" autocomplete="off">
                                     <label for="codigoContra">Código de verificación</label>
                                 </div>
                                 <div class="d-flex align-items-center flex-column">
@@ -233,12 +233,12 @@
                     <div class="contenedor-form d-flex flex-column align-items-center col-12 col-md-10 col-lg-6 p-3 d-none py-5"
                         id="RestForm">
 
-                        <form id="forgetPasswordStepThree">
+                        <form id="forgetPasswordStepThree" autocomplete="off">
                             <div class="grupo_1 col-11 col-md-10 open-sans-regular">
                                 <h6 class="text-white">Ingrese su nueva contraseña.</h6>
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="Input_ContraNEW"
-                                        placeholder="Password">
+                                        placeholder="Password" required minlength="8" maxlength="50" autocomplete="off">
                                     <label for="Input_ContraNEW">Contraseña</label>
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                 <h6 class="text-white">Por favor, ingrese una vez más su nueva contraseña.</h6>
                                 <div class="form-floating">
                                     <input type="password" class="form-control" id="Input_Contra2"
-                                        placeholder="Password">
+                                        placeholder="Password" required minlength="8" maxlength="50" autocomplete="off">
                                     <label for="Input_Contra2">Verificación de contraseña</label>
                                 </div>
                                 <div class="d-flex align-items-center flex-column">
@@ -281,7 +281,7 @@
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <!-- Contenedor del modal dialog-->
                     <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <form id="formDosPasos" class="needs-validation" novalidate>
+                        <form id="formDosPasos" class="needs-validation" novalidate autocomplete="off">
                             <!-- Contenedor del modal content-->
                             <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                                 <!-- Contenedor del modal body-->

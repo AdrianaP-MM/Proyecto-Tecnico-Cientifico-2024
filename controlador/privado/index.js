@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-
 // Método del evento para cuando se envía el formulario de registro de usuario
 ADD_FORM.addEventListener('submit', async (event) => {
     event.preventDefault(); // Evitar la recarga de la página después de enviar el formulario
