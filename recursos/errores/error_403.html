@@ -13,7 +13,7 @@
 
     <!-- *IMPORTACIÓN DE RECURSOS EXTERNOS -->
     <!-- Llamada al icono de la página web -->
-    <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/icon-catFill.svg">
+    <link type="image/png" rel="icon" href="/proyecto-tecnico-cientifico-2024/recursos/imagenes/icons/icon-catFill.svg">
 
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
@@ -22,21 +22,27 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
 
     <!-- *Llamada a las hojas de estilos propios de css (CREADOS)-->
-    <link href="../estilos/privado/error_403.css" rel="stylesheet">
+    <link href="/proyecto-tecnico-cientifico-2024/recursos/estilos/privado/error_403.css" rel="stylesheet">
     <!--Cambiarlo por el css de la página en cuestion-->
-    <link href="../estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
+    <link href="/proyecto-tecnico-cientifico-2024/recursos/estilos/fuentes.css" rel="stylesheet">
+    <!--Dejarlo NOQUITAR-->
 </head>
 
 <body>
-    <main class="open d-flex justify-content-center m-lg-5 m-2 m-md-3">
+    <main class="open">
         <!-- Contenido principal del documento -->
-        <div class="contenedor-total position-relative col-lg-8 col-md-8 col-12">
-            <div class="contenedor-titulo d-flex align-items-center w-100 justify-content-center">
-                <h3 class="open-sans-semibold m-0 p-0 ms-2">
-                    ERROR 403
-                </h3>
+        <div class="contenedor-total position-relative d-flex justify-content-center align-items-center">
+            <img src="/proyecto-tecnico-cientifico-2024/recursos/imagenes/Image403.svg" alt="Cat" class="img403 col-10">
+            <div class="contenedorBoton position-absolute">
+                <button type="button" class="btn btnAceptar col-12 text-white btn-dark px-5"
+                    onclick="gotoPanel()">
+                    <h5 class="open-sans-regular p-0 m-0 z-3">Volver al panel principal.</h5>
+                </button>
             </div>
-
+            <div class="nyanCat position-absolute z-2 col-10 col-md-6 col-lg-4">
+                <img src="/proyecto-tecnico-cientifico-2024/recursos/errores/nyan-cat.gif" alt="nyan-cat"
+                    class="imgNyan" />
+            </div>
         </div>
     </main>
     <!-- *Llamada a las hojas de estilos del framework e iconos -->

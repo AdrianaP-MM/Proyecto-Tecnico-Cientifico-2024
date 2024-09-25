@@ -13,7 +13,7 @@
 
     <!-- *IMPORTACIÓN DE RECURSOS EXTERNOS -->
     <!-- Llamada al icono de la página web -->
-    <link type="image/png" rel="icon" href="../../recursos/imagenes/icons/icon-catFill.svg">
+    <link type="image/png" rel="icon" href="/proyecto-tecnico-cientifico-2024/recursos/imagenes/icons/icon-catFill.svg">
 
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
     <!-- *Llamada a las hojas de estilos del framework (BOOSTRAP) -->
@@ -22,20 +22,47 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
 
     <!-- *Llamada a las hojas de estilos propios de css (CREADOS)-->
-    <link href="../estilos/privado/error_404.css" rel="stylesheet">
+    <link href="/proyecto-tecnico-cientifico-2024/recursos/estilos/privado/error_404.css" rel="stylesheet">
     <!--Cambiarlo por el css de la página en cuestion-->
-    <link href="../estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
-
+    <link href="/proyecto-tecnico-cientifico-2024/recursos/estilos/fuentes.css" rel="stylesheet">
+    <!--Dejarlo NOQUITAR-->
 </head>
 
 <body>
-    <main class="open d-flex justify-content-center m-lg-5 m-2 m-md-3">
+    <main class="open">
         <!-- Contenido principal del documento -->
-        <div class="contenedor-total position-relative col-lg-8 col-md-8 col-12">
-            <div class="contenedor-titulo d-flex align-items-center w-100 justify-content-center">
-                <h3 class="open-sans-semibold m-0 p-0 ms-2">
-                    ERROR 404
-                </h3>
+        <div class="contenedor-total col-12 d-flex align-items-center">
+            <div class="contenedorROWS px-5 d-flex col-12 z-2 position-relative justify-content-center align-items-center flex-wrap">
+                <div class="nyanCat position-absolute z-2 col-10 col-md-6 col-lg-4">
+                    <img src="/proyecto-tecnico-cientifico-2024/recursos/errores/nyan-cat.gif" alt="nyan-cat"
+                        class="imgNyan" />
+                </div>
+                <div class="ROW1 z-3 col-md-5 col-12">
+                    <div class="titleText mb-5">
+                        <div class="title">
+                            <h1 class="open-sans-regular clrPinkRed">
+                                ¡Ooooopppsss!
+                            </h1>
+                            <h1 class="open-sans-regular">
+                                Está página no esta disponible
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="descText my-3">
+                        <h3 class="open-sans-regular">
+                            La página que estas buscando no existe o ha ocurrido algún error.
+                        </h3>
+                    </div>
+                    <div class="contenedorBoton mt-4">
+                        <button type="button" class="btn btnAceptar col-lg-6 col-12 col-md-10 text-white btn-dark" onclick="gotoPanel()">
+                            <h5 class="open-sans-regular p-0 m-0 z-3">Volver al panel principal.</h5>
+                        </button>
+                    </div>
+                </div>
+                <div class="ROW2 d-flex justify-content-center col-lg-5 col-md-5 col-12">
+                    <img src="/proyecto-tecnico-cientifico-2024/recursos/imagenes/Image404.svg" alt="Cat"
+                        class="imgCat">
+                </div>
             </div>
 
         </div>

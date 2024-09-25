@@ -1,3 +1,49 @@
-.contenedor-total{
-    min-height: 80vh;
+.contenedor-total {
+    min-height: 100vh;
+    max-height: 100vh;
+    min-width: 100vw;
+    max-width: 100vw;
+
+    border-width: 25px;
+    border-color: #E64547;
+    border-style: solid;
+
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.nyanCat {
+    /* background-color: aqua; */
+    height: 20vh;
+    left: -5px;
+    top: 0;
+}
+
+.imgNyan {
+    width: 100%;
+    height: auto;
+}
+
+.btnAceptar {
+    background-color: black;
+    /* Color de fondo negro */
+    height: 55px;
+    /* Altura de 55 píxeles */
+    border-radius: 5px;
+    /* Borde redondeado de 5 píxeles */
+}
+
+.btnAceptar {
+    background-color: #E5383B;
+    /* Color de fondo rojo */
+}
+
+.contenedorROWS {
+    /* background-color: red; */
+    height: 80vh;
+}
+
+.imgCat {
+    width: 75%;
+    height: auto;
 }
