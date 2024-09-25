@@ -251,7 +251,15 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
                         if (user.account_locked_until && new Date() < new Date(user.account_locked_until)) {
                             await sweetAlert(2, `Tu cuenta está bloqueada hasta ${user.account_locked_until}.`, false);
                             return;
-                        } else { user.failed_attempts = 0 }
+                        }
+                        // } else if (!user.account_locked_until || new Date() >= new Date(user.account_locked_until)) {
+                        //     // Restablecer los intentos fallidos solo si la cuenta no está bloqueada
+                        //     const RESULT_START = await fetchData(USER_API, 'resetFailedAttempts', FORM2); // Restablecer intentos fallidos
+                        //     if (RESULT_START.status) {
+                        //         console.log('Intentos fallidos restablecidos.');
+                        //         user.failed_attempts = 0; // Actualizar en el objeto local
+                        //     }
+                        // }
 
                         // Intentar iniciar sesión
                         const DATA = await fetchData(USER_API, 'logIn', FORM);
