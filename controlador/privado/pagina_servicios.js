@@ -20,6 +20,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     readServicios();
 });
 
+const nombreServicioERROR = document.getElementById('nombreServicioERROR');
+
+NOMBRE.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(NOMBRE.value), NOMBRE, nombreServicioERROR);
+});
+
 // Método del evento para cuando se envía el formulario de guardar
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault(); // Se evita recargar la página web después de enviar el formulario

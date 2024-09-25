@@ -695,6 +695,29 @@ function formatPassword(input) {
         event.target.value = inputValue;
     });
 }
+// Función para formatear la entrada del input con un máximo de 10 caracteres
+function formatLimitedInput(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios en blanco
+        inputValue = inputValue.replace(/\s/g, '');
+
+        // Asegurar que el input no supere los 10 caracteres
+        inputValue = inputValue.slice(0, 10);
+
+        // Expresión regular para permitir solo caracteres válidos (a-z, A-Z, 0-9)
+        const validInputChars = /^[a-zA-Z0-9]+$/;
+
+        // Filtrar caracteres inválidos
+        inputValue = inputValue.split('').filter(char => validInputChars.test(char)).join('');
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+    });
+}
+
 
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 

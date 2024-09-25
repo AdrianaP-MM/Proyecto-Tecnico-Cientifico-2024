@@ -37,6 +37,7 @@
                     <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
                         <input type="search" name="search" class="form-control " placeholder="Buscar..."
                             aria-label="Buscar..." aria-describedby="basic-addon2" required id="search" autocomplete="off">
+                            
 
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Buscador para servicios por nombre de servicio.">
@@ -81,7 +82,7 @@
                                 <input type="text" class="form-control" id="nombre_tipo_servicio"
                                     name="nombre_tipo_servicio" autocomplete="off" placeholder="..." required>
                                 <label for="nombre_tipo_servicio">Nombre de la categoría</label>
-                                <div class="invalid-feedback">Por favor ingresa un nombre de la categoría.</div>
+                                <span id="nombreServicioERROR" class="text-danger"></span>
                                 <br>
                                 <div class="container">
                                     <h6>Imagen de la categoría</h6>

@@ -42,6 +42,7 @@ async function openCreate() {
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
+    applicateRules();
     const id_tipo_servicio = Number(getQueryParam('id_tipo_servicio'));
     if (id_tipo_servicio) {
         // Llama a la función para llenar los datos del servicio específico.
@@ -51,6 +52,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+const nombreDetalleServicioERROR = document.getElementById('nombreDetalleServicioERROR');
+const descripcionDetalleServicioERROR = document.getElementById('descripcionDetalleServicioERROR');
+const nombreServicioERROR = document.getElementById('nombreServicioERROR');
+
+NOMBRE_SERVICIO.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(NOMBRE_SERVICIO.value), NOMBRE_SERVICIO, nombreDetalleServicioERROR);
+});
+
+DESCRIPCION_SERVICIO.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(DESCRIPCION_SERVICIO.value), DESCRIPCION_SERVICIO, descripcionDetalleServicioERROR);
+});
+
+NOMBRE.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(NOMBRE.value), NOMBRE, nombreServicioERROR);
+});
 
 
 // Función para llenar los datos del servicio específico
@@ -401,6 +417,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function goBack() {
     window.history.back();
+}
+
+function applicateRules() {
+    // Agregar evento a cada campo de contraseña
+    formatLimitedInput(NOMBRE_SERVICIO);
+    formatLimitedInput(DESCRIPCION_SERVICIO);
 }
 
 // Función que muestra la alerta de confirmación
