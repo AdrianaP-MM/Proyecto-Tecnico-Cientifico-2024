@@ -235,6 +235,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Credenciales incorrectas';
                 }
                 break;
+            case 'logIn':
+                $_POST = Validator::validateForm($_POST);
+                if ($usuario->checkUser($_POST['correoLogin'], $_POST['claveLogin'])) {
+                    // Comprobar si la contraseña ha expirado
+                    $fechaCreacionClave = $usuario->getFechaCreacionClave($_POST['correoLogin']);
+                    $fechaLimite = date('Y-m-d H:i:s', strtotime($fechaCreacionClave . ' + 90 days'));
+
+                    if (new DateTime() > new DateTime($fechaLimite)) {
+                        $result['error'] = 'Su contraseña ha expirado. Por favor, cambie su contraseña.';
+                        $result['status'] = 0; // Indicar que no se ha iniciado sesión
+                        break; // Salir del case
+                    }
+
+                    $result['status'] = 1;
+                    $result['idadmin'] = $_SESSION['idAdministrador'];
+                    $result['message'] = 'Autenticación correcta';
+                } else {
+                    $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
+
             case 'getUserData':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->setCorreo($_POST['correoLogin'])) {

@@ -18,6 +18,19 @@ class UsuariosHandler
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
+    public function getFechaCreacionClave($correoUsuario)
+    {
+        $sql = 'SELECT fecha_ultima_modificacion FROM tb_usuarios WHERE correo_usuario = ?';
+        $params = array($correoUsuario);
+        // Ejecuta la consulta y devuelve la fecha de creación de la clave
+        if ($data = Database::getRow($sql, $params)) {
+            return $data['fecha_creacion_clave'];
+        } else {
+            return null; // Si no se encuentra el usuario, retorna null
+        }
+    }
+
+
     public function resetFailedAttempts()
     {
         $sql = 'UPDATE tb_usuarios
@@ -91,23 +104,32 @@ class UsuariosHandler
         }
     }
 
-    //Esta funcion es para cambiar solamente la contraseña
+    // Esta función es para cambiar solamente la contraseña y actualizar la fecha de modificación
     public function changePassword()
     {
+        // Obtener la fecha y hora actual
+        $fechaActual = date('Y-m-d H:i:s');
+
+        // Actualizar la contraseña y la fecha de última modificación
         $sql = 'UPDATE tb_usuarios
-                SET clave_usuario = ?
-                WHERE id_usuario = ?';
-        $params = array($this->claveUsuario, $_SESSION['idAdministrador']);
+            SET clave_usuario = ?, fecha_ultima_modificacion = ?
+            WHERE id_usuario = ?';
+        $params = array($this->claveUsuario, $fechaActual, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
+
 
     // Método para actualizar la contraseña del trabajador por ID
     public function updatePassword()
     {
+        // Obtener la fecha y hora actual
+        $fechaActual = date('Y-m-d H:i:s');
+
         $sql = 'UPDATE tb_usuarios
-                SET clave_usuario = ?
+                SET clave_usuario = ?,
+                fecha_ultima_modificacion = ?
                 WHERE id_usuario = ?'; // Consulta SQL para actualizar la contraseña del trabajador por ID
-        $params = array($this->claveUsuario, $this->idUsuario); // Parámetros para la consulta SQL
+        $params = array($this->claveUsuario, $fechaActual, $this->idUsuario); // Parámetros para la consulta SQL
         return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
     }
 
@@ -169,11 +191,16 @@ class UsuariosHandler
     //Create
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_usuarios (correo_usuario, clave_usuario, telefono_usuario, tipo_usuario)
-                VALUES(?, ?, ?, "Administrador")';
-        $params = array($this->correoUsuario, $this->claveUsuario, $this->telefonoUsuario);
+        // Obtener la fecha y hora actual
+        $fechaActual = date('Y-m-d H:i:s');
+
+        // Insertar el nuevo usuario con la fecha de creación de la contraseña
+        $sql = 'INSERT INTO tb_usuarios (correo_usuario, clave_usuario, telefono_usuario, tipo_usuario, fecha_ultima_modificacion)
+                VALUES(?, ?, ?, "Administrador", ?)';
+        $params = array($this->correoUsuario, $this->claveUsuario, $this->telefonoUsuario, $fechaActual);
         return Database::executeRow($sql, $params);
     }
+
 
     //ReadAll
     public function readAll()

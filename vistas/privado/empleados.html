@@ -38,10 +38,13 @@
                                 aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton">
 
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Buscador habilitado para: Nombre y Dui del trabajador.">
-                                    <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg" alt="search icon"></i>
+                                <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover"
+                                    data-bs-placement="bottom"
+                                    data-bs-content="Buscador habilitado para: Nombre y Dui del trabajador.">
+                                    <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg"
+                                            alt="search icon"></i>
                                 </button>
-                                
+
                             </div>
                         </div>
                     </form>
@@ -92,16 +95,16 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_dui_empleados"
                                                         name="input_dui_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off"> 
+                                                        required autocomplete="off">
                                                     <label for="input_dui_empleados">DUI</label> <!--DUI-->
                                                     <div class="invalid-feedback">Por favor ingrese su DUI.</div>
-                                                    
+
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nit_empleados"
                                                         name="input_nit_empleados" placeholder="name@example.com"
-                                                         autocomplete="off">
+                                                        autocomplete="off">
                                                     <label for="input_nit_empleados">NIT</label> <!--NIT-->
                                                     <div class="invalid-feedback">Por favor ingresa tu NIT.</div>
                                                 </div>
@@ -184,7 +187,8 @@
                                                         class="form-label px-2 pt-1 p-0 m-0">Fecha
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
-                                                        name="fecha_contratacion" placeholder="" required onclick="configurarFechaMaxima()">
+                                                        name="fecha_contratacion" placeholder="" required
+                                                        onclick="configurarFechaMaxima()">
                                                     <div class="invalid-feedback">Por favor ingresa la fecha de
                                                         contratacion.</div>
                                                 </div>
@@ -229,6 +233,7 @@
     <script type="text/javascript" src="../../controlador/utilidades/privado.js"></script> <!--Dejarlo NOQUITAR-->
     <!-- *Llamada al controlador de la página web -->
     <script type="text/javascript" src="../../controlador/privado/empleados.js"></script>
+    <script src="../../controlador/utilidades/inactivityLogout.js"></script>
 </body>
 
 </html>

@@ -124,8 +124,8 @@
                             </div>
                             <input type="number" id="idAutoReport" name="idAutoReport" class="invisible">
                             <button type="button" class="btn btnReport btn-light"
-                            onclick="reportEstadoAutomovil()">Abrir reporte
-                            automovil</button>
+                                onclick="reportEstadoAutomovil()">Abrir reporte
+                                automovil</button>
                         </div>
 
                         <button type="button" id="btnEditCar" onclick="openUpdate()"
@@ -391,7 +391,8 @@
         <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                <form id="saveForm" class="needs-validation" novalidate  autocomplete="off"> <!--Formulario de guardado-->
+                <form id="saveForm" class="needs-validation" novalidate autocomplete="off">
+                    <!--Formulario de guardado-->
                     <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <div class="modal-body row">
                             <!-- Contenedor de la izquierda, imagen del automóvil -->
@@ -458,13 +459,14 @@
                                 <div class="form-floating mb-3">
                                     <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
                                     <select id="input_marca_auto" name="input_marca_auto" type="text"
-                                        class="form-select" required ></select>
+                                        class="form-select" required></select>
                                     <div class="invalid-feedback">Por favor seleccione la marca.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
                                         propietario</label>
-                                    <select class="form-select" id="input_duiP" name="input_duiP" required autocomplete="off">
+                                    <select class="form-select" id="input_duiP" name="input_duiP" required
+                                        autocomplete="off">
                                         <!-- Opciones de propietario (DUI) -->
                                     </select>
                                     <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
@@ -500,6 +502,7 @@
     <!--Cambiarlo por el js de la página en cuestion-->
     <!-- Llamada al controlador del componente -->
     <script type="text/javascript" src="../../controlador/utilidades/components.js"></script>
+    <script src="../../controlador/utilidades/inactivityLogout.js"></script>
 </body>
 
 </html>
