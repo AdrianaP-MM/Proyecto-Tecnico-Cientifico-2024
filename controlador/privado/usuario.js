@@ -300,6 +300,7 @@ document.getElementById('toggleButton').addEventListener('change', async functio
 
         if (DATADOSPASOS.status) {
             sweetAlert(1, "Se ha cambiado la seguridad de la cuenta", true);
+            getToggle();
         } else {
             sweetAlert(2, DATADOSPASOS.error, true);
             // Revertir el cambio si no se confirma

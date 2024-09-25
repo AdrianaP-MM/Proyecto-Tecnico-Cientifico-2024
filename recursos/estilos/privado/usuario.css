@@ -207,7 +207,7 @@ body {
 
 /*Fuente para el titulo*/
 .titleCard {
-    font-size:18px;
+    font-size: 18px;
 }
 
 /*Fuente para la card*/
@@ -218,9 +218,23 @@ body {
 }
 
 .container-scroll {
-    max-height: 100%; /* Ajusta el valor a la altura máxima deseada */
-    overflow-y: auto; /* Agrega desplazamiento vertical si el contenido excede la altura máxima */
-    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+    max-height: 90%;
+    /* Ajusta el valor a la altura máxima deseada */
+    overflow-y: auto;
+    /* Agrega desplazamiento vertical si el contenido excede la altura máxima */
+    overflow-x: hidden;
+    /* Evita el desplazamiento horizontal */
+}
+
+.container-scroll::-webkit-scrollbar {
+    background-color: #1d1d1d;
+    width: 12px;
+    border-radius: 15px;
+}
+
+.container-scroll::-webkit-scrollbar-thumb {
+    background-color: #E5383B;
+    border-radius: 15px;
 }
 
 /* Estilo del toggle button */
@@ -229,15 +243,15 @@ body {
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  .switch input {
+}
+
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  .slider {
+}
+
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -246,9 +260,9 @@ body {
     bottom: 0;
     background-color: #1d1d1d;
     transition: .4s;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -257,21 +271,25 @@ body {
     bottom: 4px;
     background-color: white;
     transition: .4s;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: #E5383B;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked+.slider:before {
     transform: translateX(26px);
-  }
-  
-  /* Estilo para que sea redondo */
-  .slider.round {
+}
+
+/* Estilo para que sea redondo */
+.slider.round {
     border-radius: 34px;
-  }
-  
-  .slider.round:before {
+}
+
+.slider.round:before {
     border-radius: 50%;
-  }
+}
+
+.cardToggle{
+    margin-bottom: 25px;
+}

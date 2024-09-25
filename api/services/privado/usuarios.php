@@ -91,11 +91,9 @@ if (isset($_GET['action'])) {
                     ) {
                         $result['error'] = $usuario->getDataError();
                     } elseif ($usuario->updateToggle()) {
-                        $result['CASACA'] = "AHUEVOOOOOOOOOOO";
                         $result['status'] = 1;
                         $result['message'] = 'Seguridad modificada correctamente';
                     } else {
-                        $result['CASACA'] = "NO SE QUE ESTOY PAGANDOOOOOO";
                         $result['error'] = 'Ocurrio un problema al modificar la seguridad';
                     }
                     break;
