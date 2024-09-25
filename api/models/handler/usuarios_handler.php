@@ -14,8 +14,46 @@ class UsuariosHandler
     protected $tipoUsuario = null;
     protected $estadoToggle = null;
 
+    protected $accountLockedUntil = null;
+
     /*Metodos para administrar las cuentas de Usuarios*/
 
+    public function resetFailedAttempts()
+    {
+        $sql = 'UPDATE tb_usuarios
+                SET failed_attempts = 0, last_failed_attempt = NULL, account_locked_until = NULL
+                WHERE correo_usuario = ?;';
+        $params = array($this->correoUsuario); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    public function blockAccount()
+    {
+        $sql = 'UPDATE tb_usuarios
+            SET account_locked_until = ?, failed_attempts = 3
+            WHERE correo_usuario = ?;';
+        $params = array($this->accountLockedUntil, $this->correoUsuario); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    public function incrementFailedAttempts()
+    {
+        $sql = 'UPDATE tb_usuarios
+            SET failed_attempts = failed_attempts + 1, last_failed_attempt = NOW()
+            WHERE correo_usuario = ?;';
+        $params = array($this->correoUsuario); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    //getUserData
+    public function getUserData()
+    {
+        $sql = 'SELECT *
+                FROM tb_usuarios
+                WHERE correo_usuario = ?';
+        $params = array($this->correoUsuario);
+        return Database::getRow($sql, $params);
+    }
 
     //Esta funcion valida las credenciales en el inicio de sesion
     public function checkUser($username, $password)

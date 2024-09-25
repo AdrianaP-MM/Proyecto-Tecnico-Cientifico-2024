@@ -182,6 +182,17 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+            case 'resetFailedAttempts':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = 'Correo electrónico incorrecto';
+                } elseif ($result['dataset'] = $usuario->resetFailedAttempts()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Correo electrónico inexistente';
+                }
+                break;
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -222,6 +233,49 @@ if (isset($_GET['action'])) {
                         'Autenticación correcta';
                 } else {
                     $result['error'] = 'Credenciales incorrectas';
+                }
+                break;
+            case 'getUserData':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($result['dataset'] = $usuario->getUserData()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario inexistente';
+                }
+                break;
+            case 'resetFailedAttempts':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = 'Correo electrónico incorrecto';
+                } elseif ($result['dataset'] = $usuario->resetFailedAttempts()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Correo electrónico inexistente';
+                }
+                break;
+            case 'blockAccount':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuario->setCorreo($_POST['correoLogin']) or
+                    !$usuario->setAccountLockedUntil($_POST['accountLockedUntil'])
+                ) {
+                    $result['error'] = 'Ocurrio un error al recibir el correo y el tiempo.';
+                } elseif ($result['dataset'] = $usuario->blockAccount()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Ocurrio un error al intentar bloquear la cuenta.';
+                }
+                break;
+            case 'incrementFailedAttempts':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = 'Correo electrónico incorrecto';
+                } elseif ($result['dataset'] = $usuario->incrementFailedAttempts()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Correo electrónico inexistente';
                 }
                 break;
             case 'searchMail':

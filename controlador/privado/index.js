@@ -190,86 +190,125 @@ CONTRA_LOGIN.addEventListener('input', function () {
     checkInput(validatePassword(CONTRA_LOGIN.value), CONTRA_LOGIN, ERROR_CONTRA_LOGIN);
 });
 
-// Método del evento para cuando se envía el formulario de inicio de sesión.
 FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
+    event.preventDefault(); // Evitar recarga de página al enviar formulario
 
-    if (CONTRA_LOGIN.value === '' || CORREO_LOGIN.value === ''
-    ) {
+    // Validaciones de campos vacíos
+    if (CONTRA_LOGIN.value === '' || CORREO_LOGIN.value === '') {
         await sweetAlert(2, 'Por favor, complete todos los campos', true);
         return;
     }
 
+    // Validaciones de formato (correo y contraseña)
     if (!checkInput(validateEmail(CORREO_LOGIN.value), CORREO_LOGIN, ERROR_CORREO_LOGIN) ||
         !checkInput(validatePassword(CONTRA_LOGIN.value), CONTRA_LOGIN, ERROR_CONTRA_LOGIN)) {
         return;
     }
-
     try {
         const isValid = await checkFormValidity(FORM_LOGIN_INPUTS);
         if (isValid) {
-            // Constante tipo objeto con los datos del formulario.
-            const FORM = new FormData(FORM_LOGIN_INPUTS);
-            // Petición para iniciar sesión.
+            const FORM = new FormData(FORM_LOGIN_INPUTS); // Datos del formulario
             const DATADOSPASOS = await fetchData(USER_API, 'readDosPasos', FORM);
-
-            console.log("Ahuevo si es" + DATADOSPASOS.dataset.dos_pasos)
 
             if (DATADOSPASOS.status) {
                 if (DATADOSPASOS.dataset.dos_pasos == 1) {
-                    mandarCodigoDosPasos();
-                    openDosPasos();
+                    // Autenticación de dos pasos habilitada
+                    mandarCodigoDosPasos(); // Enviar código
+                    openDosPasos(); // Mostrar formulario de código
+
+                    // Evento para verificar el código de dos pasos
                     document.getElementById('formDosPasos').addEventListener('submit', async function (event) {
-                        event.preventDefault(); // Evita que el formulario se envíe y recargue la página
+                        event.preventDefault(); // Evitar recarga de página
                         const INPUTCODIGO = document.getElementById("inputValidarCod").value;
+
                         if (INPUTCODIGO.trim() === DATA2.codigo) {
-                            // Petición para iniciar sesión.
-                            const DATA = await fetchData(USER_API, 'logIn', FORM);
-                            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+                            const DATA = await fetchData(USER_API, 'logIn', FORM); // Intentar iniciar sesión
                             if (DATA.status) {
-                                await sweetAlert(1, 'Codigo verificado correctamente para iniciar sesion.', true); location.href = 'panel_principal.html'
+                                await sweetAlert(1, 'Código verificado correctamente.', true);
+                                location.href = 'panel_principal.html'; // Redirigir al panel principal
                             } else {
                                 if (DATA.error == 'Acción no disponible dentro de la sesión') {
-                                    await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
-                                }
-                                else {
-                                    await sweetAlert(2, DATA.error, false);
-                                    closePasosIncorrecto();
+                                    sweetAlert(4, "Ya tiene una sesión activa", true).then(() => location.href = 'index.html');
+                                } else {
+                                    sweetAlert(2, DATA.error, false);
+                                    closePasosIncorrecto(); // Cerrar modal de código si es incorrecto
                                 }
                             }
                         } else {
-                            await sweetAlert(2, 'Ingrese el codigo enviado en el correo.', true);
+                            await sweetAlert(2, 'Ingrese el código enviado en el correo.', true);
                         }
                     });
-
                 } else {
-                    // Petición para iniciar sesión.
-                    const DATA = await fetchData(USER_API, 'logIn', FORM);
-                    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-                    if (DATA.status) {
-                        // sweetAlert(1, DATA.message, true, 'panel_principal.html');
-                        location.href = 'panel_principal.html';
-                        // Evitar que el usuario regrese después de iniciar sesión
-                    } else {
-                        if (DATA.error == 'Acción no disponible dentro de la sesión') {
-                            await sweetAlert(4, "Ya tiene una sesión activa", true); location.href = 'index.html'
-                        }
-                        else {
-                            await sweetAlert(2, DATA.error, false);
+                    // Autenticación sin dos pasos
+                    const FORM2 = new FormData();
+                    FORM2.append('correoLogin', CORREO_LOGIN.value);
+                    const DATA_USER = await fetchData(USER_API, 'getUserData', FORM2);
+
+                    if (DATA_USER.status) {
+                        const user = DATA_USER.dataset;
+
+                        // Verificar si la cuenta está bloqueada
+                        if (user.account_locked_until && new Date() < new Date(user.account_locked_until)) {
+                            await sweetAlert(2, `Tu cuenta está bloqueada hasta ${user.account_locked_until}.`, false);
+                            return;
+                        } else { user.failed_attempts = 0 }
+
+                        // Intentar iniciar sesión
+                        const DATA = await fetchData(USER_API, 'logIn', FORM);
+                        const isPasswordCorrect = DATA.status;
+
+                        if (isPasswordCorrect) {
+                            const RESULT_RESET = await fetchData(USER_API, 'resetFailedAttempts', FORM2); // Restablecer intentos fallidos
+                            if (RESULT_RESET.status) {
+                                console.log('// Restablecer intentos fallidos, inicia sesión');
+                                location.href = 'panel_principal.html'; // Redirigir al panel principal
+                            }
+                        } else {
+                            // Incrementar intentos fallidos
+                            const newFailedAttempts = user.failed_attempts + 1;
+
+                            if (newFailedAttempts >= 3) {
+                                // Bloquear cuenta por 24 horas
+                                const lockDuration = 24 * 60 * 60 * 1000; // 24 horas
+                                const now = new Date();
+                                const accountLockedUntil = new Date(now.getTime() + lockDuration);
+
+                                const accountLockedUntilSQL = formatDateForSQL(accountLockedUntil);
+                                FORM2.append('accountLockedUntil', accountLockedUntilSQL);
+
+                                const REULST_BLOCK = await fetchData(USER_API, 'blockAccount', FORM2);
+                                if (REULST_BLOCK.status) {
+                                    await sweetAlert(2, 'Tu cuenta ha sido bloqueada por 24 horas debido a múltiples intentos fallidos.', false);
+                                }
+                            } else {
+                                const REULST_INCREMENT = await fetchData(USER_API, 'incrementFailedAttempts', FORM2);
+                                if (REULST_INCREMENT.status) {
+                                    await sweetAlert(2, `Contraseña incorrecta. Tienes ${3 - newFailedAttempts} intentos restantes.`, false);
+                                }
+                            }
                         }
                     }
                 }
             } else {
-                await sweetAlert(2, DATADOSPASOS.error, false);
+                await sweetAlert(2, DATADOSPASOS.error, false); // Mostrar error si no se encuentran datos
             }
-        } else { }
+        }
     } catch (error) {
         console.error('Error al procesar la solicitud:', error);
         await sweetAlert(2, 'Error al procesar la solicitud. Intente nuevamente más tarde.', false);
     }
-
 });
+
+const formatDateForSQL = (date) => {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Mes (agrega el 0 si es necesario)
+    const day = ('0' + date.getDate()).slice(-2); // Día (agrega el 0 si es necesario)
+    const hours = ('0' + date.getHours()).slice(-2); // Hora
+    const minutes = ('0' + date.getMinutes()).slice(-2); // Minutos
+    const seconds = ('0' + date.getSeconds()).slice(-2); // Segundos
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
 
 // Inputs del Recuperación de contraseña PASO 1---------------------------------------------------------------------------------------
 const CORREO_RECUPERAR = document.getElementById('Input_Correo2');

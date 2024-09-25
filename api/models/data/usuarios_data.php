@@ -90,4 +90,10 @@ class UsuarioData extends UsuariosHandler
     {
         return $this->data_error;
     }
+
+    public function setAccountLockedUntil($value)
+    {
+        $this->accountLockedUntil = $value;
+        return true;
+    }
 }
