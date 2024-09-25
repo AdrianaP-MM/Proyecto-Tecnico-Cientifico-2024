@@ -769,6 +769,19 @@ function validateEmail(email) {
     return { valid: true, message: 'Correo electrónico válido.' };
 }
 
+function validateDUI(dui) {
+    // Expresión regular para validar el formato de DUI salvadoreño
+    const duiRegex = /^[0-9]{8}[0-9]$/;
+
+    // Validar formato
+    if (!duiRegex.test(dui)) {
+        return { valid: false, message: 'Formato de DUI no válido. Debe seguir el formato nnnnnnnn-n.' };
+    }
+
+    return { valid: true, message: 'DUI válido.' };
+}
+
+
 function validatePhoneNumber(phone) {
     // Expresión regular para validar el formato nnnn-nnnn que inicie con 2, 6 o 7
     const phoneRegex = /^[267][0-9]{3}-[0-9]{4}$/;
@@ -780,6 +793,56 @@ function validatePhoneNumber(phone) {
 
     return { valid: true, message: 'Número de teléfono válido.' };
 }
+
+function validateSalvadoranPlate(plate) {
+    // Expresión regular para permitir un guion opcional entre el prefijo y los números
+    const plateRegex = /^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{3}-[0-9]{3}$|^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{5,6}$/;
+
+    // Validar formato
+    if (!plateRegex.test(plate)) {
+        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña.' };
+    }
+
+    return { valid: true, message: 'Placa válida.' };
+}
+
+
+
+function validateCarModelName(modelName) {
+    // Expresión regular para validar que el nombre solo contenga letras, números, guiones y espacios intermedios
+    const modelNameRegex = /^[A-Za-z0-9]+(?:[-\s][A-Za-z0-9]+)*$/;
+
+    // Validar si el campo está vacío
+    if (!modelName.trim()) {
+        return { valid: false, message: 'El nombre del modelo no puede estar vacío.' };
+    }
+
+    // Validar formato
+    if (!modelNameRegex.test(modelName)) {
+        return { valid: false, message: 'El nombre del modelo solo puede contener letras, números, guiones y no debe tener espacios innecesarios.' };
+    }
+
+    return { valid: true, message: 'Nombre de modelo válido.' };
+}
+
+function validateYear(year) {
+    const currentYear = new Date().getFullYear(); // Obtiene el año actual
+    const yearRegex = /^\d{4}$/; // Expresión regular para validar que tenga exactamente 4 dígitos
+
+    // Validar que solo tenga 4 dígitos
+    if (!yearRegex.test(year)) {
+        return { valid: false, message: 'El año debe tener exactamente 4 dígitos.' };
+    }
+
+    // Validar que no exceda el año actual
+    if (parseInt(year) > currentYear) {
+        return { valid: false, message: 'El año no puede ser mayor al año actual.' };
+    }
+
+    return { valid: true, message: 'Año válido.' };
+}
+
+
 
 function validatePassword(password, userData = null) {
     const minLength = 8;

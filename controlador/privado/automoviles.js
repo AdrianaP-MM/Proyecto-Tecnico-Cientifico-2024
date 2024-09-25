@@ -17,9 +17,11 @@ const SAVE_FORM = document.getElementById('saveForm'),
     MODELO = document.getElementById('input_modelo_auto'),
     TIPO_AUTO = document.getElementById('input_tipo_auto'),
     FECHA_FABRICACION = document.getElementById('fechanInput'),
+    FECHA = document.getElementById('input_fecha_auto'),
     COLOR = document.getElementById('input_color_auto'),
     PLACA = document.getElementById('input_placa'),
     CLIENTE = document.getElementById('input_duiP');
+    DUI = document.getElementById('label_dui');
 
 //Constantes de CRUD de marcas
 const TABLE_MARCAS = document.getElementById('tablaMarcas');
@@ -84,6 +86,30 @@ const search = async () => {
 
     fillTable(FORM);
 }
+const modeloERROR = document.getElementById('modeloERROR');
+
+MODELO.addEventListener('input', function () {
+    checkInput(validateCarModelName(MODELO.value), MODELO, modeloERROR);
+});
+
+const fechaERROR = document.getElementById('fechaERROR');
+
+FECHA.addEventListener('input', function () {
+    checkInput(validateYear(FECHA.value), FECHA, fechaERROR);
+});
+
+const placaERROR = document.getElementById('placaERROR');
+
+PLACA.addEventListener('input', function () {
+    checkInput(validateSalvadoranPlate(PLACA.value), PLACA, placaERROR);
+});
+
+const duiERROR = document.getElementById('duiERROR');
+
+DUI.addEventListener('input', function () {
+    checkInput(validateDUI(DUI.value), DUI, duiERROR);
+});
+
 
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -375,6 +401,21 @@ document.getElementById('input_fecha_auto').addEventListener('input', function (
     // Actualizar el valor del campo de texto con la entrada formateada
     event.target.value = inputValue;
 });
+
+document.getElementById('label_dui').addEventListener('input', function (event) {
+    // Obtener el valor actual del campo de texto
+    let inputValue = event.target.value;
+
+    // Limpiar el valor de cualquier carácter que no sea un número
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+    // Limitar a 9 caracteres
+    inputValue = inputValue.slice(0, 9);
+
+    // Actualizar el valor del campo de texto con la entrada formateada
+    event.target.value = inputValue;
+});
+
 
 document.getElementById('input_buscar').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto

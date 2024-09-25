@@ -391,7 +391,7 @@
                                     <input type="text" class="form-control" id="input_modelo_auto"
                                         name="input_modelo_auto" required placeholder="...">
                                     <label for="input_modelo_auto">Modelo</label>
-                                    <div class="invalid-feedback">Por favor ingrese un modelo</div>
+                                    <span id="modeloERROR" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
@@ -403,7 +403,7 @@
                                     <input type="text" class="form-control" id="input_fecha_auto"
                                         name="input_fecha_auto" required placeholder="...">
                                     <label for="input_fecha_auto">Fecha de fabricacion</label>
-                                    <div class="invalid-feedback">Por favor ingrese un modelo</div>
+                                    <span id="fechaERROR" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
@@ -429,7 +429,7 @@
                                     <input type="text" class="form-control" id="input_placa" name="input_placa" required
                                         placeholder="...">
                                     <label for="input_placa">Placa</label>
-                                    <div class="invalid-feedback">Por favor ingrese la placa.</div>
+                                    <span id="placaERROR" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
@@ -442,7 +442,7 @@
                                     <input id="label_dui" name="label_dui" type="text" class="form-control"
                                         placeholder="DUI" required>
                                     <label for="label_dui" class="form-label">DUI</label>
-                                    <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
+                                    <span id="duiERROR" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
