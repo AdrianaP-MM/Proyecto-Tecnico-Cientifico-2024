@@ -391,7 +391,7 @@
         <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                <form id="saveForm" class="needs-validation" novalidate> <!--Formulario de guardado-->
+                <form id="saveForm" class="needs-validation" novalidate  autocomplete="off"> <!--Formulario de guardado-->
                     <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <div class="modal-body row">
                             <!-- Contenedor de la izquierda, imagen del automóvil -->
@@ -412,21 +412,21 @@
                                 <input type="number" id="idAuto" name="idAuto" class="invisible">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_modelo_auto"
-                                        name="input_modelo_auto" required placeholder="...">
+                                        name="input_modelo_auto" required placeholder="..." autocomplete="off">
                                     <label for="input_placa">Modelo auto</label>
                                     <div class="invalid-feedback">Por favor seleccione el modelo.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
                                     <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
-                                        required></select>
+                                        required autocomplete="off"></select>
                                     <div class="invalid-feedback">Por favor seleccione el tipo.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
                                         fabricación</label>
                                     <input type="number" class="form-control" id="fechanInput" name="fechanInput"
-                                        required>
+                                        required autocomplete="off">
                                     <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -451,20 +451,20 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa"
-                                        name="input_placa" required>
+                                        name="input_placa" required autocomplete="off">
                                     <label for="input_placa">Placa</label>
                                     <div class="invalid-feedback">Por favor ingrese la placa.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
                                     <select id="input_marca_auto" name="input_marca_auto" type="text"
-                                        class="form-select" required></select>
+                                        class="form-select" required ></select>
                                     <div class="invalid-feedback">Por favor seleccione la marca.</div>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
                                         propietario</label>
-                                    <select class="form-select" id="input_duiP" name="input_duiP" required>
+                                    <select class="form-select" id="input_duiP" name="input_duiP" required autocomplete="off">
                                         <!-- Opciones de propietario (DUI) -->
                                     </select>
                                     <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>

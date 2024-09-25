@@ -19,6 +19,11 @@
     transform: rotate(90deg); /* Rotación de 90 grados */
   }
 
+  .invalid-feedback {
+    text-align: left;
+}
+
+
 /* Animación */
 
 /* Contenedor de checkboxes */
