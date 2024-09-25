@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 const nombreServicioERROR = document.getElementById('nombreServicioERROR');
 
 NOMBRE.addEventListener('input', function () {
-    checkInput(validatePhoneNumber(NOMBRE.value), NOMBRE, nombreServicioERROR);
+    checkInput(validateName(NOMBRE.value), NOMBRE, nombreServicioERROR);
 });
 
 // Método del evento para cuando se envía el formulario de guardar

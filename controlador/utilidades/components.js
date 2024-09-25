@@ -899,3 +899,15 @@ function validateYear(year) {
     return { valid: true, message: 'Año válido.' };
 }
 
+
+function validateName(name) {
+    // Expresión regular para validar que el nombre solo contenga letras y sea menor de 20 caracteres
+    const nameRegex = /^[A-Za-zÀ-ÿ\s]{1,19}$/; // Incluye letras acentuadas y espacios
+
+    // Validar formato
+    if (!nameRegex.test(name)) {
+        return { valid: false, message: 'El nombre solo debe contener letras y debe tener menos de 20 caracteres.' };
+    }
+
+    return { valid: true, message: 'Nombre válido.' };
+}

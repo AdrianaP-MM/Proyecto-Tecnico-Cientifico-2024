@@ -57,15 +57,15 @@ const descripcionDetalleServicioERROR = document.getElementById('descripcionDeta
 const nombreServicioERROR = document.getElementById('nombreServicioERROR');
 
 NOMBRE_SERVICIO.addEventListener('input', function () {
-    checkInput(validatePhoneNumber(NOMBRE_SERVICIO.value), NOMBRE_SERVICIO, nombreDetalleServicioERROR);
+    checkInput(validateName(NOMBRE_SERVICIO.value), NOMBRE_SERVICIO, nombreDetalleServicioERROR);
 });
 
 DESCRIPCION_SERVICIO.addEventListener('input', function () {
-    checkInput(validatePhoneNumber(DESCRIPCION_SERVICIO.value), DESCRIPCION_SERVICIO, descripcionDetalleServicioERROR);
+    checkInput(validateName(DESCRIPCION_SERVICIO.value), DESCRIPCION_SERVICIO, descripcionDetalleServicioERROR);
 });
 
 NOMBRE.addEventListener('input', function () {
-    checkInput(validatePhoneNumber(NOMBRE.value), NOMBRE, nombreServicioERROR);
+    checkInput(validateName(NOMBRE.value), NOMBRE, nombreServicioERROR);
 });
 
 
