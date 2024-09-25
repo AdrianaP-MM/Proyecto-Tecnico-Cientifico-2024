@@ -6,6 +6,9 @@ const FACTURAS_API = 'services/privado/facturas.php';
 const CITAS_CARDS_CONTAINER = document.getElementById('cards_citas_container');
 const SERVICIOS_CARDS_CONTAINER = document.getElementById('serviciosScroll');
 
+//Formulario para agregar la cita
+const ADD_FORM = document.getElementById('addForm');
+
 // Constantes para establecer los elementos del componente Modal.
 const MODAL = new bootstrap.Modal('#modalAgregarCita');
 // Constantes para establecer los elementos del componente Modal.
@@ -27,7 +30,6 @@ const INPUT_HORA_UPDATE = document.getElementById('input_hora_UPDATE');
 const INPUT_MOVILIZACION_UPDATE = document.getElementById('input_movilizacion_UPDATE');
 const INPUT_DIRECCION_IDA_UPDATE = document.getElementById('input_ida_UPDATE');
 
-const ADD_FORM = document.getElementById('addForm');
 const UPDATE_FORM = document.getElementById('updateForm');
 const SERVICES_FORM = document.getElementById('servicesForm');
 
@@ -58,8 +60,8 @@ const CONTENEDOR_SERVICIO = document.getElementById('contenedorServicio');
 const MODAL_REALIZAR_FACTURA = new bootstrap.Modal('#modaRealizarFactura');
 
 const FORM_FACTURA = document.getElementById('formFactura');
-
 // const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
+
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {

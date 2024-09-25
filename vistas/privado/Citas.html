@@ -194,7 +194,8 @@
                             </div>
                         </div>
                         <div class="d-flex col-7 justify-content-center align-items-center">
-                            <form id="updateForm" name="updateForm" class="needs-validation col-12" novalidate>
+                            <form id="updateForm" name="updateForm" class="needs-validation" novalidate
+                                autocomplete="off">
                                 <!-- Columna izquierda ---------------------------------------------------------------------------------------->
                                 <div class="row">
                                     <div class="col-md-6">
@@ -203,7 +204,7 @@
                                                 <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada</h6>
                                                 <input id="datepicker_llegada_UPDATE"
                                                     class="open-sans-regular datepickerA form-control"
-                                                    name="datepicker_llegada_UPDATE" required />
+                                                    name="datepicker_llegada_UPDATE" required autocomplete="off" />
                                                 <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                             </div>
                                         </div>
@@ -236,7 +237,7 @@
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="input_regreso_UPDATE"
                                                     name="input_regreso_UPDATE" placeholder="..." required
-                                                    maxlength="250">
+                                                    maxlength="250" min="10" autocomplete="off">
                                                 <label for="input_regreso_UPDATE">Direcciòn de regreso</label>
                                                 <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                     que se regresará el automovil.</div>
@@ -249,7 +250,7 @@
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="time" class="form-control" id="input_hora_UPDATE"
                                                     name="input_hora_UPDATE" placeholder="HH:MM" required min="10:00"
-                                                    max="15:00">
+                                                    max="15:00" autocomplete="off">
                                                 <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:00
                                                     PM)</label>
                                                 <div class="invalid-feedback">Por favor ingresa una hora válida se
@@ -277,7 +278,8 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="input_ida_UPDATE"
-                                                    name="input_ida_UPDATE" placeholder="..." required maxlength="250">
+                                                    name="input_ida_UPDATE" placeholder="..." required maxlength="250"
+                                                    minlength="10" autocomplete="off">
                                                 <label for="input_ida_UPDATE">Direcciòn de ida</label>
                                                 <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                     que se traerá el automovil.</div>
@@ -344,7 +346,8 @@
                         <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                             <!-- Contenedor del modal body-->
                             <div class="modal-body">
-                                <form id="addForm" name="addForm" class="needs-validation" novalidate>
+                                <form id="addForm" name="addForm" class="needs-validation" novalidate
+                                    autocomplete="off">
                                     <!-- Columna izquierda -->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -353,7 +356,7 @@
                                                     <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada</h6>
                                                     <input id="datepicker_llegada"
                                                         class="open-sans-regular datepickerA form-control"
-                                                        name="datepicker_llegada" required />
+                                                        name="datepicker_llegada" required autocomplete="off" />
                                                     <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                                 </div>
                                             </div>
@@ -384,7 +387,8 @@
                                             <div class="mb-3">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_regreso"
-                                                        name="input_regreso" placeholder="..." required maxlength="250">
+                                                        name="input_regreso" placeholder="..." required maxlength="250"
+                                                        minlength="10" autocomplete="off">
                                                     <label for="input_regreso">Direcciòn de regreso</label>
                                                     <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                         que se regresará el automovil.</div>
@@ -397,7 +401,7 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="time" class="form-control" id="input_hora"
                                                         name="input_hora" placeholder="HH:MM" required min="10:00"
-                                                        max="15:00">
+                                                        max="15:00" autocomplete="off">
                                                     <label for="input_hora">Hora de llegada (10:00 AM - 3:00 PM)</label>
                                                     <div class="invalid-feedback">Por favor ingresa una hora válida se
                                                         aceptan desde las 10AM hasta las 3PM</div>
@@ -424,7 +428,8 @@
                                             <div class="mb-3">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_ida"
-                                                        name="input_ida" placeholder="..." required maxlength="250">
+                                                        name="input_ida" placeholder="..." required maxlength="250"
+                                                        minlength="10" autocomplete="off">
                                                     <label for="input_ida">Direcciòn de ida</label>
                                                     <div class="invalid-feedback">Por favor ingresa la direccion en la
                                                         que se traerá el automovil.</div>
@@ -452,7 +457,8 @@
                         <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                             <!-- Contenedor del modal body-->
                             <div class="modal-body">
-                                <form id="servicesForm" name="addFormServicio" class="needs-validation" novalidate>
+                                <form id="servicesForm" name="addFormServicio" class="needs-validation" novalidate
+                                    autocomplete="off">
                                     <!-- Columna izquierda -->
                                     <div class="row">
                                         <div class="col-md-6">
@@ -473,7 +479,7 @@
                                                         finalización.</h6>
                                                     <input id="fecha_aprox_finalizacion"
                                                         class="open-sans-regular datepickerA form-control"
-                                                        name="fecha_aprox_finalizacion" required />
+                                                        name="fecha_aprox_finalizacion" required autocomplete="off" />
                                                     <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                                 </div>
                                             </div>
@@ -483,7 +489,7 @@
                                                     </h6>
                                                     <input id="fecha_finalizacion"
                                                         class="open-sans-regular datepickerA form-control"
-                                                        name="fecha_finalizacion" required />
+                                                        name="fecha_finalizacion" required autocomplete="off" />
                                                     <div class="invalid-feedback">Por favor ingresa una fecha.</div>
                                                 </div>
                                             </div>
@@ -494,7 +500,7 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="number" class="form-control" name="cantidad_servicio"
                                                         id="cantidad_servicio" max="99" min="1" value="1"
-                                                        class="w-50 text-center">
+                                                        class="w-50 text-center" autocomplete="off">
                                                     <label for="cantidad_servicio">Cantidad del servicio</label>
                                                     <div class="invalid-feedback">Por favor ingresa una cantidad válida
                                                     </div>
@@ -503,7 +509,8 @@
                                             <div class="mb-3">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="time" class="form-control" id="hora_aprox_finalizacion"
-                                                        name="hora_aprox_finalizacion" placeholder="HH:MM" required>
+                                                        name="hora_aprox_finalizacion" placeholder="HH:MM" required
+                                                        autocomplete="off">
                                                     <label for="hora_aprox_finalizacion">Hora aproximada de
                                                         finalización</label>
                                                     <div class="invalid-feedback">Por favor ingresa una hora válida
@@ -514,7 +521,8 @@
                                             <div class="mb-3" id="contenedorHoraFin">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="time" class="form-control" id="hora_finalizacion"
-                                                        name="hora_finalizacion" placeholder="HH:MM" required>
+                                                        name="hora_finalizacion" placeholder="HH:MM" required
+                                                        autocomplete="off">
                                                     <label for="hora_finalizacion">Hora de finalización</label>
                                                     <div class="invalid-feedback">Por favor ingresa una hora válida
                                                     </div>
@@ -557,7 +565,8 @@
                             </div>
                         </div>
                         <div class="modal-body px-5">
-                            <form id="formFactura" name="formFactura" class="needs-validation" novalidate>
+                            <form id="formFactura" name="formFactura" class="needs-validation" novalidate
+                                autocomplete="off">
                                 <!-- Columna izquierda -->
                                 <div class="row">
                                     <div class="col-md-6">
@@ -566,7 +575,8 @@
                                                 <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de registro</h6>
                                                 <input id="fecha_registro_factura"
                                                     class="open-sans-regular form-control py-3"
-                                                    name="fecha_registro_factura" required readonly disabled />
+                                                    name="fecha_registro_factura" required readonly disabled
+                                                    autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -587,7 +597,7 @@
                                             <div class="form-floating mb-0 p-0">
                                                 <input class="form-control" id="duracion_garantia"
                                                     name="duracion_garantia" placeholder="..." type="number" min="1"
-                                                    max="999" required>
+                                                    max="999" required autocomplete="off">
                                                 <label for="duracion_garantia">Duración de la garantía (Días)</label>
                                                 <div class="invalid-feedback">Por favor ingresa la duración de la
                                                     garantia.</div>
@@ -596,14 +606,16 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="factura_nota"
-                                                    name="factura_nota" placeholder="..." maxlength="100">
+                                                    name="factura_nota" placeholder="..." min="25" maxlength="100"
+                                                    autocomplete="off">
                                                 <label for="factura_nota">Nota</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="nombre_emisor"
-                                                    name="nombre_emisor" placeholder="..." required maxlength="25">
+                                                    name="nombre_emisor" placeholder="..." required min="10"
+                                                    maxlength="25" autocomplete="off">
                                                 <label for="nombre_emisor">Nombre del emisor</label>
                                                 <div class="invalid-feedback">
                                                     Por favor ingresa el nombre del emisor.
@@ -613,14 +625,16 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="nit_cliente"
-                                                    name="nit_cliente" placeholder="..." required readonly disabled>
+                                                    name="nit_cliente" placeholder="..." required readonly disabled
+                                                    autocomplete="off" minlength="13" maxlength="13">
                                                 <label for="nit_cliente">NIT del cliente</label>
                                             </div>
                                         </div>
                                         <div class="mb-3" id="juridico_input1">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="nrf_cliente"
-                                                    name="nrf_cliente" placeholder="..." required readonly disabled>
+                                                    name="nrf_cliente" placeholder="..." required readonly disabled
+                                                    autocomplete="off" minlength="20" maxlength="20">
                                                 <label for="nrf_cliente">NRF del cliente</label>
                                             </div>
                                         </div>
@@ -631,7 +645,7 @@
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="cliente_data"
                                                     name="cliente_data" placeholder="..." required maxlength="250"
-                                                    readonly disabled>
+                                                    readonly disabled autocomplete="off">
                                                 <label for="cliente_data">Cliente</label>
                                                 <div class="invalid-feedback">
                                                 </div>
@@ -640,7 +654,8 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="auto_data" name="auto_data"
-                                                    placeholder="..." required maxlength="250" readonly disabled>
+                                                    placeholder="..." required maxlength="250" readonly disabled
+                                                    autocomplete="off">
                                                 <label for="auto_data">Placa del automóvil</label>
                                                 <div class="invalid-feedback">
                                                 </div>
@@ -686,7 +701,8 @@
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="dui_emisor"
-                                                    name="dui_emisor" placeholder="..." required>
+                                                    name="dui_emisor" placeholder="..." required autocomplete="off"
+                                                    min="10" max="10">
                                                 <label for="dui_emisor">DUI del emisor</label>
                                                 <div class="invalid-feedback">Por favor ingresa el DUI del emisor.</div>
                                             </div>
@@ -694,14 +710,15 @@
                                         <div class="mb-3" id="juridico_input2">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="nrc_cliente"
-                                                    name="nrc_cliente" placeholder="..." required readonly disabled>
+                                                    name="nrc_cliente" placeholder="..." required readonly disabled
+                                                    autocomplete="off" min="8" max="15">
                                                 <label for="nrc_cliente">NRC del cliente</label>
                                             </div>
                                         </div>
                                         <div class="mb-3" id="juridico_input3">
                                             <div class="form-floating mb-0 p-0">
                                                 <input type="text" class="form-control" id="rubro_cliente"
-                                                    name="rubro_cliente" placeholder="..." required readonly disabled>
+                                                    name="rubro_cliente" placeholder="..." required readonly disabled  autocomplete="off">
                                                 <label for="rubro_cliente">Rubro comercial del cliente</label>
                                             </div>
                                         </div>
