@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const DATA = await fetchData(USER_API, 'readUsers');
     if (DATA.session) {
         applicateRules();
+        getToggle();
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
         var primeraPestana = document.querySelector('#infoPersonal-tab');
@@ -249,3 +250,71 @@ const openLogout = async () => {
         location.href = '../../vistas/privado/index.html';
     }
 }
+
+/*Js para el toggle button*/
+
+const getToggle = async () => {
+    try {
+        // Llamada a la API para obtener el estado del toggle
+        const DATADOSPASOS = await fetchData(USER_API, 'readDosPasosToggle');
+
+        // Verificar si el valor de dos_pasos es 1 o 0 y pasar el valor a la función que configura el estado del toggle
+        if (DATADOSPASOS.dataset.dos_pasos == 1) {
+            setToggleButtonState('1');  // Activado
+        } else {
+            setToggleButtonState('0');  // Desactivado
+        }
+    } catch (error) {
+        console.error('Error al obtener el estado del toggle:', error);
+    }
+}
+
+// Función para configurar el estado inicial del toggle desde la base de datos
+async function setToggleButtonState(value) {
+    const toggleButton = document.getElementById('toggleButton');
+
+    if (value === '1') {
+        toggleButton.checked = true; // Activado
+    } else {
+        toggleButton.checked = false; // Desactivado
+    }
+}
+
+// Función para manejar el cambio de estado de forma asíncrona
+document.getElementById('toggleButton').addEventListener('change', async function () {
+    // Mostrar la alerta de confirmación antes de realizar el cambio
+    const RESPONSE = await confirmAction2('¿Está seguro de cambiar el estado del botón?');
+
+    if (RESPONSE.isConfirmed) {
+        const toggleState = this.checked ? '1' : '0';
+        
+        // Verificar el estado del toggle
+        console.log('Nuevo estado:', toggleState); // Verificar si el estado es '1' o '0'
+
+        // Crear una nueva instancia de FormData
+        const FORM = new FormData();
+        FORM.append('estadoToggle', toggleState);
+
+        // Verificar que el FormData está bien formado
+        console.log("Campos enviados:");
+        for (const [key, value] of FORM.entries()) {
+            console.log(`${key}: ${value}`); // Esto debería mostrar el campo agregado
+        }
+
+        // Enviar la solicitud
+        const DATADOSPASOS = await fetchData(USER_API, 'updateToggle', FORM);
+
+        if (DATADOSPASOS.status) {
+            sweetAlert(1, "Se ha cambiado la seguridad de la cuenta", true);
+        } else {
+            sweetAlert(2, DATADOSPASOS.error, true);
+            // Revertir el cambio si no se confirma
+            this.checked = !this.checked;
+        }
+
+    } else {
+        // Revertir el cambio si no se confirma
+        this.checked = !this.checked;
+    }
+});
+

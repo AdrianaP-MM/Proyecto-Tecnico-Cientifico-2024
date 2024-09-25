@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 //Esta clase es para manejar el comportamiento de los datos de la tabla Usuarios
 
@@ -12,10 +12,11 @@ class UsuariosHandler
     protected $claveUsuario = null;
     protected $telefonoUsuario = null;
     protected $tipoUsuario = null;
+    protected $estadoToggle = null;
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
-    
+
     //Esta funcion valida las credenciales en el inicio de sesion
     public function checkUser($username, $password)
     {
@@ -24,7 +25,7 @@ class UsuariosHandler
                 WHERE  correo_usuario = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
-        
+
         if (!($data = Database::getRow($sql, $params))) {
             return false;
         } elseif (password_verify($password, $data['clave_usuario'])) {
@@ -37,7 +38,7 @@ class UsuariosHandler
     }
 
     //Esta funcion valida que la contraseña del usuario coincida con la de la base de datos
-    public function checkPassword($password)    
+    public function checkPassword($password)
     {
         $sql = 'SELECT clave_usuario
                 FROM tb_usuarios
@@ -186,4 +187,21 @@ class UsuariosHandler
         return Database::getRow($sql, $params);
     }
 
+    public function readDosPasosToggle()
+    {
+        $sql = 'SELECT dos_pasos
+                FROM tb_usuarios
+                WHERE correo_usuario = ?';
+        $params = array($_SESSION['aliasAdmin']);
+        return Database::getRow($sql, $params);
+    }
+
+    public function updateToggle()
+    {
+        $sql = 'UPDATE tb_usuarios
+        SET dos_pasos = ?
+        WHERE correo_usuario = ?;';
+        $params = array($this->estadoToggle, $_SESSION['aliasAdmin']);
+        return Database::getRow($sql, $params);
+    }
 }

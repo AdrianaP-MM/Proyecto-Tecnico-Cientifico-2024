@@ -158,11 +158,33 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start open-sans-regular"
+
+                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 open-sans-regular container-scroll"
                                 role="tabpanel" id="ajustes" aria-labelledby="ajustes-tab">
-                                Pone aqui una card tipo como las del panel para poner "Segundo factor de autenticación"
-                                un toggle buton y la descripcion
+                                <!-- Contenedor con scroll -->
+                                <div>
+                                    <!-- Contenedor principal configurado como fila -->
+                                    <div class="row justify-content-around">
+                                        <!-- Primera tarjeta -->
+                                        <div
+                                            class="col-lg-5 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center">
+                                            <h4 class="open-sans-semiBold text-center titleCard">
+                                                Medida de seguridad opcional: Dos pasos 
+                                            </h4>
+                                            <p class="text-center textCard">
+                                                Esta opcion te brinda mas seguridad a tu cuenta pero si se considera insesesaria puedes desactivarla en cualquier momento.
+                                            </p>
+
+                                            <label class="switch">
+                                                <input type="checkbox" id="toggleButton">
+                                                <span class="slider round"></span>
+                                              </label>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

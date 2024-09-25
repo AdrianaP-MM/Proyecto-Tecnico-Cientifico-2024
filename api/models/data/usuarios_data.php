@@ -74,6 +74,17 @@ class UsuarioData extends UsuariosHandler
         }
     }
 
+    public function setEstadoToggle($value)
+    {
+        if (Validator::validateBoolean($value)) {
+            $this->estadoToggle = $value;
+            return true;
+        } else {
+            $this->data_error = 'El estado del toggle es incorrecto';
+            return false;
+        }
+    }
+
     //Funcion para obtener el error
     public function getDataError()
     {

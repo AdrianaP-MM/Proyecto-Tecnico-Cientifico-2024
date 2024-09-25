@@ -266,7 +266,7 @@
         correo_usuario VARCHAR(200),
         clave_usuario VARCHAR(100) /*(min-6 max-50)*/,
         telefono_usuario VARCHAR(9),
-        tipo_usuario ENUM('Administrador') NOT NULL
+        tipo_usuario ENUM('Administrador') NOT NULL,
         dos_pasos BOOLEAN DEFAULT TRUE
     );
 

@@ -47,7 +47,15 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen productos registrados';
+                    $result['error'] = 'No existen usuarios';
+                }
+                break;
+            case 'readDosPasosToggle':
+                if ($result['dataset'] = $usuario->readDosPasosToggle()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen usuarios';
                 }
                 break;
             case 'readOne':
@@ -74,6 +82,21 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Administrador actualizado';
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar un admin';
+                }
+                break;
+            case 'updateToggle':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuario->setEstadoToggle($_POST['estadoToggle'])
+                ) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->updateToggle()) {
+                    $result['CASACA'] = "ESTE PINCHE ERROR QUE";
+                    $result['status'] = 1;
+                    $result['message'] = 'Automóvil modificado correctamente';
+                } else {
+                    $result['CASACA'] = "NO SE QUE ESTOY PAGANDOOOOOO";
+                    $result['error'] = 'Ocurrió un problema al modificar el automóvil';
                 }
                 break;
             case 'deleteRow':
@@ -247,44 +270,44 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el la contraseña';
                 }
                 break;
-                case 'readDosPasos':
-                    if (!$usuario->setCorreo($_POST['correoLogin'])) {
-                        $result['error'] = $usuario->getDataError();
-                    } elseif ($result['dataset'] = $usuario->readDosPasos()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Usuario no encontrado';
-                    }
-                    break;
-                case 'enviarCodigoDosPasos':
-                    // Generar un código de recuperación
-                    $codigoRecuperacion = $mandarCorreo->generarCodigoRecuperacion();
-    
-                    // Preparar el cuerpo del correo electrónico
-                    $correoDestino = $_POST['correoLogin'];
-                    $asunto = 'Código de recuperación';
-                    // Enviar el correo electrónico y verificar si hubo algún error
-                    $envioExitoso = $mandarCorreo->enviarCorreoPassword($correoDestino, $asunto, $codigoRecuperacion);
-    
-                    if ($envioExitoso === true) {
-                        $result['status'] = 1;
-                        $result['codigo'] = $codigoRecuperacion;
-                        $result['message'] = 'Código de recuperación enviado correctamente';
-                    } else {
-                        $result['status'] = 0;
-                        $result['error'] = 'Error al enviar el correo: ' . $envioExitoso;
-                    }
-                    break;
-                case 'searchMailDosPasos':
-                    $_POST = Validator::validateForm($_POST);
-                    if (!$usuario->setCorreo($_POST['correoLogin'])) {
-                        $result['error'] = 'Correo electrónico incorrecto';
-                    } elseif ($result['dataset'] = $usuario->checkMail()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Correo electrónico inexistente';
-                    }
-                    break;
+            case 'readDosPasos':
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($result['dataset'] = $usuario->readDosPasos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario no encontrado';
+                }
+                break;
+            case 'enviarCodigoDosPasos':
+                // Generar un código de recuperación
+                $codigoRecuperacion = $mandarCorreo->generarCodigoRecuperacion();
+
+                // Preparar el cuerpo del correo electrónico
+                $correoDestino = $_POST['correoLogin'];
+                $asunto = 'Código de recuperación';
+                // Enviar el correo electrónico y verificar si hubo algún error
+                $envioExitoso = $mandarCorreo->enviarCorreoPassword($correoDestino, $asunto, $codigoRecuperacion);
+
+                if ($envioExitoso === true) {
+                    $result['status'] = 1;
+                    $result['codigo'] = $codigoRecuperacion;
+                    $result['message'] = 'Código de recuperación enviado correctamente';
+                } else {
+                    $result['status'] = 0;
+                    $result['error'] = 'Error al enviar el correo: ' . $envioExitoso;
+                }
+                break;
+            case 'searchMailDosPasos':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = 'Correo electrónico incorrecto';
+                } elseif ($result['dataset'] = $usuario->checkMail()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Correo electrónico inexistente';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
