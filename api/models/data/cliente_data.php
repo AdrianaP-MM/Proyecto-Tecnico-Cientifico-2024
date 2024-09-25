@@ -41,17 +41,29 @@ class ClienteData extends ClienteHandler
     // Método para establecer el NIT del cliente
     public function setNIT($value, $min = 17, $max = 17)
     {
-        if (!Validator::validateLength($value, $min, $max)) {
-            $this->data_error = 'El NIT debe tener una longitud de entre ' . $min . ' y ' . $max;
-            return false;
-        } elseif ($this->checkDuplicate($value)) {
-            $this->data_error = 'El NIT ingresado ya existe';
-            return false;
-        } else {
-            $this->NIT_cliente = $value;
+        // Permitir que el NIT sea nulo o una cadena vacía
+        if (is_null($value) || $value === '') {
+            $this->NIT_cliente = null; // Si es nulo o vacío, lo estableces como null
             return true;
         }
+        
+        // Validar la longitud solo si hay un valor
+        if (!Validator::validateLength($value, $min, $max)) {
+            $this->data_error = 'El NIT debe tener exactamente ' . $min . ' caracteres.';
+            return false;
+        }
+        
+        // Comprobar si el NIT ya existe
+        if ($this->checkDuplicate($value)) {
+            $this->data_error = 'El NIT ingresado ya existe';
+            return false;
+        }
+        
+        // Establecer el valor del NIT si pasa todas las validaciones
+        $this->NIT_cliente = $value;
+        return true;
     }
+    
 
     // Método para establecer el NRC del cliente
     public function setNRC($value, $min = 8, $max = 15)
