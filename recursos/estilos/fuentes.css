@@ -18,12 +18,16 @@
     color: red;
 }
 
-.clrPinkRed{
+.clrPinkRed {
     color: #E5383B;
 }
 
 .clrGry1 {
     color: #6B737A;
+}
+
+.px16 {
+    font-size: 16px;
 }
 
 .open-sans-light {
