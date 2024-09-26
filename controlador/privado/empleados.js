@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadTemplate();
   const DATA = await fetchData(USER_API, 'readUsers');
   if (DATA.session) {
+
+    await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador');
+
     // Acciones si la sesión SI está activa
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
@@ -40,13 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         trigger: 'hover'
       });
     });
-
-    //FillSelect para llenar combo box de especializaciones en el modal para insert
-    fillSelect(
-      TRABAJADORES_API,
-      'readEspecializaciones',
-      'especializacion_trabajador'
-    );
 
     //Llamado de la funcion para de leer trabajadores en la base
     readTrabajadores();
@@ -226,6 +222,10 @@ SAVE_FORM.addEventListener("submit", async (event) => {
     const action = ID_EMPLEADO.value ? "updateRow" : "createRow";
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
+    console.log(ID_EMPLEADO.value, 'asasasa');
+    if (ID_EMPLEADO.value) {
+      formData.append('idEmpleado', ID_EMPLEADO.value);
+    }
     //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
 
     try {
@@ -307,7 +307,6 @@ const openUpdate = async (id) => {
 
   // Petición para obtener los datos del registro solicitado.
   const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
-  
 
   if (DATA.status) {
     // Se prepara el formulario.
@@ -324,6 +323,9 @@ const openUpdate = async (id) => {
     CORREO.value = row.correo_trabajador;
     DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
 
+    console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
+    await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
+
     // Buscar y marcar el `option` correspondiente como seleccionado
     const departamentoValue = findNumberValue(row.departamento_trabajador);
     const options = DEPARTAMENTO.options;
@@ -335,9 +337,6 @@ const openUpdate = async (id) => {
     }
 
     // Debugging log
-    console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
-
-    fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
     FECHA.value = row.fecha_contratacion;
     SALARIO.value = row.salario_base;
 
@@ -356,10 +355,10 @@ const openUpdate = async (id) => {
   number = 2;
 
   // Actualizar texto de los botones
-  document.getElementById("btnUno").innerText = "Cancelar";
-  document.getElementById("btnDos").innerText = "Guardar";
+  // document.getElementById("btnUno").innerText = "Cancelar";
+  // document.getElementById("btnDos").innerText = "Guardar";
 };
- 
+
 
 
 /*
@@ -410,8 +409,8 @@ async function openCreate() {
   SAVE_MODAL.show();
   number = 1;
   // Actualizar texto de los botones
-  document.getElementById("btnUno").innerText = "Cancelar";
-  document.getElementById("btnDos").innerText = "Guardar";
+  // document.getElementById("btnUno").innerText = "Cancelar";
+  // document.getElementById("btnDos").innerText = "Guardar";
 }
 
 var number = 1;

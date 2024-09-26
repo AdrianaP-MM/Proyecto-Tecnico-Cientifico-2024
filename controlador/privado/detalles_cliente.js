@@ -1,6 +1,7 @@
 // Constante para completar la ruta de la API.
 const CLIENTES_API = 'services/privado/clientes.php';
 const CITAS_API = 'services/privado/citas.php';
+const USER_API = 'services/privado/usuarios.php';
 
 const CLIENTE_DATA_CONTAINER = document.getElementById('clienteDataContainer');
 

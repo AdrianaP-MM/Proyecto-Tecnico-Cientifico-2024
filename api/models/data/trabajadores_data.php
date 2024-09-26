@@ -155,7 +155,7 @@ public function setCorreo($value)
 
    
     // Método para establecer el NIT del cliente
-    public function setNIT($value, $min = 17, $max = 17)
+    public function setNIT($value, $id = null, $min = 17, $max = 17)
     {
         // Permitir que el valor sea nulo
         if (is_null($value) || $value === '') {
@@ -170,7 +170,7 @@ public function setCorreo($value)
         }
     
         // Si el NIT ya existe, retornamos un error
-        if ($this->checkDuplicate($value, 'NIT_trabajador')) { // Se pasa el campo 'NIT_trabajador' como segundo parámetro
+        if ($this->checkDuplicate($value, 'NIT_trabajador', $id)) { // Se pasa el campo 'NIT_trabajador' como segundo parámetro
             $this->data_error = 'El NIT ingresado ya existe';
             return false;
         }
