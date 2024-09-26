@@ -538,7 +538,7 @@ const mandarCodigoDosPasos = async () => {
         DATA2 = await fetchData(USER_API, 'enviarCodigoDosPasos', FORM2); // Asigna el valor de DATA2 aquí
 
         if (DATA2.status) {
-            await sweetAlert(1, '!Revisa tu correo!, se ha mandado un codigo para esta medida de seguridad', true);
+            await sweetAlert(1, '¡Revisa tú correo!, se ha mandado un código para esta medida de seguridad', true);
         } else {
             await sweetAlert(2, DATA2.error, false);
         }
