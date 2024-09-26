@@ -15,12 +15,6 @@
 
 - A07:2021 - Fallas de Identificación y Autenticación: esto se soluciona con la doble autenticacion que es punto rubrica asi que se hace de un solo y es para que no haya suplantacion de identidad o robo de sesion (tmb se evita poniendo contraseñas fuertes)
 
-- A08:2021 - Fallas en el Software y en la Integridad de los Datos: Esto es de validar la integridad de datos de programas o actualizaciones de software por medio de firmas digitales (ni idea de como aplicarlo al proyecto creo que ni se puede xd entonces este no lo tenemos)
-
-- A09:2021 - Fallas en el Registro y Monitoreo: Esto es de alertar de comportaminestos monitoreando las actividades de los usuarios cosa que es solo hay uno y va a ver auntenticacion de dos pasos asi que no tiene mucho sentido porque tambien se monitorea lo del tiempo inactivo y fallos al entrar asi que es como tener este punto indirectamente (digamos que no lo tenemos)
-
-- A10:2021 - Falsificación de Solicitudes del Lado del Servidor: se puede fitrar urls para evitar solicitudes al servidor de nuestro proyecto digamos al servidor de la api hacer que hagan fetch desde urls de dominios concretos algo asi entendi (no lo tenemos vea)
-
 ## - Nombre del proyecto: Data Administration Revolution Garage (DARG)
 
 - Descripción del proyecto:
