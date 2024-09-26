@@ -680,6 +680,15 @@ const openReportServiciosCarroFechaYTipo = () => {
         return;
     }
 
+    // Validación para asegurarse de que la fecha final no sea anterior a la fecha inicial
+    const fechaInicio = new Date(fechaInicial);
+    const fechaFin = new Date(fechaFinal);
+
+    if (fechaFin < fechaInicio) {
+        sweetAlert(4, 'La fecha final no puede ser anterior a la fecha inicial.', true);
+        return;
+    }
+
     // Crea la URL con los parámetros
     const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesTipoAutoYFecha.php`);
     PATH.searchParams.append('fecha_inicial', encodeURIComponent(fechaInicial));
@@ -691,6 +700,7 @@ const openReportServiciosCarroFechaYTipo = () => {
     window.open(PATH.href);
     console.log(PATH.href);
 }
+
 
 // Función para abrir el reporte del historial de servicios del cliente
 // Función para abrir el reporte del historial de servicios del cliente
