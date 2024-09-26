@@ -750,6 +750,116 @@ function formatDatepicker(datepickerId) {
     });
 }
 
+function formatCarModelName(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar espacios innecesarios al principio y al final
+        inputValue = inputValue.trim();
+
+        // Limitar la longitud del nombre del modelo (ejemplo: 50 caracteres)
+        inputValue = inputValue.slice(0, 50);
+
+        // Expresión regular para permitir solo caracteres válidos en el nombre del modelo
+        const validModelNameChars = /^[A-Za-z0-9-]+$/; // Permite letras, números y guiones
+
+        // Filtrar caracteres inválidos
+        inputValue = inputValue.split('').filter(char => validModelNameChars.test(char)).join('');
+
+        // Actualizar el valor del campo de texto con la entrada filtrada
+        event.target.value = inputValue;
+    });
+}
+
+function formatYear(input) {
+    input.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea un número
+        inputValue = inputValue.replace(/[^0-9]/g, '');
+
+        // Limitar a 4 caracteres
+        inputValue = inputValue.slice(0, 4);
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = inputValue;
+    });
+}
+
+function formatSalvadoreanPlate(inputElement) {
+    inputElement.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value.toUpperCase();
+
+        // Limpiar el valor de cualquier carácter que no sea letras o números
+        inputValue = inputValue.replace(/[^A-Z0-9]/g, '');
+
+        // Definir las letras y combinaciones permitidas como iniciales
+        const validPrefixes = [
+            'A', 'AB', 'C', 'CC', 'CD', 'D', 'E', 'F', 'M', 'MB', 'MI', 'N', 'O', 'P', 'PR', 'PNC', 'RE', 'T', 'V'
+        ];
+
+        // Buscar el prefijo válido más largo en el valor de entrada
+        let prefix = '';
+        for (const validPrefix of validPrefixes) {
+            if (inputValue.startsWith(validPrefix) && validPrefix.length > prefix.length) {
+                prefix = validPrefix;
+            }
+        }
+
+        // Si no se encuentra un prefijo válido y el valor de entrada está vacío, limpiar la entrada
+        if (prefix === '' && inputValue.length === 0) {
+            event.target.value = '';
+            return;
+        }
+
+        // Si no se encuentra un prefijo válido, permitir borrar
+        if (prefix === '' && inputValue.length > 0) {
+            event.target.value = inputValue; // Mantener lo que se ha escrito
+            return;
+        }
+
+        // Eliminar el prefijo del valor de entrada
+        let remainingInput = inputValue.slice(prefix.length);
+
+        // Limitar el número de caracteres del resto del valor a 6
+        remainingInput = remainingInput.slice(0, 6);
+
+        // Formatear el resto del valor con guiones
+        if (remainingInput.length > 3) {
+            remainingInput = remainingInput.slice(0, 3) + '-' + remainingInput.slice(3);
+        }
+
+        // Combinar el prefijo y el resto formateado
+        let formattedValue = prefix + '-' + remainingInput;
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = formattedValue;
+    });
+}
+
+function formatDUI(inputElement) {
+    inputElement.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea un número
+        inputValue = inputValue.replace(/\D/g, '');
+
+        // Asegurar que no haya más de 9 dígitos
+        inputValue = inputValue.slice(0, 9);
+
+        // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
+        if (inputValue.length > 1) {
+            inputValue = inputValue.slice(0, -1) + '-' + inputValue.slice(-1);
+        }
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = inputValue;
+    });
+}
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
 function validateEmail(email) {
@@ -841,10 +951,9 @@ function validatePassword(password, userData = null) {
     return { valid: true, message: 'Contraseña válida' };
 }
 
-
 function validateDUI(dui) {
-    // Expresión regular para validar el formato de DUI salvadoreño
-    const duiRegex = /^[0-9]{8}[0-9]$/;
+    // Expresión regular para validar el formato de DUI salvadoreño con guion
+    const duiRegex = /^[0-9]{8}-[0-9]$/;
 
     // Validar formato
     if (!duiRegex.test(dui)) {
@@ -853,7 +962,6 @@ function validateDUI(dui) {
 
     return { valid: true, message: 'DUI válido.' };
 }
-
 
 function validatePhoneNumber(phone) {
     // Expresión regular para validar el formato nnnn-nnnn que inicie con 2, 6 o 7
@@ -873,24 +981,33 @@ function validateSalvadoranPlate(plate) {
 
     // Validar formato
     if (!plateRegex.test(plate)) {
-        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña.' };
+        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña. Ejemplo: A-123-456.' };
     }
 
     return { valid: true, message: 'Placa válida.' };
 }
 
 function validateCarModelName(modelName) {
-    // Expresión regular para validar que el nombre solo contenga letras, números, guiones y espacios intermedios
-    const modelNameRegex = /^[A-Za-z0-9]+(?:[-\s][A-Za-z0-9]+)*$/;
+    // Expresión regular para validar que el nombre solo contenga letras, números y guiones
+    const modelNameRegex = /^[A-Za-z0-9-]+$/; // Permite letras, números y guiones
+    const minLength = 1, maxLength = 50;
 
     // Validar si el campo está vacío
     if (!modelName.trim()) {
         return { valid: false, message: 'El nombre del modelo no puede estar vacío.' };
     }
 
+    // Validar longitud
+    if (modelName.length < minLength) {
+        return { valid: false, message: `El nombre del modelo debe tener al menos ${minLength} carácter(es).` };
+    }
+    if (modelName.length > maxLength) {
+        return { valid: false, message: `El nombre del modelo no puede tener más de ${maxLength} caracteres.` };
+    }
+
     // Validar formato
     if (!modelNameRegex.test(modelName)) {
-        return { valid: false, message: 'El nombre del modelo solo puede contener letras, números, guiones y no debe tener espacios innecesarios.' };
+        return { valid: false, message: 'El nombre del modelo solo puede contener letras, números y guiones, y no debe tener caracteres especiales.' };
     }
 
     return { valid: true, message: 'Nombre de modelo válido.' };
@@ -956,20 +1073,11 @@ function validateFecha(date) {
     return { valid: true, message: 'Fecha válida.' };
 }
 
-function validateCodigo(codigo) {
-    // Eliminar espacios en blanco
-    const hasSpaces = /\s/.test(codigo);
-    
-    // Verificar si contiene espacios en blanco
-    if (hasSpaces) {
-        return { valid: false, message: 'El código no debe contener espacios en blanco.' };
+function validateSelect(value) {
+    // Verificar si el valor está vacío o no es una selección válida
+    if (!value || value === '0') { // Suponiendo que '0' representa una opción no válida
+        return { valid: false, message: 'Por favor, selecciona una opción.' };
     }
-    
-    // Verificar longitud: el código debe tener exactamente 8 caracteres
-    if (codigo.length !== 8) {
-        return { valid: false, message: 'El código debe tener exactamente 8 caracteres.' };
-    }
-    
     // Si pasa todas las validaciones
     return { valid: true, message: 'Código válido.' };
 }

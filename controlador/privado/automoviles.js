@@ -14,12 +14,7 @@ const ID_AUTOMOVIL = document.getElementById('idAuto');
 const IMG = document.getElementById('customFile2');
 const IMAGEN = document.getElementById('selectedImageF');
 const FECHA_FABRICACION = document.getElementById('fechanInput');
-const FECHA = document.getElementById('input_fecha_auto');
-const COLOR = document.getElementById('input_color_auto');
-const PLACA = document.getElementById('input_placa');
 const CLIENTE = document.getElementById('input_duiP');
-const DUI = document.getElementById('label_dui');
-
 //Constantes de CRUD de marcas
 const TABLE_MARCAS = document.getElementById('tablaMarcas');
 const TABLE_MARCAS_ROWS = document.getElementById('tablaMarcasRows');
@@ -42,6 +37,7 @@ let PARAMS = new URLSearchParams(location.search);
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA = await fetchData(USER_API, 'readUsers');
+    applicateRules();
     if (DATA.session) {
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
@@ -84,25 +80,6 @@ const search = async () => {
     fillTable(FORM);
 }
 
-
-const fechaERROR = document.getElementById('fechaERROR');
-
-FECHA.addEventListener('input', function () {
-    checkInput(validateYear(FECHA.value), FECHA, fechaERROR);
-});
-
-const placaERROR = document.getElementById('placaERROR');
-
-PLACA.addEventListener('input', function () {
-    checkInput(validateSalvadoranPlate(PLACA.value), PLACA, placaERROR);
-});
-
-const duiERROR = document.getElementById('duiERROR');
-
-DUI.addEventListener('input', function () {
-    checkInput(validateDUI(DUI.value), DUI, duiERROR);
-});
-
 //Inputs de AGREGAR AUTOMOVIL---------------------------------------------------------------------------------------
 const SAVE_FORM = document.getElementById('saveForm');
 
@@ -110,10 +87,49 @@ const MODELO = document.getElementById('input_modelo_auto');
 const MODELO_ERROR = document.getElementById('ERROR-MODELO-ADD');
 
 const TIPO_AUTO = document.getElementById('input_tipo_auto');
-const ERROR_TIPO_AUTO = document.getElementById('')
+const ERROR_TIPO_AUTO = document.getElementById('ERROR-TIPO-ADD');
+
+const FECHA = document.getElementById('input_fecha_auto');
+const ERROR_FECHA_ADD = document.getElementById('ERROR-FECHA-ADD');
+
+const COLOR = document.getElementById('input_color_auto');
+const ERROR_COLOR_ADD = document.getElementById('ERROR-COLOR-ADD');
+
+const PLACA = document.getElementById('input_placa');
+const ERROR_PLACA_ADD = document.getElementById('ERROR-PLACA-ADD');
+
+const MARCA = document.getElementById('input_marca_auto');
+const ERROR_MARCA_ADD = document.getElementById('ERROR-MARCA-ADD');
+
+const DUI = document.getElementById('label_dui');
+const ERROR_DUI_ADD = document.getElementById('ERROR-DUI-ADD');
+
+DUI.addEventListener('input', function () {
+    checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD);
+});
+
+MARCA.addEventListener('input', function () {
+    checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_ADD);
+});
 
 MODELO.addEventListener('input', function () {
     checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR);
+});
+
+TIPO_AUTO.addEventListener('input', function () {
+    checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_AUTO);
+});
+
+FECHA.addEventListener('input', function () {
+    checkInput(validateYear(FECHA.value), FECHA, ERROR_FECHA_ADD);
+});
+
+COLOR.addEventListener('input', function () {
+    checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_ADD);
+});
+
+PLACA.addEventListener('input', function () {
+    checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_ADD);
 });
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -148,6 +164,14 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         }
     }
 });
+
+function applicateRules() {
+    //FORMATO DE LOS INPUTS DE AGREGAR
+    formatCarModelName(MODELO);
+    formatYear(FECHA);
+    formatSalvadoreanPlate(PLACA);
+    formatDUI(DUI);
+}
 
 /*
 *   Función asíncrona para llenar la tabla con los registros disponibles.
@@ -345,81 +369,6 @@ IMG.addEventListener('change', function (event) {
         reader.readAsDataURL(file);
     }
 });
-
-document.getElementById('input_placa').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value.toUpperCase();
-
-    // Limpiar el valor de cualquier carácter que no sea letras o números
-    inputValue = inputValue.replace(/[^A-Z0-9]/g, '');
-
-    // Definir las letras y combinaciones permitidas como iniciales
-    const validPrefixes = [
-        'A', 'AB', 'C', 'CC', 'CD', 'D', 'E', 'F', 'M', 'MB', 'MI', 'N', 'O', 'P', 'PR', 'PNC', 'RE', 'T', 'V'
-    ];
-
-    // Buscar el prefijo válido más largo en el valor de entrada
-    let prefix = '';
-    for (const validPrefix of validPrefixes) {
-        if (inputValue.startsWith(validPrefix) && validPrefix.length > prefix.length) {
-            prefix = validPrefix;
-        }
-    }
-
-    // Si no se encuentra un prefijo válido, limpiar la entrada
-    if (prefix === '') {
-        event.target.value = '';
-        return;
-    }
-
-    // Eliminar el prefijo del valor de entrada
-    let remainingInput = inputValue.slice(prefix.length);
-
-    // Limitar el número de caracteres del resto del valor a 6
-    remainingInput = remainingInput.slice(0, 6);
-
-    // Formatear el resto del valor con guiones
-    if (remainingInput.length > 3) {
-        remainingInput = remainingInput.slice(0, 3) + '-' + remainingInput.slice(3);
-    }
-
-    // Combinar el prefijo y el resto formateado
-    let formattedValue = prefix + '-' + remainingInput;
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = formattedValue;
-});
-
-
-
-document.getElementById('input_fecha_auto').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/[^0-9]/g, '');
-
-    // Limitar a 4 caracteres
-    inputValue = inputValue.slice(0, 4);
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-document.getElementById('label_dui').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/[^0-9]/g, '');
-
-    // Limitar a 9 caracteres
-    inputValue = inputValue.slice(0, 9);
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
 
 document.getElementById('input_buscar').addEventListener('input', function (event) {
     // Obtener el valor actual del campo de texto
