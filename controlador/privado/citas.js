@@ -11,21 +11,12 @@ const MODAL = new bootstrap.Modal('#modalAgregarCita');
 // Constantes para establecer los elementos del componente Modal.
 const MODAL_SERVICIOS = new bootstrap.Modal('#modalAgregarServicio');
 
-const INPUT_FECHA_LLEGADA_UPDATE = document.getElementById('datepicker_llegada_UPDATE');
-const INPUT_AUTOMOVIL_UPDATE = document.getElementById('input_automovil_UPDATE');
-const INPUT_ZONA_UPDATE = document.getElementById('input_zona_UPDATE');
-const INPUT_DIRECCION_REGRESO_UPDATE = document.getElementById('input_regreso_UPDATE');
-const INPUT_HORA_UPDATE = document.getElementById('input_hora_UPDATE');
-const INPUT_MOVILIZACION_UPDATE = document.getElementById('input_movilizacion_UPDATE');
-const INPUT_DIRECCION_IDA_UPDATE = document.getElementById('input_ida_UPDATE');
-
-const UPDATE_FORM = document.getElementById('updateForm');
 const SERVICES_FORM = document.getElementById('servicesForm');
 
 const BUTTON_CANCELAR_CITA = document.getElementById('btnCancelarCita');
 const BUTTON_ACEPTAR_CITA = document.getElementById('btnAceptarCita');
 const BUTTON_UPDATE_CITA = document.getElementById('btnUpdateCita');
-const BUTTON_SERVICIOS_CITA = document.getElementById('btnOpenServicios');
+// const BUTTON_SERVICIOS_CITA = document.getElementById('btnOpenServicios');
 
 const CONTENEDOR_EXPAND = document.getElementById('containerExpand');
 const CONTENEDOR_EXPAND_INFO = document.getElementById('infoCita');
@@ -130,7 +121,7 @@ function accionDinamic(estado_cita = null, tipo_cliente = null) {
     BUTTON_CANCELAR_CITA.classList.add('d-none');
     BUTTON_ACEPTAR_CITA.classList.add('d-none');
     BUTTON_UPDATE_CITA.classList.add('d-none');
-    BUTTON_SERVICIOS_CITA.classList.add('d-none');
+    // BUTTON_SERVICIOS_CITA.classList.add('d-none');
 
     switch (estado_cita) {
       case 'En espera':
@@ -141,7 +132,7 @@ function accionDinamic(estado_cita = null, tipo_cliente = null) {
       case 'Aceptado':
         BUTTON_CANCELAR_CITA.classList.remove('d-none');
         BUTTON_UPDATE_CITA.classList.remove('d-none');
-        BUTTON_SERVICIOS_CITA.classList.remove('d-none');
+        // BUTTON_SERVICIOS_CITA.classList.remove('d-none');
         break;
       case 'Cancelado':
         // 
@@ -212,33 +203,108 @@ function formSetValues(row) {
 const ADD_FORM = document.getElementById('addForm');
 
 const INPUT_FECHA_LLEGADA = document.getElementById('datepicker_llegada');
-const ERROR_INPUT_FECHA_LLEGADA = document.getElementById('ERROR_DATEPICKER_CREAR');
+const ERROR_INPUT_FECHA_LLEGADA = document.getElementById('ERROR_DATEPICKER_ADD');
 
 const INPUT_AUTOMOVIL = document.getElementById('input_automovil');
-const ERRROR_INPUT_AUTOMOVIL = document.getElementById('ERROR_AUTOMOVIL_CREAR');
+const ERRROR_INPUT_AUTOMOVIL = document.getElementById('ERROR_AUTOMOVIL_ADD');
 
 const INPUT_ZONA = document.getElementById('input_zona');
-const ERROR_INPUT_ZONA = document.getElementById('ERROR_ZONA_CREAR');
+const ERROR_INPUT_ZONA = document.getElementById('ERROR_ZONA_ADD');
 
 const INPUT_DIRECCION_REGRESO = document.getElementById('input_regreso');
-const INPUT_HORA = document.getElementById('input_hora');
-const INPUT_MOVILIZACION = document.getElementById('input_movilizacion');
+const ERROR_INPUT_DIRECCION_REGRESO = document.getElementById('ERROR_REGRESO_ADD');
+
 const INPUT_DIRECCION_IDA = document.getElementById('input_ida');
+const ERROR_DIRECCION_IDA_ADD = document.getElementById('ERROR_IDA_ADD');
+
+const INPUT_MOVILIZACION = document.getElementById('input_movilizacion');
+const ERROR_MOVILIZAION_ADD = document.getElementById('ERROR_MOVILIZACION_ADD');
+
+const INPUT_HORA = document.getElementById('input_hora');
+const ERROR_HORA_ADD = document.getElementById('ERROR_HORA_ADD');
+
+INPUT_HORA.addEventListener('input', function () {
+  checkInput(validateHora(INPUT_HORA.value), INPUT_HORA, ERROR_HORA_ADD);
+});
+
+INPUT_MOVILIZACION.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_MOVILIZACION.value), INPUT_MOVILIZACION, ERROR_MOVILIZAION_ADD);
+});
+
+INPUT_DIRECCION_IDA.addEventListener('input', function () {
+  checkInput(validateDireccion(INPUT_DIRECCION_IDA.value), INPUT_DIRECCION_IDA, ERROR_DIRECCION_IDA_ADD);
+});
+
+INPUT_DIRECCION_REGRESO.addEventListener('input', function () {
+  checkInput(validateDireccion(INPUT_DIRECCION_REGRESO.value), INPUT_DIRECCION_REGRESO, ERROR_INPUT_DIRECCION_REGRESO);
+});
 
 INPUT_FECHA_LLEGADA.addEventListener('input', function () {
   checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA);
 });
 
 INPUT_AUTOMOVIL.addEventListener('input', function () {
-  checkInput(validatePlaca(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL);
+  checkInput(validateSelect(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL);
 });
 
-// INPUT_ZONA.addEventListener('input', function () {
-//   checkInput(validateFecha(INPUT_ZONA.value), INPUT_ZONA, ERROR_INPUT_ZONA);
-// });
+INPUT_ZONA.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_ZONA.value), INPUT_ZONA, ERROR_INPUT_ZONA);
+});
+
+//Inputs de ACTUALIZAR CITA---------------------------------------------------------------------------------------
+const UPDATE_FORM = document.getElementById('updateForm');
+
+const INPUT_FECHA_LLEGADA_UPDATE = document.getElementById('datepicker_llegada_UPDATE');
+const ERROR_FECHA_LLEGADA_UPDATE = document.getElementById('ERROR_DATEPICKER_UPDATE');
+
+const INPUT_AUTOMOVIL_UPDATE = document.getElementById('input_automovil_UPDATE');
+const ERROR_AUTOMOVIL_UPDATE = document.getElementById('ERROR_AUTOMOVIL_UPDATE');
+
+const INPUT_ZONA_UPDATE = document.getElementById('input_zona_UPDATE');
+const ERROR_ZONA_UPDATE = document.getElementById('ERROR_ZONA_UPDATE');
+
+const INPUT_DIRECCION_REGRESO_UPDATE = document.getElementById('input_regreso_UPDATE');
+const ERROR_REGRESO_UPDATE = document.getElementById('ERROR_REGRESO_UPDATE');
+
+const INPUT_HORA_UPDATE = document.getElementById('input_hora_UPDATE');
+const ERROR_HORA_UPDATE = document.getElementById('ERROR_HORA_UPDATE');
+
+const INPUT_MOVILIZACION_UPDATE = document.getElementById('input_movilizacion_UPDATE');
+const ERROR_MOVILIZACION_UPDATE = document.getElementById('ERROR_MOVILIZACION_UPDATE');
+
+const INPUT_DIRECCION_IDA_UPDATE = document.getElementById('input_ida_UPDATE');
+const ERROR_IDA_UPDATE = document.getElementById('ERROR_IDA_UPDATE');
+
+INPUT_DIRECCION_IDA_UPDATE.addEventListener('input', function () {
+  checkInput(validateDireccion(INPUT_DIRECCION_IDA_UPDATE.value), INPUT_DIRECCION_IDA_UPDATE, ERROR_IDA_UPDATE);
+});
+
+INPUT_MOVILIZACION_UPDATE.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_MOVILIZACION_UPDATE.value), INPUT_MOVILIZACION_UPDATE, ERROR_MOVILIZACION_UPDATE);
+});
+
+INPUT_HORA_UPDATE.addEventListener('input', function () {
+  checkInput(validateHora(INPUT_HORA_UPDATE.value), INPUT_HORA_UPDATE, ERROR_HORA_UPDATE);
+});
+
+INPUT_DIRECCION_REGRESO_UPDATE.addEventListener('input', function () {
+  checkInput(validateDireccion(INPUT_DIRECCION_REGRESO_UPDATE.value), INPUT_DIRECCION_REGRESO_UPDATE, ERROR_REGRESO_UPDATE);
+});
+
+INPUT_ZONA_UPDATE.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_ZONA_UPDATE.value), INPUT_ZONA_UPDATE, ERROR_ZONA_UPDATE);
+});
+
+INPUT_AUTOMOVIL_UPDATE.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_AUTOMOVIL_UPDATE.value), INPUT_AUTOMOVIL_UPDATE, ERROR_AUTOMOVIL_UPDATE);
+});
+
+INPUT_FECHA_LLEGADA_UPDATE.addEventListener('input', function () {
+  checkInput(validateFecha(INPUT_FECHA_LLEGADA_UPDATE.value), INPUT_FECHA_LLEGADA_UPDATE, ERROR_FECHA_LLEGADA_UPDATE);
+});
 
 const addSave = async (action, form, fecha, hora) => {
-
+  console.log(INPUT_HORA.value)
   if (action === 'createRow') {
     // Validaciones de campos vacíos
     if (INPUT_FECHA_LLEGADA.value === '' || INPUT_AUTOMOVIL.value === '' || INPUT_ZONA.value === '' ||
@@ -247,13 +313,40 @@ const addSave = async (action, form, fecha, hora) => {
       return;
     }
   }
+  if (action === 'updateRow') {
+    // Validaciones de campos vacíos
+    if (INPUT_FECHA_LLEGADA_UPDATE.value === '' || INPUT_AUTOMOVIL_UPDATE.value === '' || INPUT_ZONA_UPDATE.value === '' ||
+      INPUT_DIRECCION_REGRESO_UPDATE.value === '' || INPUT_HORA_UPDATE.value === '' || INPUT_MOVILIZACION_UPDATE.value === '' || INPUT_DIRECCION_IDA_UPDATE.value === '') {
+      await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+      return;
+    }
+  }
 
   const isValid = await checkFormValidity(form);
   if (isValid) {
 
+    if (action === 'updateRow') {
+      // Validaciones de formato (correo y contraseña)
+      if (!checkInput(validateFecha(INPUT_FECHA_LLEGADA_UPDATE.value), INPUT_FECHA_LLEGADA_UPDATE, ERROR_FECHA_LLEGADA_UPDATE) ||
+        !checkInput(validateSelect(INPUT_AUTOMOVIL_UPDATE.value), INPUT_AUTOMOVIL_UPDATE, ERROR_AUTOMOVIL_UPDATE) ||
+        !checkInput(validateSelect(INPUT_ZONA_UPDATE.value), INPUT_ZONA_UPDATE, ERROR_ZONA_UPDATE) ||
+        !checkInput(validateDireccion(INPUT_DIRECCION_REGRESO_UPDATE.value), INPUT_DIRECCION_REGRESO_UPDATE, ERROR_REGRESO_UPDATE) ||
+        !checkInput(validateHora(INPUT_HORA_UPDATE.value), INPUT_HORA_UPDATE, ERROR_HORA_UPDATE) ||
+        !checkInput(validateSelect(INPUT_MOVILIZACION_UPDATE.value), INPUT_MOVILIZACION_UPDATE, ERROR_MOVILIZACION_UPDATE) ||
+        !checkInput(validateDireccion(INPUT_DIRECCION_IDA_UPDATE.value), INPUT_DIRECCION_IDA_UPDATE, ERROR_IDA_UPDATE)) {
+        return;
+      }
+    }
+
     if (action === 'createRow') {
       // Validaciones de formato (correo y contraseña)
-      if (!checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA)) {
+      if (!checkInput(validateHora(INPUT_HORA.value), INPUT_HORA, ERROR_HORA_ADD) ||
+        !checkInput(validateSelect(INPUT_MOVILIZACION.value), INPUT_MOVILIZACION, ERROR_MOVILIZAION_ADD) ||
+        !checkInput(validateDireccion(INPUT_DIRECCION_IDA.value), INPUT_DIRECCION_IDA, ERROR_DIRECCION_IDA_ADD) ||
+        !checkInput(validateDireccion(INPUT_DIRECCION_REGRESO.value), INPUT_DIRECCION_REGRESO, ERROR_INPUT_DIRECCION_REGRESO) ||
+        !checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA) ||
+        !checkInput(validateSelect(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL) ||
+        !checkInput(validateSelect(INPUT_ZONA.value), INPUT_ZONA, ERROR_INPUT_ZONA)) {
         return;
       }
     }
@@ -304,6 +397,13 @@ function reload() {
 function applicateRules() {
   //Formatos del CREATE CITA----------
   formatDatepicker(INPUT_FECHA_LLEGADA.id);
+  formatDireccion(INPUT_DIRECCION_REGRESO);
+  formatDireccion(INPUT_DIRECCION_IDA);
+
+  //Formatos de UPDATE CITA----------
+  formatDatepicker(INPUT_FECHA_LLEGADA_UPDATE.id);
+  formatDireccion(INPUT_DIRECCION_IDA_UPDATE);
+  formatDireccion(INPUT_DIRECCION_REGRESO_UPDATE);
 }
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -510,29 +610,6 @@ const search = async (value) => {
   fillData('searchRows', FORM);
 }
 
-// const openDeleteCita = async () => {
-//   // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-//   const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar la cita?', 'No podras deshacer la acción');
-//   if (RESPONSE.isConfirmed) {
-//     const FORM = new FormData();
-//     FORM.append('id_cita', id_citaW);
-//     console.log(id_citaW);
-
-//     // Petición para guardar los datos del formulario.
-//     const DATA = await fetchData(CITAS_API, 'deleteRow', FORM);
-
-//     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-//     if (DATA.status) {
-//       sweetAlert(1, 'Se ha eliminado con exito', 300);
-//       fillData('readAll');
-//       MODAL_SERVICIOS.hide();
-//       SERVICES_FORM.classList.remove('was-validated');
-//       id_serviciow = 0; // Quita la clase de validación
-//     } else {
-//       await sweetAlert(2, DATA.error, false);
-//     }
-//   }
-// }
 
 /*
 *   Función asíncrona para llenar el contenedor de los clientes con los registros disponibles.
@@ -778,11 +855,7 @@ document.getElementById('fecha_finalizacion').addEventListener('keydown', functi
   event.preventDefault(); // Prevenir la entrada de texto
 });
 
-$('#datepicker_llegada_UPDATE').datepicker({
-  autoclose: true, // Cierra automáticamente después de seleccionar
-  uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
-  minDate: new Date() // Establece la fecha máxima como hoy
-});
+
 $('#fecha_aprox_finalizacion').datepicker({
   autoclose: true, // Cierra automáticamente después de seleccionar
   uiLibrary: 'bootstrap5', // Indica que estás usando Bootstrap 5
@@ -829,3 +902,27 @@ document.getElementById('cantidad_servicio').addEventListener('input', function 
     this.value = this.value.slice(0, 2);
   }
 });
+
+// const openDeleteCita = async () => {
+//   // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+//   const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar la cita?', 'No podras deshacer la acción');
+//   if (RESPONSE.isConfirmed) {
+//     const FORM = new FormData();
+//     FORM.append('id_cita', id_citaW);
+//     console.log(id_citaW);
+
+//     // Petición para guardar los datos del formulario.
+//     const DATA = await fetchData(CITAS_API, 'deleteRow', FORM);
+
+//     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+//     if (DATA.status) {
+//       sweetAlert(1, 'Se ha eliminado con exito', 300);
+//       fillData('readAll');
+//       MODAL_SERVICIOS.hide();
+//       SERVICES_FORM.classList.remove('was-validated');
+//       id_serviciow = 0; // Quita la clase de validación
+//     } else {
+//       await sweetAlert(2, DATA.error, false);
+//     }
+//   }
+// }

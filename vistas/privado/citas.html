@@ -172,12 +172,12 @@
                                             Aceptar cita
                                         </h5>
                                     </button>
-                                    <button type="button" class="btn btn-secondary btnSave2 col-11"
+                                    <!-- <button type="button" class="btn btn-secondary btnSave2 col-11"
                                         onclick="openServicios()" id="btnOpenServicios">
                                         <h6 class="open-sans-regular m-0 p-0">
                                             Servicios en proceso
                                         </h6>
-                                    </button>
+                                    </button> -->
                                     <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
                                         onclick="updateEstado('Cancelado')" id="btnCancelarCita">
                                         <h5 class="open-sans-regular m-0 p-0">
@@ -205,6 +205,7 @@
                                                 <input id="datepicker_llegada_UPDATE"
                                                     class="open-sans-regular datepickerA form-control"
                                                     name="datepicker_llegada_UPDATE" required autocomplete="off" />
+                                                <span id="ERROR_DATEPICKER_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -214,6 +215,7 @@
                                                     id="input_automovil_UPDATE" name="input_automovil_UPDATE"
                                                     aria-label="Default select example" required>
                                                 </select>
+                                                <span id="ERROR_AUTOMOVIL_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -226,8 +228,7 @@
                                                     <option value="Ayutuxtepeque">Ayutuxtepeque</option>
                                                     <option value="Aguilares">Aguilares</option>
                                                 </select>
-                                                <div class="invalid-feedback">Por favor selecciona una zona para el
-                                                    servicio.</div>
+                                                <span id="ERROR_ZONA_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -236,8 +237,7 @@
                                                     name="input_regreso_UPDATE" placeholder="..." required
                                                     maxlength="250" min="10" autocomplete="off">
                                                 <label for="input_regreso_UPDATE">Direcciòn de regreso</label>
-                                                <div class="invalid-feedback">Por favor ingresa la direccion en la
-                                                    que se regresará el automovil.</div>
+                                                <span id="ERROR_REGRESO_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -248,10 +248,9 @@
                                                 <input type="time" class="form-control" id="input_hora_UPDATE"
                                                     name="input_hora_UPDATE" placeholder="HH:MM" required min="10:00"
                                                     max="15:00" autocomplete="off">
-                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:00
+                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:59
                                                     PM)</label>
-                                                <div class="invalid-feedback">Por favor ingresa una hora válida se
-                                                    aceptan desde las 10AM hasta las 3PM</div>
+                                                <span id="ERROR_HORA_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -268,8 +267,7 @@
                                                     <option value="Yo solo llevo el auto">Yo solo llevo el auto
                                                     </option>
                                                 </select>
-                                                <div class="invalid-feedback">Por favor selecciona un tipo de
-                                                    movilización.</div>
+                                                <span id="ERROR_MOVILIZACION_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -278,8 +276,7 @@
                                                     name="input_ida_UPDATE" placeholder="..." required maxlength="250"
                                                     minlength="10" autocomplete="off">
                                                 <label for="input_ida_UPDATE">Direcciòn de ida</label>
-                                                <div class="invalid-feedback">Por favor ingresa la direccion en la
-                                                    que se traerá el automovil.</div>
+                                                <span id="ERROR_IDA_UPDATE" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -354,7 +351,7 @@
                                                     <input id="datepicker_llegada"
                                                         class="open-sans-regular datepickerA form-control"
                                                         name="datepicker_llegada" required autocomplete="off" />
-                                                    <span id="ERROR_DATEPICKER_CREAR" class="text-danger"></span>
+                                                    <span id="ERROR_DATEPICKER_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="Automovil">
@@ -364,7 +361,7 @@
                                                         id="input_automovil" name="input_automovil"
                                                         aria-label="Default select example" required>
                                                     </select>
-                                                    <span id="ERROR_AUTOMOVIL_CREAR" class="text-danger"></span>
+                                                    <span id="ERROR_AUTOMOVIL_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="zonaHabilitada">
@@ -376,7 +373,7 @@
                                                         <option value="Ayutuxtepeque">Ayutuxtepeque</option>
                                                         <option value="Aguilares">Aguilares</option>
                                                     </select>
-                                                    <span id="ERROR_ZONA_CREAR" class="text-danger"></span>
+                                                    <span id="ERROR_ZONA_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -385,8 +382,7 @@
                                                         name="input_regreso" placeholder="..." required maxlength="250"
                                                         minlength="10" autocomplete="off">
                                                     <label for="input_regreso">Direcciòn de regreso</label>
-                                                    <div class="invalid-feedback">Por favor ingresa la direccion en la
-                                                        que se regresará el automovil.</div>
+                                                    <span id="ERROR_REGRESO_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -396,10 +392,10 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="time" class="form-control" id="input_hora"
                                                         name="input_hora" placeholder="HH:MM" required min="10:00"
-                                                        max="15:00" autocomplete="off">
-                                                    <label for="input_hora">Hora de llegada (10:00 AM - 3:00 PM)</label>
-                                                    <div class="invalid-feedback">Por favor ingresa una hora válida se
-                                                        aceptan desde las 10AM hasta las 3PM</div>
+                                                        max="15:59" autocomplete="off">
+                                                    <label for="input_hora">Hora de llegada (10:00 AM - 03:59
+                                                        PM)</label>
+                                                    <span id="ERROR_HORA_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="movilizacion">
@@ -416,8 +412,7 @@
                                                         <option value="Yo solo llevo el auto">Yo solo llevo el auto
                                                         </option>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor selecciona un tipo de
-                                                        movilización.</div>
+                                                    <span id="ERROR_MOVILIZACION_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -426,8 +421,7 @@
                                                         name="input_ida" placeholder="..." required maxlength="250"
                                                         minlength="10" autocomplete="off">
                                                     <label for="input_ida">Direcciòn de ida</label>
-                                                    <div class="invalid-feedback">Por favor ingresa la direccion en la
-                                                        que se traerá el automovil.</div>
+                                                    <span id="ERROR_IDA_ADD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>

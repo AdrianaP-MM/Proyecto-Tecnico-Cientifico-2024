@@ -865,6 +865,23 @@ function formatDUI(inputElement, ERROR) {
     });
 }
 
+function formatDireccion(inputElement) {
+    inputElement.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea aceptado en una dirección
+        inputValue = inputValue.replace(/[^A-Za-zÀ-ÿ0-9\s.,-]/g, '');
+
+        // Asegurar que la longitud esté entre 10 y 250 caracteres
+        if (inputValue.length > 250) {
+            inputValue = inputValue.slice(0, 250); // Limitar a 250 caracteres
+        }
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = inputValue;
+    });
+}
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
 function validateEmail(email) {
@@ -1085,4 +1102,29 @@ function validateSelect(value) {
     }
     // Si pasa todas las validaciones
     return { valid: true, message: 'Código válido.' };
+}
+
+function validateDireccion(direccion) {
+    // Expresión regular para validar que la dirección tenga entre 10 y 250 caracteres
+    // Acepta letras, números, espacios, puntos, comas, guiones y caracteres acentuados
+    const direccionRegex = /^[A-Za-zÀ-ÿ0-9\s.,-]{10,250}$/;
+
+    // Validar formato
+    if (!direccionRegex.test(direccion)) {
+        return { valid: false, message: 'La dirección debe tener entre 10 y 250 caracteres y puede incluir letras, números, espacios, puntos, comas y guiones.' };
+    }
+
+    return { valid: true, message: 'Dirección válida.' };
+}
+
+function validateHora(hora) {
+    // Expresión regular para validar horas en formato 24h entre 10:00 y 15:59
+    const horaRegex = /^(1[0-5]|10|11|12|13|14|15):[0-5][0-9]$/;
+
+    // Validar formato
+    if (!horaRegex.test(hora)) {
+        return { valid: false, message: 'La hora debe estar entre las 10:00 AM y las 15:59 PM.' };
+    }
+
+    return { valid: true, message: 'Hora válida.' };
 }
