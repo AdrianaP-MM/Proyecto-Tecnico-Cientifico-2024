@@ -346,7 +346,7 @@ class Validator
     // Función PHP para validar la placa
     public static function validatePlaca($value)
     {
-        // Definir las letras y combinaciones permitidas como iniciales
+        // Definir los prefijos permitidos
         $validPrefixes = [
             'A',
             'AB',
@@ -369,32 +369,22 @@ class Validator
             'V'
         ];
 
-        // Verificar si el valor comienza con una de las letras o combinaciones permitidas
+        // Verificar si el valor comienza con alguno de los prefijos permitidos
         $isValidPrefix = false;
         foreach ($validPrefixes as $prefix) {
-            // Verifica que el prefijo coincida exactamente al inicio del valor
-            if (strpos($value, $prefix) === 0 && $prefix === substr($value, 0, strlen($prefix))) {
-                // Asegura que lo siguiente después del prefijo es un formato válido
+            if (strpos($value, $prefix) === 0) {
+                $isValidPrefix = true;
+                // Extraer la parte posterior al prefijo para validar el formato
                 $suffix = substr($value, strlen($prefix));
-                if (preg_match('/^[A-NP-Za-z0-9\-]+$/', $suffix) && $suffix !== '') {
-                    $isValidPrefix = true;
-                }
                 break;
             }
         }
 
-        // Verificar formato general de la placa: letras, números, guiones, sin espacios
-        // La verificación se ha movido para que solo valide la parte después del prefijo
-        $isValidFormat = preg_match('/^[A-NP-Za-z0-9\-]+$/', $value);
+        // Verificar que el sufijo después del prefijo siga el patrón alfanumérico
+        // El formato esperado es números-letras o letras-números separados por un guion, como '123-ABC' o '123-456'
+        $isValidFormat = preg_match('/^[A-Za-z0-9]{3,}-[A-Za-z0-9]{3,}$/', $suffix);
 
-        // La placa es válida si tiene un prefijo válido y cumple con el formato
-        $isValid = $isValidPrefix && $isValidFormat;
-
-
-        /*
-         // Retornar el resultado en formato JSON para pruebas
-        header('Content-Type: application/json');
-        echo json_encode(['isValid' => $isValid]);
-        return $isValid;*/
+        // La placa es válida si tiene un prefijo permitido y cumple con el formato del sufijo
+        return $isValidPrefix && $isValidFormat;
     }
 }

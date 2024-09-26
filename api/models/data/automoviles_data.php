@@ -118,12 +118,12 @@ class AutomovilData extends AutomovilHandler
     // Método para validar y asignar la placa del automóvil.
     public function setPlaca($value)
     {
-        if ($value) {
+        if (!Validator::validatePlaca($value)) {
+            $this->data_error = 'Ingrese una placa disponible';
+            return false;
+        } else {
             $this->placa_automovil = $value;
             return true;
-        } else {
-            $this->data_error = 'La placa es incorrecta';
-            return false;
         }
     }
 
@@ -174,25 +174,46 @@ class AutomovilData extends AutomovilHandler
 
     public function setFechaDesde($value)
     {
-        $this->fecha_desde = $value;
-        return true;
+        if (Validator::validateDate($value)) {
+            $this->fecha_desde = $value;
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha es incorrecto';
+            return false;
+        }
     }
 
     public function setFechaHasta($value)
     {
-        $this->fecha_hasta = $value;
-        return true;
+        if (Validator::validateDate($value)) {
+            $this->fecha_hasta = $value;
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha es incorrecto';
+            return false;
+        }
     }
 
     public function setFechaInicial($value)
     {
-        $this->fecha_inicial = $value;
-        return true;
+        if (Validator::validateDate($value)) {
+            $this->fecha_inicial = $value;
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha es incorrecto';
+            return false;
+        }
     }
 
     public function setFechaFinal($value)
     {
-        $this->fecha_final = $value;
-        return true;
+        if (Validator::validateDate($value)) {
+            $this->fecha_final = $value;
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha es incorrecto';
+            return false;
+        }
     }
+
 }
