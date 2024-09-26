@@ -297,7 +297,7 @@ function reload() {
 
 function applicateRules() {
   //Formatos del CREATE CITA----------
-  configurarDatepicker(INPUT_FECHA_LLEGADA.id);
+  formatDatepicker(INPUT_FECHA_LLEGADA.id);
 }
 
 // Método del evento para cuando se envía el formulario de guardar.

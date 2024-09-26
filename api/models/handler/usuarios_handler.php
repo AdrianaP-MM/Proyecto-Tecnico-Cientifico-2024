@@ -18,6 +18,18 @@ class UsuariosHandler
 
     /*Metodos para administrar las cuentas de Usuarios*/
 
+    public function getFechaUltimaModificacion($idUsuario)
+    {
+        // Definimos la consulta SQL para obtener la fecha de última modificación
+        $sql = "SELECT fecha_ultima_modificacion FROM tb_usuarios WHERE id_usuario = ?;";
+
+        // Establecemos los parámetros para la consulta (en este caso, el ID del usuario)
+        $params = array($idUsuario);
+
+        // Ejecuta la consulta y retorna la fecha de última modificación o null si no se encuentra
+        return Database::getRow($sql, $params)['fecha_ultima_modificacion'] ?? null;
+    }
+
     public function getIdAdministrador($correo)
     {
         $sql = 'SELECT id_usuario FROM tb_usuarios WHERE correo_usuario = ? AND tipo_usuario = "Administrador"';
@@ -26,7 +38,6 @@ class UsuariosHandler
         // Ejecuta la consulta y retorna el resultado
         return Database::getRow($sql, $params)['id_usuario'] ?? null; // Devuelve null si no se encuentra el usuario
     }
-
 
     public function getFechaCreacionClave($correoUsuario)
     {
@@ -98,6 +109,21 @@ class UsuariosHandler
     }
 
     //Esta funcion valida que la contraseña del usuario coincida con la de la base de datos
+    public function checkPassword2($password)
+    {
+        $sql = 'SELECT clave_usuario
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($this->idUsuario);
+        $data = Database::getRow($sql, $params);
+        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
+        if (password_verify($password, $data['clave_usuario'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_usuario

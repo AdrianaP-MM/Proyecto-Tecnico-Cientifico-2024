@@ -17,6 +17,18 @@ if (isset($_GET['action'])) {
         $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'getPasswordLastChanged':
+                // Suponiendo que tienes el ID de usuario o el correo almacenado en la sesión
+                $idUsuario = $_SESSION['idAdministrador'];
+                $fechaUltimaModificacion = $usuario->getFechaUltimaModificacion($idUsuario);
+
+                if ($fechaUltimaModificacion) {
+                    $result['status'] = 1;
+                    $result['fecha_ultima_modificacion'] = $fechaUltimaModificacion;
+                } else {
+                    $result['error'] = 'Error al obtener la fecha de última modificación de la contraseña.';
+                }
+                break;
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
@@ -84,19 +96,19 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar un admin';
                 }
                 break;
-                case 'updateToggle':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$usuario->setEstadoToggle($_POST['estadoToggle'])
-                    ) {
-                        $result['error'] = $usuario->getDataError();
-                    } elseif ($usuario->updateToggle()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Seguridad modificada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrio un problema al modificar la seguridad';
-                    }
-                    break;
+            case 'updateToggle':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$usuario->setEstadoToggle($_POST['estadoToggle'])
+                ) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($usuario->updateToggle()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Seguridad modificada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrio un problema al modificar la seguridad';
+                }
+                break;
             case 'deleteRow':
                 if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
@@ -227,7 +239,6 @@ if (isset($_GET['action'])) {
                 // Comprobar si la contraseña ha expirado
                 $fechaCreacionClave = $usuario->getFechaCreacionClave($_POST['correoLogin']); // Asegúrate de que este valor sea correcto
                 $fechaCreacionClave = date('Y-m-d H:i:s', strtotime($fechaCreacionClave)); // Formato de la fecha de creación
-                // Establecer la fecha límite a 3 minutos después de la fecha de creación
                 $fechaLimite = date('Y-m-d H:i:s', strtotime($fechaCreacionClave . ' + 90 days'));
 
                 // Obtener la fecha y hora actual en el mismo formato
@@ -296,11 +307,11 @@ if (isset($_GET['action'])) {
             case 'searchMail':
                 $_POST = Validator::validateForm($_POST);
                 if (!$usuario->setCorreo($_POST['Input_Correo2'])) {
-                    $result['error'] = 'Correo electrónico incorrecto';
+                    $result['error'] = 'Correo electrónico incorrecto.';
                 } elseif ($result['dataset'] = $usuario->checkMail()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Correo electrónico inexistente';
+                    $result['error'] = 'Correo electrónico no encontrado.';
                 }
                 break;
                 //ENVIAR CODIGO 
@@ -325,20 +336,34 @@ if (isset($_GET['action'])) {
                 break;
             case 'changePasswordLogin':
                 $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuario->setClave($_POST['claveTrabajador']) or
-                    !$usuario->setId($_POST['idTrabajador'])
-                ) {
+                // Intentar configurar la nueva contraseña y el ID del trabajador
+                if (!$usuario->setClave($_POST['claveTrabajador']) || !$usuario->setId($_POST['idTrabajador'])) {
+                    // Si ocurre un error al configurar, devuelve el error
                     $result['error'] = $usuario->getDataError();
-                } elseif ($_POST['claveTrabajador'] != $_POST['confirmarTrabajador']) {
-                    $result['error'] = 'Contraseñas diferentes';
-                } elseif ($usuario->updatePassword()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Se ha actualizado correctamente la contraseña';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el la contraseña';
+                    // Comprobación de la contraseña actual
+                    if ($usuario->checkPassword2($_POST['claveTrabajador'])) {
+                        // Si la nueva contraseña es igual a la anterior, se rechaza la actualización
+                        $result['error'] = 'La nueva contraseña coincide con la anterior, por favor, ingrese una contraseña diferente.';
+                    } else {
+                        // Comprobar si la nueva contraseña coincide con la confirmación
+                        if ($_POST['claveTrabajador'] != $_POST['confirmarTrabajador']) {
+                            $result['error'] = 'Las contraseñas no coinciden';
+                        } else {
+                            // Si todo está bien, se intenta actualizar la contraseña
+                            if ($usuario->updatePassword()) {
+                                // Si la actualización es exitosa, devuelve un mensaje de éxito
+                                $result['status'] = 1;
+                                $result['message'] = 'Se ha actualizado correctamente la contraseña';
+                            } else {
+                                // Si ocurre un error durante la actualización, se muestra este mensaje
+                                $result['error'] = 'Ocurrió un problema al modificar la contraseña';
+                            }
+                        }
+                    }
                 }
                 break;
+
             case 'readDosPasos':
                 if (!$usuario->setCorreo($_POST['correoLogin'])) {
                     $result['error'] = $usuario->getDataError();

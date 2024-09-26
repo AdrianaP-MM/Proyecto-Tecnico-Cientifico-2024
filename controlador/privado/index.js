@@ -251,16 +251,18 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
                         if (user.account_locked_until && new Date() < new Date(user.account_locked_until)) {
                             await sweetAlert(2, `Tu cuenta está bloqueada hasta ${user.account_locked_until}.`, false);
                             return;
+                        } else {
+                            // Si ha pasado el tiempo de bloqueo, restablecer los intentos fallidos
+                            if (user.account_locked_until && new Date() >= new Date(user.account_locked_until)) {
+                                const RESULT_START = await fetchData(USER_API, 'resetFailedAttempts', FORM2); // Restablecer intentos fallidos
+                                if (RESULT_START.status) {
+                                    console.log('Intentos fallidos restablecidos.');
+                                    user.failed_attempts = 0; // Actualizar el objeto local
+                                }
+                            }
                         }
-                        // } else if (!user.account_locked_until || new Date() >= new Date(user.account_locked_until)) {
-                        //     // Restablecer los intentos fallidos solo si la cuenta no está bloqueada
-                        //     const RESULT_START = await fetchData(USER_API, 'resetFailedAttempts', FORM2); // Restablecer intentos fallidos
-                        //     if (RESULT_START.status) {
-                        //         console.log('Intentos fallidos restablecidos.');
-                        //         user.failed_attempts = 0; // Actualizar en el objeto local
-                        //     }
-                        // }
 
+                        // Intentar iniciar sesión
                         // Intentar iniciar sesión
                         const DATA = await fetchData(USER_API, 'logIn', FORM);
 
@@ -272,7 +274,7 @@ FORM_LOGIN_INPUTS.addEventListener('submit', async (event) => {
                             }
                         } else {
                             if (DATA.error != 'Credenciales incorrectas') {
-                                await sweetAlert(2, `Su contraseña ha expirado. Para restablecerla, haga clic en "¿Olvidaste tu contraseña?" y siga el proceso correspondiente.`, false);
+                                await sweetAlert(2, `Su contraseña ha expirado. Para restablecerla, haga clic en "Restablecer contraseña" y siga el proceso correspondiente.`, false);
                                 return;
                             } else {
                                 // Incrementar intentos fallidos
@@ -359,7 +361,7 @@ document.getElementById("forgetpasswordstepone").addEventListener("submit", asyn
         DATA2 = await fetchData(USER_API, 'enviarCodigoRecuperacion', FORM2); // Asigna el valor de DATA2 aquí
 
         if (DATA2.status) {
-            await sweetAlert(1, 'Se ha enviado correctamente al correo electrónico, ingrese el código enviado', true);
+            await sweetAlert(1, 'Se ha enviado correctamente al correo electrónico, ingrese el código enviado.', true);
         } else {
             await sweetAlert(2, DATA2.error, false);
         }
@@ -439,8 +441,8 @@ document.getElementById("forgetPasswordStepThree").addEventListener("submit", as
 
         const DATA = await fetchData(USER_API, 'changePasswordLogin', FORM1);
         if (DATA.status) {
-            sweetAlert(1, 'La contraseña ha sido restablecida correctamente', true);
-            showLogin()
+            await sweetAlert(1, 'La contraseña ha sido restablecida correctamente.', true);
+            await location.reload();
         } else {
             sweetAlert(2, DATA.error, false);
         }

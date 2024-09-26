@@ -736,7 +736,7 @@ function formatCodigo(input) {
     });
 }
 
-function configurarDatepicker(datepickerId) {
+function formatDatepicker(datepickerId) {
     // Inicializar el datepicker
     $('#' + datepickerId).datepicker({
         autoclose: true, // Cierra automáticamente después de seleccionar
@@ -954,4 +954,22 @@ function validateFecha(date) {
     }
 
     return { valid: true, message: 'Fecha válida.' };
+}
+
+function validateCodigo(codigo) {
+    // Eliminar espacios en blanco
+    const hasSpaces = /\s/.test(codigo);
+    
+    // Verificar si contiene espacios en blanco
+    if (hasSpaces) {
+        return { valid: false, message: 'El código no debe contener espacios en blanco.' };
+    }
+    
+    // Verificar longitud: el código debe tener exactamente 8 caracteres
+    if (codigo.length !== 8) {
+        return { valid: false, message: 'El código debe tener exactamente 8 caracteres.' };
+    }
+    
+    // Si pasa todas las validaciones
+    return { valid: true, message: 'Código válido.' };
 }
