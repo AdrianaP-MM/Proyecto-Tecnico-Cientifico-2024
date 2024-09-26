@@ -39,59 +39,55 @@ if ($fechaInicial && $fechaFinal && $tipoAutoId) {
 }
 
 // Añadir una página solo si hay datos para mostrar o si hay un mensaje a mostrar
-if ($shouldAddPage || !$fechaInicial || !$fechaFinal || !$tipoAutoId) {
-    
+if ($shouldAddPage) {
+    // Se inicia el reporte con el encabezado del documento.
+    $pdf->startReport('Reporte de Servicios por Tipo de Automóvil: ' . htmlspecialchars($tipoAutoNombre) . ' y Tiempo');
 
-    if ($shouldAddPage) {
-        // Se inicia el reporte con el encabezado del documento.
-        $pdf->startReport('Reporte de Servicios por Tipo de Automóvil: ' . htmlspecialchars($tipoAutoNombre) . ' y Tiempo');
+    // Establecer la fuente antes de cualquier impresión
+    $pdf->setFont('Arial', 'B', 11);
+    // Se establece un color de relleno para los encabezados.
+    $pdf->setFillColor(186, 24, 27);
+    // Se establece un color de texto para los encabezados (por ejemplo, blanco)
+    $pdf->setTextColor(255, 255, 255);
+    // Se imprimen las celdas con los encabezados.
+    $pdf->cell(34, 10, 'Modelo', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(29, 10, 'Propietario', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(60, 10, 'Servicio', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(19, 10, 'Cantidad', 0, 0, 'C', 1);
+    $pdf->cell(1, 5, '', 0, 0, 'C');
+    $pdf->cell(39, 10, 'Fecha Cita', 0, 1, 'C', 1);
 
-        // Establecer la fuente antes de cualquier impresión
-        $pdf->setFont('Arial', 'B', 11);
-        // Se establece un color de relleno para los encabezados.
-        $pdf->setFillColor(186, 24, 27);
-        // Se establece un color de texto para los encabezados (por ejemplo, blanco)
-        $pdf->setTextColor(255, 255, 255);
-        // Se imprimen las celdas con los encabezados.
-        $pdf->cell(34, 10, 'Modelo', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(29, 10, 'Propietario', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(60, 10, 'Servicio', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(19, 10, 'Cantidad', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(39, 10, 'Fecha Cita', 0, 1, 'C', 1);
+    // Se establece la fuente para los datos de los productos.
+    $pdf->setFont('Arial', '', 11);
+    // Se establece un color de texto para los datos (por ejemplo, negro)
+    $pdf->setTextColor(0, 0, 0);
 
-        // Se establece la fuente para los datos de los productos.
-        $pdf->setFont('Arial', '', 11);
-        // Se establece un color de texto para los datos (por ejemplo, negro)
-        $pdf->setTextColor(0, 0, 0);
+    // Se recorren los registros fila por fila.
+    foreach ($dataCitas as $rowCita) {
+        // Imprimir cada celda con un borde y alineación
+        $pdf->cell(35, 10, $pdf->encodeString($rowCita['modelo']), 1);
+        $pdf->cell(30, 10, $pdf->encodeString($rowCita['nombre_propietario']), 1);
+        $pdf->cell(60, 10, $pdf->encodeString($rowCita['nombre_servicio']), 1);
+        $pdf->cell(20, 10, $rowCita['cantidad_servicios'], 1, 0, 'C');
+        $pdf->cell(40, 10, $pdf->encodeString($rowCita['fecha_cita']), 1);
+        // Salto de línea después de cada fila de datos
+        $pdf->Ln();
+    }
+} else {
+    $pdf->AddPage(); // Añade una página solo si se debe mostrar contenido o mensaje
+    // Si no hay datos, mostrar el mensaje correspondiente
+    $pdf->setFont('Arial', '', 11);
+    $pdf->setTextColor(0, 0, 0); // Color de texto negro
 
-        // Se recorren los registros fila por fila.
-        foreach ($dataCitas as $rowCita) {
-            // Imprimir cada celda con un borde y alineación
-            $pdf->cell(35, 10, $pdf->encodeString($rowCita['modelo']), 1);
-            $pdf->cell(30, 10, $pdf->encodeString($rowCita['nombre_propietario']), 1);
-            $pdf->cell(60, 10, $pdf->encodeString($rowCita['nombre_servicio']), 1);
-            $pdf->cell(20, 10, $rowCita['cantidad_servicios'], 1, 0, 'C');
-            $pdf->cell(40, 10, $pdf->encodeString($rowCita['fecha_cita']), 1);
-            // Salto de línea después de cada fila de datos
-            $pdf->Ln();
-        }
+    if (!$fechaInicial || !$fechaFinal || !$tipoAutoId) {
+        $pdf->cell(0, 10, $pdf->encodeString('Parámetros insuficientes para generar el reporte'), 0, 1);
+    } elseif (!$cita->setFechaInicial($fechaInicial) || !$cita->setFechaFinal($fechaFinal) || !$cita->setIdTipo($tipoAutoId)) {
+        $pdf->cell(0, 10, $pdf->encodeString('Parámetros inválidos para generar el reporte'), 0, 1);
     } else {
-        $pdf->AddPage(); // Añade una página solo si se debe mostrar contenido o mensaje
-        // Si no hay datos, mostrar el mensaje correspondiente
-        $pdf->setFont('Arial', '', 11);
-        $pdf->setTextColor(0, 0, 0); // Color de texto negro
-
-        if (!$fechaInicial || !$fechaFinal || !$tipoAutoId) {
-            $pdf->cell(0, 10, $pdf->encodeString('Parámetros insuficientes para generar el reporte'), 0, 1);
-        } elseif (!$cita->setFechaInicial($fechaInicial) || !$cita->setFechaFinal($fechaFinal) || !$cita->setIdTipo($tipoAutoId)) {
-            $pdf->cell(0, 10, $pdf->encodeString('Parámetros inválidos para generar el reporte'), 0, 1);
-        } else {
-            $pdf->cell(0, 10, $pdf->encodeString('No hay datos para mostrar con los parámetros proporcionados'), 0, 1);
-        }
+        $pdf->cell(0, 10, $pdf->encodeString('No hay datos para mostrar con los parámetros proporcionados'), 0, 1);
     }
 }
 
