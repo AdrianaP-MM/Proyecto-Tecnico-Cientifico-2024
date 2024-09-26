@@ -23,6 +23,9 @@
     <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/empleados.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -59,13 +62,12 @@
                             <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
                         </div>
 
-
                         <!--Modal-->
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
                             <div class="modal-dialog modal-dialog-centered modal-xl">
-                                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3 text-center">
+                                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                                     <form id="saveForm" class="needs-validation " novalidate autocomplete="off">
                                         <!--Formulario de guardado-->
                                         <!--input para el id del trabajador-->
@@ -93,53 +95,54 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_dui_empleados"
                                                         name="input_dui_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off">
+                                                        required autocomplete="off" minlength="9" maxlength="9">
                                                     <label for="input_dui_empleados">DUI</label> <!--DUI-->
-                                                    <div class="invalid-feedback">Por favor ingrese su DUI.</div>
-
+                                                    <span id="ERROR-DUI" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nit_empleados"
                                                         name="input_nit_empleados" placeholder="name@example.com"
-                                                        autocomplete="off">
+                                                        autocomplete="off" min="17" max="17">
                                                     <label for="input_nit_empleados">NIT</label> <!--NIT-->
-                                                    <div class="invalid-feedback">Por favor ingresa tu NIT.</div>
+                                                    <span id="ERROR-NIT" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_nombre_empleados"
                                                         name="input_nombre_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off">
+                                                        required autocomplete="off" minlength="1" maxlength="50">
                                                     <label for="input_nombre_empleados">Nombres</label> <!--Nombres-->
-                                                    <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+                                                    <span id="ERROR-NOMBRE" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control"
                                                         id="input_apellido_empleados" name="input_apellido_empleados"
-                                                        placeholder="name@example.com" required autocomplete="off">
+                                                        placeholder="name@example.com" required autocomplete="off"
+                                                        minlength="1" maxlength="50">
                                                     <label for="input_apellido_empleados">Apellidos</label>
                                                     <!--Apellidos-->
-                                                    <div class="invalid-feedback">Por favor ingresa tu apellido.</div>
+                                                    <span id="ERROR-APELLIDO" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control"
                                                         id="input_telefono_empleados" name="input_telefono_empleados"
-                                                        placeholder="name@example.com" required autocomplete="off">
+                                                        placeholder="name@example.com" required autocomplete="off"
+                                                        minlength="9" maxlength="9">
                                                     <label for="input_telefono_empleados">Teléfono</label>
                                                     <!--Telefono-->
-                                                    <div class="invalid-feedback">Por favor ingresa tu telefono.</div>
+                                                    <span id="ERROR-TELEFONO" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_correo_empleados"
+                                                    <input type="email" class="form-control" id="input_correo_empleados"
                                                         name="input_correo_empleados" placeholder="name@example.com"
                                                         required autocomplete="off">
                                                     <label for="input_correo_empleados">Correo electrónico</label>
                                                     <!--Correo-->
-                                                    <div class="invalid-feedback">Por favor ingresa tu correo.</div>
+                                                    <span id="ERROR-CORREO" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -165,8 +168,7 @@
                                                         <option value="Sonsonate">Sonsonate</option>
                                                         <option value="Usulután">Usulután</option>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor ingresa un departamento.
-                                                    </div>
+                                                    <span id="ERROR-DEPARTAMENTO" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -175,20 +177,19 @@
                                                     <!--Especialización-->
                                                     <select class="form-select pt-4 open-sans-regular"
                                                         id="especializacion_trabajador"
-                                                        name="especializacion_trabajador" required>
+                                                        name="especializacion_trabajador" required
+                                                        aria-label="Default select example">
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor ingresa tu especialización.
-                                                    </div>
+                                                    <span id="ERROR-ESPECIAL" class="text-danger"></span>
                                                 </div>
                                                 <div class="form-floating mb-0 p-0">
                                                     <label for="fecha_contratacion"
                                                         class="form-label px-2 pt-1 p-0 m-0">Fecha
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
-                                                        name="fecha_contratacion" placeholder="" required
+                                                        name="fecha_contratacion" required
                                                         onclick="configurarFechaMaxima()" autocomplete="off">
-                                                    <div class="invalid-feedback">Por favor ingresa la fecha de
-                                                        contratacion.</div>
+                                                    <span id="ERROR-FECHA" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-floating mb-0 p-0">
@@ -197,7 +198,7 @@
                                                         required autocomplete="off">
                                                     <label for="input_salario_empleados">Salario Base</label>
                                                     <!--Salario-->
-                                                    <div class="invalid-feedback">Por favor ingresa un salario.</div>
+                                                    <span id="ERROR-SALARIO" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +208,6 @@
                                                 onclick="openClose()">Cancelar</button> <!--Boton de cancelar-->
                                             <button type="submit" id="btnDos"
                                                 class="btn btn-primary btnSave">Aceptar</button> <!--Boton de aceptar-->
-
                                         </div>
                                     </form>
                                 </div>

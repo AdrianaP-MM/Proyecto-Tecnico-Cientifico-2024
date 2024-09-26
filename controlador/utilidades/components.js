@@ -882,6 +882,92 @@ function formatDireccion(inputElement) {
         event.target.value = inputValue;
     });
 }
+
+function formatNit(inputElement, ERROR) {
+    inputElement.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea un número
+        inputValue = inputValue.replace(/\D/g, '');
+
+        // Asegurar que no haya más de 14 dígitos
+        inputValue = inputValue.slice(0, 14);
+
+        // Formatear el número agregando los guiones
+        let formattedValue = "";
+
+        if (inputValue.length > 4) {
+            formattedValue += inputValue.slice(0, 4) + "-";
+            inputValue = inputValue.slice(4);
+        }
+
+        if (inputValue.length > 6) {
+            formattedValue += inputValue.slice(0, 6) + "-";
+            inputValue = inputValue.slice(6);
+        }
+
+        if (inputValue.length > 3) {
+            formattedValue += inputValue.slice(0, 3) + "-";
+            inputValue = inputValue.slice(3);
+        }
+
+        if (inputValue.length > 0) {
+            formattedValue += inputValue;
+        }
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = formattedValue;
+
+        // Aquí podrías validar el valor formateado
+        const validationResult = validateNit(formattedValue); // Suponiendo que tienes una función de validación
+        checkInput(validationResult, inputElement, ERROR); // Manejo de errores
+    });
+}
+
+function formatName(inputElement) {
+    inputElement.addEventListener('input', function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Limpiar el valor de cualquier carácter que no sea alfabético o espacio
+        inputValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        event.target.value = inputValue;
+    });
+}
+
+function formatSalary(inputElement) {
+    inputElement.addEventListener("input", function (event) {
+        // Obtener el valor actual del campo de texto
+        let inputValue = event.target.value;
+
+        // Eliminar los espacios en blanco
+        inputValue = inputValue.replace(/\s/g, "");
+
+        // Reemplazar cualquier carácter que no sea número, coma o punto con una cadena vacía
+        inputValue = inputValue.replace(/[^\d,.]/g, "");
+
+        // Limitar la longitud total a 7 caracteres incluyendo decimales
+        if (inputValue.includes(".")) {
+            // Si hay un punto decimal, limitamos a 7 caracteres en total
+            let integerPart = inputValue.split(".")[0];
+            let decimalPart = inputValue.split(".")[1] || "";
+            inputValue = `${integerPart.slice(0, 5)}.${decimalPart.slice(0, 2)}`;
+        } else {
+            // Si no hay punto decimal, limitamos a 7 caracteres en total
+            inputValue = inputValue.slice(0, 8);
+        }
+
+        // Actualizar el valor del campo de texto con la entrada limitada
+        event.target.value = inputValue;
+
+        // Validar y agregar la clase 'invalid' si es necesario
+        event.target.classList.toggle("invalid", !/^[\d.,]*$/.test(inputValue));
+    });
+}
+
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
 function validateEmail(email) {
@@ -1127,4 +1213,71 @@ function validateHora(hora) {
     }
 
     return { valid: true, message: 'Hora válida.' };
+}
+
+function validateNit(nit) {
+    // Verificar longitud mínima y máxima
+    if (nit.length < 17 || nit.length > 17) {
+        return { valid: false, message: 'El NIT debe tener exactamente 17 caracteres.' };
+    }
+
+    // Expresión regular para validar el formato de NIT con guiones
+    const nitRegex = /^[0-9]{4}-[0-9]{6}-[0-9]{3}-?[0-9]?$/; // Ajusta según el formato específico de NIT
+
+    // Validar formato
+    if (!nitRegex.test(nit)) {
+        return { valid: false, message: 'Formato de NIT no válido. Debe seguir el formato nnnn-nnnnnn-nnn-n.' };
+    }
+
+    return { valid: true, message: 'NIT válido.' };
+}
+
+function validateName(name) {
+    // Verificar si el nombre está vacío
+    if (!name.trim()) {
+        return { valid: false, message: 'El campo no puede estar vacío.' };
+    }
+
+    // Verificar longitud mínima y máxima
+    if (name.length < 1 || name.length > 50) {
+        return { valid: false, message: 'El nombre debe tener entre 1 y 50 caracteres.' };
+    }
+
+    // Verificar si contiene solo caracteres alfabéticos y espacios
+    const nameRegex = /^[a-zA-Z\s]+$/;
+
+    if (!nameRegex.test(name)) {
+        return { valid: false, message: 'Solo se permiten letras y espacios.' };
+    }
+
+    return { valid: true, message: 'Nombre válido.' };
+}
+
+function validateSalary(salary) {
+    // Verificar si el salario está vacío
+    if (!salary.trim()) {
+        return { valid: false, message: 'El campo no puede estar vacío.' };
+    }
+
+    // Verificar longitud máxima
+    if (salary.length > 8) {
+        return { valid: false, message: 'El salario no puede tener más de 8 caracteres.' };
+    }
+
+    // Verificar si contiene solo números, comas o puntos
+    const salaryRegex = /^[\d,.]+$/;
+
+    if (!salaryRegex.test(salary)) {
+        return { valid: false, message: 'Solo se permiten números, comas y puntos.' };
+    }
+
+    // Verificar formato de número (máximo 5 dígitos antes del punto decimal y 2 después)
+    const parts = salary.split(".");
+    if (parts.length > 2 || 
+        (parts[0].length > 5) || 
+        (parts.length === 2 && (parts[1].length > 2))) {
+        return { valid: false, message: 'El salario debe tener un máximo de 5 dígitos antes del punto decimal y 2 después.' };
+    }
+
+    return { valid: true, message: 'Salario válido.' };
 }

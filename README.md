@@ -15,6 +15,9 @@
 
 - A07:2021 - Fallas de Identificación y Autenticación: esto se soluciona con la doble autenticacion que es punto rubrica asi que se hace de un solo y es para que no haya suplantacion de identidad o robo de sesion (tmb se evita poniendo contraseñas fuertes)
 
+- Seguridad extra: revisar database.php el execute row, explicaciòn:
+Usa PDO para aplicar prepare query para el cuido de inyecciones sql
+
 ## - Nombre del proyecto: Data Administration Revolution Garage (DARG)
 
 - Descripción del proyecto:

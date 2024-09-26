@@ -155,7 +155,7 @@ class TrabajadoresData extends TrabajadoresHandler
 
 
     // Método para establecer el NIT del cliente
-    public function setNIT($value, $id = null, $min = 17, $max = 17)
+    public function setNIT($value, $min = 17, $max = 17)
     {
         // Permitir que el valor sea nulo
         if (is_null($value) || $value === '') {

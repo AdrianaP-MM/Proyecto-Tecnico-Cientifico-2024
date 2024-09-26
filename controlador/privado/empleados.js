@@ -14,28 +14,35 @@ const SAVE_MODAL = new bootstrap.Modal("#staticBackdrop");
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById("saveForm"),
   DUI = document.getElementById("input_dui_empleados"),
+  ERROR_DUI = document.getElementById('ERROR-DUI'),
   NIT = document.getElementById("input_nit_empleados"),
+  ERROR_NIT = document.getElementById('ERROR-NIT'),
   NOMBRES = document.getElementById("input_nombre_empleados"),
+  ERROR_NOMBRE = document.getElementById('ERROR-NOMBRE'),
   APELLIDOS = document.getElementById("input_apellido_empleados"),
+  ERROR_APELLIDO = document.getElementById('ERROR-APELLIDO'),
   TELEFONO = document.getElementById("input_telefono_empleados"),
+  ERROR_TELEFONO = document.getElementById('ERROR-TELEFONO'),
   CORREO = document.getElementById("input_correo_empleados"),
+  ERROR_CORREO = document.getElementById('ERROR-CORREO'),
   DEPARTAMENTO = document.getElementById("departamento_trabajador"),
+  ERROR_DEPARTAMENTO = document.getElementById('ERROR-DEPARTAMENTO'),
   ESPECIALIZACION = document.getElementById("especializacion_trabajador"),
+  ERROR_ESPECIAL = document.getElementById('ERROR-ESPECIAL'),
   FECHA = document.getElementById("fecha_contratacion"),
+  ERROR_FECHA = document.getElementById('ERROR-FECHA'),
   SALARIO = document.getElementById("input_salario_empleados"),
+  ERROR_SALARIO = document.getElementById('ERROR-SALARIO'),
   ID_EMPLEADO = document.getElementById("idTrabajador");
-
-
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
   //Llamado de la funcion para agregar la plantilla de la pagina web
   loadTemplate();
   const DATA = await fetchData(USER_API, 'readUsers');
+  applicateRules();
+  await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador');
   if (DATA.session) {
-
-    await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador');
-
     // Acciones si la sesión SI está activa
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
@@ -55,6 +62,39 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
+var number = 1;
+
+const openClose = async () => {
+  if (number == 1) {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2(
+      "¿Seguro qué quieres regresar?",
+      "Los datos ingresados no serán almacenados"
+    );
+
+    if (RESPONSE.isConfirmed) {
+      SAVE_MODAL.hide();
+      const botonTres = document.getElementById("btnTres");
+      if (botonTres) {
+        botonTres.remove();
+      }
+    }
+  } else {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction2(
+      "¿Seguro qué quieres regresar?",
+      "Los datos ingresados no serán almacenados"
+    );
+    if (RESPONSE.isConfirmed) {
+      SAVE_MODAL.hide();
+      const botonTres = document.getElementById("btnTres");
+      if (botonTres) {
+        botonTres.remove();
+      }
+    }
+  }
+};
 
 //Funcion para validar que los campos deben estar completados dentro del form
 (() => {
@@ -79,82 +119,78 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 })();
 
+// //Método del evento para cuando se envía el formulario de buscar.
+// document.getElementById("searchForm").addEventListener("submit", async (event) => {
+//   //Se evita recargar la página web después de enviar el formulario.
+//   event.preventDefault();
+//   //Constante tipo objeto con los datos del formulario de barra de busqueda.
+//   const formData = new FormData(document.getElementById("searchForm"));
 
+//   try {
+//     //Realizar una solicitud al servidor para buscar trabajadores.
+//     const searchData = await fetchData(
+//       TRABAJADORES_API,
+//       "searchRows",
+//       formData
+//     );
 
-//Método del evento para cuando se envía el formulario de buscar.
-document
-  .getElementById("searchForm")
-  .addEventListener("submit", async (event) => {
-    //Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    //Constante tipo objeto con los datos del formulario de barra de busqueda.
-    const formData = new FormData(document.getElementById("searchForm"));
+//     //Verificar si la búsqueda fue exitosa.
+//     if (searchData.status) {
+//       //Limpiar el contenedor de trabajadores.
+//       CONTAINER_TRABAJADORES_BODY.innerHTML = "";
 
-    try {
-      //Realizar una solicitud al servidor para buscar trabajadores.
-      const searchData = await fetchData(
-        TRABAJADORES_API,
-        "searchRows",
-        formData
-      );
+//       //Se agrega la card para agregar usuario luego de vaciar el campo
+//       CONTAINER_TRABAJADORES_BODY.innerHTML += `
+//             <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
+//                             <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+//                                 onclick="openCreate()">
+//                         </div>
+//             `;
 
-      //Verificar si la búsqueda fue exitosa.
-      if (searchData.status) {
-        //Limpiar el contenedor de trabajadores.
-        CONTAINER_TRABAJADORES_BODY.innerHTML = "";
-
-        //Se agrega la card para agregar usuario luego de vaciar el campo
-        CONTAINER_TRABAJADORES_BODY.innerHTML += `
-            <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
-                            <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-                                onclick="openCreate()">
-                        </div>
-            `;
-
-        //Verificar si se encontraron resultados.
-        if (searchData.dataset.length > 0) {
-          //Dependiendo los resultados de cada linea se muestran en el contenedor.
-          searchData.dataset.forEach((row) => {
-            CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                        <div class="auto-card card" onclick="openUpdate(${row.id_trabajador})"> <!--Card de empleados #1-->
-                        <div class="content z-3">
-                            <h4 class="open-sans-light-italic">Más información</h4> <!--Boton de mas informacion-->
-                        </div>
-                        <div class="container-img-card"> <!--Imagen de la empresa-->
-                            <h1>DARG</h1> <!--Nombre de la empresa-->
-                            <img src="../../recursos/imagenes/img_empleados/fondo_cliente.png">
-                        </div>
-                        <div class="container-img-card2"> <!--Imagen del empleado-->
-                            <img src="../../recursos/imagenes/img_empleados/empleado.png">
-                            <h1 class=" align-items-center justify-content-center">${row.nombres_trabajador} ${row.apellidos_trabajador}</h1>
-                            <!--Nombre del empleado-->
-                            <h3 class="">${row.dui_trabajador}</h3> <!--DUI-->
-                            <h4 class="">${row.correo_trabajador}</h4> <!--Correo-->
-                            <h4 class="">${row.telefono_trabajador}</h4> <!--Telefono-->
-                        </div>
-                        <div class="container-img-card3"> <!--Logo de la empresa-->
-                            <img src="../../recursos/imagenes/img_empleados/logo.png">
-                            <h2>${row.nombre_especializacion_trabajador}</h2> <!--Especialización del empleado-->
-                        </div>
-                        <div class="container-info-card"> <!--Informacion adicional-->
-                        </div>
-                    </div>
-                        `;
-          });
-        } else {
-          // Mostrar si no se encontro ningun resultado.
-          sweetAlert(4, "No se encontraron resultados", false);
-        }
-      } else {
-        // Mostrar si no se encontro ningun resultado en base de un error.
-        sweetAlert(4, "No se encontraron resultados", false);
-        // Puedes mostrar un mensaje de error al usuario si lo deseas.
-      }
-    } catch (error) {
-      console.error("Error al buscar trabajadores:", error);
-      //Loguea un error si este lo presenta.
-    }
-  });
+//       //Verificar si se encontraron resultados.
+//       if (searchData.dataset.length > 0) {
+//         //Dependiendo los resultados de cada linea se muestran en el contenedor.
+//         searchData.dataset.forEach((row) => {
+//           CONTAINER_TRABAJADORES_BODY.innerHTML += `
+//                         <div class="auto-card card" onclick="openUpdate(${row.id_trabajador})"> <!--Card de empleados #1-->
+//                         <div class="content z-3">
+//                             <h4 class="open-sans-light-italic">Más información</h4> <!--Boton de mas informacion-->
+//                         </div>
+//                         <div class="container-img-card"> <!--Imagen de la empresa-->
+//                             <h1>DARG</h1> <!--Nombre de la empresa-->
+//                             <img src="../../recursos/imagenes/img_empleados/fondo_cliente.png">
+//                         </div>
+//                         <div class="container-img-card2"> <!--Imagen del empleado-->
+//                             <img src="../../recursos/imagenes/img_empleados/empleado.png">
+//                             <h1 class=" align-items-center justify-content-center">${row.nombres_trabajador} ${row.apellidos_trabajador}</h1>
+//                             <!--Nombre del empleado-->
+//                             <h3 class="">${row.dui_trabajador}</h3> <!--DUI-->
+//                             <h4 class="">${row.correo_trabajador}</h4> <!--Correo-->
+//                             <h4 class="">${row.telefono_trabajador}</h4> <!--Telefono-->
+//                         </div>
+//                         <div class="container-img-card3"> <!--Logo de la empresa-->
+//                             <img src="../../recursos/imagenes/img_empleados/logo.png">
+//                             <h2>${row.nombre_especializacion_trabajador}</h2> <!--Especialización del empleado-->
+//                         </div>
+//                         <div class="container-info-card"> <!--Informacion adicional-->
+//                         </div>
+//                     </div>
+//                         `;
+//         });
+//       } else {
+//         // Mostrar si no se encontro ningun resultado.
+//         sweetAlert(4, "No se encontraron resultados", false);
+//       }
+//     } else {
+//       // Mostrar si no se encontro ningun resultado en base de un error.
+//       sweetAlert(4, "No se encontraron resultados", false);
+//       // Puedes mostrar un mensaje de error al usuario si lo deseas.
+//     }
+//   } catch (error) {
+//     console.error("Error al buscar trabajadores:", error);
+//     //Loguea un error si este lo presenta.
+//   }
+// });
 
 
 //Método para hacer el select a la base de los trabajadores disponibles
@@ -295,75 +331,72 @@ function findNumberValue(value) {
  */
 
 const openUpdate = async (id) => {
-  // Se abre el modal para cambiar la info del trabajador
-  SAVE_MODAL.show();
+  if (id) {
+    await SAVE_MODAL.show();
+    ID_EMPLEADO.value = id;
 
-  // Se le asigna el id recibido del select anterior
-  ID_EMPLEADO.value = id;
+    const formData = new FormData();
+    formData.append("idTrabajador", id);
 
-  // Se define una constante tipo objeto con los datos del registro seleccionado.
-  const formData = new FormData();
-  formData.append("idTrabajador", id); // Se agrega el id trabajador al form
+    const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
 
-  // Petición para obtener los datos del registro solicitado.
-  const DATA = await fetchData(TRABAJADORES_API, "readOne", formData);
+    if (DATA.status) {
+      SAVE_FORM.reset();
+      const row = DATA.dataset;
 
-  if (DATA.status) {
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
+      // Inicializar campos
+      ID_EMPLEADO.value = row.id_trabajador;
+      DUI.value = row.dui_trabajador;
+      NIT.value = row.NIT_trabajador;
+      NOMBRES.value = row.nombres_trabajador;
+      APELLIDOS.value = row.apellidos_trabajador;
+      TELEFONO.value = row.telefono_trabajador;
+      CORREO.value = row.correo_trabajador;
+      DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
+      console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
+      // Llamada a fillSelect
 
-    // Se inicializan los campos con los datos.
-    const row = DATA.dataset;
-    ID_EMPLEADO.value = row.id_trabajador;
-    DUI.value = row.dui_trabajador;
-    NIT.value = row.NIT_trabajador;
-    NOMBRES.value = row.nombres_trabajador;
-    APELLIDOS.value = row.apellidos_trabajador;
-    TELEFONO.value = row.telefono_trabajador;
-    CORREO.value = row.correo_trabajador;
-    DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
+      setTimeout(async () => {
+        const selectElement = document.getElementById('especializacion_trabajador');
+        if (selectElement) {
+          await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
+        } else {
+          console.error('El select "especializacion_trabajador" no se encontró después del retraso.');
+        }
+      }, 200); // Ajusta el tiempo según sea necesario
+      
+      // Inicializar otros campos
+      FECHA.value = row.fecha_contratacion;
+      SALARIO.value = row.salario_base;
 
-    // Debugging log
-    FECHA.value = row.fecha_contratacion;
-    SALARIO.value = row.salario_base;
-
-    console.log(row)
-
-    console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
-    await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
-
-
-    // Buscar y marcar el `option` correspondiente como seleccionado
-    const departamentoValue = findNumberValue(row.departamento_trabajador);
-    const options = DEPARTAMENTO.options;
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].text === departamentoValue) {
-        options[i].selected = true;
-        break;
+      // Marcar el option correspondiente
+      const departamentoValue = findNumberValue(row.departamento_trabajador);
+      const options = DEPARTAMENTO.options;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].text === departamentoValue) {
+          options[i].selected = true;
+          break;
+        }
       }
+
+      // Verificar y agregar botón "Eliminar"
+      if (CONTAINER_BOTONES) {
+        if (!document.getElementById("btnTres")) {
+          CONTAINER_BOTONES.innerHTML += `
+            <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
+                    onclick="openDelete(${row.id_trabajador})">Eliminar</button>
+          `;
+        }
+      } else {
+        console.error("CONTAINER_BOTONES is null or undefined.");
+      }
+    } else {
+      sweetAlert(2, DATA.error, false);
     }
 
-    // Verificar si el botón "Eliminar" ya existe antes de añadirlo
-    if (!document.getElementById("btnTres")) {
-      CONTAINER_BOTONES.innerHTML += `
-                <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
-                                                    onclick="openDelete(${row.id_trabajador})">Eliminar</button>
-                `;
-    }
-  } else {
-    sweetAlert(2, DATA.error, false);
+    number = 2; // Cambia el diálogo de la alerta
   }
-
-  // Se asigna la variable para cambiar el diálogo de la alerta
-  number = 2;
-
-  // Actualizar texto de los botones
-  // document.getElementById("btnUno").innerText = "Cancelar";
-  // document.getElementById("btnDos").innerText = "Guardar";
 };
-
-
-
 /*
  *   Función asíncrona para eliminar un registro.
  *   Parámetros: id (identificador del registro seleccionado).
@@ -402,8 +435,6 @@ const openDelete = async (id) => {
   }
 };
 
-
-
 // Función principal para abrir el formulario de creación
 async function openCreate() {
   // Se prepara el formulario.
@@ -415,39 +446,6 @@ async function openCreate() {
   // document.getElementById("btnUno").innerText = "Cancelar";
   // document.getElementById("btnDos").innerText = "Guardar";
 }
-
-var number = 1;
-
-const openClose = async () => {
-  if (number == 1) {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2(
-      "¿Seguro qué quieres regresar?",
-      "Los datos ingresados no serán almacenados"
-    );
-
-    if (RESPONSE.isConfirmed) {
-      SAVE_MODAL.hide();
-      const botonTres = document.getElementById("btnTres");
-      if (botonTres) {
-        botonTres.remove();
-      }
-    }
-  } else {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction2(
-      "¿Seguro qué quieres regresar?",
-      "Los datos ingresados no serán almacenados"
-    );
-    if (RESPONSE.isConfirmed) {
-      SAVE_MODAL.hide();
-      const botonTres = document.getElementById("btnTres");
-      if (botonTres) {
-        botonTres.remove();
-      }
-    }
-  }
-};
 
 // Función para mostrar la imagen seleccionada en un elemento de imagen
 function displaySelectedImage(event, elementId) {
@@ -463,162 +461,53 @@ function displaySelectedImage(event, elementId) {
   }
 }
 
-document
-  .getElementById("input_dui_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, "");
-
-    // Asegurar que no haya más de 9 dígitos
-    inputValue = inputValue.slice(0, 9);
-
-    // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
-    if (inputValue.length > 1) {
-      inputValue = inputValue.slice(0, -1) + "-" + inputValue.slice(-1);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-  });
-
-document
-  .getElementById("input_nit_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, "");
-
-    // Asegurar que no haya más de 14 dígitos
-    inputValue = inputValue.slice(0, 14);
-
-    // Formatear el número agregando los guiones
-    let formattedValue = "";
-
-    if (inputValue.length > 4) {
-      formattedValue += inputValue.slice(0, 4) + "-";
-      inputValue = inputValue.slice(4);
-    }
-
-    if (inputValue.length > 6) {
-      formattedValue += inputValue.slice(0, 6) + "-";
-      inputValue = inputValue.slice(6);
-    }
-
-    if (inputValue.length > 3) {
-      formattedValue += inputValue.slice(0, 3) + "-";
-      inputValue = inputValue.slice(3);
-    }
-
-    // Agregar el último grupo de dígitos
-    if (inputValue.length > 0) {
-      formattedValue += inputValue;
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = formattedValue;
-  });
-
-document
-  .getElementById("input_nombre_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar caracteres que no sean letras o espacios
-    inputValue = inputValue.replace(/[^a-zA-Z\s]/g, "");
-
-    // Asegurar que el texto no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada validada
-    event.target.value = inputValue;
-  });
-
-document
-  .getElementById("input_apellido_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar caracteres que no sean letras o espacios
-    inputValue = inputValue.replace(/[^a-zA-Z\s]/g, "");
-
-    // Asegurar que el texto no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada validada
-    event.target.value = inputValue;
-  });
-
-document
-  .getElementById("input_telefono_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, "");
-
-    // Asegurar que no haya más de 8 dígitos
-    inputValue = inputValue.slice(0, 8);
-
-    // Formatear el número agregando el guión
-    if (inputValue.length > 4) {
-      inputValue = inputValue.slice(0, 4) + "-" + inputValue.slice(4);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-  });
-
-document
-  .getElementById("input_correo_empleados")
-  .addEventListener("input", function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, "");
-
-    // Asegurar que el correo electrónico no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
-    event.target.value = inputValue;
-  });
-
-document.getElementById("input_salario_empleados").addEventListener("input", function (event) {
-  // Obtener el valor actual del campo de texto
-  let inputValue = event.target.value;
-
-  // Eliminar los espacios en blanco
-  inputValue = inputValue.replace(/\s/g, "");
-
-  // Reemplazar cualquier caracter que no sea número, coma o punto con una cadena vacía
-  inputValue = inputValue.replace(/[^\d,.]/g, "");
-
-  // Limitar la longitud total a 7 caracteres incluyendo decimales
-  if (inputValue.includes(".")) {
-    // Si hay un punto decimal, limitamos a 7 caracteres en total
-    let integerPart = inputValue.split(".")[0];
-    let decimalPart = inputValue.split(".")[1] || "";
-    inputValue = `${integerPart.slice(0, 5)}.${decimalPart.slice(0, 2)}`;
-  } else {
-    // Si no hay punto decimal, limitamos a 7 caracteres en total
-    inputValue = inputValue.slice(0, 8);
-  }
-
-  // Actualizar el valor del campo de texto con la entrada limitada
-  event.target.value = inputValue;
-
-  // Validar y agregar la clase 'invalid' si es necesario
-  event.target.classList.toggle("invalid", !/^[\d.,]*$/.test(inputValue));
+NOMBRES.addEventListener('input', function () {
+  checkInput(validateName(NOMBRES.value), NOMBRES, ERROR_NOMBRE);
 });
+
+APELLIDOS.addEventListener('input', function () {
+  checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO);
+});
+
+TELEFONO.addEventListener('input', function () {
+  checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO);
+});
+
+CORREO.addEventListener('input', function () {
+  checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO);
+});
+
+DEPARTAMENTO.addEventListener('input', function () {
+  checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPARTAMENTO);
+});
+
+ESPECIALIZACION.addEventListener('input', function () {
+  checkInput(validateSelect(ESPECIALIZACION.value), ESPECIALIZACION, ERROR_ESPECIAL);
+});
+
+// FECHA.addEventListener('input', function () {
+//   checkInput(validateFecha(FECHA.value), FECHA, ERROR_FECHA);
+// });
+
+SALARIO.addEventListener('input', function () {
+  checkInput(validateSalary(SALARIO.value), SALARIO, ERROR_SALARIO);
+});
+
+function applicateRules() {
+  // Agregar evento a cada campo de contraseña
+  formatDUI(DUI, ERROR_DUI);
+  formatNit(NIT, ERROR_NIT);
+  formatName(NOMBRES);
+  formatName(APELLIDOS);
+  formatPhone(TELEFONO);
+  formatEmail(CORREO);
+  formatSalary(SALARIO);
+
+  disablePasteAndDrop(DUI);
+  disableCopy(DUI);
+  disablePasteAndDrop(NIT);
+  disableCopy(NIT);
+}
 
 function configurarFechaMaxima() {
   var hoy = new Date();
