@@ -1,14 +1,22 @@
     .contenedor-total {
         min-height: 88vh;
         max-height: 88vh;
+
+        max-width: 100vw;
+    }
+
+    body{
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 
     .contenedor-scroll {
         overflow-y: auto;
-        overflow-x: hidden;
+        overflow-x: auto;
         display: grid;
         flex: 1;
-        gap: 30px;
+        gap: 25px;
+        max-width: 100%;
         grid-template-columns: repeat(4, 1fr);
     }
 
@@ -22,7 +30,7 @@
         justify-items: center;
         align-items: center;
         height: 322px;
-        width: 300px;
+        width: 430px;
     }
 
     .img-container,
@@ -90,8 +98,7 @@
         transform: translate(-50%, -50%);
         text-align: center;
     }
-
-    /* Título del contenido de la tarjeta */
+/* 
     .content h4 {
         opacity: 0;
         margin-bottom: 12px;
@@ -100,13 +107,11 @@
         cursor: pointer;
     }
 
-    /* Efecto de crecimiento al pasar el ratón por el contenido */
     .card-red:hover .content h4 {
         scale: 1;
         opacity: 1;
     }
 
-    /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
     .card-red::after {
         content: "";
         position: absolute;
@@ -116,7 +121,7 @@
         background-color: #00000094;
         border-radius: inherit;
         opacity: 0;
-    }
+    } */
 
     /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
     .card-red:hover::after {

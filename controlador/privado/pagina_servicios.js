@@ -109,10 +109,7 @@ document
                         const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
 
                         CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                        <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
-                        <div class="content z-3">
-                            <h4 class="open-sans-light-italic">Más información</h4>
-                        </div>
+                        <div id="card" class="card-red shadow-sm z-2"">
                         <div class="img-container p-3">
                              <img src="${imgSrc}" />
                         </div>
@@ -157,10 +154,7 @@ async function readServicios() {
                 const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
 
                 CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                    <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
-                        <div class="content z-3">
-                            <h4 class="open-sans-light-italic">Más información</h4>
-                        </div>
+                    <div id="card" class="card-red shadow-sm z-2"">
                         <div class="img-container p-3">
                              <img src="${imgSrc}" />
                         </div>
