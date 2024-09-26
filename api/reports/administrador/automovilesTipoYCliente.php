@@ -77,11 +77,14 @@ if ($shouldAddPage) {
     $pdf->setTextColor(0, 0, 0); // Color de texto negro
 
     if (!$estadoCita || !$duiCliente) {
-        $pdf->cell(0, 10, $pdf->encodeString('Parámetros insuficientes para generar el reporte'), 0, 1);
+        $pdf->setFont('Arial', '', 11);
+        $pdf->cell(0, 10, $pdf->encodeString('Parámetros insuficientes para generar el reporte'), 1, 1);
     } elseif (!$cita->setEstadoCita($estadoCita) || !$cita->setIdCliente($duiCliente)) {
-        $pdf->cell(0, 10, $pdf->encodeString('Parámetros inválidos para generar el reporte'), 0, 1);
+        $pdf->setFont('Arial', '', 11);
+        $pdf->cell(0, 10, $pdf->encodeString('Parámetros inválidos para generar el reporte'), 1, 1);
     } else {
-        $pdf->cell(0, 10, $pdf->encodeString('No hay citas para mostrar con los parámetros proporcionados'), 0, 1);
+        $pdf->setFont('Arial', '', 11);
+        $pdf->cell(0, 10, $pdf->encodeString('No hay citas para mostrar con los parámetros proporcionados'), 1, 1);
     }
 }
 
