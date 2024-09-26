@@ -226,25 +226,3 @@ if (isset($_GET['action'])) {
 } else {
     print(json_encode('Recurso no disponible'));
 }
-
-/*Case que quite por si acaso peta todo
-
-case 'readModelos':
-                if ($result['dataset'] = $automovil->readModelos()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
-                } else {
-                    $result['error'] = 'No existen automóviles registrados';
-                }
-                break;
-
-                case 'readColores':
-                if ($result['dataset'] = $automovil->readColores()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' automóviles';
-                } else {
-                    $result['error'] = 'No existen automóviles registrados';
-                }
-                break;
-
-*/
