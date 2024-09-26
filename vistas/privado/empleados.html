@@ -32,11 +32,10 @@
             <!-- -----------------------------------CUERPO----------------------------------->
             <div class="flex-fill col-12">
                 <div class="container">
-                    <form id="searchForm">
+                    <form id="searchForm" autocomplete="off">
                         <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
                             <input type="search" name="search" class="form-control " placeholder="Buscar..."
-                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton">
-
+                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton" autocomplete="off">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover"
                                     data-bs-placement="bottom"
@@ -188,7 +187,7 @@
                                                         de contratación</label> <!--Fecha de contratación-->
                                                     <input type="date" class="form-control" id="fecha_contratacion"
                                                         name="fecha_contratacion" placeholder="" required
-                                                        onclick="configurarFechaMaxima()">
+                                                        onclick="configurarFechaMaxima()" autocomplete="off">
                                                     <div class="invalid-feedback">Por favor ingresa la fecha de
                                                         contratacion.</div>
                                                 </div>
@@ -196,7 +195,7 @@
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="text" class="form-control" id="input_salario_empleados"
                                                         name="input_salario_empleados" placeholder="name@example.com"
-                                                        required>
+                                                        required autocomplete="off">
                                                     <label for="input_salario_empleados">Salario Base</label>
                                                     <!--Salario-->
                                                     <div class="invalid-feedback">Por favor ingresa un salario.</div>

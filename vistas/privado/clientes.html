@@ -47,7 +47,7 @@
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
                     <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Buscador habilitado para: nombres, apellidos, dui, telefono, correo, NIT, NRC, NRF."> <!-- Contenedor del los input de entrada -->
                         <input type="text" class="form-control search" placeholder="Buscar..." id="input_buscar"
-                            name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()">
+                            name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()" autocomplete="off">
                         <button type="button" class="btn btn-outline" onclick="search()"><i class="bi-search"><img
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
@@ -121,13 +121,13 @@
                                     <div class="fecha-desde col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Desde</h6>
                                         <input id="datepicker-desde" class="open-sans-regular-italic datepickerA"
-                                            onkeydown="if (event.keyCode === 13) search()" />
+                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off"/>
                                     </div>
                                     <!--Contenedor de la fecha posterios (hasta)-->
                                     <div class="fecha-hasta col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Hasta</h6>
                                         <input id="datepicker-hasta" class="open-sans-regular-italic datepickerA"
-                                            onkeydown="if (event.keyCode === 13) search()" />
+                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off"/>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
 
                             <div class="collapse col-11 mt-3" id="CantAutos">
                                 <input type="number" name="input_cantd_autos" id="input_cantd_autos" max="99" min="1"
-                                    class="w-50 text-center" onkeydown="if (event.keyCode === 13) search()">
+                                    class="w-50 text-center" onkeydown="if (event.keyCode === 13) search()" autocomplete="off">
                             </div>
 
                         </li>
@@ -308,7 +308,7 @@
                 <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                     <!-- Contenedor del modal body-->
                     <div class="modal-body">
-                        <form id="addForm" name="addForm" class="needs-validation" novalidate  autocomplete="off">
+                        <form id="addForm" name="addForm" class="needs-validation" novalidate autocomplete="off">
                             <!-- Columna izquierda -->
                             <div class="row">
                                 <div class="col-md-6">
