@@ -840,7 +840,7 @@ function formatSalvadoreanPlate(inputElement) {
     });
 }
 
-function formatDUI(inputElement) {
+function formatDUI(inputElement, ERROR) {
     inputElement.addEventListener('input', function (event) {
         // Obtener el valor actual del campo de texto
         let inputValue = event.target.value;
@@ -852,14 +852,19 @@ function formatDUI(inputElement) {
         inputValue = inputValue.slice(0, 9);
 
         // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
-        if (inputValue.length > 1) {
-            inputValue = inputValue.slice(0, -1) + '-' + inputValue.slice(-1);
+        if (inputValue.length > 8) {
+            inputValue = inputValue.slice(0, 8) + '-' + inputValue.slice(8);
         }
 
         // Actualizar el valor del campo de texto con la entrada formateada
         event.target.value = inputValue;
+
+        // Llamar a la validación con el valor formateado
+        const validationResult = validateDUI(inputValue); // Validar el valor ya formateado
+        checkInput(validationResult, inputElement, ERROR);
     });
 }
+
 /*-----------------------------------------------------------------VALIDACIONES(Mensajes de error)------------------------------------------------------------------*/
 
 function validateEmail(email) {

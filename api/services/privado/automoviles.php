@@ -18,30 +18,30 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 // Verificar si $_POST['search'] está definido
                 // Obtener el valor de búsqueda
-                $searchValue = $_POST['search'];
-                $fechaDesde = isset($_POST['fecha_desde']) ? $_POST['fecha_desde'] : '';
-                $fechaHasta = isset($_POST['fecha_hasta']) ? $_POST['fecha_hasta'] : '';
-                $fechaFabricacion = isset($_POST['fecha_fabricacion']) ? $_POST['fecha_fabricacion'] : '';
+                $searchValue = isset($_POST['search']) ? $_POST['search'] : '';
 
                 // Establecer el valor de búsqueda en el objeto automovil
                 $automovil->setSearchValue($searchValue);
-                $automovil->setFechaDesde($fechaDesde);
-                $automovil->setFechaHasta($fechaHasta);
-                $automovil->setFechaFabricacion2($fechaFabricacion);
 
-                // Realizar la búsqueda y verificar si hay resultados
-                $result['dataset'] = $automovil->searchRows();
-
-                if (!empty($result['dataset'])) {
-                    $result['status'] = 1; // Éxito: se encontraron resultados
+                // Buscar clientes con los criterios definidos.
+                if ($result['dataset'] = $automovil->searchRows()) {
+                    $result['status'] = 1;
                 } else {
-                    $result['error'] = 'No hay coincidencias'; // No se encontraron resultados
+                    $result['error'] = 'No hay coincidencias.';
                 }
                 break;
             case 'createRow':
-                $result['Entre'] = "SI";
+                // Validar los datos del formulario
                 $_POST = Validator::validateForm($_POST);
-                $result['Entre'] = "AQUÍ NO ESTA EL ERROR";
+
+                // Obtener el ID del cliente basado en el DUI
+                $IdCliente = $automovil->getIdCliente($_POST['label_dui']);
+
+                if (!$IdCliente) {
+                    $result['error'] = 'No existe el DUI del cliente en la base de datos.';
+                    break;
+                }
+
                 if (
                     !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or
@@ -49,10 +49,9 @@ if (isset($_GET['action'])) {
                     !$automovil->setFechaFabricacion($_POST['input_fecha_auto']) or
                     !$automovil->setPlaca($_POST['input_placa']) or
                     !$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename()) or
-                    !$automovil->setIdCliente($_POST['input_duiP']) or
+                    !$automovil->setIdCliente($IdCliente) or  // Aquí se usa la variable $IdCliente
                     !$automovil->setIdMarcaAutomovil($_POST['input_marca_auto'])
                 ) {
-                    $result['Entre'] = "SIs";
                     $result['error'] = $automovil->getDataError();
                 } elseif ($automovil->createRowAdmin()) {
                     $result['status'] = 1;

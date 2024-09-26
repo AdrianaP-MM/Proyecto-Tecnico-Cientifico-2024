@@ -30,13 +30,13 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
-    public function setModeloAutomovil($value)
+    public function setModeloAutomovil($value, $min = 1, $max = 50)
     {
-        if (Validator::validateString($value)) { // Cambiado a validación de cadena
+        if (Validator::validateLength($value, $min, $max)) {
             $this->modelo_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El modelo del automóvil es incorrecto';
+            $this->data_error = 'El modelo del automóvil es incorrecto.';
             return false;
         }
     }

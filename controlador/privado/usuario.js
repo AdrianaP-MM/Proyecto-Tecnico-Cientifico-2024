@@ -99,7 +99,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     if (TELEFONO.value === '' || CORREO === '') {
-        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
         return;
     }
 
@@ -169,7 +169,7 @@ PASSWORD_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     if (CONTRASENA_ACTUAL.value === '' || CONTRASENA_NUEVA === '' || REPETIR_CONTRASENA === '') {
-        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
         return;
     }
 

@@ -218,7 +218,8 @@ body {
 }
 
 .container-scroll {
-    max-height: 90%;
+    min-height: 65vh;
+    max-height: 65vh;
     /* Ajusta el valor a la altura máxima deseada */
     overflow-y: auto;
     /* Agrega desplazamiento vertical si el contenido excede la altura máxima */

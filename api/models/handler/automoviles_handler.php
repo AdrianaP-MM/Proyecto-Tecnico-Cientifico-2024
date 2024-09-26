@@ -27,6 +27,16 @@ class AutomovilHandler
 
     const RUTA_IMAGEN = '../../../api/images/automoviles/';
 
+    public function getIdCliente($DuiCliente)
+    {
+        // Definimos la consulta SQL para obtener la fecha de última modificación
+        $sql = "SELECT id_cliente FROM tb_clientes WHERE dui_cliente = ?;";
+        // Establecemos los parámetros para la consulta (en este caso, el ID del usuario)
+        $params = array($DuiCliente);
+        // Ejecuta la consulta y retorna la fecha de última modificación o null si no se encuentra
+        return Database::getRow($sql, $params)['id_cliente'] ?? null;
+    }
+
     public function searchAutosByPlaca()
     {
         // Consulta SQL para leer todos los automóviles eliminados del cliente actual
@@ -48,44 +58,35 @@ class AutomovilHandler
     public function searchRows()
     {
         // Consulta SQL para buscar automóviles
-        $sql = 'SELECT c.nombres_cliente AS nombre_cliente,
-                c.dui_cliente AS dui_cliente,
-                co.nombre_color AS nombre_color,
-                mo.nombre_modelo_automovil AS nombre_modelo,
-                ma.nombre_marca_automovil AS nombre_marca,
-                a.*
-                FROM tb_automoviles a
-                INNER JOIN tb_clientes c USING(id_cliente)
-                INNER JOIN tb_colores co USING(id_color)
-                INNER JOIN tb_modelos_automoviles mo USING(modelo_automovil) // Cambio aquí
-                INNER JOIN tb_marcas_automoviles ma USING(id_marca_automovil)
-                WHERE estado_automovil = ?';
+        $sql = '       SELECT 
+        c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        ma.nombre_marca_automovil AS nombre_marca,
+        a.id_automovil,
+        a.modelo_automovil,
+        a.id_tipo_automovil,
+        a.color_automovil,
+        a.fecha_fabricacion_automovil,
+        a.placa_automovil,
+        a.imagen_automovil,
+        a.id_cliente,
+        a.id_marca_automovil,
+        a.fecha_registro,
+        a.estado_automovil
+        FROM 
+        tb_automoviles a
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
+        WHERE 
+        a.estado_automovil = ?';
 
         $params = array('Activo');
 
         if ($this->search_value) {
-            $sql .= ' AND (placa_automovil LIKE ?)';
-            $params[] = "%{$this->search_value}%";
-        }
-
-        if ($this->fecha_desde && $this->fecha_hasta) {
-            $sql .= ' AND fecha_registro BETWEEN ? AND ?';
-            $params[] = $this->fecha_desde;
-            $params[] = $this->fecha_hasta;
-        } else {
-            if ($this->fecha_desde) {
-                $sql .= ' AND fecha_registro >= ?';
-                $params[] = $this->fecha_desde;
-            }
-            if ($this->fecha_hasta) {
-                $sql .= ' AND fecha_registro <= ?';
-                $params[] = $this->fecha_hasta;
-            }
-        }
-
-        if ($this->fecha_fabricacion_automovil) {
-            $sql .= ' AND YEAR(fecha_fabricacion_automovil) = ?';
-            $params[] = $this->fecha_fabricacion_automovil;
+            $sql .= " AND placa_automovil = ?";
+            $params[] = $this->search_value;
         }
 
         return Database::getRows($sql, $params);
@@ -113,7 +114,7 @@ class AutomovilHandler
         id_marca_automovil = ?,
         id_cliente = ?
         WHERE id_automovil = ?';
-    
+
         // Asegúrate de que las propiedades están bien asignadas
         $params = array(
             $this->modelo_automovil,
@@ -126,7 +127,7 @@ class AutomovilHandler
             $this->id_cliente, // Verifica si este campo es necesario
             $this->id_automovil
         );
-    
+
         // Ejecutar la consulta
         return Database::executeRow($sql, $params);
     }
@@ -429,13 +430,13 @@ class AutomovilHandler
         $sql = 'UPDATE tb_marcas_automoviles SET 
         nombre_marca_automovil = ?
         WHERE id_marca_automovil = ?';
-    
+
         // Asegúrate de que las propiedades están bien asignadas
         $params = array(
             $this->nombre_marca_automovil,
             $this->id_marca_automovil
         );
-    
+
         // Ejecutar la consulta
         return Database::executeRow($sql, $params);
     }
@@ -468,7 +469,4 @@ class AutomovilHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-
 }
-
-

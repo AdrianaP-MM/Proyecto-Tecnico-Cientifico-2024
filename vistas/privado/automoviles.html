@@ -59,9 +59,18 @@
                         data-bs-content="Buscador habilitado para: placa de los automóviles">
                         <!-- Contenedor del los input de entrada -->
                         <input type="text" class="form-control search" placeholder="Buscar..." name="input_buscar"
-                            id="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()">
+                            id="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()"
+                            autocomplete="off">
                         <button type="button" class="btn btn-outline"><i class="bi-search"><img
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                    </div>
+
+                    <div class="d-flex me-auto ms-5 mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
+                        onclick="reload();">
+                        <i class="hvr-icon">
+                            <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
+                        </i>
+                        <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
                     </div>
 
                     <div class="d-flex justify-content-center align-content-center mt-5 col-12" id="asd">
@@ -432,8 +441,7 @@
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_placa" name="input_placa" required
-                                        placeholder="..." minlength="9"
-                                        maxlength="9" autocomplete="off">
+                                        placeholder="..." minlength="9" maxlength="9" autocomplete="off">
                                     <label for="input_placa">Placa</label>
                                     <span id="ERROR-PLACA-ADD" class="text-danger"></span>
                                 </div>
@@ -446,8 +454,7 @@
                                 <input type="hidden" id="input_duiP" name="input_duiP">
                                 <div class="form-floating mb-3">
                                     <input id="label_dui" name="label_dui" type="text" class="form-control"
-                                        placeholder="DUI" required minlength="10"
-                                        maxlength="10" autocomplete="off">
+                                        placeholder="DUI" required minlength="10" maxlength="10" autocomplete="off">
                                     <label for="label_dui" class="form-label">DUI</label>
                                     <span id="ERROR-DUI-ADD" class="text-danger"></span>
                                 </div>
@@ -543,9 +550,6 @@
                 </form>
             </div>
         </div>
-
-
-
     </main>
 
     <!-- jQuery (necesario para jQuery UI) -->

@@ -24,8 +24,6 @@ const SAVE_FORM_MARCAS = document.getElementById('saveFormMarcas'),
 const SEARCH_FORM_MARCAS = document.getElementById('searchMarca');
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
-
-const INPUT_BUSQUEDA = document.getElementById('input_buscar');
 const FECHA_DESDE = document.getElementById("datepicker-desdeRE");
 const FECHA_HASTA = document.getElementById("datepicker-hastaRE");
 
@@ -57,37 +55,35 @@ SEARCH_FORM.addEventListener('submit', (event) => {
     fillTable(FORM);
 });*/
 
-
+//Inputs de BUSQUeDA---------------------------------------------------------------------------------------
+const INPUT_BUSQUEDA = document.getElementById('input_buscar');
 const search = async () => {
     const FORM = new FormData();
 
     if (INPUT_BUSQUEDA.value) {
         FORM.append('search', INPUT_BUSQUEDA.value);
+        console.log('Buscando...');
     }
-
-    if (FECHA_DESDE.value) {
-        FORM.append('fecha_desde', formatDateToMySQL(FECHA_DESDE.value));
-    }
-
-    if (FECHA_HASTA.value) {
-        FORM.append('fecha_hasta', formatDateToMySQL(FECHA_HASTA.value));
-    }
-
-    if (FECHA_FABRICACION_CARRO.value) {
-        FORM.append('fecha_fabricacion', FECHA_FABRICACION_CARRO.value);
+    else {
+        fillTable();
+        return;
     }
 
     fillTable(FORM);
+}
+function reload() {
+    fillTable();
+    INPUT_BUSQUEDA.value = '';
 }
 
 //Inputs de AGREGAR AUTOMOVIL---------------------------------------------------------------------------------------
 const SAVE_FORM = document.getElementById('saveForm');
 
 const MODELO = document.getElementById('input_modelo_auto');
-const MODELO_ERROR = document.getElementById('ERROR-MODELO-ADD');
+const MODELO_ERROR_ADD = document.getElementById('ERROR-MODELO-ADD');
 
 const TIPO_AUTO = document.getElementById('input_tipo_auto');
-const ERROR_TIPO_AUTO = document.getElementById('ERROR-TIPO-ADD');
+const ERROR_TIPO_AUTO_ADD = document.getElementById('ERROR-TIPO-ADD');
 
 const FECHA = document.getElementById('input_fecha_auto');
 const ERROR_FECHA_ADD = document.getElementById('ERROR-FECHA-ADD');
@@ -104,20 +100,20 @@ const ERROR_MARCA_ADD = document.getElementById('ERROR-MARCA-ADD');
 const DUI = document.getElementById('label_dui');
 const ERROR_DUI_ADD = document.getElementById('ERROR-DUI-ADD');
 
-DUI.addEventListener('input', function () {
-    checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD);
-});
+// DUI.addEventListener('input', function () {
+//     checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD);
+// });
 
 MARCA.addEventListener('input', function () {
     checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_ADD);
 });
 
 MODELO.addEventListener('input', function () {
-    checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR);
+    checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR_ADD);
 });
 
 TIPO_AUTO.addEventListener('input', function () {
-    checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_AUTO);
+    checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_AUTO_ADD);
 });
 
 FECHA.addEventListener('input', function () {
@@ -138,6 +134,25 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     // Se verifica la acción a realizar.
     (ID_AUTOMOVIL.value) ? action = 'updateRow' : action = 'createRow';
+    if (action === 'createRow') {
+        if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA.value === '' || DUI.value === '' ||
+            COLOR.value === '' || PLACA.value === '' || MARCA.value === ''
+        ) {
+            await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+            return;
+        }
+
+        if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_ADD) ||
+            !checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR_ADD) ||
+            !checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_AUTO_ADD) ||
+            !checkInput(validateYear(FECHA.value), FECHA, ERROR_FECHA_ADD) ||
+            !checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_ADD) ||
+            !checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_ADD)) {
+            return;
+        }
+    } else {
+
+    }
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
 
@@ -160,7 +175,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
             await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
         }
         else {
-            sweetAlert(4, DATA.error, true);
+            sweetAlert(2, DATA.error, true);
         }
     }
 });
@@ -170,7 +185,8 @@ function applicateRules() {
     formatCarModelName(MODELO);
     formatYear(FECHA);
     formatSalvadoreanPlate(PLACA);
-    formatDUI(DUI);
+    formatDUI(DUI, ERROR_DUI_ADD);
+    formatSalvadoreanPlate(INPUT_BUSQUEDA)
 }
 
 /*
@@ -368,30 +384,6 @@ IMG.addEventListener('change', function (event) {
         }
         reader.readAsDataURL(file);
     }
-});
-
-document.getElementById('input_buscar').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea una 'P', letras o números
-    inputValue = inputValue.replace(/[^P0-9A-Za-z]/g, '');
-
-    // Asegurarse de que comience con 'P'
-    if (inputValue.length > 0 && inputValue.charAt(0) !== 'P') {
-        inputValue = 'P' + inputValue.substring(1);
-    }
-
-    // Limitar a 8 caracteres
-    inputValue = inputValue.slice(0, 7);
-
-    // Insertar guión antes de los últimos 3 caracteres
-    if (inputValue.length > 3) {
-        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue.toUpperCase(); // Convertir a mayúsculas
 });
 
 // Funcion que hace el efecto de rotacion en la flecha de cada elemento de los filtros
