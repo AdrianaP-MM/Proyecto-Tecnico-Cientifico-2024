@@ -10,18 +10,15 @@ const TABLE_BODY = document.getElementById('tableBody'),
 const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM = document.getElementById('saveForm'),
-    ID_AUTOMOVIL = document.getElementById('idAuto'),
-    IMG = document.getElementById('customFile2'),
-    IMAGEN = document.getElementById('selectedImageF'),
-    MODELO = document.getElementById('input_modelo_auto'),
-    TIPO_AUTO = document.getElementById('input_tipo_auto'),
-    FECHA_FABRICACION = document.getElementById('fechanInput'),
-    FECHA = document.getElementById('input_fecha_auto'),
-    COLOR = document.getElementById('input_color_auto'),
-    PLACA = document.getElementById('input_placa'),
-    CLIENTE = document.getElementById('input_duiP');
-    DUI = document.getElementById('label_dui');
+const ID_AUTOMOVIL = document.getElementById('idAuto');
+const IMG = document.getElementById('customFile2');
+const IMAGEN = document.getElementById('selectedImageF');
+const FECHA_FABRICACION = document.getElementById('fechanInput');
+const FECHA = document.getElementById('input_fecha_auto');
+const COLOR = document.getElementById('input_color_auto');
+const PLACA = document.getElementById('input_placa');
+const CLIENTE = document.getElementById('input_duiP');
+const DUI = document.getElementById('label_dui');
 
 //Constantes de CRUD de marcas
 const TABLE_MARCAS = document.getElementById('tablaMarcas');
@@ -86,11 +83,7 @@ const search = async () => {
 
     fillTable(FORM);
 }
-const modeloERROR = document.getElementById('modeloERROR');
 
-MODELO.addEventListener('input', function () {
-    checkInput(validateCarModelName(MODELO.value), MODELO, modeloERROR);
-});
 
 const fechaERROR = document.getElementById('fechaERROR');
 
@@ -110,7 +103,18 @@ DUI.addEventListener('input', function () {
     checkInput(validateDUI(DUI.value), DUI, duiERROR);
 });
 
+//Inputs de AGREGAR AUTOMOVIL---------------------------------------------------------------------------------------
+const SAVE_FORM = document.getElementById('saveForm');
 
+const MODELO = document.getElementById('input_modelo_auto');
+const MODELO_ERROR = document.getElementById('ERROR-MODELO-ADD');
+
+const TIPO_AUTO = document.getElementById('input_tipo_auto');
+const ERROR_TIPO_AUTO = document.getElementById('')
+
+MODELO.addEventListener('input', function () {
+    checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR);
+});
 
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {

@@ -30,7 +30,7 @@
     <!--Cambiarlo por el css de la página en cuestion-->
     <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
-    
+
 
     <!-- *Llamada a las hojas de estilos del DatePicker-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -46,6 +46,15 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
+
+                    <!-- <div class="d-flex justify-content-center d-flex align-items-baseline">
+                        <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
+                        <h3 class="px-3 open-sans-bold">Filtros</h3>
+                        <a href="#" class="text-black d-md-none" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+                            <h3 class="open-sans-bold">X</h3>
+                        </a>
+                    </div> -->
+
                     <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         data-bs-content="Buscador habilitado para: placa de los automóviles">
                         <!-- Contenedor del los input de entrada -->
@@ -55,16 +64,10 @@
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
 
-                    <div class="d-flex justify-content-center align-content-center" id="asd">
-                        <button class="btn btnMarcas" onclick="openCRUDMarcas()">Administrar marcas</button>
-                    </div>
-                    <div class="d-flex justify-content-center d-flex align-items-baseline">
-                        <!-- Contenedor del los input de entrada -->
-                        <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
-                        <h3 class="px-3 open-sans-bold">Filtros</h3>
-                        <a href="#" class="text-black d-md-none" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
-                            <h3 class="open-sans-bold">X</h3>
-                        </a>
+                    <div class="d-flex justify-content-center align-content-center mt-5 col-12" id="asd">
+                        <button class="btn btnMarcas col-lg-6 col-md-10 col-12" onclick="openCRUDMarcas()">
+                            <p class="open-sans-light p-0 m-0">Administrar marcas</p>
+                        </button>
                     </div>
                 </div>
                 <hr>
@@ -91,7 +94,7 @@
                                     <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start">
                                         Contenedor de la lista no ordenada
                                         <li class="list-group-item p-0 m-0 px-2">
-                                             Primer elemento de marca
+                                            Primer elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca1">
                                             <label class="form-check-label stretched-link" for="Marca1">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -365,12 +368,13 @@
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-                <form id="saveForm" class="needs-validation" novalidate  autocomplete="off"> <!--Formulario de guardado-->
+            <div class="modal-dialog modal-dialog-centered modal-xl my-0">
+                <form id="saveForm" class="needs-validation" novalidate autocomplete="off">
+                    <!--Formulario de guardado-->
                     <!-- Contenedor del modal content-->
                     <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <!-- Contenedor del modal body-->
-                        <div class="modal-body row">
+                        <div class="modal-body row ">
                             <!-- Contenedor de la izquierda, imagen del automóvil-->
                             <div
                                 class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
@@ -386,29 +390,31 @@
                             </div>
                             <!-- Contenedor de la derecha, información del automóvil-->
                             <div class="content-add-info col-md-7">
-                                <input type="number" id="idAuto" name="idAuto" class="invisible">
+                                <input type="number" id="idAuto" name="idAuto" class="invisible position-absolute">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_modelo_auto"
-                                        name="input_modelo_auto" required placeholder="...">
+                                        name="input_modelo_auto" required placeholder="..." required minlength="10"
+                                        maxlength="50" autocomplete="off">
                                     <label for="input_modelo_auto">Modelo</label>
-                                    <span id="modeloERROR" class="text-danger"></span>
+                                    <span id="ERROR-MODELO-ADD" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
                                     <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
-                                        required></select>
-                                    <div class="invalid-feedback">Por favor seleccione el tipo.</div>
+                                        required autocomplete="off"></select>
+                                    <span id="ERROR-TIPO-ADD" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_fecha_auto"
-                                        name="input_fecha_auto" required placeholder="...">
+                                        name="input_fecha_auto" required placeholder="..." minlength="4" maxlength="4"
+                                        autocomplete="off">
                                     <label for="input_fecha_auto">Fecha de fabricacion</label>
-                                    <span id="fechaERROR" class="text-danger"></span>
+                                    <span id="ERROR-FECHA-ADD" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
                                     <select id="input_color_auto" name="input_color_auto" type="text"
-                                        class="form-select" required>
+                                        class="form-select" required autocomplete="off">
                                         <option value>Seleccione un color</option>
                                         <option value="Rojo">Rojo</option>
                                         <option value="Azul">Azul</option>
@@ -421,33 +427,34 @@
                                         <option value="Tornasol">Tornasol</option>
                                         <option value="Plata">Plata</option>
                                         <option value="Otro">Otro</option>
-
                                     </select>
-                                    <div class="invalid-feedback">Por favor seleccione el color.</div>
+                                    <span id="ERROR-COLOR-ADD" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_placa" name="input_placa" required
-                                        placeholder="...">
+                                        placeholder="..." minlength="9"
+                                        maxlength="9" autocomplete="off">
                                     <label for="input_placa">Placa</label>
-                                    <span id="placaERROR" class="text-danger"></span>
+                                    <span id="ERROR-PLACA-ADD" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
                                     <select id="input_marca_auto" name="input_marca_auto" type="text"
-                                        class="form-select" required></select>
-                                    <div class="invalid-feedback">Por favor seleccione la marca.</div>
+                                        class="form-select" required autocomplete="off"></select>
+                                    <span id="ERROR-MARCA-ADD" class="text-danger"></span>
                                 </div>
                                 <input type="hidden" id="input_duiP" name="input_duiP">
                                 <div class="form-floating mb-3">
                                     <input id="label_dui" name="label_dui" type="text" class="form-control"
-                                        placeholder="DUI" required>
+                                        placeholder="DUI" required minlength="10"
+                                        maxlength="10" autocomplete="off">
                                     <label for="label_dui" class="form-label">DUI</label>
-                                    <span id="duiERROR" class="text-danger"></span>
+                                    <span id="ERROR-DUI-ADD" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-4">
                             <button type="button" class="btn btn-secondary btnCancel mx-5"
                                 onclick="openClose()">Cancelar</button>
                             <button type="submit" class="btn btn-primary btnSave">Guardar</button>
@@ -463,7 +470,7 @@
             <!-- Contenedor del modal dialog-->
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <!-- Formulario de guardado (separado del buscador) -->
-                <form id="saveFormMarcas" class="needs-validation" novalidate  autocomplete="off">
+                <form id="saveFormMarcas" class="needs-validation" novalidate autocomplete="off">
                     <!-- Contenedor del modal content-->
                     <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                         <!-- Contenedor del modal body-->

@@ -229,9 +229,9 @@ INPUT_FECHA_LLEGADA.addEventListener('input', function () {
   checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA);
 });
 
-// INPUT_AUTOMOVIL.addEventListener('input', function () {
-//   checkInput(validatePlaca(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL);
-// });
+INPUT_AUTOMOVIL.addEventListener('input', function () {
+  checkInput(validatePlaca(INPUT_AUTOMOVIL.value), INPUT_AUTOMOVIL, ERRROR_INPUT_AUTOMOVIL);
+});
 
 // INPUT_ZONA.addEventListener('input', function () {
 //   checkInput(validateFecha(INPUT_ZONA.value), INPUT_ZONA, ERROR_INPUT_ZONA);

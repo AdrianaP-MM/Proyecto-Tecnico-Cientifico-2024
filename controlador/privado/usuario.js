@@ -98,6 +98,12 @@ CORREO.addEventListener('input', function () {
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    if (TELEFONO.value === '' || CORREO === '') {
+        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        return;
+    }
+
+
     if (!checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, phoneERROR) || !checkInput(validateEmail(CORREO.value), CORREO, emailERROR)) {
         return;
     }
@@ -161,6 +167,11 @@ REPETIR_CONTRASENA.addEventListener('input', function () {
 PASSWORD_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+
+    if (CONTRASENA_ACTUAL.value === '' || CONTRASENA_NUEVA === '' || REPETIR_CONTRASENA === '') {
+        await sweetAlert(2, 'Por favor, complete todos los campos', true);
+        return;
+    }
 
     if (!checkInput(validatePassword(CONTRASENA_ACTUAL.value, userData), CONTRASENA_ACTUAL, passwordErrorACTUAL) ||
         !checkInput(validatePassword(CONTRASENA_NUEVA.value, userData), CONTRASENA_NUEVA, passwordErrorNUEVA) ||
@@ -287,7 +298,7 @@ document.getElementById('toggleButton').addEventListener('change', async functio
 
     if (RESPONSE.isConfirmed) {
         const toggleState = this.checked ? '1' : '0';
-        
+
         // Verificar el estado del toggle
         console.log('Nuevo estado:', toggleState); // Verificar si el estado es '1' o '0'
 

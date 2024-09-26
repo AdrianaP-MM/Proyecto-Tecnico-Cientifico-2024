@@ -1,21 +1,30 @@
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav */
 .mynav li a {
-    color: #000000; /* Color del texto */
-    text-decoration: none; /* Elimina la decoración de texto */
+    color: #000000;
+    /* Color del texto */
+    text-decoration: none;
+    /* Elimina la decoración de texto */
     width: 100%;
     display: block;
     border-radius: 5px;
     padding: 8px 5px;
 }
 
+#saveModal{
+    min-height: 100vh;
+    max-height: 100vh;
+}
+
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav cuando está activo */
 .mynav li a.active {
-    background: rgba(255, 255, 255, 0.2); /* Fondo transparente */
+    background: rgba(255, 255, 255, 0.2);
+    /* Fondo transparente */
 }
 
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav cuando se pasa el mouse por encima */
 .mynav li a:hover {
-    background: rgba(255, 255, 255, 0.2); /* Fondo transparente */
+    background: rgba(255, 255, 255, 0.2);
+    /* Fondo transparente */
 }
 
 /* Estilo de la etiqueta i dentro de la etiqueta a del elemento li de la clase mynav */
@@ -27,7 +36,8 @@
 /* Estilo del header del menú lateral (filtros) */
 .sidebar-header {
     display: grid;
-    gap: 25px; /* Espacio entre elementos */
+    gap: 25px;
+    /* Espacio entre elementos */
     grid-template-columns: auto;
 }
 
@@ -35,7 +45,8 @@
 hr {
     border: none;
     border-top: 1px solid;
-    border-color: #7C7C7C; /* Color de la línea */
+    border-color: #7C7C7C;
+    /* Color de la línea */
 }
 
 /* Estilo para la barra de búsqueda */
@@ -111,8 +122,10 @@ hr {
 
 /* Estilo del checkbox seleccionado */
 .form-check-input:checked {
-    background-color: #FF0000; /* Color de fondo del checkbox seleccionado */
-    border-color: #FF0000; /* Color del borde del checkbox seleccionado */
+    background-color: #FF0000;
+    /* Color de fondo del checkbox seleccionado */
+    border-color: #FF0000;
+    /* Color del borde del checkbox seleccionado */
 }
 
 /* Estilos para la scrollbar */
@@ -121,7 +134,8 @@ hr {
 .contenedor-modelos-nombre::-webkit-scrollbar,
 .contenedor-checkbox2::-webkit-scrollbar,
 .contenedor-total-cards::-webkit-scrollbar {
-    width: 10px; /* Ancho del scrollbar */
+    width: 10px;
+    /* Ancho del scrollbar */
 }
 
 /* Estilos para el scrollbar thumb */
@@ -130,8 +144,10 @@ hr {
 .contenedor-modelos-nombre::-webkit-scrollbar-thumb,
 .contenedor-checkbox2::-webkit-scrollbar-thumb,
 .contenedor-total-cards::-webkit-scrollbar-thumb {
-    background-color: #BA181B; /* Color del scrollbar thumb */
-    border-radius: 8px; /* Borde redondeado del thumb */
+    background-color: #BA181B;
+    /* Color del scrollbar thumb */
+    border-radius: 8px;
+    /* Borde redondeado del thumb */
 }
 
 
@@ -140,22 +156,29 @@ hr {
 .contenedor-modelos-nombre::-webkit-scrollbar,
 .contenedor-checkbox2::-webkit-scrollbar,
 .contenedor-total-cards::-webkit-scrollbar {
-    width: 10px; /* Ancho del scrollbar */
+    width: 10px;
+    /* Ancho del scrollbar */
 }
 
 .contenedor-checkbox::-webkit-scrollbar-thumb {
-    background-color: #BA181B; /* Color del scrollbar thumb */
-    border-radius: 8px; /* Borde redondeado del thumb */
+    background-color: #BA181B;
+    /* Color del scrollbar thumb */
+    border-radius: 8px;
+    /* Borde redondeado del thumb */
 }
 
 #bdSidebar::-webkit-scrollbar-thumb {
-    background-color: #e5383b5c; /* Color del scrollbar thumb */
-    border-radius: 8px; /* Borde redondeado del thumb */
+    background-color: #e5383b5c;
+    /* Color del scrollbar thumb */
+    border-radius: 8px;
+    /* Borde redondeado del thumb */
 }
 
 .contenedor-modelos-nombre::-webkit-scrollbar-thumb {
-    background-color: #FF2D31; /* Color del scrollbar thumb */
-    border-radius: 8px; /* Borde redondeado del thumb */
+    background-color: #FF2D31;
+    /* Color del scrollbar thumb */
+    border-radius: 8px;
+    /* Borde redondeado del thumb */
 }
 
 /* Scrollbar */
@@ -239,13 +262,16 @@ hr {
     .auto-card {
         min-height: 400px;
     }
+
     .container-info-card {
         grid-template-columns: repeat(3, 1fr);
     }
-    .c2>p{
+
+    .c2>p {
         flex-direction: column;
         display: flex;
     }
+
     .contenedor-total-cards {
         padding-right: 20px;
         padding-left: 20px;
@@ -278,6 +304,7 @@ hr {
         flex-direction: row;
         display: flex;
     }
+
     .auto-card {
         min-height: 350px;
     }
@@ -299,6 +326,7 @@ hr {
         padding-right: 90px;
         padding-left: 90px;
     }
+
     .auto-card {
         min-height: 350px;
     }
@@ -310,6 +338,7 @@ hr {
     .auto-card {
         min-height: 300px;
     }
+
     .contenedor-total-cards {
         padding-right: 35px;
         padding-left: 35px;
@@ -324,6 +353,7 @@ hr {
         padding-right: 15px;
         padding-left: 15px;
     }
+
     .auto-card {
         min-height: 300px;
     }
@@ -338,6 +368,7 @@ hr {
         padding-right: 20px;
         padding-left: 20px;
     }
+
     .auto-card {
         grid-template-rows: 4fr 2fr;
         min-height: 290px;
@@ -462,17 +493,16 @@ hr {
 /* Estilos para el botón de guardar */
 .btnSave,
 .btnMarcas {
-    background-color: #E00D11;
+    background-color: #E5383B;
 }
 
-.btnMarcas{
-    width: 100%;
+.btnMarcas {
     color: whitesmoke;
 }
 
-.btnMarcas:hover{
-   background-color: #E5383B;
-   color: white;
+.btnMarcas:hover {
+    background-color: #E00D11;
+    color: white;
 }
 
 
@@ -491,7 +521,8 @@ hr {
 /* Etiqueta flotante enfocada o con contenido */
 .form-floating .form-control:focus~label,
 .form-floating .form-control:not(:placeholder-shown)~label {
-    color: red; /* Color rojo */
+    color: red;
+    /* Color rojo */
     /* Color rojo */
 }
 
@@ -513,21 +544,24 @@ hr {
 }
 
 /* Estilos para la tabla */
-.table th{
+.table th {
     background: #E00D11;
     color: white;
 }
 
-.table tr{
-    cursor:pointer;
+.table tr {
+    cursor: pointer;
 }
 
 .ui-autocomplete {
     z-index: 9999;
-    background-color: white; /* Asegura que el fondo sea visible */
+    background-color: white;
+    /* Asegura que el fondo sea visible */
     border: 1px solid #ccc;
-    max-height: 100px; /* Limita la altura si hay muchos elementos */
-    overflow-y: auto; /* Permite scroll si es necesario */
+    max-height: 100px;
+    /* Limita la altura si hay muchos elementos */
+    overflow-y: auto;
+    /* Permite scroll si es necesario */
     width: 20%;
 }
 
@@ -538,14 +572,16 @@ hr {
 }
 
 .ui-menu-item:hover {
-    background-color: #f0f0f0; /* Resalta los elementos al pasar el cursor */
+    background-color: #f0f0f0;
+    /* Resalta los elementos al pasar el cursor */
 }
 
 .modal-dialog {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Centrado vertical completo */
+    min-height: 100vh;
+    /* Centrado vertical completo */
 }
 
 .modal-content {
