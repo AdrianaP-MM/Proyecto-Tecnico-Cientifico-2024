@@ -1,4 +1,5 @@
 const SERVICIOS_API = 'services/privado/servicio.php';
+const USER_API = 'services/privado/usuarios.php';
 const TIPOS_API = 'services/privado/tipo_servicio.php';
 const SERVICIO_DATA_CONTAINER = document.getElementById('ServicioDataContainer');
 const CONTAINER_BOTONES = document.getElementById('containerBotones');
@@ -197,9 +198,9 @@ document
 
         // Constante tipo objeto con los datos del formulario de barra de busqueda.
         const formData = new FormData(document.getElementById("searchForm"));
-        formData.append("id_tipo_servicio", idTipoServicio); 
+        formData.append("id_tipo_servicio", idTipoServicio);
 
-        
+
 
         // Verifica qué datos se están enviando
         console.log("Form Data:", Array.from(formData.entries()));
@@ -398,21 +399,25 @@ SAVE_FORM_2.addEventListener('submit', async (event) => {
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-
     loadTemplate();
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        // Agregar un evento de teclado al input del nombre del servicio
+        NOMBRE_SERVICIO.addEventListener('input', function (event) {
+            // Obtener el valor actual del input
+            const valorInput = event.target.value;
 
-    // Agregar un evento de teclado al input del nombre del servicio
-    NOMBRE_SERVICIO.addEventListener('input', function (event) {
-        // Obtener el valor actual del input
-        const valorInput = event.target.value;
+            // Verificar si el valor contiene algún número
+            if (/\d/.test(valorInput)) {
+                // Si el valor contiene números, mostrar una alerta y borrar el contenido
+                sweetAlert(3, 'El nombre del servicio no puede contener números', false);
+                event.target.value = ''; // Borrar el contenido del input
+            }
+        });
 
-        // Verificar si el valor contiene algún número
-        if (/\d/.test(valorInput)) {
-            // Si el valor contiene números, mostrar una alerta y borrar el contenido
-            sweetAlert(3, 'El nombre del servicio no puede contener números', false);
-            event.target.value = ''; // Borrar el contenido del input
-        }
-    });
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+    }
 });
 
 function goBack() {

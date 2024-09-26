@@ -31,8 +31,13 @@ let TIPO_CLIENTEW = '';
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    await fillData();
-    graficaServiciosRecibidos();
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        await fillData();
+        graficaServiciosRecibidos();
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+    }
 });
 
 const graficaServiciosRecibidos = async () => {

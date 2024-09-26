@@ -1,5 +1,7 @@
 // Constantes para completar las rutas de la API.
 const AUTOMOVILES_API = 'services/privado/automoviles.php';
+const USER_API = 'services/privado/usuarios.php';
+
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -131,25 +133,30 @@ const reportEstadoAutomovil = () => {
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    // Constante tipo objeto con los datos del producto seleccionado.
-    const FORM = new FormData();
-    FORM.append('idAuto', PARAMS.get('id'));
-    // Petición para solicitar los datos del producto seleccionado.
-    const DATA = await fetchData(AUTOMOVILES_API, 'readDetail', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se colocan los datos en la página web de acuerdo con el producto seleccionado previamente.
-        document.getElementById('imagenCarro').src = SERVER_URL.concat('images/automoviles/', DATA.dataset.imagen_automovil);
-        document.getElementById('cliente').textContent = DATA.dataset.nombre_cliente;
-        document.getElementById('dui').textContent = DATA.dataset.dui_cliente;
-        document.getElementById('color').textContent = DATA.dataset.color_automovil;
-        document.getElementById('modelo').textContent = DATA.dataset.modelo_automovil;
-        document.getElementById('tipo').textContent = DATA.dataset.nombre_tipo;
-        document.getElementById('fecha').textContent = DATA.dataset.fecha_fabricacion_automovil;
-        document.getElementById('fechaR').textContent = DATA.dataset.fecha_registro;
-        document.getElementById('placa').textContent = DATA.dataset.placa_automovil;
-    } else {
-        console.log('No se pudieron cargar los datos');
+    const DATA1 = await fetchData(USER_API, 'readUsers');
+    if (DATA1.session) {
+        // Constante tipo objeto con los datos del producto seleccionado.
+        const FORM = new FormData();
+        FORM.append('idAuto', PARAMS.get('id'));
+        // Petición para solicitar los datos del producto seleccionado.
+        const DATA = await fetchData(AUTOMOVILES_API, 'readDetail', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se colocan los datos en la página web de acuerdo con el producto seleccionado previamente.
+            document.getElementById('imagenCarro').src = SERVER_URL.concat('images/automoviles/', DATA.dataset.imagen_automovil);
+            document.getElementById('cliente').textContent = DATA.dataset.nombre_cliente;
+            document.getElementById('dui').textContent = DATA.dataset.dui_cliente;
+            document.getElementById('color').textContent = DATA.dataset.color_automovil;
+            document.getElementById('modelo').textContent = DATA.dataset.modelo_automovil;
+            document.getElementById('tipo').textContent = DATA.dataset.nombre_tipo;
+            document.getElementById('fecha').textContent = DATA.dataset.fecha_fabricacion_automovil;
+            document.getElementById('fechaR').textContent = DATA.dataset.fecha_registro;
+            document.getElementById('placa').textContent = DATA.dataset.placa_automovil;
+        } else {
+            console.log('No se pudieron cargar los datos');
+        }
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
 });
 

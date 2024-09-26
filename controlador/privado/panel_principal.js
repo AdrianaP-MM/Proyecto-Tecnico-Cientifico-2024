@@ -5,40 +5,44 @@ const CLIENTE_API = 'services/privado/clientes.php';
 const EMPLEADOS_API = 'services/privado/trabajadores.php';
 
 const EMPLEADOS_FORM = document.getElementById('empleadosPorMesEspForm');
-
+const USER_API = 'services/privado/usuarios.php';
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    configurarFechaMaxima();
-    // Constante para obtener el número de horas.
-    const HOUR = new Date().getHours();
-    // Se define una variable para guardar un saludo.
-    let greeting = '';
-    // Dependiendo del número de horas transcurridas en el día, se asigna un saludo para el usuario.
-    if (HOUR < 12) {
-        greeting = 'Buenos días';
-    } else if (HOUR < 19) {
-        greeting = 'Buenas tardes';
-    } else if (HOUR <= 23) {
-        greeting = 'Buenas noches';
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        configurarFechaMaxima();
+        // Constante para obtener el número de horas.
+        const HOUR = new Date().getHours();
+        // Se define una variable para guardar un saludo.
+        let greeting = '';
+        // Dependiendo del número de horas transcurridas en el día, se asigna un saludo para el usuario.
+        if (HOUR < 12) {
+            greeting = 'Buenos días';
+        } else if (HOUR < 19) {
+            greeting = 'Buenas tardes';
+        } else if (HOUR <= 23) {
+            greeting = 'Buenas noches';
+        }
+        document.getElementById('mainTitle').textContent = `${greeting}, bienvenida/o`;
+
+        //Llamada para los inputs
+        readDUI();
+        //Llamada a las diferentes funciones que muestran los datos en las gráficas
+        graficaAutosReparar();
+        graficaTiempoPorServicio();
+        graficoBarrasTipos();
+        graficoDonaTipos();
+        //graficaClientesMesTipos();
+        graficaTop10();
+        graficaClientesMasCitas();
+
+        fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
+        fillSelect(SERVICIOS_API, 'readServicios', 'input_tipo_servicio');
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
-    document.getElementById('mainTitle').textContent = `${greeting}, bienvenida/o`;
-
-    //Llamada para los inputs
-    readDUI();
-    //Llamada a las diferentes funciones que muestran los datos en las gráficas
-    graficaAutosReparar();
-    graficaTiempoPorServicio();
-    graficoBarrasTipos();
-    graficoDonaTipos();
-    //graficaClientesMesTipos();
-    graficaTop10();
-    graficaClientesMasCitas();
-
-
-    fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto');
-    fillSelect(SERVICIOS_API, 'readServicios', 'input_tipo_servicio');
 });
 
 // Método del evento para cuando se envía el formulario de guardar.

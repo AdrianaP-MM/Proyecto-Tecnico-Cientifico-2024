@@ -8,7 +8,7 @@ const SAVE_FORM = document.getElementById('save_form'),
     NOMBRE = document.getElementById('nombre_tipo_servicio'),
     IMG_SERVICIO = document.getElementById('customFileW');
 
-
+const USER_API = 'services/privado/usuarios.php';
 const IMAGE_INPUT = document.getElementById('customFileW');
 
 // Constantes para establecer los elementos del componente Modal
@@ -17,7 +17,12 @@ const MODAL = new bootstrap.Modal('#staticBackdrop');
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
-    readServicios();
+    const DATA = await fetchData(USER_API, 'readUsers');
+    if (DATA.session) {
+        readServicios();
+    } else { // Acciones si la sesión NO está activa
+        await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
+    }
 });
 
 const nombreServicioERROR = document.getElementById('nombreServicioERROR');
@@ -68,7 +73,7 @@ document
     .addEventListener("submit", async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
-        
+
         // Constante tipo objeto con los datos del formulario de barra de busqueda.
         const formData = new FormData(document.getElementById("searchForm"));
 
@@ -102,7 +107,7 @@ document
                         const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
                         const imageExists = await checkImageExists(imageUrl);
                         const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
-                        
+
                         CONTAINER_TRABAJADORES_BODY.innerHTML += `
                         <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
                         <div class="content z-3">
