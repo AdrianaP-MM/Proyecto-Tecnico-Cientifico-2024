@@ -15,7 +15,6 @@ $auto = new AutomovilData;
 $pdf->startReport('Estado del automóvil, servicios y cantidad de visitas');
 
 // Se obtiene el ID del automóvil desde la solicitud GET.
-// Se obtiene el ID del automóvil desde la solicitud GET.
 $id_automovil = isset($_GET['auto']) ? $_GET['auto'] : null;
 
 // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
@@ -28,24 +27,22 @@ if ($id_automovil) {
         $pdf->setFillColor(186, 24, 27);
         // Se establece la fuente para los encabezados.
         $pdf->setFont('Arial', 'B', 11);
-        // Restablecer el color del texto a blanco en los encabezados de la tabla.
+        // Se imprime el encabezado de la tabla.
         $pdf->setTextColor(255, 255, 255);
-        // Se imprimen las celdas con los encabezados.
-        $pdf->cell(27, 10, 'Estado', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
+        $pdf->cell(30, 10, 'Estado', 0, 0, 'C', 1);
         $pdf->cell(123, 10, 'Servicio', 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
         $pdf->cell(30, 10, 'Veces reparado', 0, 1, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        // Se establece la fuente para los datos de los productos.
+        
+        // Se establece la fuente para los datos.
         $pdf->setFont('Arial', '', 11);
         // Restablecer el color del texto a negro en los campos de la tabla.
         $pdf->setTextColor(0, 0, 0);
+        
         // Se recorren los registros fila por fila.
         foreach ($dataAutos as $rowAuto) {
-            $estado = $rowAuto['Estado_Automovil']; // Cambiado para que coincida con el alias en la consulta SQL
-            // Se imprimen las celdas con los datos de los productos.
-            $pdf->cell(27, 10, $pdf->encodeString($estado), 1, 0);
+            $estado = $rowAuto['Estado_Automovil']; // Asegúrate que este campo existe en tu consulta
+            // Se imprimen las celdas con los datos.
+            $pdf->cell(30, 10, $pdf->encodeString($estado), 1, 0);
             $pdf->cell(123, 10, $pdf->encodeString($rowAuto['Servicio']), 1, 0);
             $pdf->cell(30, 10, $rowAuto['Veces_Reparado'], 1, 1);
         }
@@ -55,7 +52,6 @@ if ($id_automovil) {
 } else {
     $pdf->cell(0, 10, $pdf->encodeString('No se ha proporcionado un ID de automóvil'), 1, 1);
 }
-
 
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'reporte_automoviles.pdf');
