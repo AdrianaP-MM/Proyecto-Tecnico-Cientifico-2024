@@ -190,7 +190,7 @@ const readOne = async (id_cita) => {
     id_citaW = id_cita;
   } else {
     sweetAlert(4, DATA.error, true);
-    location.href = '../../vistas/privado/Citas.html';
+    location.href = '../../vistas/privado/citas.html';
   }
 }
 
@@ -238,18 +238,24 @@ INPUT_AUTOMOVIL.addEventListener('input', function () {
 // });
 
 const addSave = async (action, form, fecha, hora) => {
-  // Validaciones de campos vacíos
-  if (INPUT_FECHA_LLEGADA.value === '' || INPUT_AUTOMOVIL.value === '' || INPUT_ZONA.value === '' ||
-    INPUT_DIRECCION_REGRESO.value === '' || INPUT_HORA.value === '' || INPUT_MOVILIZACION.value === '' || INPUT_DIRECCION_IDA.value === '') {
-    await sweetAlert(2, 'Por favor, complete todos los campos.', true);
-    return;
+
+  if (action === 'createRow') {
+    // Validaciones de campos vacíos
+    if (INPUT_FECHA_LLEGADA.value === '' || INPUT_AUTOMOVIL.value === '' || INPUT_ZONA.value === '' ||
+      INPUT_DIRECCION_REGRESO.value === '' || INPUT_HORA.value === '' || INPUT_MOVILIZACION.value === '' || INPUT_DIRECCION_IDA.value === '') {
+      await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+      return;
+    }
   }
 
   const isValid = await checkFormValidity(form);
   if (isValid) {
-    // Validaciones de formato (correo y contraseña)
-    if (!checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA)) {
-      return;
+
+    if (action === 'createRow') {
+      // Validaciones de formato (correo y contraseña)
+      if (!checkInput(validateFecha(INPUT_FECHA_LLEGADA.value), INPUT_FECHA_LLEGADA, ERROR_INPUT_FECHA_LLEGADA)) {
+        return;
+      }
     }
 
     console.log('TodoGud'); // Código a ejecutar después de la validación
