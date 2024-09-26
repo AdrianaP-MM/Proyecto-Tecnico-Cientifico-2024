@@ -4,16 +4,15 @@ require_once('../../models/data/automoviles_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
-    // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
-    session_start();
+    session_start(); // Inicia la sesión.
     // Se instancia la clase correspondiente.
     $automovil = new AutomovilData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'message' => null, 'Entre' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
-    // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
+    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
+
+    // Verifica si el usuario ha iniciado sesión.
     if (isset($_SESSION['idAdministrador'])) {
-        $result['session'] = 1;
-        // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
+        $result['session'] = 1; // Indica que hay una sesión activa.
         switch ($_GET['action']) {
             case 'searchRows':
                 // Verificar si $_POST['search'] está definido
@@ -41,7 +40,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existe el DUI del cliente en la base de datos.';
                     break;
                 }
-
                 if (
                     !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or
@@ -151,7 +149,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen automóviles registrados';
                 }
                 break;
-
             case 'readClientes':
                 if ($result['dataset'] = $automovil->readClientes()) {
                     $result['status'] = 1;
@@ -213,16 +210,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
                 }
                 break;
+            default:
+                $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
         }
-        // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
-        $result['exception'] = Database::getException();
-        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
-        header('Content-type: application/json; charset=utf-8');
-        // Se imprime el resultado en formato JSON y se retorna al controlador.
-        print(json_encode($result));
     } else {
-        print(json_encode('Acceso denegado'));
+        // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
+        switch ($_GET['action']) {
+            default:
+                $result['error'] = 'Acción no disponible fuera de la sesión, debe ingresar para continuar';
+        }
     }
+    // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
+    $result['exception'] = Database::getException();
+    // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
+    header('Content-type: application/json; charset=utf-8');
+    // Se imprime el resultado en formato JSON y se retorna al controlador.
+    print (json_encode($result));
 } else {
-    print(json_encode('Recurso no disponible'));
+    // Si no se envió una acción válida, se devuelve un mensaje de recurso no disponible.
+    print (json_encode('Recurso no disponible'));
 }
