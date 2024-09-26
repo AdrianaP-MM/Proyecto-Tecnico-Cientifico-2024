@@ -54,7 +54,6 @@ if (isset($_GET['action'])) {
             // Acción para agregar a un trabajador a la base.
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
-                //print_r($_POST);
                 if (
                     !$trabajador->setDUI($_POST['input_dui_empleados']) or
                     !$trabajador->setNIT($_POST['input_nit_empleados']) or
@@ -82,7 +81,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$trabajador->setDUI($_POST['input_dui_empleados']) or
-                    !$trabajador->setNIT($_POST['input_nit_empleados'], $_POST['idEmpleado']) or
+                    !$trabajador->setNIT($_POST['input_nit_empleados']) or
                     !$trabajador->setNombre($_POST['input_nombre_empleados']) or
                     !$trabajador->setApellido($_POST['input_apellido_empleados']) or
                     !$trabajador->setTelefono($_POST['input_telefono_empleados']) or

@@ -323,8 +323,15 @@ const openUpdate = async (id) => {
     CORREO.value = row.correo_trabajador;
     DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
 
+    // Debugging log
+    FECHA.value = row.fecha_contratacion;
+    SALARIO.value = row.salario_base;
+
+    console.log(row)
+
     console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
     await fillSelect(TRABAJADORES_API, 'readEspecializaciones', 'especializacion_trabajador', row.id_especializacion_trabajador);
+
 
     // Buscar y marcar el `option` correspondiente como seleccionado
     const departamentoValue = findNumberValue(row.departamento_trabajador);
@@ -335,10 +342,6 @@ const openUpdate = async (id) => {
         break;
       }
     }
-
-    // Debugging log
-    FECHA.value = row.fecha_contratacion;
-    SALARIO.value = row.salario_base;
 
     // Verificar si el botón "Eliminar" ya existe antes de añadirlo
     if (!document.getElementById("btnTres")) {
