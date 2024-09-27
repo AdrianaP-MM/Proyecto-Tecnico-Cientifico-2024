@@ -103,7 +103,6 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         return;
     }
 
-
     if (!checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, phoneERROR) || !checkInput(validateEmail(CORREO.value), CORREO, emailERROR)) {
         return;
     }
