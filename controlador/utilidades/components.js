@@ -930,8 +930,8 @@ function formatName(inputElement) {
         // Obtener el valor actual del campo de texto
         let inputValue = event.target.value;
 
-        // Limpiar el valor de cualquier carácter que no sea alfabético o espacio
-        inputValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+        // Limpiar el valor de cualquier carácter que no sea alfabético (incluyendo tildes) o espacio
+        inputValue = inputValue.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
 
         // Actualizar el valor del campo de texto con la entrada formateada
         event.target.value = inputValue;
@@ -1138,18 +1138,6 @@ function validateYear(year) {
     return { valid: true, message: 'Año válido.' };
 }
 
-function validateName(name) {
-    // Expresión regular para validar que el nombre solo contenga letras y sea menor de 20 caracteres
-    const nameRegex = /^[A-Za-zÀ-ÿ\s]{1,19}$/; // Incluye letras acentuadas y espacios
-
-    // Validar formato
-    if (!nameRegex.test(name)) {
-        return { valid: false, message: 'El nombre solo debe contener letras y debe tener menos de 20 caracteres.' };
-    }
-
-    return { valid: true, message: 'Nombre válido.' };
-}
-
 function validateFecha(date) {
     const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/(19|20)\d\d$/; // Validar formato mm/dd/yyyy
     const hasSpaces = /\s/.test(date); // Verificar si hay espacios
@@ -1243,8 +1231,8 @@ function validateName(name) {
         return { valid: false, message: 'El nombre debe tener entre 1 y 50 caracteres.' };
     }
 
-    // Verificar si contiene solo caracteres alfabéticos y espacios
-    const nameRegex = /^[a-zA-Z\s]+$/;
+    // Verificar si contiene solo caracteres alfabéticos (incluyendo tildes) y espacios
+    const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/; // Incluye letras acentuadas
 
     if (!nameRegex.test(name)) {
         return { valid: false, message: 'Solo se permiten letras y espacios.' };
@@ -1252,6 +1240,7 @@ function validateName(name) {
 
     return { valid: true, message: 'Nombre válido.' };
 }
+
 
 function validateSalary(salary) {
     // Verificar si el salario está vacío
@@ -1273,8 +1262,8 @@ function validateSalary(salary) {
 
     // Verificar formato de número (máximo 5 dígitos antes del punto decimal y 2 después)
     const parts = salary.split(".");
-    if (parts.length > 2 || 
-        (parts[0].length > 5) || 
+    if (parts.length > 2 ||
+        (parts[0].length > 5) ||
         (parts.length === 2 && (parts[1].length > 2))) {
         return { valid: false, message: 'El salario debe tener un máximo de 5 dígitos antes del punto decimal y 2 después.' };
     }

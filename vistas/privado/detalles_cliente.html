@@ -182,32 +182,37 @@
                 <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                     <!-- Contenedor del modal body-->
                     <div class="modal-body">
-                        <form id="addForm" name="addForm" class="needs-validation" novalidate  autocomplete="off">
+                        <form id="addForm" name="addForm" class="needs-validation" novalidate autocomplete="off">
                             <!-- Columna izquierda -->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_nombre"
-                                                name="input_nombre" placeholder="..." required autocomplete="off">
+                                                name="input_nombre" placeholder="..." required autocomplete="off"
+                                                minlength="1" maxlength="50">
                                             <label for="input_nombre">Nombres</label>
                                             <div class="invalid-feedback">Por favor ingresa tu nombre.</div>
+                                            <span id="ERROR-NOMBRE-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_dui" name="input_dui"
-                                                placeholder="..." required autocomplete="off">
+                                                placeholder="..." required autocomplete="off" minlength="10"
+                                                maxlength="10">
                                             <label for="input_dui">DUI</label>
                                             <div class="invalid-feedback">Por favor ingresa tu DUI.</div>
+                                            <span id="ERROR-DUI-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="email" class="form-control" id="input_correo"
-                                                name="input_correo" placeholder="..." required autocomplete="off">
+                                                name="input_correo" placeholder="..." required autocomplete="off"
+                                                minlength="1" maxlength="50">
                                             <label for="input_correo">Correo</label>
-                                            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+                                            <span id="ERROR-CORREO-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -232,6 +237,7 @@
                                                 <option value="Usulután">Usulután</option>
                                             </select>
                                             <div class="invalid-feedback">Por favor selecciona un departamento.</div>
+                                            <span id="ERROR-DEPA-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3" id="nrf">
@@ -240,6 +246,7 @@
                                                 placeholder="..." required autocomplete="off">
                                             <label for="input_nrf">NRF</label>
                                             <div class="invalid-feedback">Por favor ingresa tu NRF.</div>
+                                            <span id="ERROR-NRF-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -251,22 +258,25 @@
                                                 name="input_apellido" placeholder="..." required autocomplete="off">
                                             <label for="input_apellido">Apellidos</label>
                                             <div class="invalid-feedback">Por favor ingresa tus apellidos.</div>
+                                            <span id="ERROR-APELLIDO-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_nit" name="input_nit"
-                                                placeholder="..."  autocomplete="off">
+                                                placeholder="..." autocomplete="off">
                                             <label for="input_nit">NIT</label>
                                             <div class="invalid-feedback">Por favor ingresa tu NIT.</div>
+                                            <span id="ERROR-NIT-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_telefono"
-                                                name="input_telefono" placeholder="..." required autocomplete="off">
+                                                name="input_telefono" placeholder="..." required autocomplete="off" minlength="9" maxlength="9">
                                             <label for="input_telefono">Teléfono</label>
                                             <div class="invalid-feedback">Por favor ingresa tu teléfono.</div>
+                                            <span id="ERROR-TELEFONO-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3" id="nrc">
@@ -275,6 +285,7 @@
                                                 placeholder="..." required autocomplete="off">
                                             <label for="input_nrc">NRC</label>
                                             <div class="invalid-feedback">Por favor ingresa tu NRC.</div>
+                                            <span id="ERROR-NRC-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3" id="rubro_comercial">
@@ -290,6 +301,7 @@
                                                 <option value="Calzado">Calzado</option>
                                             </select>
                                             <div class="invalid-feedback">Por favor selecciona un rubro comercial.</div>
+                                            <span id="ERROR-RUBRO-UPDATE" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3 d-none" id="tipo_cliente">
