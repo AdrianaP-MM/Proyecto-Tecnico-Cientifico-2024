@@ -30,7 +30,9 @@ if ($id_automovil) {
         // Se imprime el encabezado de la tabla.
         $pdf->setTextColor(255, 255, 255);
         $pdf->cell(30, 10, 'Estado', 0, 0, 'C', 1);
-        $pdf->cell(123, 10, 'Servicio', 0, 0, 'C', 1);
+        $pdf->cell(1, 5, '', 0, 0, 'C');
+        $pdf->cell(121, 10, 'Servicio', 0, 0, 'C', 1);
+        $pdf->cell(1, 5, '', 0, 0, 'C');
         $pdf->cell(30, 10, 'Veces reparado', 0, 1, 'C', 1);
         
         // Se establece la fuente para los datos.
