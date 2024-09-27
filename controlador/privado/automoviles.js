@@ -138,8 +138,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA.value === '' || DUI.value === '' ||
             COLOR.value === '' || PLACA.value === '' || MARCA.value === ''
         ) {
-            await sweetAlert(2, 'Por favor, complete todos los campos.', true);
-            return;
+            await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
         }
 
         if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_ADD) ||

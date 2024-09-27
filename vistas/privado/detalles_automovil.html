@@ -414,22 +414,22 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_modelo_auto"
                                         name="input_modelo_auto" required placeholder="..." autocomplete="off">
-                                    <label for="input_placa">Modelo auto</label>
-                                    <div class="invalid-feedback">Por favor seleccione el modelo.</div>
+                                    <label for="input_modelo_auto">Modelo auto</label>
+                                    <span id="ERROR-MODELO-UPDATE" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
                                     <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
                                         required autocomplete="off"></select>
-                                    <div class="invalid-feedback">Por favor seleccione el tipo.</div>
-                                </div>
+                                        <span id="ERROR-TIPO-UPDATE" class="text-danger"></span>
+                                    </div>
                                 <div class="form-floating mb-3">
                                     <label for="fechanInput" class="form-label px-2 pt-1 p-0 m-0">Fecha de
                                         fabricación</label>
                                     <input type="number" class="form-control" id="fechanInput" name="fechanInput"
                                         required autocomplete="off">
-                                    <div class="invalid-feedback">Por favor ingrese la fecha de fabricación.</div>
-                                </div>
+                                        <span id="ERROR-FECHA-UPDATE" class="text-danger"></span>
+                                    </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
                                     <select id="input_color_auto" name="input_color_auto" type="text"
@@ -446,22 +446,21 @@
                                         <option value="Tornasol">Tornasol</option>
                                         <option value="Plata">Plata</option>
                                         <option value="Otro">Otro</option>
-
                                     </select>
-                                    <div class="invalid-feedback">Por favor seleccione el color.</div>
+                                    <span id="ERROR-COLOR-UPDATE" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control px-2 pt-1 p-0 m-0" id="input_placa"
-                                        name="input_placa" required autocomplete="off">
+                                        name="input_placa" required autocomplete="off" minlength="9" maxlength="9">
                                     <label for="input_placa">Placa</label>
-                                    <div class="invalid-feedback">Por favor ingrese la placa.</div>
+                                    <span id="ERROR-PLACA-UPDATE" class="text-danger"></span>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
                                     <select id="input_marca_auto" name="input_marca_auto" type="text"
                                         class="form-select" required></select>
-                                    <div class="invalid-feedback">Por favor seleccione la marca.</div>
-                                </div>
+                                        <span id="ERROR-MARCA-UPDATE" class="text-danger"></span>
+                                    </div>
                                 <div class="form-floating mb-3">
                                     <label class="form-label px-2 pt-1 p-0 m-0" for="input_duiP">DUI del
                                         propietario</label>
@@ -469,7 +468,7 @@
                                         autocomplete="off">
                                         <!-- Opciones de propietario (DUI) -->
                                     </select>
-                                    <div class="invalid-feedback">Por favor seleccione el DUI del propietario.</div>
+                                    <span id="ERROR-DUI-UPDATE" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

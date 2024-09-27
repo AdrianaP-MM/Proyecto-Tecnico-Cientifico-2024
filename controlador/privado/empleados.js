@@ -258,7 +258,6 @@ SAVE_FORM.addEventListener("submit", async (event) => {
     const action = ID_EMPLEADO.value ? "updateRow" : "createRow";
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
-    console.log(ID_EMPLEADO.value, 'asasasa');
     if (ID_EMPLEADO.value) {
       formData.append('idEmpleado', ID_EMPLEADO.value);
     }
@@ -364,7 +363,7 @@ const openUpdate = async (id) => {
           console.error('El select "especializacion_trabajador" no se encontró después del retraso.');
         }
       }, 200); // Ajusta el tiempo según sea necesario
-      
+
       // Inicializar otros campos
       FECHA.value = row.fecha_contratacion;
       SALARIO.value = row.salario_base;

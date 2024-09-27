@@ -16,11 +16,18 @@ const SAVE_FORM = document.getElementById('saveForm'),
     IMG = document.getElementById('customFile2'),
     IMAGEN = document.getElementById('selectedImageA'),
     MODELO = document.getElementById('input_modelo_auto'),
+    ERROR_MODELO_UPDATE = document.getElementById('ERROR-MODELO-UPDATE'),
     TIPO_AUTO = document.getElementById('input_tipo_auto'),
+    ERROR_TIPO_UPDATE = document.getElementById('ERROR-TIPO-UPDATE'),
     FECHA_FABRICACION = document.getElementById('fechanInput'),
+    ERROR_FECHA_UPDATE = document.getElementById('ERROR-FECHA-UPDATE'),
     COLOR = document.getElementById('input_color_auto'),
+    ERROR_COLOR_UPDATE = document.getElementById('ERROR-COLOR-UPDATE'),
     PLACA = document.getElementById('input_placa'),
-    CLIENTE = document.getElementById('input_duiP');
+    ERROR_PLACA_UPDATE = document.getElementById('ERROR-PLACA-UPDATE'),
+    CLIENTE = document.getElementById('input_duiP'),
+    MARCA = document.getElementById('input_marca_auto'),
+    ERROR_MARCA_UPDATE = document.getElementById('ERROR-MARCA-UPDATE');
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
 
@@ -54,7 +61,6 @@ function findNumberValue(value) {
     }
     return ''; // Default case
 }
-
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -128,8 +134,6 @@ const reportEstadoAutomovil = () => {
     console.log(PATH.href);
 }
 
-
-
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
@@ -160,11 +164,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+// PLACA.addEventListener('input', function () {
+//     checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE);
+// });
 
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+
+    // if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA_FABRICACION.value === '' || DUI.value === '' ||
+    //     COLOR.value === '' || PLACA.value === ''
+    // ) {
+    //     await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+    // }
+
+    // if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_UPDATE) ||
+    //     !checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR_UPDATE) ||
+    //     !checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_UPDATE) ||
+    //     !checkInput(validateYear(FECHA.value), FECHA, ERROR_FECHA_UPDATE) ||
+    //     !checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_UPDATE) ||
+    //     !checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE)) {
+    //     return;
+    // }
+
     const idParam = PARAMS.get('id');
     const id = parseInt(idParam, 10);
     console.log(id);
@@ -185,6 +208,19 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
+
+// function applicateRules() {
+//     //FORMATO DE LOS INPUTS DE ACTUALIZAR
+//     formatSalvadoreanPlate(PLACA);
+
+
+//     formatCarModelName(MODELO);
+//     formatYear(FECHA_FABRICACION);
+
+//     formatDUI(DUI, ERROR_DUI_ADD);
+//     formatSalvadoreanPlate(INPUT_BUSQUEDA)
+// }
+
 
 function goBack() {
     window.history.back();
@@ -252,57 +288,6 @@ function displaySelectedImage(event, elementId) {
     }
 }
 
-document.getElementById('input_placa').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número ni una letra
-    inputValue = inputValue.replace(/[^A-Za-z0-9]/g, '');
-
-    // Limitar la longitud máxima a 8 caracteres
-    inputValue = inputValue.slice(0, 7);
-
-    // Formatear el texto como "11a1-111"
-    let formattedValue = '';
-
-    if (inputValue.length > 4) {
-        formattedValue += inputValue.slice(0, 4) + '-';
-        inputValue = inputValue.slice(4);
-    }
-
-    // Agregar el último grupo de dígitos
-    if (inputValue.length > 0) {
-        formattedValue += inputValue;
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = formattedValue;
-
-    // Validar y agregar la clase 'invalid' si es necesario
-    event.target.classList.toggle('invalid', !/^\d{4}-\d{2}-\d{2}$/.test(formattedValue));
-});
-
-
-document.getElementById('input_duiP').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 9 dígitos
-    inputValue = inputValue.slice(0, 9);
-
-    // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
-    if (inputValue.length > 1) {
-        inputValue = inputValue.slice(0, -1) + '-' + inputValue.slice(-1);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-
 IMG.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
@@ -315,20 +300,20 @@ IMG.addEventListener('change', function (event) {
 });
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
+// (() => {
+//     'use strict'
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
+//     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+//     const forms = document.querySelectorAll('.needs-validation')
 
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
+//     // Loop over them and prevent submission
+//     Array.from(forms).forEach(form => {
+//         form.addEventListener('submit', event => {
+//             if (!form.checkValidity()) {
+//                 event.preventDefault();
+//                 event.stopPropagation();
+//             }
+//             form.classList.add('was-validated')
+//         }, false)
+//     })
+// })()
