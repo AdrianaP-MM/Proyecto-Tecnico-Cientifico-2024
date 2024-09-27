@@ -20,15 +20,25 @@ const NRF_DIV = document.getElementById('nrf');
 
 // Constantes de cada campo del formulario
 const DUI = document.getElementById('input_dui'),
+    ERROR_DUI_ADD = document.getElementById('ERROR-DUI-ADD'),
     NIT = document.getElementById('input_nit'),
+    ERROR_NIT_ADD = document.getElementById('ERROR-NIT-ADD'),
     TELEFONO = document.getElementById('input_telefono'),
+    ERROR_TELEFONO_ADD = document.getElementById('ERROR-TELEFONO-ADD'),
     NRC = document.getElementById('input_nrc'),
+    ERROR_NRC_ADD = document.getElementById('ERROR-NRC-ADD'),
     NRF = document.getElementById('input_nrf'),
+    ERROR_NRF_ADD = document.getElementById('ERROR-NRF-ADD'),
     DEPARTAMENTO = document.getElementById('input_departamento'),
+    ERROR_DEPA_ADD = document.getElementById('ERROR-DEPA-ADD'),
     NOMBRES = document.getElementById('input_nombre'),
+    ERROR_NOMBRE_ADD = document.getElementById('ERROR-NOMBRE-ADD'),
     APELLIDOS = document.getElementById('input_apellido'),
     CORREO = document.getElementById('input_correo'),
-    RUBRO_COMERCIAL = document.getElementById('input_rubro_comercial');
+    ERROR_CORREO_ADD = document.getElementById('ERROR-CORREO-ADD'),
+    ERROR_APELLIDO_ADD = document.getElementById('ERROR-APELLIDO-ADD'),
+    RUBRO_COMERCIAL = document.getElementById('input_rubro_comercial'),
+    ERROR_RUBRO_ADD = document.getElementById('ERROR-RUBRO-ADD');
 
 const DEPARTAMENTO_BUSCAR = document.getElementById('departamento_buscar');
 const RUBRO_BUSCAR = document.getElementById('rubro_buscar');
@@ -36,11 +46,63 @@ const FECHA_DESDE = document.getElementById("datepicker-desde");
 const FECHA_HASTA = document.getElementById("datepicker-hasta");
 const AUTOS_CLIENTE = document.getElementById("input_cantd_autos");
 
+NOMBRES.addEventListener('input', function () {
+    checkInput(validateName(NOMBRES.value), NOMBRES, ERROR_NOMBRE_ADD);
+});
+
+APELLIDOS.addEventListener('input', function () {
+    checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_ADD);
+});
+
+CORREO.addEventListener('input', function () {
+    checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_ADD);
+});
+
+TELEFONO.addEventListener('input', function () {
+    checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_ADD);
+});
+
+DEPARTAMENTO.addEventListener('input', function () {
+    checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD);
+});
+
+RUBRO_COMERCIAL.addEventListener('input', function () {
+    checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD);
+});
+
+// APELLIDOS.addEventListener('input', function () {
+//     checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_ADD);
+// });
+// APELLIDOS.addEventListener('input', function () {
+//     checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_ADD);
+// });
+
+function applicateRules() {
+    //FORMATO DE LOS INPUTS DE AGREGAR
+    formatName(NOMBRES);
+    formatName(APELLIDOS);
+    formatDUI(DUI, ERROR_DUI_ADD);
+    formatPhone(TELEFONO);
+    formatNit(NIT, ERROR_NIT_ADD);
+    formatEmail(CORREO);
+
+    disablePasteAndDrop(CORREO);
+    disableCopy(CORREO);
+    disablePasteAndDrop(TELEFONO);
+    disableCopy(TELEFONO);
+    disablePasteAndDrop(DUI);
+    disableCopy(DUI);
+
+    // formatNRC(NRC);
+    // formatNRF(NRF);
+}
+
 let TIPO_CLIENTE;
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
+    applicateRules();
     const DATA = await fetchData(USER_API, 'readUsers');
     if (DATA.session) {
         // Acciones si la sesión SI está activa
@@ -64,6 +126,38 @@ ADD_FORM.addEventListener('submit', async (event) => {
 
 const addSave = async () => {
     const isValid = await checkFormValidity(ADD_FORM);
+
+    if (NOMBRES.value === '' || APELLIDOS.value === '' || CORREO.value === '' || TELEFONO.value === '' ||
+        DEPARTAMENTO.value === '' || NIT.value === '' || DUI.value === ''
+    ) {
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+    }
+
+    if ((!RUBRO_COMERCIAL.classList.contains('d-none') && RUBRO_COMERCIAL.value === '') ||
+        (!NRC.classList.contains('d-none') && NRC.value === '') ||
+        (!NRF.classList.contains('d-none') && NRF.value === '')
+    ) {
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+        return;
+    }
+
+    if (!checkInput(validateName(NOMBRES.value), NOMBRES, ERROR_NOMBRE_ADD) ||
+        !checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_ADD) ||
+        !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_ADD) ||
+        !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_ADD) ||
+        !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD)) {
+        await sweetAlert(2, 'Error al validar los campos.', true);
+        return;
+    }
+
+    if (!NRC.classList.contains('d-none')) {
+        if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD)) {
+            await sweetAlert(2, 'Error al validar los campos.', true);
+            return;
+        }
+    }
+
+
     if (isValid) {
         console.log('TodoGud'); // Código a ejecutar después de la validación
         //Constante tipo objeto con los datos del formulario.
@@ -446,7 +540,6 @@ function gotoDetail(idCliente) {
     location.href = `../../vistas/privado/detalles_cliente.html?id_cliente=${idCliente}`;
 }
 
-
 function resetForm() {
     // Resetea el formulario y los mensajes de validación
     ADD_FORM.reset(); // Resetea el formulario
@@ -504,123 +597,5 @@ document.getElementById('input_nrc').addEventListener('input', function (event) 
     inputValue = inputValue.slice(0, 15);
 
     // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-document.getElementById('input_dui').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 9 dígitos
-    inputValue = inputValue.slice(0, 9);
-
-    // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
-    if (inputValue.length > 1) {
-        inputValue = inputValue.slice(0, -1) + '-' + inputValue.slice(-1);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-document.getElementById('input_nit').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 14 dígitos
-    inputValue = inputValue.slice(0, 14);
-
-    // Formatear el número agregando los guiones
-    let formattedValue = '';
-
-    if (inputValue.length > 4) {
-        formattedValue += inputValue.slice(0, 4) + '-';
-        inputValue = inputValue.slice(4);
-    }
-
-    if (inputValue.length > 6) {
-        formattedValue += inputValue.slice(0, 6) + '-';
-        inputValue = inputValue.slice(6);
-    }
-
-    if (inputValue.length > 3) {
-        formattedValue += inputValue.slice(0, 3) + '-';
-        inputValue = inputValue.slice(3);
-    }
-
-    // Agregar el último grupo de dígitos
-    if (inputValue.length > 0) {
-        formattedValue += inputValue;
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = formattedValue;
-});
-
-
-document.getElementById('input_telefono').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Limpiar el valor de cualquier carácter que no sea un número
-    inputValue = inputValue.replace(/\D/g, '');
-
-    // Asegurar que no haya más de 8 dígitos
-    inputValue = inputValue.slice(0, 8);
-
-    // Formatear el número agregando el guión
-    if (inputValue.length > 4) {
-        inputValue = inputValue.slice(0, 4) + '-' + inputValue.slice(4);
-    }
-
-    // Actualizar el valor del campo de texto con la entrada formateada
-    event.target.value = inputValue;
-});
-
-document.getElementById('input_nombre').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar caracteres que no sean letras, espacios o tildes
-    inputValue = inputValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g, '');
-
-    // Asegurar que el texto no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada validada
-    event.target.value = inputValue;
-});
-
-document.getElementById('input_apellido').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar caracteres que no sean letras, espacios o tildes
-    inputValue = inputValue.replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g, '');
-
-    // Asegurar que el texto no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada validada
-    event.target.value = inputValue;
-});
-
-document.getElementById('input_correo').addEventListener('input', function (event) {
-    // Obtener el valor actual del campo de texto
-    let inputValue = event.target.value;
-
-    // Eliminar espacios en blanco
-    inputValue = inputValue.replace(/\s/g, '');
-
-    // Asegurar que el correo electrónico no supere los 50 caracteres
-    inputValue = inputValue.slice(0, 50);
-
-    // Actualizar el valor del campo de texto con la entrada limitada
     event.target.value = inputValue;
 });

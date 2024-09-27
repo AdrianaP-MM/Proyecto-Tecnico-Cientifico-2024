@@ -238,9 +238,11 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 function applicateRules() {
     //FORMATO DE LOS INPUTS DE ACTUALIZAR
     formatSalvadoreanPlate(PLACA);
-
     formatCarModelName(MODELO);
     formatYear(FECHA_FABRICACION);
+
+    disablePasteAndDrop(PLACA);
+    disableCopy(PLACA);
 }
 
 

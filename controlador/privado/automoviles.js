@@ -186,6 +186,11 @@ function applicateRules() {
     formatSalvadoreanPlate(PLACA);
     formatDUI(DUI, ERROR_DUI_ADD);
     formatSalvadoreanPlate(INPUT_BUSQUEDA)
+
+    disablePasteAndDrop(PLACA);
+    disableCopy(PLACA);
+    disablePasteAndDrop(DUI);
+    disableCopy(DUI);
 }
 
 /*
