@@ -1270,3 +1270,12 @@ function validateSalary(salary) {
 
     return { valid: true, message: 'Salario válido.' };
 }
+
+function validateCarBrand(brand) {
+    // Verificar longitud y que solo contenga letras y espacios
+    if (brand.length > 50 || !/^[A-Za-z\s]+$/.test(brand)) {
+        return { valid: false, message: 'Nombre de la marca no válido. Solo se permiten letras y espacios, y no debe exceder 50 caracteres.' };
+    }
+
+    return { valid: true, message: 'Marca válida.' };
+}

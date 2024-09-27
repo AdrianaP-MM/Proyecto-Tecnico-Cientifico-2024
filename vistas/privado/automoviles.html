@@ -83,7 +83,7 @@
                 <div class="sidebar-body"> <!-- Contedor del cuerpo de los filtros-->
                     <ul class="list-unstyled ps-0 cursor-hover "> <!-- Lista no ordenada de los filtros-->
                         <!--TODO ----------------------------ELEMENTO MARCAS----------------------------------->
-                       <!--   <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
+                        <!--   <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             Primer elemento de filtros
                             Elemento de la lista
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
@@ -493,9 +493,9 @@
                                     class="invisible" inert>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_marca_automovil"
-                                        name="input_marca_automovil" required placeholder="..." autocomplete="off">
-                                    <label for="input_modelo_auto">Marca</label>
-                                    <div class="invalid-feedback">Por favor ingrese un modelo</div>
+                                        name="input_marca_automovil" max="50" required placeholder="..." autocomplete="off">
+                                    <label for="input_marca_automovil">Marca</label>
+                                    <span id="ERROR_MARCA" class="text-danger"></span>
                                 </div>
                                 <hr>
                             </div>
@@ -504,12 +504,12 @@
                                 <!-- Buscador separado del formulario principal -->
                                 <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
                                     <input type="text" name="searchMarca" class="form-control" placeholder="Buscar..."
-                                        aria-label="Buscar..." aria-describedby="basic-addon2" required
-                                        id="searchMarca" autocomplete="off">
+                                        aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchMarca"
+                                        autocomplete="off">
 
                                     <div>
-                                        <button onclick="searchMarcas()" class="btn btn-outline" id="searchInput"
-                                            data-bs-toggle="popover" data-bs-placement="bottom"
+                                        <button type="button" onclick="searchMarcas()" class="btn btn-outline"
+                                            id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom"
                                             data-bs-content="Buscador habilitado para: Nombre de marca">
                                             <i class="bi-search"><img
                                                     src="../../recursos/imagenes/icons/icon-search.svg"

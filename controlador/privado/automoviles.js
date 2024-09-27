@@ -100,6 +100,9 @@ const ERROR_MARCA_ADD = document.getElementById('ERROR-MARCA-ADD');
 const DUI = document.getElementById('label_dui');
 const ERROR_DUI_ADD = document.getElementById('ERROR-DUI-ADD');
 
+const MARCAS_ADD = document.getElementById('input_marca_automovil');
+const ERROR_MARCA = document.getElementById('ERROR_MARCA');
+
 // DUI.addEventListener('input', function () {
 //     checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD);
 // });
@@ -126,6 +129,11 @@ COLOR.addEventListener('input', function () {
 
 PLACA.addEventListener('input', function () {
     checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_ADD);
+});
+
+
+MARCAS_ADD.addEventListener('input', function () {
+    checkInput(validateCarBrand(MARCAS_ADD.value), MARCAS_ADD, ERROR_MARCA);
 });
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -468,12 +476,21 @@ const fillTableMarcas = async () => {
 
 
 const searchMarcas = async () => {
+    // Verifica si el campo de búsqueda está vacío
+    if (!SEARCH_FORM_MARCAS.value.trim()) {
+        // Llama a la función nuevamente, pero podrías pasar un valor vacío
+        // O bien, simplemente puedes llamar a otra función para recuperar todos los registros
+        await fillTableMarcas();
+        return;
+    }
+
     const FORM = new FormData();
     FORM.append('searchMarca', SEARCH_FORM_MARCAS.value);
 
     const DATA = await fetchData(AUTOMOVILES_API, "searchRowsMarcasAutomoviles", FORM);
 
     if (DATA.status) {
+        TABLE_MARCAS_ROWS.innerHTML = '';
         DATA.dataset.forEach(row => {
             TABLE_MARCAS_ROWS.innerHTML += `
                 <tr onclick="selectMarca(${row.id_marca_automovil}, '${row.nombre_marca_automovil}')">
@@ -491,6 +508,11 @@ const searchMarcas = async () => {
 SAVE_FORM_MARCAS.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
+
+    if (!checkInput(validateCarBrand(MARCAS_ADD.value), MARCAS_ADD, ERROR_MARCA)) {
+        return;
+    }
+
     // Se verifica la acción a realizar.
     (ID_MARCA.value) ? action = 'updateRowMarcaAutomovil' : action = 'createMarcaAutomovil';
     // Constante tipo objeto con los datos del formulario.
