@@ -26,6 +26,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     PLACA = document.getElementById('input_placa'),
     ERROR_PLACA_UPDATE = document.getElementById('ERROR-PLACA-UPDATE'),
     CLIENTE = document.getElementById('input_duiP'),
+    ERROR_CLIENTE_UPDATE = document.getElementById('ERROR-DUI-UPDATE'),
     MARCA = document.getElementById('input_marca_auto'),
     ERROR_MARCA_UPDATE = document.getElementById('ERROR-MARCA-UPDATE');
 // Constante para establecer el elemento del título principal.
@@ -138,6 +139,7 @@ const reportEstadoAutomovil = () => {
 document.addEventListener('DOMContentLoaded', async () => {
     loadTemplate();
     const DATA1 = await fetchData(USER_API, 'readUsers');
+    applicateRules();
     if (DATA1.session) {
         // Constante tipo objeto con los datos del producto seleccionado.
         const FORM = new FormData();
@@ -164,29 +166,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// PLACA.addEventListener('input', function () {
-//     checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE);
-// });
+PLACA.addEventListener('input', function () {
+    checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE);
+});
+
+MODELO.addEventListener('input', function () {
+    checkInput(validateCarModelName(MODELO.value), MODELO, ERROR_MODELO_UPDATE);
+});
+
+TIPO_AUTO.addEventListener('input', function () {
+    checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_UPDATE);
+});
+
+FECHA_FABRICACION.addEventListener('input', function () {
+    checkInput(validateYear(FECHA_FABRICACION.value), FECHA_FABRICACION, ERROR_FECHA_UPDATE);
+});
+
+COLOR.addEventListener('input', function () {
+    checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_UPDATE);
+});
+
+MARCA.addEventListener('input', function () {
+    checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_UPDATE);
+});
+
+CLIENTE.addEventListener('input', function () {
+    checkInput(validateSelect(CLIENTE.value), CLIENTE, ERROR_CLIENTE_UPDATE);
+});
 
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    // if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA_FABRICACION.value === '' || DUI.value === '' ||
-    //     COLOR.value === '' || PLACA.value === ''
-    // ) {
-    //     await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
-    // }
+    if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA_FABRICACION.value === '' || CLIENTE.value === '' ||
+        COLOR.value === '' || PLACA.value === '' || MARCA.value === ''
+    ) {
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+    }
 
-    // if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_UPDATE) ||
-    //     !checkInput(validateCarModelName(MODELO.value), MODELO, MODELO_ERROR_UPDATE) ||
-    //     !checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_UPDATE) ||
-    //     !checkInput(validateYear(FECHA.value), FECHA, ERROR_FECHA_UPDATE) ||
-    //     !checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_UPDATE) ||
-    //     !checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE)) {
-    //     return;
-    // }
+    if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_UPDATE) ||
+        !checkInput(validateCarModelName(MODELO.value), MODELO, ERROR_MODELO_UPDATE) ||
+        !checkInput(validateSelect(TIPO_AUTO.value), TIPO_AUTO, ERROR_TIPO_UPDATE) ||
+        !checkInput(validateYear(FECHA_FABRICACION.value), FECHA_FABRICACION, ERROR_FECHA_UPDATE) ||
+        !checkInput(validateSelect(COLOR.value), COLOR, ERROR_COLOR_UPDATE) ||
+        !checkInput(validateSalvadoranPlate(PLACA.value), PLACA, ERROR_PLACA_UPDATE)) {
+        return;
+    }
 
     const idParam = PARAMS.get('id');
     const id = parseInt(idParam, 10);
@@ -209,17 +235,13 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-// function applicateRules() {
-//     //FORMATO DE LOS INPUTS DE ACTUALIZAR
-//     formatSalvadoreanPlate(PLACA);
+function applicateRules() {
+    //FORMATO DE LOS INPUTS DE ACTUALIZAR
+    formatSalvadoreanPlate(PLACA);
 
-
-//     formatCarModelName(MODELO);
-//     formatYear(FECHA_FABRICACION);
-
-//     formatDUI(DUI, ERROR_DUI_ADD);
-//     formatSalvadoreanPlate(INPUT_BUSQUEDA)
-// }
+    formatCarModelName(MODELO);
+    formatYear(FECHA_FABRICACION);
+}
 
 
 function goBack() {
