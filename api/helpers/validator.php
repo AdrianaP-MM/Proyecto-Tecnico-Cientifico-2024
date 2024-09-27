@@ -369,23 +369,31 @@ class Validator
             'V'
         ];
 
-        // Verificar si el valor comienza con alguno de los prefijos permitidos
-        $isValidPrefix = false;
-        foreach ($validPrefixes as $prefix) {
-            if (strpos($value, $prefix) === 0) {
-                $isValidPrefix = true;
-                // Extraer la parte posterior al prefijo para validar el formato
-                $suffix = substr($value, strlen($prefix));
-                break;
-            }
+        // Dividir el valor en partes por el guion
+        $parts = explode('-', $value);
+
+        // Verificar que haya exactamente 3 partes
+        if (count($parts) !== 3) {
+            return false; // Formato incorrecto
         }
 
-        // Verificar que el sufijo después del prefijo siga el patrón
-        // El formato esperado es: [prefijo]-[3 caracteres alfanuméricos]-[3 caracteres alfanuméricos]
-        $isValidFormat = preg_match('/^-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}$/', $suffix);
+        $prefix = $parts[0]; // Parte antes del guion
+        $suffix1 = $parts[1]; // Primer subfijo
+        $suffix2 = $parts[2]; // Segundo subfijo
 
-        // La placa es válida si tiene un prefijo permitido y cumple con el formato del sufijo
-        return $isValidPrefix && $isValidFormat;
+        // Validar que el prefijo sea válido
+        if (!in_array($prefix, $validPrefixes)) {
+            return false; // Prefijo no válido
+        }
+
+        // Validar que los sufijos tengan exactamente 3 caracteres alfanuméricos
+        if (!preg_match('/^[A-Za-z0-9]{3}$/', $suffix1) || !preg_match('/^[A-Za-z0-9]{3}$/', $suffix2)) {
+            return false; // Sufijos no válidos
+        }
+
+        return true; // La placa es válida
     }
+
+
 
 }

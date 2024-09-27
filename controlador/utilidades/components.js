@@ -1084,16 +1084,17 @@ function validatePhoneNumber(phone) {
 }
 
 function validateSalvadoranPlate(plate) {
-    // Expresión regular para permitir un guion opcional entre el prefijo y los números
-    const plateRegex = /^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{3}-[0-9]{3}$|^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[0-9]{5,6}$/;
+    // Expresión regular para validar el formato de la placa salvadoreña
+    const plateRegex = /^(A|AB|C|CC|CD|D|E|F|M|MB|MI|N|O|P|PR|PNC|RE|T|V)-?[A-Za-z0-9]{3}-[A-Za-z0-9]{3}$/;
 
     // Validar formato
     if (!plateRegex.test(plate)) {
-        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña. Ejemplo: A-123-456.' };
+        return { valid: false, message: 'Formato de placa no válido. Debe ser una placa salvadoreña. Ejemplo: A-123-456 o A-ABC-DEF.' };
     }
 
     return { valid: true, message: 'Placa válida.' };
 }
+
 
 function validateCarModelName(modelName) {
     // Expresión regular para validar que el nombre solo contenga letras, números y guiones
