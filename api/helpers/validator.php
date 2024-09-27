@@ -380,11 +380,12 @@ class Validator
             }
         }
 
-        // Verificar que el sufijo después del prefijo siga el patrón alfanumérico
-        // El formato esperado es números-letras o letras-números separados por un guion, como '123-ABC' o '123-456'
-        $isValidFormat = preg_match('/^[A-Za-z0-9]{3,}-[A-Za-z0-9]{3,}$/', $suffix);
+        // Verificar que el sufijo después del prefijo siga el patrón
+        // El formato esperado es: [prefijo]-[3 caracteres alfanuméricos]-[3 caracteres alfanuméricos]
+        $isValidFormat = preg_match('/^-[A-Za-z0-9]{3}-[A-Za-z0-9]{3}$/', $suffix);
 
         // La placa es válida si tiene un prefijo permitido y cumple con el formato del sufijo
         return $isValidPrefix && $isValidFormat;
     }
+
 }

@@ -245,30 +245,23 @@
     ALTER TABLE tb_seguimientos_creditos_fiscales
     ADD CONSTRAINT u_fk_seguimiento_credito_fiscal_consumidor_final FOREIGN KEY (id_consumidor_final) REFERENCES tb_consumidores_finales(id_consumidor_final);
 
-    /*
-    CREATE TABLE tb_usuarios_clientes
-    (
-        id_usuario_cliente INT PRIMARY KEY AUTO_INCREMENT,
-        estado_usuario BOOLEAN NOT NULL,
-        id_cliente INT 
-    );
-
-    ALTER TABLE tb_usuarios_clientes
-    ADD CONSTRAINT fk_cliente_usuarios_clientes FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente);
-
-    ALTER TABLE tb_usuarios_clientes
-    ADD CONSTRAINT u_cliente_usuarios_clientes UNIQUE (id_cliente);
-    */
-
     CREATE TABLE tb_usuarios
     (
         id_usuario INT PRIMARY KEY AUTO_INCREMENT, #PK
         correo_usuario VARCHAR(200),
-        clave_usuario VARCHAR(100) /*(min-6 max-50)*/,
+        clave_usuario VARCHAR(100) /*(min-8 max-50)*/,
         telefono_usuario VARCHAR(9),
-        tipo_usuario ENUM('Administrador') NOT NULL,
-        dos_pasos BOOLEAN DEFAULT TRUE
+        tipo_usuario ENUM('Administrador') NOT NULL
     );
+    
+	ALTER TABLE tb_usuarios
+	ADD COLUMN dos_pasos BOOLEAN DEFAULT FALSE;
+    
+    ALTER TABLE tb_usuarios
+	ADD COLUMN failed_attempts INT DEFAULT 0,
+	ADD COLUMN last_failed_attempt DATETIME DEFAULT NULL,
+	ADD COLUMN account_locked_until DATETIME DEFAULT NULL,
+    ADD COLUMN fecha_ultima_modificacion  DATETIME NOT NULL;
 
     CREATE TABLE tb_formas_pagos_consumidores_finales
     (
