@@ -41,7 +41,7 @@
 }
 
 .subMenuContainer {
-  height: 50px;
+  min-height: 50px;
   background-color: #E5383B;
   border-radius: 50px;
 }

@@ -46,24 +46,24 @@ class ClienteData extends ClienteHandler
             $this->NIT_cliente = null; // Si es nulo o vacío, lo estableces como null
             return true;
         }
-        
+
         // Validar la longitud solo si hay un valor
         if (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El NIT debe tener exactamente ' . $min . ' caracteres.';
             return false;
         }
-        
+
         // Comprobar si el NIT ya existe
         if ($this->checkDuplicate($value)) {
             $this->data_error = 'El NIT ingresado ya existe';
             return false;
         }
-        
+
         // Establecer el valor del NIT si pasa todas las validaciones
         $this->NIT_cliente = $value;
         return true;
     }
-    
+
 
     // Método para establecer el NRC del cliente
     public function setNRC($value, $min = 8, $max = 15)
@@ -190,7 +190,7 @@ class ClienteData extends ClienteHandler
 
     public function setMes($value)
     {
-        $this->mes_cliente= $value;
+        $this->mes_cliente = $value;
         return true;
     }
 
@@ -199,8 +199,6 @@ class ClienteData extends ClienteHandler
         $this->año_cliente = $value;
         return true;
     }
-
-
 
     // Método para establecer el tipo del cliente
     public function setTipoCliente($value)
@@ -220,6 +218,29 @@ class ClienteData extends ClienteHandler
         }
     }
 
+    public function setAutosCantidad($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->autos_cantidad = $value;
+            return true;
+        } else {
+            $this->data_error = 'Se requiere de una cantidad.';
+            return false;
+        }
+    }
+
+    public function setMarcasAutomovil($value)
+    {
+        $this->marcas_seleccionadas = $value;
+        return true;
+    }
+
+    public function setServicios($value)
+    {
+        $this->servicios_seleccionados = $value;
+        return true;
+    }
+
     public function setSearchValue($value)
     {
         $this->search_value = $value;
@@ -237,25 +258,6 @@ class ClienteData extends ClienteHandler
         $this->fecha_hasta = $value;
         return true;
     }
-
-    public function setAutosCantidad($value)
-    {
-        $this->autos_cantidad = $value;
-        return true;
-    }
-
-    public function setMarcasAutomovil($value)
-    {
-        $this->marcas_seleccionadas = $value;
-        return true;
-    }
-
-    public function setServicios($value)
-    {
-        $this->servicios_seleccionados = $value;
-        return true;
-    }
-
 
     // Método para obtener el error de los datos.
     public function getDataError()
