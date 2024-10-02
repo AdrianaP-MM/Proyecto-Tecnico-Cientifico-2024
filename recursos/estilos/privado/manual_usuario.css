@@ -1,3 +1,89 @@
-.contenedor-titulo{
-    min-height: 80vh;
+.contenedor-titulo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 150px;
+}
+
+.contenedor-total {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+.containerManual {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+/* Estilo para el contenedor del PDF */
+.pdf-container {
+    width: 100%;
+    height: 600px;
+    /* Ajusta la altura según sea necesario */
+    overflow-y: scroll;
+    /* Permite desplazamiento vertical */
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+canvas {
+    display: block;
+    /* Evita el espacio adicional */
+    margin: 0 auto;
+    /* Centra el canvas */
+}
+
+/*Estilo para el contenedor de titulo*/
+.titleContainer {
+    border-bottom: 4px solid red;
+}
+
+/*Fuente para el titulo*/
+.titleCard {
+    font-size: 16px;
+}
+
+/*Fuente para la card*/
+.textCard {
+    font-size: 14px;
+    border-bottom: 4px solid #1d1d1d;
+    padding-bottom: 15px;
+}
+
+/*Estilo para la imagen*/
+.imgCard {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    height: 50px;
+    width: 50px;
+}
+
+/*Estilo de transicion para el boton*/
+.btn {
+    font-size: 14px;
+    transition: 0.5s;
+}
+
+.btnReport {
+    width: 80%;
+    height: 50px;
+    font-size: 16px;
+}
+
+/*Hover para el boton*/
+.btn:hover {
+    background-color: #BA181B;
+    color: white;
+}
+
+/*Tamano del input para la card*/
+.inputReport {
+    width: 95%;
+}
+
+/* Etiqueta flotante */
+.form-floating>label {
+    color: red;
 }
