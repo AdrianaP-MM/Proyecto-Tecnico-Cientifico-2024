@@ -27,6 +27,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+const getTimerlock = async (CORREO) => {
+    const FORM = new FormData();
+    FORM.append('correoLogin', CORREO);
+    const DATA_USER = await fetchData(USER_API, 'getUserData', FORM);
+
+    if (DATA_USER.status) {
+        const user = DATA_USER.dataset;
+        const fechaUltimaModificacion = new Date(user.fecha_ultima_modificacion);
+
+        // Sumar 90 días a la fecha de última modificación
+        const fechaLimite = new Date(fechaUltimaModificacion);
+        fechaLimite.setDate(fechaLimite.getDate() + 90);
+
+        // Obtener la fecha actual
+        const fechaActual = new Date();
+
+        // Calcular la diferencia en milisegundos
+        const diferencia = fechaLimite - fechaActual;
+
+        // Verificar que aún no se ha cumplido el plazo
+        if (diferencia > 0) {
+            // Convertir la diferencia en días, horas y minutos
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+
+            let CONTAINER = document.getElementById("TimeContainer");
+            CONTAINER.textContent = `${dias} días | ${horas} horas | ${minutos} minutos`;
+
+        } else {
+            await sweetAlert(2, "El plazo de 90 días ha expirado.", false);
+        }
+
+    }
+}
+
 const INFO_PERSONAL = document.getElementById('infoPersonal');
 const CHANGE_CONTRA = document.getElementById('changeContra');
 const AJUSTES = document.getElementById('ajustes');
@@ -73,6 +109,8 @@ async function readUsuarios() {
             telefono: row.telefono_usuario,
             email: row.correo_usuario
         };
+
+        getTimerlock(userData.email);
 
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {

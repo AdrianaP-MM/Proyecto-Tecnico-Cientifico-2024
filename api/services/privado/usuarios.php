@@ -202,6 +202,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Correo electrónico inexistente';
                 }
                 break;
+            case 'getUserData':
+                $_POST = Validator::validateForm($_POST);
+                if (!$usuario->setCorreo($_POST['correoLogin'])) {
+                    $result['error'] = $usuario->getDataError();
+                } elseif ($result['dataset'] = $usuario->getUserData()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Usuario inexistente';
+                }
+                break;
 
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';

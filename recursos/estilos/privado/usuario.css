@@ -1,3 +1,10 @@
+.textTimeContainer{
+    background-color: #E5383B;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
 
 .lista-carrito {
     list-style-type: none; /* Elimina los puntos de la lista */
