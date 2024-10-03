@@ -1,6 +1,30 @@
+
+.lista-carrito {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el padding */
+    margin: 0; /* Elimina el margin */
+}
+
+.lista-carrito li {
+    display: flex;
+    align-items: center;
+    padding: 10px 0; /* Espaciado vertical */
+}
+
+.carrito-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    fill: #111214; /* Color del ícono */
+    transition: fill 0.3s; /* Transición suave al cambiar color */
+}
+
+.carrito-icon:hover {
+    fill: #007bff; /* Cambia el color al pasar el mouse */
+}
+
 /* ---------------------- AGREGADOS RECIENTEMENTE----------------------------*/
 .contenedor-data{
-    border: 1px solid red;
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 5PX;
     width: 25vw;
     height: 40vh;
     position: absolute;
@@ -88,7 +112,7 @@ body {
 .contenedor-form {
     display: grid;
     /* Utiliza un layout de cuadrícula */
-    gap: 60px;
+    gap: 50px;
     /* Espacio entre elementos de 60 píxeles */
     height: fit-content;
     /* Altura ajustada al contenido */

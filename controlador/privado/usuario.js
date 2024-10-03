@@ -65,7 +65,7 @@ async function readUsuarios() {
         CORREO.value = row.correo_usuario;
         TELEFONO.value = row.telefono_usuario;
         CONTENEDOR_CORREO.innerHTML += `
-        <h3 id="userEmail"  class="email">${row.correo_usuario}</h3>
+        <h4 id="userEmail"  class="email">${row.correo_usuario}</h4>
         <div class="lineR3"></div>
         `;
 
