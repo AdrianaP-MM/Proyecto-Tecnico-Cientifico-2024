@@ -565,7 +565,7 @@ const checkFormValidity = form => {
 function updateButtonColors(boton) {
     var botones = document.querySelectorAll('.boton-cambiar-color');
     botones.forEach(function (b) {
-       // b.style.backgroundColor = 'none';
+        // b.style.backgroundColor = 'none';
         b.style.color = 'black';
         b.style.borderBottom = '0px solid red';
         b.style.border = '0px';
@@ -1043,20 +1043,43 @@ function validatePassword(password, userData = null) {
         return { valid: false, message: 'La contraseña no debe contener espacios en blanco.' };
     }
 
+    // Verificar los demás requisitos de la contraseña
+    let messages = [];
+    let indices = []; // Array para almacenar los índices
+
     // Validar longitud mínima y máxima
     if (password.length < minLength) {
-        return { valid: false, message: 'La contraseña debe tener al menos 8 caracteres.' };
+        messages.push({ index: 1, message: 'La contraseña debe tener al menos 8 caracteres |' });
+        indices.push(1); // Agregar índice
     }
     if (password.length > maxLength) {
-        return { valid: false, message: 'La contraseña no debe exceder los 50 caracteres.' };
+        messages.push({ index: 2, message: 'La contraseña no debe exceder los 50 caracteres |' });
+        indices.push(2); // Agregar índice
+    }
+    if (!hasUppercase) {
+        messages.push({ index: 3, message: 'La contraseña debe contener al menos una letra mayúscula |' });
+        indices.push(3); // Agregar índice
+    }
+    if (!hasLowercase) {
+        messages.push({ index: 4, message: 'La contraseña debe contener al menos una letra minúscula |' });
+        indices.push(4); // Agregar índice
+    }
+    if (!hasNumbers) {
+        messages.push({ index: 5, message: 'La contraseña debe contener al menos un número |' });
+        indices.push(5); // Agregar índice
+    }
+    if (!hasSpecialChars) {
+        messages.push({ index: 6, message: 'La contraseña debe contener al menos un carácter especial |' });
+        indices.push(6); // Agregar índice
     }
 
-    // Verificar los demás requisitos de la contraseña
-    if (!hasUppercase || !hasLowercase || !hasNumbers || !hasSpecialChars) {
-        return { valid: false, message: 'La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales.' };
+    if (messages.length > 0) {
+        const combinedMessage = messages.map(msg => msg.message).join(' '); // Une todos los mensajes en un solo string
+        return { valid: false, message: combinedMessage, indices }; // Devuelve el mensaje combinado y la lista de índices
     }
 
-    return { valid: true, message: 'Contraseña válida' };
+    // Si todos los requisitos son válidos
+    return { valid: true, message: 'La contraseña es válida.', indices };
 }
 
 function validateDUI(dui) {

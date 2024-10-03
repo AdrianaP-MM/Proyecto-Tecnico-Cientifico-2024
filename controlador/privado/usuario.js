@@ -192,9 +192,57 @@ CONTRASENA_ACTUAL.addEventListener('input', function () {
     checkInput(validatePassword(CONTRASENA_ACTUAL.value, userData), CONTRASENA_ACTUAL, passwordErrorACTUAL);
 });
 
+function countCheckedCheckboxes() {
+    const checkboxes = [
+        document.getElementById('charLength'),
+        document.getElementById('uppercase'),
+        document.getElementById('lowercase'),
+        document.getElementById('number'),
+        document.getElementById('specialChar')
+    ];
+
+    const checkedCount = checkboxes.filter(checkbox => checkbox.checked).length; // Contar los checkboxes marcados
+    return checkedCount;
+}
+
+function updateCheckboxes(RESULT) {
+    // Verificar los requisitos y actualizar los checkboxes
+    document.getElementById('charLength').checked = !(RESULT.indices.includes(1) || RESULT.indices.includes(2)); // Marcar si ambos índices no están presentes
+    document.getElementById('uppercase').checked = !RESULT.indices.includes(3); // Marcar si no está presente
+    document.getElementById('lowercase').checked = !RESULT.indices.includes(4); // Marcar si no está presente
+    document.getElementById('number').checked = !RESULT.indices.includes(5); // Marcar si no está presente
+    document.getElementById('specialChar').checked = !RESULT.indices.includes(6); // Marcar si no está presente
+}
+
 CONTRASENA_NUEVA.addEventListener('input', function () {
-    checkInput(validatePassword(CONTRASENA_NUEVA.value, userData), CONTRASENA_NUEVA, passwordErrorNUEVA);
+    let RESULT = validatePassword(CONTRASENA_NUEVA.value, userData);
+    checkInput(RESULT, CONTRASENA_NUEVA, passwordErrorNUEVA);
+    // Llamar a la función para actualizar los checkboxes
+    updateCheckboxes(RESULT);
+
+    // Contar los checkboxes marcados
+    const totalChecked = countCheckedCheckboxes();
+    const messageContainer = document.getElementById('resultConContainer');
+    if (!totalChecked) {
+        messageContainer.innerHTML = '';
+        messageContainer.innerHTML = '<h6 class="open-sans-semiBold clrRed"> La nueva contraseña es INVALIDA</h6>';
+    }
+    if (totalChecked === 5) {
+        messageContainer.innerHTML = '';
+        messageContainer.innerHTML = '<h6 class="open-sans-semiBold clrGreen"> La nueva contraseña es FUERTE :D</h6>';
+    }
+
+    if (totalChecked === 3 || totalChecked === 4) {
+        messageContainer.innerHTML = '';
+        messageContainer.innerHTML = '<h6 class="open-sans-semiBold clrOrng"> La nueva contraseña es MEDIANA :/</h6>';
+    }
+
+    if (totalChecked === 1 || totalChecked === 2) {
+        messageContainer.innerHTML = '';
+        messageContainer.innerHTML = '<h6 class="open-sans-semiBold clrYellow"> La nueva contraseña es DEBIL :c</h6>';
+    }
 });
+
 
 REPETIR_CONTRASENA.addEventListener('input', function () {
     compare(REPETIR_CONTRASENA, CONTRASENA_NUEVA, passwordErrorREPIT);

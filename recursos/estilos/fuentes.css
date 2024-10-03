@@ -14,8 +14,28 @@
     background-color: #1B1919;
 }
 
+.clrGreen {
+    color: rgb(0, 255, 34);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
 .clrRed {
     color: red;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.clrYellow {
+    color: rgb(255, 200, 0);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.clrOrng {
+    color: orange;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
 }
 
 .clrPinkRed {

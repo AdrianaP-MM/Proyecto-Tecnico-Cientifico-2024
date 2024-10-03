@@ -33,7 +33,8 @@
             </div>
             <div class="contenedor-blanco d-flex justify-content-center align-items-center">
                 <!-- Contenedor blanco con sombra -->
-                <div class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-10 col-10">
+                <div
+                    class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-10 col-10 position-relative">
                     <div class="ContenedorPestaña pt-5">
                         <ul class="nav nav-tabs ms-0 mb-5">
                             <li class="nav-item" role="presentation">
@@ -146,7 +147,8 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div class="contenedor-data p-4 d-flex flex-column justify-content-center shadow-sm">
+                                    <div
+                                        class="contenedor-data p-4 d-flex flex-column justify-content-center shadow-sm">
                                         <h5 class="open-sans-semiBold">
                                             Recomendaciones:
                                         </h5>
@@ -183,62 +185,100 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="gap-3 tab-pane1 fade z-2 position-relative d-none m-5 mt-4 pt-0 d-flex flex-column align-items-center open-sans-regular"
+                            <div class="gap-3 tab-pane1 fade z-2 d-none m-5 mt-0 pt-0 d-flex flex-column align-items-center"
                                 role="tabpanel" id="changeContra" aria-labelledby="changeContra-tab">
-                                <div class="textInfoContainer">
-                                    <h4 class="open-sans-semiBold my-3">
+                                <div class="textInfoContainer mb-5">
+                                    <h3 class="open-sans-semiBold my-3">
                                         Cambiar la contraseña
-                                    </h4>
+                                    </h3>
                                     <p class="open-sans-regular clrGry1">
                                         En esta sección, puedes actualizar tu contraseña para mantener la seguridad de
                                         tu cuenta. Es fundamental que tu contraseña sea única y contenga una combinación
                                         de letras, números y símbolos.
                                     </p>
                                 </div>
-                                <form id="saveForm" class="needs-validation col-9 mt-0" novalidate autocomplete="off">
-                                    <div class="content-add-info col-12">
-                                        <!-- Input para contraseña actual -->
-                                        <div class="form-floating mb-0 p-0">
-                                            <input type="password" class="form-control" id="input_contra_actual"
-                                                name="input_contra_actual" placeholder="Contraseña actual" required
-                                                minlength="8" maxlength="50" autocomplete="off">
-                                            <label for="input_contra_actual">Contraseña actual</label>
-                                            <span id="passwordErrorACTUAL" class="text-danger"></span>
+                                <div class="row d-flex justify-content-between col-12">
+                                    <form id="saveForm" class="needs-validation col-6 mt-0 p-0 open-sans-regular"
+                                        novalidate autocomplete="off">
+                                        <div class="content-add-info col-12">
+                                            <!-- Input para contraseña actual -->
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="password" class="form-control" id="input_contra_actual"
+                                                    name="input_contra_actual" placeholder="Contraseña actual" required
+                                                    minlength="8" maxlength="50" autocomplete="off">
+                                                <label for="input_contra_actual">Contraseña actual</label>
+                                                <span id="passwordErrorACTUAL" class="text-danger"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="content-add-info col-12">
-                                        <!-- Input para nueva contraseña -->
-                                        <div class="form-floating mb-0 p-0">
-                                            <input type="password" class="form-control" id="input_contra"
-                                                name="input_contra" placeholder="Nueva contraseña" required
-                                                minlength="8" maxlength="50" autocomplete="off">
-                                            <label for="input_contra">Nueva contraseña</label>
-                                            <span id="passwordErrorNUEVA" class="text-danger"></span>
+                                        <div class="content-add-info col-12">
+                                            <!-- Input para nueva contraseña -->
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="password" class="form-control" id="input_contra"
+                                                    name="input_contra" placeholder="Nueva contraseña" required
+                                                    minlength="8" maxlength="50" autocomplete="off">
+                                                <label for="input_contra">Nueva contraseña</label>
+                                                <span id="passwordErrorNUEVA" class="text-danger"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="content-add-info col-12">
-                                        <!-- Input para repetir nueva contraseña -->
-                                        <div class="form-floating mb-0 p-0">
-                                            <input type="password" class="form-control" id="input_repetircontra"
-                                                name="input_repetircontra" placeholder="Repetir contraseña" required
-                                                minlength="8" maxlength="50" autocomplete="off">
-                                            <label for="input_repetircontra">Repetir contraseña</label>
-                                            <span id="passwordErrorREPIT" class="text-danger"></span>
+                                        <div class="content-add-info col-12">
+                                            <!-- Input para repetir nueva contraseña -->
+                                            <div class="form-floating mb-0 p-0">
+                                                <input type="password" class="form-control" id="input_repetircontra"
+                                                    name="input_repetircontra" placeholder="Repetir contraseña" required
+                                                    minlength="8" maxlength="50" autocomplete="off">
+                                                <label for="input_repetircontra">Repetir contraseña</label>
+                                                <span id="passwordErrorREPIT" class="text-danger"></span>
+                                            </div>
                                         </div>
+                                        <!-- Botones del modal -->
+                                        <div
+                                            class="contenedor_botones d-flex align-items-start justify-content-start col-12 flex-wrap mt-5">
+                                            <button type="submit"
+                                                class="btn btn-primary btnAceptar col-lg-3 col-md-5 col-10">
+                                                <h6 class="open-sans-regular p-0 m-0 z-3">Guardar</h6>
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-light btnCancelar col-lg-3 col-md-5 col-10"
+                                                onclick="openClose()">
+                                                <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div class="contenedor-data p-4 pt-5 d-flex flex-column justify-content-start shadow-sm">
+                                        <h5 class="open-sans-semiBold mb-4">
+                                            Su nueva contraseña deberá de contener:
+                                        </h5>
+                                        <ul class="lista-checklist ms-4">
+                                            <li class="mb-2">
+                                                <input type="checkbox" id="charLength" readonly>
+                                                <label for="charLength" class="open-sans-regular ms-1 clrGry1">
+                                                    Un mínimo de 8 caracteres y un máximo de 50.
+                                                </label>
+                                            </li>
+                                            <li class="mb-2"> <input type="checkbox" id="uppercase" >
+                                                <label for="uppercase" class="open-sans-regular ms-1 clrGry1">
+                                                    Al menos una letra mayúscula.
+                                                </label>
+                                            </li>
+                                            <li class="mb-2"> <input type="checkbox" id="lowercase"  >
+                                                <label for="lowercase" class="open-sans-regular ms-1 clrGry1">
+                                                    Al menos una letra minúscula.
+                                                </label>
+                                            </li>
+                                            <li class="mb-2"> <input type="checkbox" id="number" >
+                                                <label for="number" class="open-sans-regular ms-1 clrGry1">
+                                                    Al menos un número.
+                                                </label>
+                                            </li>
+                                            <li class="mb-2"> <input type="checkbox" id="specialChar">
+                                                <label for="specialChar" class="open-sans-regular ms-1 clrGry1">
+                                                    Al menos un carácter especial (ej. @, #, $, etc.).
+                                                </label>
+                                            </li>
+                                        </ul>
+                                        <div class="mb-4" id="resultConContainer"></div>
                                     </div>
-                                    <!-- Botones del modal -->
-                                    <div
-                                        class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap mt-5">
-                                        <button type="button" class="btn btn-dark btnCancelar col-lg-4 col-md-5 col-10"
-                                            onclick="openClose()">
-                                            <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
-                                        </button>
-                                        <button type="submit"
-                                            class="btn btn-primary btnAceptar col-lg-4 col-md-5 col-10">
-                                            <h6 class="open-sans-regular p-0 m-0 z-3">Guardar</h6>
-                                        </button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
 
                             <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 open-sans-regular container-scroll"
