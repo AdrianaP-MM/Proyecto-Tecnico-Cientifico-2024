@@ -20,28 +20,33 @@
 
 <body>
     <main class="open"> <!-- Contenido principal -->
-        <div class="contenedor-total d-flex flex-wrap justify-content-between position-relative">
+        <div class="contenedor-total d-flex justify-content-between position-relative col-12">
             <!-- Contenedor principal flexbox -->
-            <div class="contenedor-blanco shadow col-lg-6 col-md-10 col-12 d-flex">
+            <div class="contenedor-ralla d-flex justify-content-end position-relative">
+                <img src="../../recursos/imagenes/img-usuario/wave-red-1.svg"> <!-- Imagen decorativa -->
+                <button class="btn btnExit position-absolute pt-3" type="button" onclick="logOut()">
+                    <a class="nav-link d-flex" aria-current="page">
+                        <img src="../../recursos/imagenes/img-usuario/exit-icon-btn.svg">
+                        <!-- Botón de salida con icono -->
+                    </a>
+                </button>
+            </div>
+            <div class="contenedor-blanco d-flex justify-content-center align-items-center">
                 <!-- Contenedor blanco con sombra -->
-                <div class="contenedor-ralla d-flex justify-content-end col-lg-1 col-2 col-md-1 position-relative">
-                    <img src="../../recursos/imagenes/img-usuario/wave-red-1.svg"> <!-- Imagen decorativa -->
-                    <button class="btn btn-outline-dark btnExit position-absolute" type="button" onclick="logOut()">
-                        <a class="nav-link d-flex" aria-current="page">
-                            <img src="../../recursos/imagenes/img-usuario/exit-icon-btn.svg">
-                            <!-- Botón de salida con icono -->
-                        </a>
-                    </button>
-                </div>
-
-                <div class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-11 col-10">
+                <div class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-10 col-10">
                     <div class="ContenedorPestaña pt-5">
-                        <ul class="nav nav-tabs ms-lg-5 ms-md-4 ms-0">
+                        <ul class="nav nav-tabs ms-0 mb-5">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link boton-cambiar-color tb" data-bs-toggle="tab"
                                     id="infoPersonal-tab" type="button" data-bs-target="#infoPersonal" role="tab"
                                     aria-controls="infoPersonal" aria-selected="true" onclick="showInfoPersonal(this)">
-                                    Información personal
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        class="svg-icon me-2">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM12 17.75C12.4142 17.75 12.75 17.4142 12.75 17V11C12.75 10.5858 12.4142 10.25 12 10.25C11.5858 10.25 11.25 10.5858 11.25 11V17C11.25 17.4142 11.5858 17.75 12 17.75ZM12 7C12.5523 7 13 7.44772 13 8C13 8.55228 12.5523 9 12 9C11.4477 9 11 8.55228 11 8C11 7.44772 11.4477 7 12 7Z"
+                                            fill="#A9A8C2"></path>
+                                    </svg>
+                                    Información
                                 </button>
                             </li>
 
@@ -49,6 +54,12 @@
                                 <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab"
                                     id="changeContra-tab" type="button" data-bs-target="#changeContra" role="tab"
                                     aria-controls="changeContra" aria-selected="true" onclick="showChangeContra(this)">
+                                    <svg class="svg-icon me-2" width="20" height="21" viewBox="0 0 20 21" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M3.25 8.8046V6.75C3.25 3.02208 6.27208 0 10 0C13.7279 0 16.75 3.02208 16.75 6.75V8.8046C17.8648 8.8879 18.5907 9.098 19.1213 9.6287C20 10.5074 20 11.9216 20 14.75C20 17.5784 20 18.9926 19.1213 19.8713C18.2426 20.75 16.8284 20.75 14 20.75H6C3.17157 20.75 1.75736 20.75 0.87868 19.8713C0 18.9926 0 17.5784 0 14.75C0 11.9216 0 10.5074 0.87868 9.6287C1.40931 9.098 2.13525 8.8879 3.25 8.8046ZM4.75 6.75C4.75 3.85051 7.10051 1.5 10 1.5C12.8995 1.5 15.25 3.85051 15.25 6.75V8.7536C14.867 8.75 14.4515 8.75 14 8.75H6C5.54849 8.75 5.13301 8.75 4.75 8.7536V6.75Z"
+                                            fill="#A9A8C2" />
+                                    </svg>
                                     Cambiar contraseña
                                 </button>
                             </li>
@@ -57,63 +68,101 @@
                                 <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab" id="ajustes-tab"
                                     type="button" data-bs-target="#ajustes" role="tab" aria-controls="ajustes"
                                     aria-selected="true" onclick="showAjustes(this)">
+                                    <svg viewBox="0 -3.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" fill="#A9A8C2" width="25" height="26"
+                                        viewBox="0 0 20 21" class="me-2 svg-icon">
+                                        <g id="Dribbble-Light-Preview" transform="translate(-99.000000, -760.000000)"
+                                            fill="#A9A8C2">
+                                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                <path
+                                                    d="M53.5,603 C53.5,602.647 53.5756,602 53.6932,602 L43,602 L43,604 L53.6932,604 C53.5756,604 53.5,603.353 53.5,603 L53.5,603 Z M61.7068,602 C61.27315,601 60.1192,600 58.75,600 C57.01015,600 55.6,601.343 55.6,603 C55.6,604.657 57.01015,606 58.75,606 C60.1192,606 61.27315,605 61.7068,604 L64,604 L64,602 L61.7068,602 Z M53.5,611 C53.5,611.353 53.4244,611.686 53.3068,612 L64,612 L64,610 L53.3068,610 C53.4244,610 53.5,610.647 53.5,611 L53.5,611 Z M51.4,611 C51.4,612.657 49.98985,614 48.25,614 C46.8808,614 45.72685,613 45.2932,612 L43,612 L43,610 L45.2932,610 C45.72685,609 46.8808,608 48.25,608 C49.98985,608 51.4,609.343 51.4,611 L51.4,611 Z"
+                                                    id="settings-[#1389]"> </path>
+                                            </g>
+                                        </g>
+                                    </svg>
                                     Ajustes
                                 </button>
                             </li>
                         </ul>
-
-                        <div class="tab-content contenidoP position-relative justify-content-start">
-                            <div class="tab-pane fade z-3 d-none m-5 pt-5" role="tabpanel" id="infoPersonal"
-                                aria-labelledby="infoPersonal-tab">
-                                <div class="contenedor-form col-10 col-lg-10 col-md-9">
-                                    <form id="loginForm" autocomplete="off">
-                                        <div id="userEmaill" class="contenedorTitulo col overflow-x-auto">
-                                            <h3 id="emailMostrado" class="email"></h3>
-                                            <!-- Título para mostrar el correo electrónico -->
-                                        </div>
-                                    </form>
-
-                                    <div class="contenedor-inputs col-12 open-sans-regular">
-                                        <form id="inputUsuario" class="needs-validation" novalidate autocomplete="off">
-                                            <input type="number" class="d-none" id="id_usuario" name="id_usuario">
-                                            <!-- Campo oculto para ID de usuario -->
-                                            <!-- Input para correo electrónico -->
-                                            <div class="form-floating mb-3">
-                                                <input type="email" class="form-control" id="correoUsuario"
-                                                    name="correoUsuario" placeholder="name@example.com"
-                                                    value="correoelectrionico@gmail.com" required minlength="5"
-                                                    maxlength="50" autocomplete="off">
-                                                <label for="correoUsuario">Correo electrónico</label>
-                                                <span id="emailERROR" class="text-danger"></span>
-                                            </div>
-                                            <!-- Input para teléfono -->
-                                            <div class="form-floating mb-4">
-                                                <input type="tel" class="form-control" id="telefonoUsuario"
-                                                    name="telefonoUsuario" placeholder="0000-0000" required
-                                                    minlength="9" maxlength="9" autocomplete="off">
-                                                <label for="telefonoUsuario">Teléfono</label>
-                                                <span id="phoneERROR" class="text-danger"></span>
-                                            </div>
-                                            <!-- Botones de acción -->
-                                            <div
-                                                class="contenedor_botones d-flex align-items-end justify-content-end col-12 flex-wrap">
-                                                <button type="button"
-                                                    class="btn btn-dark btnCancelar col-lg-4 col-md-5 col-10"
-                                                    onclick="openClose()">
-                                                    <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
-                                                </button>
-                                                <button type="submit"
-                                                    class="btn btn-primary btnAceptar col-lg-4 col-md-5 col-10">
-                                                    <h6 class="open-sans-regular p-0 m-0 z-3">Guardar</h6>
-                                                </button>
+                        <div class="tab-content contenidoP position-relative justify-content-between p-4">
+                            <div class="tab-pane fade z-3 d-none m-5 mt-0 justify-content-center" role="tabpanel"
+                                id="infoPersonal" aria-labelledby="infoPersonal-tab">
+                                <div class="textInfoContainer mb-5">
+                                    <h4 class="open-sans-semiBold my-3">
+                                        Información personal
+                                    </h4>
+                                    <p class="open-sans-regular clrGry1">
+                                        En esta sección, puedes actualizar tu información personal, como tu número
+                                        telefónico y
+                                        correo electrónico. Es importante que mantengas estos datos actualizados para
+                                        asegurar una comunicación efectiva y una experiencia personalizada en la
+                                        plataforma.
+                                    </p>
+                                </div>
+                                <div class="row d-flex justify-content-between">
+                                    <div class="contenedor-form col-6 col-lg-6 col-md-9">
+                                        <form id="loginForm" autocomplete="off">
+                                            <div id="userEmaill" class="contenedorTitulo col overflow-x-auto">
+                                                <h3 id="emailMostrado" class="email"></h3>
+                                                <!-- Título para mostrar el correo electrónico -->
                                             </div>
                                         </form>
+
+                                        <div class="contenedor-inputs col-12 open-sans-regular">
+                                            <form id="inputUsuario" class="needs-validation" novalidate
+                                                autocomplete="off">
+                                                <input type="number" class="d-none" id="id_usuario" name="id_usuario">
+                                                <!-- Campo oculto para ID de usuario -->
+                                                <!-- Input para correo electrónico -->
+                                                <div class="form-floating mb-3">
+                                                    <input type="email" class="form-control" id="correoUsuario"
+                                                        name="correoUsuario" placeholder="name@example.com"
+                                                        value="correoelectrionico@gmail.com" required minlength="5"
+                                                        maxlength="50" autocomplete="off">
+                                                    <label for="correoUsuario">Correo electrónico</label>
+                                                    <span id="emailERROR" class="text-danger"></span>
+                                                </div>
+                                                <!-- Input para teléfono -->
+                                                <div class="form-floating mb-4">
+                                                    <input type="tel" class="form-control" id="telefonoUsuario"
+                                                        name="telefonoUsuario" placeholder="0000-0000" required
+                                                        minlength="9" maxlength="9" autocomplete="off">
+                                                    <label for="telefonoUsuario">Teléfono</label>
+                                                    <span id="phoneERROR" class="text-danger"></span>
+                                                </div>
+                                                <!-- Botones de acción -->
+                                                <div
+                                                    class="contenedor_botones d-flex align-items-start justify-content-start col-12 flex-wrap mt-5">
+                                                    <button type="submit"
+                                                        class="btn btn-primary btnAceptar col-lg-2 col-md-5 col-10">
+                                                        <h6 class="open-sans-regular p-0 m-0 z-3">Guardar</h6>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-light btnCancelar col-lg-2 col-md-5 col-10"
+                                                        onclick="openClose()">
+                                                        <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="contenedor-data">
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 d-flex flex-column align-items-start open-sans-regular"
+                            <div class="gap-3 tab-pane1 fade z-2 position-relative d-none m-5 mt-4 pt-0 d-flex flex-column align-items-center open-sans-regular"
                                 role="tabpanel" id="changeContra" aria-labelledby="changeContra-tab">
-                                <form id="saveForm" class="needs-validation col-9" novalidate autocomplete="off">
+                                <div class="textInfoContainer">
+                                    <h4 class="open-sans-semiBold my-3">
+                                        Cambiar la contraseña
+                                    </h4>
+                                    <p class="open-sans-regular clrGry1">
+                                        En esta sección, puedes actualizar tu contraseña para mantener la seguridad de
+                                        tu cuenta. Es fundamental que tu contraseña sea única y contenga una combinación
+                                        de letras, números y símbolos.
+                                    </p>
+                                </div>
+                                <form id="saveForm" class="needs-validation col-9 mt-0" novalidate autocomplete="off">
                                     <div class="content-add-info col-12">
                                         <!-- Input para contraseña actual -->
                                         <div class="form-floating mb-0 p-0">
@@ -146,7 +195,7 @@
                                     </div>
                                     <!-- Botones del modal -->
                                     <div
-                                        class="contenedor_botones d-flex align-items-end justify-content-end col-12 flex-wrap mt-3">
+                                        class="contenedor_botones d-flex align-items-center justify-content-center col-12 flex-wrap mt-5">
                                         <button type="button" class="btn btn-dark btnCancelar col-lg-4 col-md-5 col-10"
                                             onclick="openClose()">
                                             <h6 class="open-sans-regular p-0 m-0 z-3">Cancelar</h6>
@@ -188,10 +237,9 @@
                     </div>
                 </div>
             </div>
-            <div class="contenedor-imagen col-lg-4 col-md-0 col-0 d-flex justify-content-end align-items-end">
+            <!-- <div class="contenedor-imagen col-lg-4 col-md-0 col-0 d-flex justify-content-end align-items-end">
                 <img src="../../recursos/imagenes/img-usuario/img-woman-2.svg" class="d-none d-lg-block">
-                <!-- Imagen decorativa (mujer) -->
-            </div>
+            </div> -->
             <!-- Modal para cambiar contraseña -->
         </div>
     </main>

@@ -413,7 +413,7 @@ function createCardCliente(row) {
                 <div class="line-red-split position-absolute"></div>
                 <div class="d-flex flex-column">
                     <h5 class="m-0 p-0 open-sans-bold text-black text-start">${row.nombres_cliente} ${row.apellidos_cliente}</h5>
-                    <p class="open-sans-light-italic m-0 p-0 text-start clrGry1">cliente ${row.id_cliente}</p>
+                    <p class="open-sans-light-italic m-0 p-0 text-start clrGry1">Cliente ${row.id_cliente}</p>
                 </div>
                 <div class="info-row-2 d-flex gap-5">
                     <div class="d-flex flex-column position-relative">

@@ -565,14 +565,14 @@ const checkFormValidity = form => {
 function updateButtonColors(boton) {
     var botones = document.querySelectorAll('.boton-cambiar-color');
     botones.forEach(function (b) {
-        b.style.backgroundColor = 'white';
+       // b.style.backgroundColor = 'none';
         b.style.color = 'black';
         b.style.borderBottom = '0px solid red';
         b.style.border = '0px';
     });
-    boton.style.backgroundColor = 'white';
-    boton.style.color = 'black';
-    boton.style.borderBottom = '3px solid red';
+    // boton.style.backgroundColor = 'none';
+    boton.style.color = 'white';
+    //boton.style.borderBottom = '3px solid red';
 }
 
 function disablePasteAndDrop(inputElement) {

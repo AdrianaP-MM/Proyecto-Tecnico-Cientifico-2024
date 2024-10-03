@@ -1,3 +1,45 @@
+.svg-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.svg-icon2 {
+    width: 30px;
+    height: 30px;
+    fill: #A9A8C2;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: #464855;
+    border-radius: 15px;
+    color: white;
+    /* Cambia el color del texto a blanco cuando está activo */
+}
+
+.nav-tabs .nav-item.show .nav-link .svg-icon,
+.nav-tabs .nav-link.active .svg-icon>path,
+.svg-icon2>path {
+    color: white;
+    /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white;
+    /* Asegúrate de que el SVG use blanco como color de relleno */
+}
+
+.nav-tabs .nav-item.show .nav-link .svg-icon,
+.nav-tabs .nav-link.active .svg-icon>g,
+.nav-tabs .nav-link.active .svg-icon2>g {
+    color: white;
+    /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white;
+    /* Asegúrate de que el SVG use blanco como color de relleno */
+}
+
+.nav-link {
+    border-radius: 15px;
+}
+
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav */
 .mynav li a {
     color: #000000;
@@ -46,7 +88,7 @@ hr {
 
 /* Estilo para la barra de búsqueda */
 .search {
-    background-color: #F8F8F8;
+    background-color: #F5F3F4;
     border: 0px;
     border-radius: 10px;
 }
@@ -64,6 +106,10 @@ hr {
     display: inline-block;
     margin: 10px;
     cursor: pointer;
+}
+
+.nav-tabs {
+    border-width: 0;
 }
 
 /* Estilos para la animación de rotación */
@@ -106,6 +152,8 @@ hr {
     overflow-x: hidden;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+    background-color: red;
+    width: 22%;
 }
 
 /* Estilo del checkbox seleccionado */
@@ -276,8 +324,8 @@ hr {
     overflow-x: hidden;
     overflow-y: auto;
 
-    min-height: 70vh;
-    max-height: 70vh;
+    min-height: 77vh;
+    max-height: 77vh;
 
     padding-top: 25px;
     display: grid;
@@ -440,6 +488,7 @@ hr {
     display: flex;
     flex-direction: column;
     width: 100%;
+    background-color: #F0F0F7;
 }
 
 /* Estilos para los enlaces de la barra de navegación */
@@ -467,7 +516,7 @@ hr {
 
 .boton-cambiar-color {
     color: black;
-    background-color: white;
+    /* background-color: white; */
 }
 
 /* Estilos para el botón de cancelar */

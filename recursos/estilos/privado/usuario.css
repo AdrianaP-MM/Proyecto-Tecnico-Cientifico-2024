@@ -1,6 +1,49 @@
+/* ---------------------- AGREGADOS RECIENTEMENTE----------------------------*/
+.contenedor-data{
+    border: 1px solid red;
+    width: 25vw;
+    height: 40vh;
+    position: absolute;
+    right: 120px;
+}
+
+.textInfoContainer {
+    top: 0;
+    border-bottom: 1px solid #a2a2a2;
+}
+
+.svg-icon {
+    width: 24px; /* Ajusta según tus necesidades */
+    height: 24px; /* Ajusta según tus necesidades */
+    fill: currentColor; /* Permite que el color se ajuste según el texto */
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: #464855;
+    border-radius: 15px;
+    color: white; /* Cambia el color del texto a blanco cuando está activo */
+}
+
+.nav-tabs .nav-item.show .nav-link .svg-icon,
+.nav-tabs .nav-link.active .svg-icon > path {
+    color: white; /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white; /* Asegúrate de que el SVG use blanco como color de relleno */
+}
+
+.nav-tabs .nav-item.show .nav-link .svg-icon,
+.nav-tabs .nav-link.active .svg-icon > g {
+    color: white; /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white; /* Asegúrate de que el SVG use blanco como color de relleno */
+}
+
+.nav-link{
+    border-radius: 15px;
+}
+
 /* Estilo para el fondo del cuerpo */
 body {
-    background-color: #ECECEC;
+    background-color: #F0F0F7;
     /* Color de fondo gris claro */
 }
 
@@ -14,15 +57,18 @@ body {
 
 /* Estilo para el contenedor blanco */
 .contenedor-blanco {
-    background-color: white;
+    background-color: none;
     /* Color de fondo blanco */
-    max-height: 85vh;
+    max-height: 90vh;
+    min-height: 90vh;
+    width: 90%;
     /* Altura máxima del 85% del viewport */
 }
 
 /* Estilo para el contenedor de la barra roja */
 .contenedor-ralla {
     background-color: #E5383B;
+    width: 80px;
     /* Color de fondo rojo */
 }
 
@@ -69,9 +115,11 @@ body {
 /* Estilos para los botones Cancelar y Aceptar */
 .btnCancelar,
 .btnAceptar {
-    background-color: black;
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
     /* Color de fondo negro */
-    height: 55px;
+    height: 60px;
     /* Altura de 55 píxeles */
     border-radius: 5px;
     /* Borde redondeado de 5 píxeles */
@@ -105,9 +153,9 @@ body {
 }
 
 .btnExit>a>img {
-    height: 100%;
+    height: 85%;
     /* Altura del 100% */
-    width: 100%;
+    width: 85%;
     /* Ancho del 100% */
 }
 
@@ -150,7 +198,12 @@ body {
 
 .boton-cambiar-color {
     color: black;
-    background-color: white;
+    border-radius: 0;
+    /* background-color: none; */
+}
+
+.nav-tabs {
+    border-width: 0;
 }
 
 /* Estilos para el botón de cancelar */
@@ -186,6 +239,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    background-color: none;
 }
 
 
@@ -196,12 +250,11 @@ body {
     display: flex;
     width: 100%;
     flex-direction: column;
+    background-color: white;
+    border-radius: 5px;
 }
 
-.boton-cambiar-color {
-    color: black;
-    background-color: white;
-}
+
 
 /*Card para el togglebutton*/
 
@@ -291,6 +344,6 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-.cardToggle{
+.cardToggle {
     margin-bottom: 25px;
 }

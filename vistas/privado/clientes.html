@@ -45,9 +45,12 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
-                    <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Buscador habilitado para: nombres, apellidos, dui, telefono, correo, NIT, NRC, NRF."> <!-- Contenedor del los input de entrada -->
+                    <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        data-bs-content="Buscador habilitado para: nombres, apellidos, dui, telefono, correo, NIT, NRC, NRF.">
+                        <!-- Contenedor del los input de entrada -->
                         <input type="text" class="form-control search" placeholder="Buscar..." id="input_buscar"
-                            name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()" autocomplete="off">
+                            name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()"
+                            autocomplete="off">
                         <button type="button" class="btn btn-outline" onclick="search()"><i class="bi-search"><img
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
@@ -61,7 +64,7 @@
                     </div>
                 </div>
                 <hr>
-                <div class="sidebar-body"> <!-- Contedor del cuerpo de los filtros-->
+                <div class="sidebar-body d-flex flex-column"> <!-- Contedor del cuerpo de los filtros-->
                     <ul class="list-unstyled ps-0 cursor-hover "> <!-- Lista no ordenada de los filtros-->
                         <!--TODO ----------------------------ELEMENTO DEPARTAMENTOS----------------------------------->
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
@@ -121,13 +124,13 @@
                                     <div class="fecha-desde col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Desde</h6>
                                         <input id="datepicker-desde" class="open-sans-regular-italic datepickerA"
-                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off"/>
+                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off" />
                                     </div>
                                     <!--Contenedor de la fecha posterios (hasta)-->
                                     <div class="fecha-hasta col-lg-5 col-11">
                                         <h6 class="open-sans-regular">Hasta</h6>
                                         <input id="datepicker-hasta" class="open-sans-regular-italic datepickerA"
-                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off"/>
+                                            onkeydown="if (event.keyCode === 13) search()" autocomplete="off" />
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +153,8 @@
 
                             <div class="collapse col-11 mt-3" id="CantAutos">
                                 <input type="number" name="input_cantd_autos" id="input_cantd_autos" max="99" min="1"
-                                    class="w-50 text-center" onkeydown="if (event.keyCode === 13) search()" autocomplete="off">
+                                    class="w-50 text-center" onkeydown="if (event.keyCode === 13) search()"
+                                    autocomplete="off">
                             </div>
 
                         </li>
@@ -203,7 +207,8 @@
 
                         <!--TODO ----------------------------ELEMENTO RUBRO COMERCIAL----------------------------------->
                         <hr>
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center d-none" id="contenedorRubroComercial">
+                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center d-none"
+                            id="contenedorRubroComercial">
                             <!-- Primer elemento de filtros-->
                             <!-- Elemento de la lista-->
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
@@ -228,37 +233,71 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="d-flex m-auto mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload mt-1"
+                        onclick="reload();">
+                        <i class="hvr-icon">
+                            <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
+                        </i>
+                        <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
+                    </div>
                 </div>
             </div>
             <!-- TODO -----------------------------------CUERPO----------------------------------->
             <div class="ContenedorPestaña pt-5">
                 <ul class="nav nav-tabs ms-lg-5 ms-md-4 ms-0">
-                    <li class="nav-item" role="presentation">
+                    <!-- <li class="nav-item" role="presentation">
                         <button class="nav-link boton-cambiar-color tb" data-bs-toggle="tab" id="personaNatural-tab"
                             type="button" data-bs-target="#personaNatural" role="tab" aria-controls="personaNatural"
                             aria-selected="true" onclick="showPersonaNatural(this)">
-                                Persona natural
+                            Persona natural
                         </button>
-                    </li>
+                    </li> -->
 
-                    <li class="nav-item ms-4" role="presentation">
+                    <!-- <li class="nav-item ms-4" role="presentation">
                         <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab" id="personaJuridica-tab"
                             type="button" data-bs-target="#personaJuridica" role="tab" aria-controls="personaJuridica"
                             aria-selected="true" onclick="showPersonaJuridica(this)">
                             Persona jurídica
+                        </button>
+                    </li> -->
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link boton-cambiar-color tb" data-bs-toggle="tab" id="personaNatural-tab"
+                            type="button" data-bs-target="#personaNatural" role="tab" aria-controls="personaNatural"
+                            aria-selected="true" onclick="showPersonaNatural(this)">
+                            <svg class="svg-icon me-2" width="20" height="21" viewBox="0 0 20 21" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4Z"
+                                    fill="#A9A8C2"></path>
+                                <path d="M4 18C4 15.34 9.33 14 12 14C14.67 14 20 15.34 20 18V20H4V18Z" fill="#A9A8C2">
+                                </path>
+                            </svg>
+                            Persona natural
+                        </button>
+                    </li>
+
+                    <li class="nav-item ms-4" role="presentation">
+                        <button class="nav-link boton-cambiar-color tab" data-bs-toggle="tab" id="changeContra-tab"
+                            type="button" data-bs-target="#personaJuridica" role="tab" aria-controls="personaJuridica"
+                            aria-selected="true" onclick="showPersonaJuridica(this)">
+                            <svg class="svg-icon2 me-2" width="30" height="31" viewBox="0 0 40 40" fill="#A9A8C2"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="aad88ad3-6d51-4184-9840-f392d18dd002" data-name="Layer 3">
+                                    <circle cx="16.86" cy="9.73" r="6.46"></circle>
+                                    <rect x="21" y="28" width="7" height="1.5"></rect>
+                                    <path
+                                        d="M15,30v3a1,1,0,0,0,1,1H33a1,1,0,0,0,1-1V23a1,1,0,0,0-1-1H26V20.53a1,1,0,0,0-2,0V22H22V18.42A32.12,32.12,0,0,0,16.86,18a26,26,0,0,0-11,2.39,3.28,3.28,0,0,0-1.88,3V30Zm17,2H17V24h7v.42a1,1,0,0,0,2,0V24h6Z">
+                                    </path>
+                                </g>
+                            </svg>
+                            Persona juridica
                         </button>
                     </li>
                 </ul>
                 <div class="tab-content contenidoP position-relative" id="">
                     <div class="tab-pane fade z-3 d-none pt-3" role="tabpanel" id="personaJuridica"
                         aria-labelledby="personaJuridica-tab">
-                        <div class="d-flex me-auto ms-5 mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
-                            onclick="reload();">
-                            <i class="hvr-icon">
-                                <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
-                            </i>
-                            <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
-                        </div>
                         <div class="flex-fill col-12">
                             <!--Contenedor del boton para abrir los filtros colapsados-->
                             <div class="p-2 d-md-none d-flex text-white btnSlBg">
@@ -274,13 +313,6 @@
                     </div>
                     <div class="tab-pane1 fade z-2 position-relative d-none pt-3 d-flex flex-column align-items-center"
                         role="tabpanel" id="personaNatural" aria-labelledby="personaNatural-tab">
-                        <div class="d-flex me-auto ms-5 mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
-                            onclick="reload();">
-                            <i class="hvr-icon">
-                                <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
-                            </i>
-                            <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
-                        </div>
                         <div class="flex-fill col-12">
                             <!--Contenedor del boton para abrir los filtros colapsados-->
                             <div class="p-2 d-md-none d-flex text-white btnSlBg">
@@ -383,7 +415,7 @@
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_nit" name="input_nit"
-                                                placeholder="..."  autocomplete="off">
+                                                placeholder="..." autocomplete="off">
                                             <label for="input_nit">NIT</label>
                                             <span id="ERROR-NIT-ADD" class="text-danger"></span>
                                         </div>
@@ -391,7 +423,8 @@
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <input type="text" class="form-control" id="input_telefono"
-                                                name="input_telefono" placeholder="..." required autocomplete="off" minlength="9" maxlength="9">
+                                                name="input_telefono" placeholder="..." required autocomplete="off"
+                                                minlength="9" maxlength="9">
                                             <label for="input_telefono">Teléfono</label>
                                             <span id="ERROR-TELEFONO-ADD" class="text-danger"></span>
                                         </div>
