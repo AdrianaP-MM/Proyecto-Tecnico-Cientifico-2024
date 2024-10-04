@@ -73,13 +73,13 @@ class AutomovilHandler
         a.id_marca_automovil,
         a.fecha_registro,
         a.estado_automovil
-    FROM 
+        FROM 
         tb_automoviles a
-    INNER JOIN 
+        INNER JOIN 
         tb_clientes c ON a.id_cliente = c.id_cliente
-    INNER JOIN 
+        INNER JOIN 
         tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
-    WHERE 
+        WHERE 
         a.estado_automovil = ?';
 
         $params = array('Activo');
@@ -92,6 +92,121 @@ class AutomovilHandler
 
         return Database::getRows($sql, $params);
     }
+
+    public function searchRowsByMarcas()
+    {
+        // Consulta SQL para buscar automóviles
+        $sql = 'SELECT 
+        c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        ma.nombre_marca_automovil AS nombre_marca,
+        a.id_automovil,
+        a.modelo_automovil,
+        a.id_tipo_automovil,
+        a.color_automovil,
+        a.fecha_fabricacion_automovil,
+        a.placa_automovil,
+        a.imagen_automovil,
+        a.id_cliente,
+        a.id_marca_automovil,
+        a.fecha_registro,
+        a.estado_automovil
+        FROM 
+        tb_automoviles a
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
+        WHERE 
+        a.estado_automovil = ?';
+
+        $params = array('Activo');
+
+        if ($this->search_value) {
+            // Asumimos que $this->search_value es el id_marca_automovil
+            $sql .= " AND a.id_marca_automovil = ?";
+            $params[] = $this->search_value; // Usar el valor directamente
+        }
+
+        return Database::getRows($sql, $params);
+    }
+
+    public function searchRowsByFecha()
+    {
+        // Consulta SQL para buscar automóviles
+        $sql = 'SELECT 
+        c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        ma.nombre_marca_automovil AS nombre_marca,
+        a.id_automovil,
+        a.modelo_automovil,
+        a.id_tipo_automovil,
+        a.color_automovil,
+        a.fecha_fabricacion_automovil,
+        a.placa_automovil,
+        a.imagen_automovil,
+        a.id_cliente,
+        a.id_marca_automovil,
+        a.fecha_registro,
+        a.estado_automovil
+        FROM 
+        tb_automoviles a
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
+        WHERE 
+        a.estado_automovil = ?';
+
+        $params = array('Activo');
+
+        if ($this->search_value) {
+            // Asumimos que $this->search_value es el id_marca_automovil
+            $sql .= " AND a.fecha_fabricacion_automovil = ?";
+            $params[] = $this->search_value; // Usar el valor directamente
+        }
+
+        return Database::getRows($sql, $params);
+    }
+
+    public function searchRowsByTipos()
+    {
+        // Consulta SQL para buscar automóviles
+        $sql = 'SELECT 
+        c.nombres_cliente AS nombre_cliente,
+        c.dui_cliente AS dui_cliente,
+        ma.nombre_marca_automovil AS nombre_marca,
+        a.id_automovil,
+        a.modelo_automovil,
+        a.id_tipo_automovil,
+        a.color_automovil,
+        a.fecha_fabricacion_automovil,
+        a.placa_automovil,
+        a.imagen_automovil,
+        a.id_cliente,
+        a.id_marca_automovil,
+        a.fecha_registro,
+        a.estado_automovil
+        FROM 
+        tb_automoviles a
+        INNER JOIN 
+        tb_clientes c ON a.id_cliente = c.id_cliente
+        INNER JOIN 
+        tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
+        WHERE 
+        a.estado_automovil = ?';
+
+        $params = array('Activo');
+
+        if ($this->search_value) {
+            // Asumimos que $this->search_value es el id_marca_automovil
+            $sql .= " AND a.id_tipo_automovil = ?";
+            $params[] = $this->search_value; // Usar el valor directamente
+        }
+
+        return Database::getRows($sql, $params);
+    }
+
 
     public function readOne()
     {

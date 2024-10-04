@@ -28,6 +28,48 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias.';
                 }
                 break;
+            case 'searchRowsByMarcas':
+                // Obtener el valor de búsqueda
+                $searchValue = isset($_POST['searchMarca']) ? $_POST['searchMarca'] : '';
+
+                // Establecer el valor de búsqueda en el objeto automovil
+                $automovil->setSearchValue($searchValue);
+
+                // Buscar clientes con los criterios definidos.
+                if ($result['dataset'] = $automovil->searchRowsByMarcas()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay coincidencias.';
+                }
+                break;
+            case 'searchRowsByFecha':
+                // Obtener el valor de búsqueda
+                $searchValue = isset($_POST['searchFecha']) ? $_POST['searchFecha'] : '';
+
+                // Establecer el valor de búsqueda en el objeto automovil
+                $automovil->setSearchValue($searchValue);
+
+                // Buscar clientes con los criterios definidos.
+                if ($result['dataset'] = $automovil->searchRowsByFecha()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay coincidencias.';
+                }
+                break;
+            case 'searchRowsByTipos':
+                // Obtener el valor de búsqueda
+                $searchValue = isset($_POST['searchTipo']) ? $_POST['searchTipo'] : '';
+
+                // Establecer el valor de búsqueda en el objeto automovil
+                $automovil->setSearchValue($searchValue);
+
+                // Buscar clientes con los criterios definidos.
+                if ($result['dataset'] = $automovil->searchRowsByTipos()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay coincidencias.';
+                }
+                break;
             case 'createRow':
                 // Validar los datos del formulario
                 $_POST = Validator::validateForm($_POST);

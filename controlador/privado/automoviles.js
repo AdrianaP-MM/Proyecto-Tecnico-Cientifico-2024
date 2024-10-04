@@ -595,7 +595,7 @@ const fillFiltrosMarca = async () => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             FILTROMARCAS.innerHTML += `
                 <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca${row.id_marca_automovil}">
+                                            <input class="form-check-input me-2" type="checkbox" id="Marca${row.id_marca_automovil}" onclick="handleCheckboxClick(this)">
                                             <label class="form-check-label stretched-link" for="Marca${row.id_marca_automovil}">
                                                 <h6 class="m-0 p-0 open-sans-regular">
                                                 ${row.nombre_marca_automovil}
@@ -620,7 +620,7 @@ const fillFiltroTipos = async () => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             FILTROTIPOS.innerHTML += `
                 <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo${row.id_tipo_automovil}">
+                                        <input class="form-check-input me-2" type="checkbox" id="Tipo${row.id_tipo_automovil}" onclick="handleCheckboxClick2(this)">
                                         <label class="form-check-label stretched-link" for="Tipo${row.id_tipo_automovil}">
                                             <h6 class="m-0 p-0 open-sans-regular">
                                             ${row.nombre_tipo_automovil}
@@ -633,6 +633,158 @@ const fillFiltroTipos = async () => {
         sweetAlert(4, DATA.error, true);
     }
 }
+
+const handleCheckboxClick = async () => {
+    const selectedMarcas = [];
+    const marcasCheckboxes = document.querySelectorAll('#filtroMarcas input[type="checkbox"]');
+
+    marcasCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            const marcaId = checkbox.id.replace('Marca', ''); // Extraer el ID
+            selectedMarcas.push(marcaId);
+        }
+    });
+
+    // Imprimir los IDs seleccionados en la consola
+    console.log("IDs seleccionados de marcas:", selectedMarcas);
+
+    // Llama a fillTableFiltroMarcas con un objeto que contenga los IDs seleccionados
+    await fillTableFiltroMarcas(selectedMarcas);
+};
+
+const handleCheckboxClick2 = async () => {
+    const selectedTipos = [];
+    const tiposCheckboxes = document.querySelectorAll('#filtroTipos input[type="checkbox"]');
+
+    tiposCheckboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            const tipoId = checkbox.id.replace('Tipo', ''); // Extraer el ID
+            selectedTipos.push(tipoId);
+        }
+    });
+
+    // Imprimir los IDs seleccionados en la consola
+    console.log("IDs seleccionados de tipos:", selectedTipos);
+
+    // Llama a fillTableFiltroMarcas con un objeto que contenga los IDs seleccionados
+    await fillTableFiltroTipos(selectedTipos);
+};
+
+const fillTableFiltroMarcas = async (selectedMarcas = []) => {
+    TABLE_BODY.innerHTML = '';
+
+    // Crear un objeto FormData
+    const formData = new FormData();
+
+    // Agregar los IDs seleccionados al FormData
+    selectedMarcas.forEach(marcaId => {
+        formData.append('searchMarca', marcaId); // Usamos el mismo nombre para que sea un array en PHP
+    });
+
+
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByMarcas', formData);
+
+    if (DATA.status) {
+        TABLE_BODY.innerHTML += `
+            <div class="add-auto-card d-flex align-items-center justify-content-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+            </div>
+        `;
+
+        DATA.dataset.forEach(row => {
+            TABLE_BODY.innerHTML += `
+                <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
+                    <div class="content z-3">
+                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                    </div>
+                    <div class="container-img-card">
+                        <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
+                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                    </div>
+                    <div class="container-info-card position-relative">
+                        <div class="line-red-split position-absolute"></div>
+                        <div class="grid-c pt-2 c1">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">${row.nombre_cliente} &nbsp
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.dui_cliente}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c pt-2 c2 w-100 px-1">
+                            <p class="m-0 p-0 open-sans-light-italic text-center w-100">${row.nombre_marca} &nbsp
+                                <span class="open-sans-semibold m-0 p-0 text-center w-100">${row.placa_automovil}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c c3">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.color_automovil}
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.modelo_automovil}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+};
+
+const fillTableFiltroTipos = async (selectedTipos = []) => {
+    TABLE_BODY.innerHTML = '';
+
+    // Crear un objeto FormData
+    const formData = new FormData();
+
+    // Agregar los IDs seleccionados al FormData
+    selectedTipos.forEach(tipoId => {
+        formData.append('searchTipo', tipoId); // Usamos el mismo nombre para que sea un array en PHP
+    });
+
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByTipos', formData);
+
+    if (DATA.status) {
+        TABLE_BODY.innerHTML += `
+            <div class="add-auto-card d-flex align-items-center justify-content-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+            </div>
+        `;
+
+        DATA.dataset.forEach(row => {
+            TABLE_BODY.innerHTML += `
+                <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
+                    <div class="content z-3">
+                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                    </div>
+                    <div class="container-img-card">
+                        <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
+                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                    </div>
+                    <div class="container-info-card position-relative">
+                        <div class="line-red-split position-absolute"></div>
+                        <div class="grid-c pt-2 c1">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">${row.nombre_cliente} &nbsp
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.dui_cliente}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c pt-2 c2 w-100 px-1">
+                            <p class="m-0 p-0 open-sans-light-italic text-center w-100">${row.nombre_marca} &nbsp
+                                <span class="open-sans-semibold m-0 p-0 text-center w-100">${row.placa_automovil}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c c3">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.color_automovil}
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.modelo_automovil}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+};
+
 
 
 /*Extra*/
