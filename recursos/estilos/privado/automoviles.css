@@ -553,6 +553,20 @@ hr {
     cursor: pointer;
 }
 
+.table-responsive {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.table-responsive::-webkit-scrollbar{
+    width: 10px;
+} 
+
+.table-responsive::-webkit-scrollbar-thumb{
+    background-color: #E00D11;
+    border-radius: 8px;
+} 
+
 .ui-autocomplete {
     z-index: 9999;
     background-color: white;
@@ -607,6 +621,8 @@ hr {
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    align-self: center;
+    justify-content: center;
 }
 
 .hvr-icon-grow-rotate .hvr-icon {

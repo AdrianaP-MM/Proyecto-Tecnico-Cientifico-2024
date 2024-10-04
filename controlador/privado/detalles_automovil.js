@@ -227,9 +227,9 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         // Se cierra la caja de diálogo.
         MODAL.hide();
         // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
+        await sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la tabla para visualizar los cambios.
-        fillTable();
+        location.reload()
     } else {
         sweetAlert(2, DATA.error, false);
     }

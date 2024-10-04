@@ -15,7 +15,6 @@ if (isset($_GET['action'])) {
         $result['session'] = 1; // Indica que hay una sesión activa.
         switch ($_GET['action']) {
             case 'searchRows':
-                // Verificar si $_POST['search'] está definido
                 // Obtener el valor de búsqueda
                 $searchValue = isset($_POST['search']) ? $_POST['search'] : '';
 

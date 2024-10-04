@@ -47,13 +47,13 @@
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
 
-                    <!-- <div class="d-flex justify-content-center d-flex align-items-baseline">
+                    <div class="d-flex justify-content-center d-flex align-items-baseline">
                         <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
-                        <h3 class="px-3 open-sans-bold">Filtros</h3>
+                        <h3 class="px-3 open-sans-bold">Automoviles</h3>
                         <a href="#" class="text-black d-md-none" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
                             <h3 class="open-sans-bold">X</h3>
                         </a>
-                    </div> -->
+                    </div>
 
                     <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         data-bs-content="Buscador habilitado para: placa de los automóviles">
@@ -65,27 +65,30 @@
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
 
-                    <div class="d-flex me-auto ms-5 mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
-                        onclick="reload();">
-                        <i class="hvr-icon">
-                            <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
-                        </i>
-                        <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
-                    </div>
 
-                    <div class="d-flex justify-content-center align-content-center mt-5 col-12" id="asd">
-                        <button class="btn btnMarcas col-lg-6 col-md-10 col-12" onclick="openCRUDMarcas()">
+
+                    <div class="d-flex justify-content-center flex-wrap align-content-center col-12" id="asd">
+
+                        <div class="d-flex me-auto mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
+                            onclick="reload();">
+                            <i class="hvr-icon">
+                                <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
+                            </i>
+                            <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
+                        </div>
+
+                        <button class="btn btnMarcas col-lg-6  col-md-10 col-12 mt-2" onclick="openCRUDMarcas()">
                             <p class="open-sans-light p-0 m-0">Administrar marcas</p>
                         </button>
+
                     </div>
+                    
                 </div>
                 <hr>
                 <div class="sidebar-body"> <!-- Contedor del cuerpo de los filtros-->
                     <ul class="list-unstyled ps-0 cursor-hover "> <!-- Lista no ordenada de los filtros-->
                         <!--TODO ----------------------------ELEMENTO MARCAS----------------------------------->
-                        <!--   <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            Primer elemento de filtros
-                            Elemento de la lista
+                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Marcas" aria-expanded="false"
                                 onclick="rotarImagen('img1')">
@@ -96,14 +99,10 @@
                                         class="imagen">
                                 </span>
                             </button>
- 
-                            Contenedor de marcas y modelos
                             <div class="collapse col-11 marcasA position-relative mt-3" id="Marcas">
-                                <div class="" id="contenedor-marcas">  Contenedor de marcas
-                                    <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start">
-                                        Contenedor de la lista no ordenada
+                                <div class="" id="contenedor-marcas">
+                                    <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start" id="filtroMarcas">
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            Primer elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca1">
                                             <label class="form-check-label stretched-link" for="Marca1">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -112,7 +111,6 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            Segundo elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca2">
                                             <label class="form-check-label stretched-link" for="Marca2">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -121,7 +119,6 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            Tercer elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca3">
                                             <label class="form-check-label stretched-link" for="Marca3">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -130,7 +127,6 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <Cuarto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca4">
                                             <label class="form-check-label stretched-link" for="Marca4">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -139,7 +135,6 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            Quinto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca5">
                                             <label class="form-check-label stretched-link" for="Marca5">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -148,7 +143,6 @@
                                             </label>
                                         </li>
                                         <li class="list-group-item p-0 m-0 px-2">
-                                            <Sexto elemento de marca
                                             <input class="form-check-input me-2" type="checkbox" id="Marca6">
                                             <label class="form-check-label stretched-link" for="Marca6">
                                                 <h6 class="m-0 p-0 open-sans-regular">
@@ -158,7 +152,6 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <Boton para regresar a las marcas (mostrar marcas)
                                 <button type="button" id="btnReturn" onclick="showMarcas()"
                                     class="btn btn-outline-dark btnModelos col-10 text-white position-absolute m-0 p-0 d-none">
                                     <h6 class="open-sans-regular p-0 m-0 z-3">
@@ -166,81 +159,11 @@
                                     </h6>
                                 </button>
                             </div>
-                        </li> -->
-                        <!--TODO ----------------------------ELEMENTO COLORES----------------------------------->
-                        <!-- Segundo elemento de filtros-->
-                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            Elemento de la lista
-                            <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
-                                data-bs-toggle="collapse" data-bs-target="#Colores" aria-expanded="false"
-                                onclick="rotarImagen('img2')">
-                                <span class="d-flex justify-content-between align-items-center">
-                                    <h5 class="open-sans-semibold m-0 p-0 ms-2">
-                                        Colores
-                                    </h5>
-                                    <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img2" class="imagen">
-                                </span>
-                            </button>
-
-                            Contenedor de los checkboxs del colores
-                            <div class="collapse col-11 mt-3" id="Colores">
-                                <ul class="list-group contenedor-checkbox">
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color1">
-                                        <label class="form-check-label stretched-link" for="Color1">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Rojo
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color2">
-                                        <label class="form-check-label stretched-link" for="Color2">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Amarillo
-                                            </h6>
-                                        </label>
-                                    </li>
-
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color3">
-                                        <label class="form-check-label stretched-link" for="Color3">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Verde
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color4">
-                                        <label class="form-check-label stretched-link" for="Color4">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Azul
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color5">
-                                        <label class="form-check-label stretched-link" for="Color5">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Morado
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Color6">
-                                        <label class="form-check-label stretched-link" for="Color6">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Café
-                                            </h6>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> -->
+                        </li>
 
                         <!--TODO ----------------------------ELEMENTO TIPOS----------------------------------->
 
-                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
+                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Tipos" aria-expanded="false"
                                 onclick="rotarImagen('img3')">
@@ -252,7 +175,7 @@
                                 </span>
                             </button>
                             <div class="collapse col-11 mt-3" id="Tipos">
-                                <ul class="list-group contenedor-checkbox">
+                                <ul class="list-group contenedor-checkbox" id="filtroTipos">
                                     <li class="list-group-item p-0 m-0 px-2">
                                         <input class="form-check-input me-2" type="checkbox" id="Tipo1">
                                         <label class="form-check-label stretched-link" for="Tipo1">
@@ -303,10 +226,10 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li> -->
+                        </li>
 
                         <!--TODO ----------------------------ELEMENTO FECHA DE FABRICACIÓN----------------------------------->
-                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
+                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#FechaFab" aria-expanded="false"
                                 onclick="rotarImagen('img4')">
@@ -318,40 +241,15 @@
                                 </span>
                             </button>
                             <div class="collapse col-11 mt-3" id="FechaFab">
-                                <input type="number" id="year" name="year" min="1900" max="" required
-                                >
-                            </div>
-                        </li> -->
-
-                        <!--TODO ----------------------------ELEMENTO FECHA DE REGISTRO----------------------------------->
-                        <!-- <hr>
-                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
-                            <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
-                                data-bs-toggle="collapse" data-bs-target="#FechaReg" aria-expanded="false"
-                                onclick="rotarImagen('img5')">
-                                <span class="d-flex justify-content-between align-items-center">
-                                    <h5 class="open-sans-semibold m-0 p-0 ms-2">
-                                        Fecha de registro
-                                    </h5>
-                                    <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img5" class="imagen">
-                                </span>
-                            </button>
-
-                            <div class="collapse col-11 mt-3" id="FechaReg">
-                                <div class="d-flex flex-lg-row flex-md-column flex-column mt-3 justify-content-between">
-                                    <div class="fecha-desde col-lg-5 col-11">
-                                        <h6 class="open-sans-regular">Desde</h6>
-                                        <input id="datepicker-desdeRE" name="datepicker-desdeRE" class="open-sans-regular-italic datepickerA" 
-                                        onkeydown="if (event.keyCode === 13) search()"/>
-                                    </div>
-                                    <div class="fecha-hasta col-lg-5 col-11">
-                                        <h6 class="open-sans-regular">Hasta</h6>
-                                        <input id="datepicker-hastaRE" name="datepicker-hastaRE" class="open-sans-regular-italic datepickerA" 
-                                        onkeydown="if (event.keyCode === 13) search()"/>
-                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="input_fecha_auto_filtro"
+                                        name="input_fecha_auto_filtro" required placeholder="..." minlength="4" maxlength="4"
+                                        autocomplete="off">
+                                    <label for="input_fecha_auto_filtro">Fecha de fabricacion</label>
+                                    <span id="ERROR-FECHA-FILTRO" class="text-danger"></span>
                                 </div>
                             </div>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -493,9 +391,10 @@
                                     class="invisible" inert>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_marca_automovil"
-                                        name="input_marca_automovil" max="50" required placeholder="..." autocomplete="off">
+                                        name="input_marca_automovil" max="50" required placeholder="..."
+                                        autocomplete="off">
                                     <label for="input_marca_automovil">Marca</label>
-                                    <span id="ERROR_MARCA" class="text-danger"></span>
+                                    <span id="ERROR-MARCA" class="text-danger"></span>
                                 </div>
                                 <hr>
                             </div>
@@ -518,24 +417,27 @@
                                     </div>
                                 </div>
                                 <!-- Tabla -->
-                                <table class="table table-bordered" id="tablaMarcas">
-                                    <thead>
-                                        <tr>
-                                            <th>ID Marca</th>
-                                            <th>Nombre</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tablaMarcasRows">
-                                        <tr onclick="selectMarca(1, 'Marca Ejemplo 1')">
-                                            <td>1</td>
-                                            <td>Marca Ejemplo 1</td>
-                                        </tr>
-                                        <tr onclick="selectMarca(2, 'Marca Ejemplo 2')">
-                                            <td>2</td>
-                                            <td>Marca Ejemplo 2</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="tablaMarcas">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Marca</th>
+                                                <th>Nombre</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaMarcasRows">
+                                            <tr onclick="selectMarca(1, 'Marca Ejemplo 1')">
+                                                <td>1</td>
+                                                <td>Marca Ejemplo 1</td>
+                                            </tr>
+                                            <tr onclick="selectMarca(2, 'Marca Ejemplo 2')">
+                                                <td>2</td>
+                                                <td>Marca Ejemplo 2</td>
+                                            </tr>
+                                            <!-- Agrega más filas según sea necesario -->
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <!-- Contenedor del footer del modal (contenedor de los botones)-->

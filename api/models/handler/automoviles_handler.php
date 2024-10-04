@@ -58,7 +58,7 @@ class AutomovilHandler
     public function searchRows()
     {
         // Consulta SQL para buscar automóviles
-        $sql = '       SELECT 
+        $sql = 'SELECT 
         c.nombres_cliente AS nombre_cliente,
         c.dui_cliente AS dui_cliente,
         ma.nombre_marca_automovil AS nombre_marca,
@@ -73,20 +73,21 @@ class AutomovilHandler
         a.id_marca_automovil,
         a.fecha_registro,
         a.estado_automovil
-        FROM 
+    FROM 
         tb_automoviles a
-        INNER JOIN 
+    INNER JOIN 
         tb_clientes c ON a.id_cliente = c.id_cliente
-        INNER JOIN 
+    INNER JOIN 
         tb_marcas_automoviles ma ON a.id_marca_automovil = ma.id_marca_automovil
-        WHERE 
+    WHERE 
         a.estado_automovil = ?';
 
         $params = array('Activo');
 
         if ($this->search_value) {
-            $sql .= " AND placa_automovil = ?";
-            $params[] = $this->search_value;
+            $value = '%' . $this->search_value . '%'; // Agregar comodines para búsqueda parcial
+            $sql .= " AND a.placa_automovil LIKE ?";
+            $params[] = $value; // Usar el valor modificado
         }
 
         return Database::getRows($sql, $params);

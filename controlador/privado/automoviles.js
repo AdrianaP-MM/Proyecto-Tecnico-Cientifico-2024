@@ -26,6 +26,8 @@ const SEARCH_FORM_MARCAS = document.getElementById('searchMarca');
 const MAIN_TITLE = document.getElementById('mainTitle');
 const FECHA_DESDE = document.getElementById("datepicker-desdeRE");
 const FECHA_HASTA = document.getElementById("datepicker-hastaRE");
+const FILTROMARCAS = document.getElementById("filtroMarcas");
+const FILTROTIPOS = document.getElementById("filtroTipos");
 
 const FECHA_FABRICACION_CARRO = document.getElementById('year');
 // Constante tipo objeto para obtener los parámetros disponibles en la URL.
@@ -40,6 +42,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Acciones si la sesión SI está activa
         // Llamada a la función para llenar la tabla con los registros existentes.
         fillTable();
+        fillFiltroTipos();
+        fillFiltrosMarca();
     } else { // Acciones si la sesión NO está activa
         await sweetAlert(4, 'Acción no disponible fuera de la sesión, debe ingresar para continuar', true); location.href = 'index.html'
     }
@@ -101,7 +105,10 @@ const DUI = document.getElementById('label_dui');
 const ERROR_DUI_ADD = document.getElementById('ERROR-DUI-ADD');
 
 const MARCAS_ADD = document.getElementById('input_marca_automovil');
-const ERROR_MARCA = document.getElementById('ERROR_MARCA');
+const ERROR_MARCA = document.getElementById('ERROR-MARCA');
+
+const FECHA_FABRICACION_FILTRO = document.getElementById('input_fecha_auto_filtro');
+const ERROR_FECHA_FILTRO = document.getElementById('ERROR-FECHA-FILTRO');
 
 // DUI.addEventListener('input', function () {
 //     checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD);
@@ -134,6 +141,10 @@ PLACA.addEventListener('input', function () {
 
 MARCAS_ADD.addEventListener('input', function () {
     checkInput(validateCarBrand(MARCAS_ADD.value), MARCAS_ADD, ERROR_MARCA);
+});
+
+FECHA_FABRICACION_FILTRO.addEventListener('input', function () {
+    checkInput(validateYear(FECHA_FABRICACION_FILTRO.value), FECHA_FABRICACION_FILTRO, ERROR_FECHA_FILTRO);
 });
 
 // Método del evento para cuando se envía el formulario de guardar.
@@ -194,7 +205,7 @@ function applicateRules() {
     formatSalvadoreanPlate(PLACA);
     formatDUI(DUI, ERROR_DUI_ADD);
     formatSalvadoreanPlate(INPUT_BUSQUEDA)
-
+    formatYear(FECHA_FABRICACION_FILTRO);
     disablePasteAndDrop(PLACA);
     disableCopy(PLACA);
     disablePasteAndDrop(DUI);
@@ -351,18 +362,6 @@ const openDelete = async () => {
     }
 }
 
-/*
-*   Función para abrir un reporte automático de productos por categoría.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-
-const openReport = () => {
-    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/admin/productos.php`);
-    // Se abre el reporte en una nueva pestaña.
-    window.open(PATH.href);
-}
-*/
 
 //Funcion que muestra la alerta de confirmacion
 const openClose = async () => {
@@ -448,6 +447,19 @@ function selectMarca(id, nombre) {
     // Establece el valor del input de nombre
     document.getElementById('input_marca_automovil').value = nombre;
 }
+
+// Función para vaciar los campos
+function clearInputs() {
+    document.getElementById('input_id_marca_automovil').value = '';
+    document.getElementById('input_marca_automovil').value = '';
+}
+
+// Evento para detectar cambios en el campo de marca
+document.getElementById('input_marca_automovil').addEventListener('input', function () {
+    if (this.value.trim() === '') {
+        clearInputs();
+    }
+});
 
 /*JS PARA ADMINISTRAR CRUD DE MARCAS*/
 
@@ -570,6 +582,58 @@ SEARCH_FORM_MARCAS.addEventListener('submit', async (event) => {
     // Llamar a la función para llenar la tabla, pasando el formulario como parámetro para la búsqueda
     await fillTableMarcas(FORM);
 });
+
+/*JS de filtros*/
+const fillFiltrosMarca = async () => {
+    FILTROMARCAS.innerHTML = '';
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, "readMarcas");
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            FILTROMARCAS.innerHTML += `
+                <li class="list-group-item p-0 m-0 px-2">
+                                            <input class="form-check-input me-2" type="checkbox" id="Marca${row.id_marca_automovil}">
+                                            <label class="form-check-label stretched-link" for="Marca${row.id_marca_automovil}">
+                                                <h6 class="m-0 p-0 open-sans-regular">
+                                                ${row.nombre_marca_automovil}
+                                                </h6>
+                                            </label>
+                                        </li>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+
+const fillFiltroTipos = async () => {
+    FILTROTIPOS.innerHTML = '';
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, "readTipos");
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            FILTROTIPOS.innerHTML += `
+                <li class="list-group-item p-0 m-0 px-2">
+                                        <input class="form-check-input me-2" type="checkbox" id="Tipo${row.id_tipo_automovil}">
+                                        <label class="form-check-label stretched-link" for="Tipo${row.id_tipo_automovil}">
+                                            <h6 class="m-0 p-0 open-sans-regular">
+                                            ${row.nombre_tipo_automovil}
+                                            </h6>
+                                        </label>
+                                    </li>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+
 
 /*Extra*/
 
