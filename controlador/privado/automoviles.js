@@ -785,6 +785,64 @@ const fillTableFiltroTipos = async (selectedTipos = []) => {
     }
 };
 
+const fillTableFiltroFecha = async () => {
+
+    if (!checkInput(validateYear(FECHA_FABRICACION_FILTRO.value), FECHA_FABRICACION_FILTRO, ERROR_FECHA_FILTRO)) {
+        return;
+    }
+    
+    TABLE_BODY.innerHTML = '';
+
+    // Crear un objeto FormData
+    const formData = new FormData();
+    formData.append('searchFecha', FECHA_FABRICACION_FILTRO.value);
+
+    // Petición para obtener los registros disponibles.
+    const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByFecha', formData);
+
+    if (DATA.status) {
+        TABLE_BODY.innerHTML += `
+            <div class="add-auto-card d-flex align-items-center justify-content-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+            </div>
+        `;
+
+        DATA.dataset.forEach(row => {
+            TABLE_BODY.innerHTML += `
+                <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
+                    <div class="content z-3">
+                        <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                    </div>
+                    <div class="container-img-card">
+                        <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
+                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                    </div>
+                    <div class="container-info-card position-relative">
+                        <div class="line-red-split position-absolute"></div>
+                        <div class="grid-c pt-2 c1">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">${row.nombre_cliente} &nbsp
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.dui_cliente}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c pt-2 c2 w-100 px-1">
+                            <p class="m-0 p-0 open-sans-light-italic text-center w-100">${row.nombre_marca} &nbsp
+                                <span class="open-sans-semibold m-0 p-0 text-center w-100">${row.placa_automovil}</span>
+                            </p>
+                        </div>
+                        <div class="grid-c c3">
+                            <p class="m-0 p-0 open-sans-regular text-black text-center">Color ${row.color_automovil}
+                                <span class="open-sans-regular-italic m-0 p-0 text-black text-center">${row.modelo_automovil}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+};
+
 
 
 /*Extra*/

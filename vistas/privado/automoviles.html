@@ -69,16 +69,16 @@
 
                     <div class="d-flex justify-content-center flex-wrap align-content-center col-12" id="asd">
 
-                        <div class="d-flex me-auto mt-0 align-items-center gap-3 hvr-icon-grow-rotate divReload"
+                        <div class="d-flex mt-0 align-items-center gap-2 hvr-icon-grow-rotate divReload"
                             onclick="reload();">
                             <i class="hvr-icon">
                                 <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
                             </i>
-                            <p class="m-0 p-0 open-sans-light-italic">Refrescar</p>
+                            <p class="m-0 p-0 open-sans-light-italic tituloIcon">Refrescar</p>
                         </div>
 
                         <button class="btn btnMarcas col-lg-6  col-md-10 col-12 mt-2" onclick="openCRUDMarcas()">
-                            <p class="open-sans-light p-0 m-0">Administrar marcas</p>
+                            <p class="open-sans-light p-0 m-0">Ver marcas</p>
                         </button>
 
                     </div>
@@ -244,7 +244,7 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_fecha_auto_filtro"
                                         name="input_fecha_auto_filtro" required placeholder="..." minlength="4" maxlength="4"
-                                        autocomplete="off">
+                                        autocomplete="off" onkeydown="if (event.keyCode === 13) fillTableFiltroFecha()">
                                     <label for="input_fecha_auto_filtro">Fecha de fabricacion</label>
                                     <span id="ERROR-FECHA-FILTRO" class="text-danger"></span>
                                 </div>

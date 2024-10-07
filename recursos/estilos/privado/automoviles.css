@@ -558,14 +558,14 @@ hr {
     overflow-y: auto;
 }
 
-.table-responsive::-webkit-scrollbar{
+.table-responsive::-webkit-scrollbar {
     width: 10px;
-} 
+}
 
-.table-responsive::-webkit-scrollbar-thumb{
+.table-responsive::-webkit-scrollbar-thumb {
     background-color: #E00D11;
     border-radius: 8px;
-} 
+}
 
 .ui-autocomplete {
     z-index: 9999;
@@ -641,4 +641,8 @@ hr {
 .hvr-icon-grow-rotate:active .hvr-icon {
     -webkit-transform: scale(1.2) rotate(12deg);
     transform: scale(1.2) rotate(12deg);
+}
+
+.divReload {
+    margin-right: 20px;
 }
