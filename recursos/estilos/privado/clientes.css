@@ -519,11 +519,6 @@ hr {
     /* background-color: white; */
 }
 
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
-}
-
 /* Estilos para el botón de guardar */
 .btnSave {
     background-color: #E5383B;
@@ -532,9 +527,17 @@ hr {
 /* Estilos para los botones de guardar y cancelar */
 .btnSave,
 .btnCancel {
-    height: 50px;
+    height: 60px;
     width: 200px;
 }
+
+.btnCancel{
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
+}
+
 
 .img {
     width: 50px;

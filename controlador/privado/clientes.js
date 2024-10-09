@@ -335,8 +335,8 @@ const fillData = async (action, form = null) => {
                     CONTENEDOR_MARCAS_AUTOS.innerHTML +=
                         `
                     <li class="list-group-item p-0 m-0 px-2">
-                        <input class="form-check-input me-2 checkbox" type="checkbox" id="${row.id_marca_automovil}" onclick="clickOnCheckBox(this)">
-                        <label class="form-check-label stretched-link" for="${row.id_marca_automovil}">
+                        <input class="form-check-input me-2 checkbox" type="checkbox" id="${row.nombre_marca_automovil}" onclick="clickOnCheckBox(this)">
+                        <label class="form-check-label stretched-link" for="${row.nombre_marca_automovil}">
                             <h6 class="m-0 p-0 open-sans-regular">
                             ${row.nombre_marca_automovil}
                             </h6>
