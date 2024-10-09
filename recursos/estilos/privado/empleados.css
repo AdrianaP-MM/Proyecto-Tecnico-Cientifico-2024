@@ -1,3 +1,8 @@
+/* Estilo para el fondo del cuerpo */
+body {
+  background-color: #F0F0F7;
+  /* Color de fondo gris claro */
+}
 /* Animación */
 .title {
     top: 30px;

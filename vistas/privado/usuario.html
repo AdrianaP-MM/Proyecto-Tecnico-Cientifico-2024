@@ -34,7 +34,7 @@
             <div class="contenedor-blanco d-flex justify-content-center align-items-center">
                 <!-- Contenedor blanco con sombra -->
                 <div
-                    class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-10 col-10 position-relative">
+                    class="d-flex flex-column justify-content-center align-items-center h-100 col-lg-10 col-12 position-relative">
                     <div class="ContenedorPestaña pt-5">
                         <ul class="nav nav-tabs ms-0 mb-5">
                             <li class="nav-item" role="presentation">
@@ -148,7 +148,7 @@
                                         </div>
                                     </div>
                                     <div
-                                        class="contenedor-data p-4 d-flex flex-column justify-content-center shadow-sm">
+                                        class="contenedor-data p-4 d-flex flex-column justify-content-center shadow-sm d-none d-lg-block">
                                         <h5 class="open-sans-semiBold">
                                             Recomendaciones:
                                         </h5>
@@ -244,7 +244,8 @@
                                             </button>
                                         </div>
                                     </form>
-                                    <div class="contenedor-data p-4 pt-5 d-flex flex-column justify-content-start shadow-sm">
+                                    <div
+                                        class="contenedor-data p-4 pt-5 d-flex flex-column justify-content-start shadow-sm d-none d-lg-block">
                                         <h5 class="open-sans-semiBold mb-4">
                                             Su nueva contraseña deberá de contener:
                                         </h5>
@@ -255,17 +256,17 @@
                                                     Un mínimo de 8 caracteres y un máximo de 50.
                                                 </label>
                                             </li>
-                                            <li class="mb-2"> <input type="checkbox" id="uppercase" >
+                                            <li class="mb-2"> <input type="checkbox" id="uppercase">
                                                 <label for="uppercase" class="open-sans-regular ms-1 clrGry1">
                                                     Al menos una letra mayúscula.
                                                 </label>
                                             </li>
-                                            <li class="mb-2"> <input type="checkbox" id="lowercase"  >
+                                            <li class="mb-2"> <input type="checkbox" id="lowercase">
                                                 <label for="lowercase" class="open-sans-regular ms-1 clrGry1">
                                                     Al menos una letra minúscula.
                                                 </label>
                                             </li>
-                                            <li class="mb-2"> <input type="checkbox" id="number" >
+                                            <li class="mb-2"> <input type="checkbox" id="number">
                                                 <label for="number" class="open-sans-regular ms-1 clrGry1">
                                                     Al menos un número.
                                                 </label>
@@ -281,31 +282,36 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane1 fade z-2 position-relative d-none m-5 pt-5 open-sans-regular container-scroll"
+                            <div class="tab-pane1 fade z-2 position-relative d-none container-scroll m-5 mt-0"
                                 role="tabpanel" id="ajustes" aria-labelledby="ajustes-tab">
-                                <!-- Contenedor con scroll -->
-                                <div class="container-scroll">
-                                    <!-- Contenedor principal configurado como fila -->
-                                    <div class="row justify-content-around">
-                                        <div
-                                            class="col-lg-5 col-12 p-4 shadow d-flex flex-column align-items-center justify-content-center text-center cardToggle">
-                                            <h4 class="open-sans-semiBold text-center titleCard">
-                                                Medida de seguridad opcional: Dos pasos
-                                            </h4>
-                                            <p class="text-center textCard">
-                                                Esta opcion te brinda mas seguridad a tu cuenta pero si se considera
-                                                insesesaria puedes desactivarla en cualquier momento.
-                                            </p>
+                                <div class="textInfoContainer mb-5">
+                                    <h3 class="open-sans-semiBold my-3">
+                                        Ajustes
+                                    </h3>
+                                    <p class="open-sans-regular clrGry1">
+                                        En esta sección puedes cambiar las preferencias de seguridad de tu cuenta, como
+                                        la seguridad de dos pasos.
+                                    </p>
+                                </div>
+                                <!-- Contenedor principal configurado como fila -->
+                                <div class="row justify-content-around col-12">
+                                    <div
+                                        class="col-lg-4 col-12 p-5 shadow d-flex flex-column align-items-center justify-content-center text-center cardToggle">
+                                        <h4 class="open-sans-semiBold text-center titleCard mb-3">
+                                            Medida de seguridad opcional: <br> Dos pasos
+                                        </h4>
+                                        <p class="text-center textCard open-sans-regular">
+                                            Esta opcion te brinda mas seguridad a tu cuenta pero si se considera
+                                            insesesaria puedes desactivarla en cualquier momento.
+                                        </p>
 
-                                            <label class="switch">
-                                                <input type="checkbox" id="toggleButton">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
+                                        <label class="switch">
+                                            <input type="checkbox" id="toggleButton">
+                                            <span class="slider round"></span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

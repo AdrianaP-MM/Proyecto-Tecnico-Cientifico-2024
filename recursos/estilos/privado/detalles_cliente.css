@@ -3,7 +3,7 @@ body,
 html {
     height: 100%;
     width: 100%;
-    background-color: white;
+    background-color: #F0F0F7;
 }
 
 /* Estilos para las medidas de la imagen */
@@ -46,7 +46,7 @@ html {
     padding: 20px;
 }
 
-.graphic{
+.graphic {
     border: 1px solid #DADCDE;
     border-radius: 5px;
     background-color: white;

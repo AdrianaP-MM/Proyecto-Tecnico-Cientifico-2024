@@ -212,6 +212,7 @@ function updateCheckboxes(RESULT) {
     document.getElementById('lowercase').checked = !RESULT.indices.includes(4); // Marcar si no está presente
     document.getElementById('number').checked = !RESULT.indices.includes(5); // Marcar si no está presente
     document.getElementById('specialChar').checked = !RESULT.indices.includes(6); // Marcar si no está presente
+    console.log(RESULT)
 }
 
 CONTRASENA_NUEVA.addEventListener('input', function () {

@@ -15,27 +15,19 @@
 }
 
 .clrGreen {
-    color: rgb(0, 255, 34);
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    color: rgb(0, 117, 16);
 }
 
 .clrRed {
     color: red;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
 }
 
 .clrYellow {
-    color: rgb(255, 200, 0);
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    color: rgb(0, 66, 181);
 }
 
 .clrOrng {
-    color: orange;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    color: rgb(234, 152, 0);
 }
 
 .clrPinkRed {

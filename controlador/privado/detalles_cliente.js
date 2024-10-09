@@ -300,7 +300,7 @@ function getPersonaNaturalTemplate(row) {
         </div>
         <!-- Contenedor del info del cliente -->
         <div
-            class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center shadow">
+            class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center p-5">
             <!--Contenedor Info header-->
             <div class="info-header d-flex flex-column text-center pt-4 pt-md-0 pt-lg-0">
                 <h2 class="p-0 m-0 open-sans-bold">
@@ -342,7 +342,7 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
-        <div class="col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow">
+        <div class="col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5">
             <h5 class="p-0 m-0 open-sans-semibold frecuencia-header"> Frecuencia con la que el cliente visita nuestro taller</h5>
             <div class'frecuencia-body w-100'>
                 <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
@@ -354,7 +354,7 @@ function getPersonaNaturalTemplate(row) {
     <div class="contenedor-drch d-flex flex-column col-lg-5 col-md-6 col-12 align-items-center">
         <!--Contenedor de màs informacion -->
         <div
-            class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 shadow">
+            class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 p-5">
             <!--Contenedor mas info header -->
             <div class="masinfo-header">
                 <h3 class="m-0 p-0 open-sans-bold">
@@ -385,7 +385,7 @@ function getPersonaNaturalTemplate(row) {
                 </div>
             </div>
         </div>
-        <div class="col2Row2 col-10 graphic p-4 shadow mb-2 mt-1" id="graficaServiciosContainer">
+        <div class="col2Row2 col-10 graphic p-4 mb-2 mt-1" id="graficaServiciosContainer">
             <canvas id="graficaServicios"></canvas> <!--Grafica-->
         </div>
     </div>
@@ -405,7 +405,7 @@ function getPersonaJuridicaTemplate(row) {
                 </button>
             </div>
             <div
-                class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center shadow">
+                class="contenedor-info d-flex flex-column col-lg-12 col-md-11 col-10 justify-content-center align-items-center p-5">
                 <!--Contenedor del header de la info-->
                 <div class="info-header d-flex flex-column text-center my-4">
                     <h2 class="p-0 m-0 open-sans-bold">
@@ -457,7 +457,7 @@ function getPersonaJuridicaTemplate(row) {
                     </p>
                 </div>
             </div>
-            <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5 shadow'>
+            <div class='col-12 contenedor-frecuencia d-flex flex-column justify-content-center align-items-center mt-5'>
                 <h5 class="p-0 m-0 open-sans-semibold frecuencia-header"> Frecuencia con la que el cliente visita nuestro taller</h5>
                 <div class'frecuencia-body w-100'>
                     <h6 class="p-0 m-0 open-sans-semibold"> Mes de abril</h6>
@@ -469,7 +469,7 @@ function getPersonaJuridicaTemplate(row) {
         <div class="contenedor-drch d-flex flex-column col-lg-5 col-md-6 col-12 align-items-center ">
             <!--Contenedor de mas informacion-->
             <div
-                class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 shadow">
+                class="contenedor-masinfo d-flex flex-column align-items-center justify-content-start col-12 mt-5 mt-md-0 mt-lg-0 p-5">
                 <!--Contenedor del titulo, header de mas informacion-->
                 <div class="masinfo-header">
                     <h3 class="m-0 p-0 open-sans-bold">
@@ -515,7 +515,7 @@ function getPersonaJuridicaTemplate(row) {
                 </div>
             </div>
             <!--Contenedor de la frecuencia del cliente-->
-            <div class="col2Row2 col-10 graphic p-4 shadow mb-5 mt-2"  id="graficaServiciosContainer">
+            <div class="col2Row2 col-10 graphic p-4 mb-5 mt-2"  id="graficaServiciosContainer">
                 <canvas id="graficaServicios"></canvas> <!--Grafica-->
             </div>
         </div>

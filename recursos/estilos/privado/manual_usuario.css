@@ -1,7 +1,18 @@
+/* Estilo para el fondo del cuerpo */
+body {
+    background-color: #F0F0F7;
+    /* Color de fondo gris claro */
+}
+
+.white{
+    background-color: white;
+    min-width: 50vw;
+}
+
 .contenedor-titulo {
     display: flex;
     flex-direction: column;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
 }
 
 .contenedor-total {
@@ -15,17 +26,6 @@
     display: flex;
     justify-content: space-around;
     flex-direction: row;
-}
-
-/* Estilo para el contenedor del PDF */
-.pdf-container {
-    width: 100%;
-    height: 600px;
-    /* Ajusta la altura según sea necesario */
-    overflow-y: scroll;
-    /* Permite desplazamiento vertical */
-    border: 1px solid #ccc;
-    position: relative;
 }
 
 canvas {

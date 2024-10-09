@@ -1,3 +1,13 @@
+main{
+  background-color: #F0F0F7;
+}
+
+.graphic{
+  border: 1px solid #DADCDE;
+  border-radius: 5px;
+  background-color: white;
+}
+
 #graficaContainer {
   width: 80%; /* Ajusta este valor según el tamaño deseado */
   max-width: 600px; /* Limitar el ancho máximo */

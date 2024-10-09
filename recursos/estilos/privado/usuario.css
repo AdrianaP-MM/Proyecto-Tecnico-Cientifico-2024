@@ -1,4 +1,4 @@
-.textTimeContainer{
+.textTimeContainer {
     background-color: #E5383B;
     border-radius: 15px;
     color: white;
@@ -9,29 +9,37 @@
 }
 
 .lista-carrito {
-    list-style-type: none; /* Elimina los puntos de la lista */
-    padding: 0; /* Elimina el padding */
-    margin: 0; /* Elimina el margin */
+    list-style-type: none;
+    /* Elimina los puntos de la lista */
+    padding: 0;
+    /* Elimina el padding */
+    margin: 0;
+    /* Elimina el margin */
 }
 
 .lista-carrito li {
     display: flex;
     align-items: center;
-    padding: 10px 0; /* Espaciado vertical */
+    padding: 10px 0;
+    /* Espaciado vertical */
 }
 
 .carrito-icon {
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
-    fill: #111214; /* Color del ícono */
-    transition: fill 0.3s; /* Transición suave al cambiar color */
+    margin-right: 10px;
+    /* Espacio entre el ícono y el texto */
+    fill: #111214;
+    /* Color del ícono */
+    transition: fill 0.3s;
+    /* Transición suave al cambiar color */
 }
 
 .carrito-icon:hover {
-    fill: #007bff; /* Cambia el color al pasar el mouse */
+    fill: #007bff;
+    /* Cambia el color al pasar el mouse */
 }
 
 /* ---------------------- AGREGADOS RECIENTEMENTE----------------------------*/
-.contenedor-data{
+.contenedor-data {
     border: 1px solid rgb(214, 214, 214);
     border-radius: 5PX;
     width: 25vw;
@@ -46,31 +54,39 @@
 }
 
 .svg-icon {
-    width: 24px; /* Ajusta según tus necesidades */
-    height: 24px; /* Ajusta según tus necesidades */
-    fill: currentColor; /* Permite que el color se ajuste según el texto */
+    width: 24px;
+    /* Ajusta según tus necesidades */
+    height: 24px;
+    /* Ajusta según tus necesidades */
+    fill: currentColor;
+    /* Permite que el color se ajuste según el texto */
 }
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
     background-color: #464855;
     border-radius: 15px;
-    color: white; /* Cambia el color del texto a blanco cuando está activo */
+    color: white;
+    /* Cambia el color del texto a blanco cuando está activo */
 }
 
 .nav-tabs .nav-item.show .nav-link .svg-icon,
-.nav-tabs .nav-link.active .svg-icon > path {
-    color: white; /* Cambia el color del SVG a blanco cuando está activo */
-    fill: white; /* Asegúrate de que el SVG use blanco como color de relleno */
+.nav-tabs .nav-link.active .svg-icon>path {
+    color: white;
+    /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white;
+    /* Asegúrate de que el SVG use blanco como color de relleno */
 }
 
 .nav-tabs .nav-item.show .nav-link .svg-icon,
-.nav-tabs .nav-link.active .svg-icon > g {
-    color: white; /* Cambia el color del SVG a blanco cuando está activo */
-    fill: white; /* Asegúrate de que el SVG use blanco como color de relleno */
+.nav-tabs .nav-link.active .svg-icon>g {
+    color: white;
+    /* Cambia el color del SVG a blanco cuando está activo */
+    fill: white;
+    /* Asegúrate de que el SVG use blanco como color de relleno */
 }
 
-.nav-link{
+.nav-link {
     border-radius: 15px;
 }
 
@@ -92,10 +108,8 @@ body {
 .contenedor-blanco {
     background-color: none;
     /* Color de fondo blanco */
-    max-height: 90vh;
     min-height: 90vh;
-    width: 90%;
-    /* Altura máxima del 85% del viewport */
+    width: 90%
 }
 
 /* Estilo para el contenedor de la barra roja */
@@ -239,11 +253,6 @@ body {
     border-width: 0;
 }
 
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
-}
-
 /* Estilos para el botón de guardar */
 .btnSave {
     background-color: #E5383B;
@@ -299,7 +308,7 @@ body {
 /*Fuente para la card*/
 .textCard {
     font-size: 14px;
-    border-bottom: 4px solid #1d1d1d;
+    border-bottom: 4px solid #E5383B;
     padding-bottom: 15px;
 }
 

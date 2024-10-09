@@ -1044,42 +1044,56 @@ function validatePassword(password, userData = null) {
     }
 
     // Verificar los demás requisitos de la contraseña
+    let combinedMessage = 'La contraseña debe contener al menos ';
+    let parts = [];
     let messages = [];
-    let indices = []; // Array para almacenar los índices
+    let indices = [];
 
-    // Validar longitud mínima y máxima
+    // Validar longitud mínima
     if (password.length < minLength) {
         messages.push({ index: 1, message: 'La contraseña debe tener al menos 8 caracteres |' });
         indices.push(1); // Agregar índice
     }
+
+    // Validar letra mayúscula, minúscula, números y caracteres especiales
+    if (!hasUppercase) {
+        parts.push('una letra mayúscula');
+        indices.push(3); // Agregar índice
+    }
+    if (!hasLowercase) {
+        parts.push('una letra minúscula');
+        indices.push(4); // Agregar índice
+    }
+    if (!hasNumbers) {
+        parts.push('un número');
+        indices.push(5); // Agregar índice
+    }
+    if (!hasSpecialChars) {
+        parts.push('un carácter especial');
+        indices.push(6); // Agregar índice
+    }
+
+    // Si hay partes faltantes, agrega el mensaje combinado
+    if (parts.length > 0) {
+        combinedMessage += parts.join(', ') + ' |';
+        messages.push({ index: 7, message: combinedMessage });
+    }
+
+    // Validar longitud máxima
     if (password.length > maxLength) {
         messages.push({ index: 2, message: 'La contraseña no debe exceder los 50 caracteres |' });
         indices.push(2); // Agregar índice
     }
-    if (!hasUppercase) {
-        messages.push({ index: 3, message: 'La contraseña debe contener al menos una letra mayúscula |' });
-        indices.push(3); // Agregar índice
-    }
-    if (!hasLowercase) {
-        messages.push({ index: 4, message: 'La contraseña debe contener al menos una letra minúscula |' });
-        indices.push(4); // Agregar índice
-    }
-    if (!hasNumbers) {
-        messages.push({ index: 5, message: 'La contraseña debe contener al menos un número |' });
-        indices.push(5); // Agregar índice
-    }
-    if (!hasSpecialChars) {
-        messages.push({ index: 6, message: 'La contraseña debe contener al menos un carácter especial |' });
-        indices.push(6); // Agregar índice
-    }
 
+    // Si hay mensajes de error, combínalos y devuélvelos
     if (messages.length > 0) {
-        const combinedMessage = messages.map(msg => msg.message).join(' '); // Une todos los mensajes en un solo string
-        return { valid: false, message: combinedMessage, indices }; // Devuelve el mensaje combinado y la lista de índices
+        const finalMessage = messages.map(msg => msg.message).join(' '); // Une todos los mensajes en un solo string
+        return { valid: false, message: finalMessage, indices }; // Devuelve el mensaje combinado y la lista de índices
     }
 
     // Si todos los requisitos son válidos
     return { valid: true, message: 'La contraseña es válida.', indices };
+
 }
 
 function validateDUI(dui) {

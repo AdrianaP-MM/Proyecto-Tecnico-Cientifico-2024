@@ -27,57 +27,55 @@ const loadTemplate = async () => {
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
 
                     <ul
-                        class="navbar-nav mb-2 mb-lg-0 nav-underline d-flex justify-content-between me-auto flex-grow-1">
+                        class="navbar-nav mb-2 mb-lg-0 nav-underline d-flex justify-content-start me-auto flex-grow-1 gap-5">
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/empleados.html">
-                                <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Empleados</h5>
+                                <h6 class="text-white open-sans-regular m-0 p-0 px-4">Empleados</h6>
                             </a>
                         </li>
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/automoviles.html">
-                                <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Automóviles</h5>
+                                <h6 class="text-white open-sans-regular m-0 p-0 px-4">Automóviles</h6>
                             </a>
                         </li>
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/clientes.html">
-                                <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Clientes</h5>
+                                <h6 class="text-white open-sans-regular m-0 p-0 px-4">Clientes</h6>
                             </a>
                         </li>
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/citas.html">
-                                <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Citas</h5>
+                                <h6 class="text-white open-sans-regular m-0 p-0 px-4">Citas</h6>
                             </a>
                         </li>
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/pagina_servicios.html">
-                                <h5 class="text-white open-sans-regular m-0 p-0 px-4 px-lg-0">Servicios</h5>
+                                <h6 class="text-white open-sans-regular m-0 p-0 px-4">Servicios</h6>
                             </a>
                         </li>
 
                         <li class="nav-item animation">
-                        <a class="nav-link" aria-current="page" href="../../vistas/privado/manual_usuario.html">
-                            <h5 class="text-white open-sans-regular m-0 px-4">Manuales</h5>
-                        </a>
-                    </li>
-                    </ul>
+                            <a class="nav-link" aria-current="page" href="../../vistas/privado/manual_usuario.html">
+                                <h6 class="text-white open-sans-regular m-0 px-4">Manuales</h6>
+                            </a>
+                        </li>
 
-                    <ul class="navbar-nav nav-underline flex-grow-1 justify-content-center">
                         <li class="nav-item animation">
-                        <a class="nav-link" aria-current="page" href="../../vistas/privado/panel_principal.html">
-                            <h3 class="text-white open-sans-semibold m-0 px-4">INICIO</h3>
-                        </a>
-                    </li>
+                            <a class="nav-link" aria-current="page" href="../../vistas/privado/panel_principal.html">
+                                <h6 class="text-white open-sans-regular m-0 px-4">Panel principal</h6>
+                            </a>
+                        </li>
                     </ul>
 
                     <button class="btn btn-outline-primary d-flex flex-wrap justify-content-center" type="button">
                     <a class="nav-link d-flex" aria-current="page" href="../../vistas/privado/usuario.html">
-                        <img src="../../recursos/imagenes/icons/icono_usuario.svg" width="22px" height="22px">
-                        <h5 class="text-white open-sans-regular m-0 text-center ps-1">USUARIO</h5>
+                        <img src="../../recursos/imagenes/icons/icon_user3.svg" width="22px" height="22px">
+                        <h5 class="text-white open-sans-regular m-0 text-center ps-2">Cuenta de usuario</h5>
                         </a>
                     </button>
                 </div>
