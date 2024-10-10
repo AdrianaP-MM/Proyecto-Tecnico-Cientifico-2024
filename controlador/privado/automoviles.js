@@ -218,15 +218,16 @@ function applicateRules() {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
-    TABLE_BODY.innerHTML = '';
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
+
+        TABLE_BODY.innerHTML = '';
+
         TABLE_BODY.innerHTML += `
-        <!--Contenedor de la primera card - card de agregar automovil-->
             <div class="add-auto-card d-flex align-items-center justify-content-center">
                 <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
             </div>

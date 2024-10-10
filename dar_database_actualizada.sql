@@ -95,11 +95,9 @@
     ALTER TABLE tb_automoviles
     ADD CONSTRAINT u_fk__marca_automovil FOREIGN KEY (id_marca_automovil) REFERENCES tb_marcas_automoviles(id_marca_automovil),
     ADD CONSTRAINT u_fk_tipo_automovil_automovil FOREIGN KEY (id_tipo_automovil) REFERENCES tb_tipos_automoviles(id_tipo_automovil),
-    ADD CONSTRAINT u_fk_cliente_automovil FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente);
-    
-    ALTER TABLE tb_automoviles 
+    ADD CONSTRAINT u_fk_cliente_automovil FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente),
     ADD CONSTRAINT u_placa UNIQUE(placa_automovil);
-
+    
     CREATE TABLE tb_tipos_servicios
     (
         id_tipo_servicio INT PRIMARY KEY AUTO_INCREMENT,
@@ -623,7 +621,6 @@ WHERE
 GROUP BY 
     t.nombre_tipo_automovil, s.nombre_servicio;
 
-    UPDATE tb_citas SET estado_cita = 'Finalizada' WHERE id_cita = 6;
 #--------------------------------------------------------------------------------- USADO EN GRAFICO PARAMETRIZADO 3 (ADRIANA)
 DELIMITER //
 CREATE PROCEDURE GetEmpleadosPorMesYEspecialidad(IN año INT)
@@ -894,3 +891,129 @@ BEGIN
 END$$
 
 DELIMITER;
+
+--Alternativos Primer predictivo Razon: el anterior daba este error ERROR 1055 (42000): Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'se.servicios_esperados' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+WITH servicios_realizados_por_mes AS (
+    SELECT
+        MONTH(s.fecha_aproximada_finalizacion) AS mes,
+        YEAR(s.fecha_aproximada_finalizacion) AS anio,
+        s.id_servicio,
+        SUM(s.cantidad_servicio) AS servicios_realizados
+    FROM
+        tb_servicios_en_proceso s
+    INNER JOIN
+        tb_citas c ON s.id_cita = c.id_cita
+    WHERE
+        s.fecha_aproximada_finalizacion IS NOT NULL
+        AND s.fecha_aproximada_finalizacion <= CURRENT_DATE()
+        AND YEAR(s.fecha_aproximada_finalizacion) = YEAR(CURRENT_DATE()) -- Solo para el año actual
+    GROUP BY
+        YEAR(s.fecha_aproximada_finalizacion),
+        MONTH(s.fecha_aproximada_finalizacion),
+        s.id_servicio
+),
+servicios_esperados_por_mes AS (
+    SELECT
+        MONTH(s.fecha_aproximada_finalizacion) AS mes,
+        YEAR(s.fecha_aproximada_finalizacion) AS anio,
+        s.id_servicio,
+        SUM(s.cantidad_servicio) AS servicios_esperados
+    FROM
+        tb_servicios_en_proceso s
+    INNER JOIN
+        tb_citas c ON s.id_cita = c.id_cita
+    WHERE
+        s.fecha_aproximada_finalizacion IS NOT NULL
+        AND s.fecha_aproximada_finalizacion < CURRENT_DATE() -- Cualquier fecha pasada
+        AND YEAR(s.fecha_aproximada_finalizacion) < YEAR(CURRENT_DATE()) -- Solo años anteriores
+    GROUP BY
+        YEAR(s.fecha_aproximada_finalizacion),
+        MONTH(s.fecha_aproximada_finalizacion),
+        s.id_servicio
+),
+servicios_totales AS (
+    SELECT DISTINCT
+        s.id_servicio,
+        s.nombre_servicio
+    FROM
+        tb_servicios s
+)
+SELECT
+    CASE meses.mes
+        WHEN 1 THEN "Enero"
+        WHEN 2 THEN "Febrero"
+        WHEN 3 THEN "Marzo"
+        WHEN 4 THEN "Abril"
+        WHEN 5 THEN "Mayo"
+        WHEN 6 THEN "Junio"
+        WHEN 7 THEN "Julio"
+        WHEN 8 THEN "Agosto"
+        WHEN 9 THEN "Septiembre"
+        WHEN 10 THEN "Octubre"
+        WHEN 11 THEN "Noviembre"
+        WHEN 12 THEN "Diciembre"
+    END AS mes_nombre,
+    st.nombre_servicio AS servicio,
+    IFNULL(MAX(se.servicios_esperados), 0) AS servicios_esperados,
+    IFNULL(MAX(sr.servicios_realizados), 0) AS servicios_realizados
+FROM
+    (
+        SELECT 1 AS mes UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION
+        SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+    ) AS meses
+CROSS JOIN
+    servicios_totales st
+LEFT JOIN
+    servicios_esperados_por_mes se ON meses.mes = se.mes AND st.id_servicio = se.id_servicio
+LEFT JOIN
+    servicios_realizados_por_mes sr ON meses.mes = sr.mes AND st.id_servicio = sr.id_servicio
+GROUP BY
+    meses.mes,
+    st.id_servicio,
+    st.nombre_servicio
+ORDER BY
+    meses.mes,
+    st.nombre_servicio;
+
+--Alternativo segundo predictivo Razon:
+
+SELECT 
+    CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automovil",
+    s.nombre_servicio AS "Servicio_Realizado",
+    CONCAT(
+        FLOOR(AVG(avg_service_time) / 1440), " días ",
+        FLOOR((AVG(avg_service_time) % 1440) / 60), " horas y ",
+        ROUND(AVG(avg_service_time) % 60), " minutos"
+    ) AS "Tiempo_Promedio",
+    t.nombre_tipo_automovil AS "Tipo"
+FROM 
+    tb_automoviles a
+JOIN 
+    tb_citas c ON a.id_automovil = c.id_automovil
+JOIN 
+    tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
+JOIN 
+    tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+JOIN 
+    tb_servicios s ON se.id_servicio = s.id_servicio
+JOIN (
+    SELECT 
+        a.id_automovil,
+        s.id_servicio,
+        AVG(TIMESTAMPDIFF(MINUTE, se.fecha_registro, COALESCE(se.fecha_finalizacion, se.fecha_aproximada_finalizacion))) AS avg_service_time
+    FROM 
+        tb_automoviles a
+    JOIN 
+        tb_citas c ON a.id_automovil = c.id_automovil
+    JOIN 
+        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+    JOIN 
+        tb_servicios s ON se.id_servicio = s.id_servicio
+    WHERE 
+        se.fecha_finalizacion IS NOT NULL
+    GROUP BY 
+        a.id_automovil, s.id_servicio
+) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
+GROUP BY 
+    a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;
