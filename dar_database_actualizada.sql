@@ -976,7 +976,8 @@ ORDER BY
     meses.mes,
     st.nombre_servicio;
 
---Alternativo segundo predictivo Razon:
+--Alternativo segundo predictivo Razon: ERROR 1055 (42000): Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'avg_service_data.avg_service_time' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
 
 SELECT 
     CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automovil",
