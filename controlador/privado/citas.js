@@ -42,6 +42,8 @@ const MODAL_REALIZAR_FACTURA = new bootstrap.Modal('#modaRealizarFactura');
 const FORM_FACTURA = document.getElementById('formFactura');
 // const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
 
+const MODAL_VER_INFO = new bootstrap.Modal('#modalVerInfo');
+
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -800,6 +802,7 @@ function verInfo() {
   CONTENEDOR_EXPAND.classList.remove('d-none');
   CONTENEDOR_EXPAND_SERVICIOS.classList.add('d-none');
   CONTENEDOR_EXPAND_INFO.classList.remove('d-none');
+  MODAL_VER_INFO.show();
 }
 
 function verServicios() {
@@ -812,6 +815,7 @@ function noVerNada() {
   CONTENEDOR_EXPAND.classList.add('d-none');
   CONTENEDOR_EXPAND_INFO.classList.add('d-none');
   CONTENEDOR_EXPAND_SERVICIOS.classList.add('d-none');
+  MODAL_VER_INFO.hide();
 }
 
 const openClose = async () => {
@@ -822,6 +826,7 @@ const openClose = async () => {
     ADD_FORM.reset();
     MODAL_REALIZAR_FACTURA.hide();
     FORM_FACTURA.reset();
+    location.reload();
   }
 }
 
@@ -831,6 +836,7 @@ const openCloseUpdate = async () => {
   if (RESPONSE.isConfirmed) {
     UPDATE_FORM.reset();
     noVerNada();
+    location.reload();
   }
 }
 

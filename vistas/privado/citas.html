@@ -39,7 +39,6 @@
 <body>
     <!-- *Contenido principal del documento -->
     <main class="open">
-
         <div class="container-fluid p-0 d-flex h-100 w-100">
             <!--Contenedor de barra lateral-->
             <div id="bdSidebar"
@@ -151,180 +150,212 @@
                 </div>
                 <!--Contenedor total del cuerpo de la página-->
                 <div class="contenedor-total-cards col-12" id="cards_citas_container"></div>
-                <!--Contenedor de detalles citas-->
-                <div class="contenedorDetalles container-fluid p-0 m-0 d-flex col-12" id="containerExpand">
-                    <!--Container infomacion y campos form-->
-                    <div class="d-flex col-11 rowGap d-none" id="infoCita">
-                        <div class="d-flex col-5 flex-column colIzqrd">
-                            <div class="containerImg col-6 position-relative z-2">
-                                <div class="content z-3">
-                                    <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                                </div>
-                                <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg"
-                                    class="imagenCitaCarro">
-                            </div>
-                            <div class="containerBtns col-12">
-                                <div
-                                    class="modal-footer d-flex flex-column justify-content-center align-items-center col-lg-12 col-12">
-                                    <button type="button" class="btn btn-secondary btnSave2 col-11"
-                                        onclick="updateEstado('Aceptado')" id="btnAceptarCita">
-                                        <h5 class="open-sans-light m-0 p-0">
-                                            Aceptar cita
-                                        </h5>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-secondary btnSave2 col-11"
-                                        onclick="openServicios()" id="btnOpenServicios">
-                                        <h6 class="open-sans-regular m-0 p-0">
-                                            Servicios en proceso
-                                        </h6>
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
-                                        onclick="updateEstado('Cancelado')" id="btnCancelarCita">
-                                        <h5 class="open-sans-regular m-0 p-0">
-                                            Cancelar cita
-                                        </h5>
-                                    </button>
-                                    <!-- <button type="button" class="btn btn-secondary btnSave2 col-10"
-                                        onclick="openFinalizarCita()" id="btnFinalizarCita">
-                                        <h5 class="open-sans-regular m-0 p-0">
-                                            Finalizar cita
-                                        </h5>
-                                    </button> -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex col-7 justify-content-center align-items-center">
-                            <form id="updateForm" name="updateForm" class="needs-validation" novalidate
-                                autocomplete="off">
-                                <!-- Columna izquierda ---------------------------------------------------------------------------------------->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada</h6>
-                                                <input id="datepicker_llegada_UPDATE"
-                                                    class="open-sans-regular datepickerA form-control"
-                                                    name="datepicker_llegada_UPDATE" required autocomplete="off" />
-                                                <span id="ERROR_DATEPICKER_UPDATE" class="text-danger"></span>
+                <!--TODO ----------------------------------------MODAL------------------------->
+                <div class="modal fade" id="modalVerInfo" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="modalVerInfoLabel" aria-hidden="true">
+                    <div
+                        class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down modal-xl modal-dialog-verInfo">
+                        <!-- Contenedor del modal content-->
+                        <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3 cursor-hover">
+                            <div class="modal-body">
+                                <!--Contenedor de detalles citas-->
+                                <div class="contenedorDetalles container-fluid p-0 m-0 d-flex col-12 justify-content-between align-items-between"
+                                    id="containerExpand">
+                                    <!--Container infomacion y campos form-->
+                                    <div class="d-flex col-12 rowGap d-none justify-content-between" id="infoCita">
+                                        <div class="d-flex col-3 flex-column colIzqrd ">
+                                            <div class="containerImg col-6 position-relative z-2">
+                                                <div class="content z-3">
+                                                    <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+                                                </div>
+                                                <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg"
+                                                    class="imagenCitaCarro">
+                                            </div>
+                                            <div class="containerBtns col-12 d-flex justify-content-center align-items-center flex-column">
+                                                <button type="button" class="btn btn-primary btnSave2 col-11"
+                                                    onclick="updateEstado('Aceptado')" id="btnAceptarCita">
+                                                    Aceptar cita
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-secondary btnSave2 col-11"
+                                                    onclick="openServicios()" id="btnOpenServicios">
+                                                    <h6 class="open-sans-regular m-0 p-0">
+                                                        Servicios en proceso
+                                                    </h6>
+                                                </button> -->
+                                                <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
+                                                    onclick="updateEstado('Cancelado')" id="btnCancelarCita">
+                                                    Cancelar cita
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-secondary btnSave2 col-10"
+                                                onclick="openFinalizarCita()" id="btnFinalizarCita">
+                                                <h5 class="open-sans-regular m-0 p-0">
+                                                    Finalizar cita
+                                                </h5>
+                                            </button> -->
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <label class="form-label px-2 pt-0 p-0 m-0">Automóvil</label>
-                                                <select class="form-select pt-4 open-sans-regular"
-                                                    id="input_automovil_UPDATE" name="input_automovil_UPDATE"
-                                                    aria-label="Default select example" required>
-                                                </select>
-                                                <span id="ERROR_AUTOMOVIL_UPDATE" class="text-danger"></span>
-                                            </div>
+                                        <div class="d-flex col-8 justify-content-center align-items-center">
+                                            <form id="updateForm" name="updateForm" class="needs-validation col-12"
+                                                novalidate autocomplete="off">
+                                                <!-- Columna izquierda ---------------------------------------------------------------------------------------->
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de
+                                                                    llegada</h6>
+                                                                <input id="datepicker_llegada_UPDATE"
+                                                                    class="open-sans-regular datepickerA form-control"
+                                                                    name="datepicker_llegada_UPDATE" required
+                                                                    autocomplete="off" />
+                                                                <span id="ERROR_DATEPICKER_UPDATE"
+                                                                    class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <label
+                                                                    class="form-label px-2 pt-0 p-0 m-0">Automóvil</label>
+                                                                <select class="form-select pt-4 open-sans-regular"
+                                                                    id="input_automovil_UPDATE"
+                                                                    name="input_automovil_UPDATE"
+                                                                    aria-label="Default select example" required>
+                                                                </select>
+                                                                <span id="ERROR_AUTOMOVIL_UPDATE"
+                                                                    class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <label class="form-label px-2 pt-0 p-0 m-0">Zona
+                                                                    habilitada</label>
+                                                                <select class="form-select pt-4 open-sans-regular"
+                                                                    id="input_zona_UPDATE" name="input_zona_UPDATE"
+                                                                    aria-label="Default select example" required>
+                                                                    <option value="" selected>Seleccione una opción
+                                                                    </option>
+                                                                    <option value="Ayutuxtepeque">Ayutuxtepeque</option>
+                                                                    <option value="Aguilares">Aguilares</option>
+                                                                </select>
+                                                                <span id="ERROR_ZONA_UPDATE" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <input type="text" class="form-control"
+                                                                    id="input_regreso_UPDATE"
+                                                                    name="input_regreso_UPDATE" placeholder="..."
+                                                                    required maxlength="250" min="10"
+                                                                    autocomplete="off">
+                                                                <label for="input_regreso_UPDATE">Direcciòn de
+                                                                    regreso</label>
+                                                                <span id="ERROR_REGRESO_UPDATE"
+                                                                    class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Columna derecha -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <input type="time" class="form-control"
+                                                                    id="input_hora_UPDATE" name="input_hora_UPDATE"
+                                                                    placeholder="HH:MM" required min="10:00" max="15:00"
+                                                                    autocomplete="off">
+                                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM
+                                                                    - 3:59
+                                                                    PM)</label>
+                                                                <span id="ERROR_HORA_UPDATE" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <label
+                                                                    class="form-label px-2 pt-0 p-0 m-0">Movilización</label>
+                                                                <select class="form-select pt-4 open-sans-regular"
+                                                                    id="input_movilizacion_UPDATE"
+                                                                    name="input_movilizacion_UPDATE"
+                                                                    aria-label="Default select example" required>
+                                                                    <option value="" selected>Seleccione una opción
+                                                                    </option>
+                                                                    <option
+                                                                        value="Yo llevo el auto y lo traigo de regreso">
+                                                                        Yo llevo
+                                                                        el auto y lo traigo de regreso</option>
+                                                                    <option value="Yo solo regreso el auto">Yo solo
+                                                                        regreso el auto
+                                                                    </option>
+                                                                    <option value="Yo solo llevo el auto">Yo solo llevo
+                                                                        el auto
+                                                                    </option>
+                                                                </select>
+                                                                <span id="ERROR_MOVILIZACION_UPDATE"
+                                                                    class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <div class="form-floating mb-0 p-0">
+                                                                <input type="text" class="form-control"
+                                                                    id="input_ida_UPDATE" name="input_ida_UPDATE"
+                                                                    placeholder="..." required maxlength="250"
+                                                                    minlength="10" autocomplete="off">
+                                                                <label for="input_ida_UPDATE">Direcciòn de ida</label>
+                                                                <span id="ERROR_IDA_UPDATE" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer justify-content-end pb-0 mb-0">
+                                                    <!-- <button type="button" class="btn btn-primary btnCancel2 me-lg-5 me-3 me-md-5"
+                                                        id="btnEliminarCita" onclick="openDeleteCita()">
+                                                        <h6 class="open-sans-regular m-0 p-0">
+                                                            Eliminar
+                                                        </h6>
+                                                    </button> -->
+                                                    <button type="button"
+                                                        class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
+                                                        onclick="openCloseUpdate()">
+                                                        <h6 class="open-sans-regular m-0 p-0">
+                                                            Cerrar
+                                                        </h6>
+                                                    </button>
+                                                    <button type="submit"
+                                                        class="btn btn-primary btnSave me-lg-0 me-3 me-md-5"
+                                                        id="btnUpdateCita">
+                                                        <h6 class="open-sans-regular m-0 p-0">
+                                                            Actualizar
+                                                        </h6>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <label class="form-label px-2 pt-0 p-0 m-0">Zona habilitada</label>
-                                                <select class="form-select pt-4 open-sans-regular"
-                                                    id="input_zona_UPDATE" name="input_zona_UPDATE"
-                                                    aria-label="Default select example" required>
-                                                    <option value="" selected>Seleccione una opción</option>
-                                                    <option value="Ayutuxtepeque">Ayutuxtepeque</option>
-                                                    <option value="Aguilares">Aguilares</option>
-                                                </select>
-                                                <span id="ERROR_ZONA_UPDATE" class="text-danger"></span>
+                                    </div>
+                                    <div id="infoCitaServicios">
+                                        <div class="contenedorTotalServicios">
+                                            <div
+                                                class="serviciosHeader d-flex justify-content-between align-items-end z-2">
+                                                <div class="h-100 d-flex align-items-center px-4">
+                                                    <div class="btnReturn" onclick="verInfo()"> <!-- Boton regresar -->
+                                                        <img src="../../recursos/imagenes/icons/IconGoBack.svg"
+                                                            width="30px" height="30px">
+                                                    </div>
+                                                    <h5 class="open-sans-semibold m-0 p-0 text-white">
+                                                        Servicios en proceso de la cita
+                                                    </h5>
+                                                </div>
+                                                <div class="btnAgregarServicio d-flex justify-content-center align-items-center z-3"
+                                                    data-bs-toggle="modal" data-bs-target="#modalAgregarServicio">
+                                                    <h6 class="open-sans-semibold m-0 p-0 text-center">
+                                                        Agregar servicio
+                                                    </h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <input type="text" class="form-control" id="input_regreso_UPDATE"
-                                                    name="input_regreso_UPDATE" placeholder="..." required
-                                                    maxlength="250" min="10" autocomplete="off">
-                                                <label for="input_regreso_UPDATE">Direcciòn de regreso</label>
-                                                <span id="ERROR_REGRESO_UPDATE" class="text-danger"></span>
+                                            <div class="serviciosBody">
+                                                <div class="serviciosScroll px-4 d-flex" id="serviciosScroll">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Columna derecha -->
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <input type="time" class="form-control" id="input_hora_UPDATE"
-                                                    name="input_hora_UPDATE" placeholder="HH:MM" required min="10:00"
-                                                    max="15:00" autocomplete="off">
-                                                <label for="input_hora_UPDATE">Hora de llegada (10:00 AM - 3:59
-                                                    PM)</label>
-                                                <span id="ERROR_HORA_UPDATE" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <label class="form-label px-2 pt-0 p-0 m-0">Movilización</label>
-                                                <select class="form-select pt-4 open-sans-regular"
-                                                    id="input_movilizacion_UPDATE" name="input_movilizacion_UPDATE"
-                                                    aria-label="Default select example" required>
-                                                    <option value="" selected>Seleccione una opción</option>
-                                                    <option value="Yo llevo el auto y lo traigo de regreso">Yo llevo
-                                                        el auto y lo traigo de regreso</option>
-                                                    <option value="Yo solo regreso el auto">Yo solo regreso el auto
-                                                    </option>
-                                                    <option value="Yo solo llevo el auto">Yo solo llevo el auto
-                                                    </option>
-                                                </select>
-                                                <span id="ERROR_MOVILIZACION_UPDATE" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="form-floating mb-0 p-0">
-                                                <input type="text" class="form-control" id="input_ida_UPDATE"
-                                                    name="input_ida_UPDATE" placeholder="..." required maxlength="250"
-                                                    minlength="10" autocomplete="off">
-                                                <label for="input_ida_UPDATE">Direcciòn de ida</label>
-                                                <span id="ERROR_IDA_UPDATE" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-end">
-                                    <!-- <button type="button" class="btn btn-primary btnCancel2 me-lg-5 me-3 me-md-5"
-                                        id="btnEliminarCita" onclick="openDeleteCita()">
-                                        <h6 class="open-sans-regular m-0 p-0">
-                                            Eliminar
-                                        </h6>
-                                    </button> -->
-                                    <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
-                                        onclick="openCloseUpdate()">
-                                        <h6 class="open-sans-regular m-0 p-0">
-                                            Cerrar
-                                        </h6>
-                                    </button>
-                                    <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5"
-                                        id="btnUpdateCita">
-                                        <h6 class="open-sans-regular m-0 p-0">
-                                            Actualizar
-                                        </h6>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div id="infoCitaServicios">
-                        <div class="contenedorTotalServicios">
-                            <div class="serviciosHeader d-flex justify-content-between align-items-end z-2">
-                                <div class="h-100 d-flex align-items-center px-4">
-                                    <div class="btnReturn" onclick="verInfo()"> <!-- Boton regresar -->
-                                        <img src="../../recursos/imagenes/icons/IconGoBack.svg" width="30px"
-                                            height="30px">
-                                    </div>
-                                    <h5 class="open-sans-semibold m-0 p-0 text-white">
-                                        Servicios en proceso de la cita
-                                    </h5>
-                                </div>
-                                <div class="btnAgregarServicio d-flex justify-content-center align-items-center z-3"
-                                    data-bs-toggle="modal" data-bs-target="#modalAgregarServicio">
-                                    <h6 class="open-sans-semibold m-0 p-0 text-center">
-                                        Agregar servicio
-                                    </h6>
-                                </div>
-                            </div>
-                            <div class="serviciosBody">
-                                <div class="serviciosScroll px-4 d-flex" id="serviciosScroll">
                                 </div>
                             </div>
                         </div>
@@ -347,7 +378,8 @@
                                         <div class="col-md-6">
                                             <div class="mb-3">
                                                 <div class="form-floating mb-0 p-0">
-                                                    <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada</h6>
+                                                    <h6 class="p-0 m-0 open-sans-regular clrRed">Fecha de llegada
+                                                    </h6>
                                                     <input id="datepicker_llegada"
                                                         class="open-sans-regular datepickerA form-control"
                                                         name="datepicker_llegada" required autocomplete="off" />
@@ -366,7 +398,8 @@
                                             </div>
                                             <div class="mb-3" id="zonaHabilitada">
                                                 <div class="form-floating mb-0 p-0">
-                                                    <label class="form-label px-2 pt-0 p-0 m-0">Zona habilitada</label>
+                                                    <label class="form-label px-2 pt-0 p-0 m-0">Zona
+                                                        habilitada</label>
                                                     <select class="form-select pt-4 open-sans-regular" id="input_zona"
                                                         name="input_zona" aria-label="Default select example" required>
                                                         <option value="" selected>Seleccione una opción</option>
@@ -405,9 +438,11 @@
                                                         id="input_movilizacion" name="input_movilizacion"
                                                         aria-label="Default select example" required>
                                                         <option value="" selected>Seleccione una opción</option>
-                                                        <option value="Yo llevo el auto y lo traigo de regreso">Yo llevo
+                                                        <option value="Yo llevo el auto y lo traigo de regreso">Yo
+                                                            llevo
                                                             el auto y lo traigo de regreso</option>
-                                                        <option value="Yo solo regreso el auto">Yo solo regreso el auto
+                                                        <option value="Yo solo regreso el auto">Yo solo regreso el
+                                                            auto
                                                         </option>
                                                         <option value="Yo solo llevo el auto">Yo solo llevo el auto
                                                         </option>
@@ -427,7 +462,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-center">
-                                        <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                        <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
                                             onclick="openClose()">Cancelar</button>
                                         <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
                                             Aceptar</button>
@@ -491,7 +526,8 @@
                                                         id="cantidad_servicio" max="99" min="1" value="1"
                                                         class="w-50 text-center" autocomplete="off">
                                                     <label for="cantidad_servicio">Cantidad del servicio</label>
-                                                    <div class="invalid-feedback">Por favor ingresa una cantidad válida
+                                                    <div class="invalid-feedback">Por favor ingresa una cantidad
+                                                        válida
                                                     </div>
                                                 </div>
                                             </div>
@@ -570,7 +606,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <div class="form-floating mb-0 p-0">
-                                                <label class="form-label px-2 pt-0 p-0 m-0">Venta a cuenta de</label>
+                                                <label class="form-label px-2 pt-0 p-0 m-0">Venta a cuenta
+                                                    de</label>
                                                 <select class="form-select pt-4 open-sans-regular"
                                                     id="factura_venta_cuenta" name="factura_venta_cuenta"
                                                     aria-label="Default select example" required>
@@ -587,7 +624,8 @@
                                                 <input class="form-control" id="duracion_garantia"
                                                     name="duracion_garantia" placeholder="..." type="number" min="1"
                                                     max="999" required autocomplete="off">
-                                                <label for="duracion_garantia">Duración de la garantía (Días)</label>
+                                                <label for="duracion_garantia">Duración de la garantía
+                                                    (Días)</label>
                                                 <div class="invalid-feedback">Por favor ingresa la duración de la
                                                     garantia.</div>
                                             </div>
@@ -660,7 +698,8 @@
                                                     <option value="Completado">Completado</option>
                                                     <option value="Cancelado">Cancelado</option>
                                                 </select>
-                                                <div class="invalid-feedback">Por favor selecciona un estado de pago.
+                                                <div class="invalid-feedback">Por favor selecciona un estado de
+                                                    pago.
                                                 </div>
                                             </div>
                                         </div>
@@ -680,10 +719,12 @@
                                                     <option value="PayPal">PayPal</option>
                                                     <option value="Apple Pay">Apple Pay</option>
                                                     <option value="Google Pay">Google Pay</option>
-                                                    <option value="Crédito de la tienda">Crédito de la tienda</option>
+                                                    <option value="Crédito de la tienda">Crédito de la tienda
+                                                    </option>
                                                     <option value="Pago móvil">Pago móvil</option>
                                                 </select>
-                                                <div class="invalid-feedback">Por favor selecciona al menos una forma de
+                                                <div class="invalid-feedback">Por favor selecciona al menos una
+                                                    forma de
                                                     pago.</div>
                                             </div>
                                         </div>
@@ -693,7 +734,8 @@
                                                     name="dui_emisor" placeholder="..." required autocomplete="off"
                                                     min="10" max="10">
                                                 <label for="dui_emisor">DUI del emisor</label>
-                                                <div class="invalid-feedback">Por favor ingresa el DUI del emisor.</div>
+                                                <div class="invalid-feedback">Por favor ingresa el DUI del emisor.
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="mb-3" id="juridico_input2">
@@ -715,7 +757,8 @@
                                     </div>
                                 </div>
                                 <h6 class="open-sans-regular clrGry1 mt-4">
-                                    Para eliminar, actualizar y agregar algun servicio regrese y seleccione servicios en
+                                    Para eliminar, actualizar y agregar algun servicio regrese y seleccione
+                                    servicios en
                                     proceso
                                 </h6>
                                 <div
@@ -789,7 +832,6 @@
                                         <button type="button" class="btn btn-primary btnCancel me-lg-1 me-3 me-md-5">
                                             Cancelar</button>
                                     </div>
-
                                 </div>
                             </form>
                         </div>
@@ -798,7 +840,6 @@
             </div>
         </div>
     </main>
-
 
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->

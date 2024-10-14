@@ -14,11 +14,11 @@ body {
     flex-direction: column;
 }
 
-.modal-header{
+.modal-header {
     background-color: #E64547;
 }
 
-.whiteBlock{
+.whiteBlock {
     background-color: white;
     height: 15vh;
     width: 17vw;
@@ -26,11 +26,11 @@ body {
     border-radius: 15px;
 }
 
-.lineUp{
+.lineUp {
     border-top: 1px solid black;
 }
 
-.contenedorServiciosProceso{
+.contenedorServiciosProceso {
     width: 100%;
     min-height: 60vh;
     max-height: 100vh;
@@ -38,11 +38,11 @@ body {
     overflow-x: hidden;
 }
 
-.text{
+.text {
     width: fit-content;
 }
 
-.textCardServicio{
+.textCardServicio {
     top: -8%;
     right: 0;
     left: 0;
@@ -105,9 +105,11 @@ body {
 .btnAgregarServicio:hover {
     background-color: #E5383B;
 }
+
 .btnAgregarServicio:hover>h6 {
     color: white;
 }
+
 .servicioCard {
     background-color: white;
     border-radius: 5px;
@@ -151,7 +153,8 @@ body {
     max-height: 35vh;
     position: absolute;
     margin-top: -5px;
-    opacity: 0; /* Inicialmente oculto */
+    opacity: 0;
+    /* Inicialmente oculto */
 
     overflow-x: hidden;
     overflow-y: auto;
@@ -166,17 +169,20 @@ body {
     background-color: white;
     border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Añade una sombra */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Suaviza la transición */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    /* Añade una sombra */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Suaviza la transición */
 }
 
-.cardItemServicio>p{
+.cardItemServicio>p {
     color: black;
 }
 
 .cardItemServicio:hover {
     background-color: #E5383B;
-    transform: scale(1.05) translateY(-5px); /* Crece un poco y se mueve hacia arriba */
+    transform: scale(1.05) translateY(-5px);
+    /* Crece un poco y se mueve hacia arriba */
 }
 
 .cardItemServicio:hover>p {
@@ -198,32 +204,23 @@ body {
     flex-wrap: wrap;
     width: 100%;
     z-index: 3;
-
-    min-height: 50vh;
 }
 
 #containerExpand {
-    position: fixed;
-    bottom: 0;
-    left: 0;
     background-color: white;
     z-index: 4;
-
-    border-top: red solid 2px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
 }
 
 .rowGap {
     min-height: 50vh;
 }
 
-.datosCard{
+.datosCard {
     height: 50%;
     width: 100%;
 }
 
-.cardServicioProceso{
+.cardServicioProceso {
     background-color: white;
     border-radius: 20px;
     height: 300px;
@@ -235,12 +232,12 @@ body {
     min-width: 45vw;
 }
 
-.lineDownRed{
+.lineDownRed {
     border-bottom: 5px solid #E64547;
     border-radius: 100
 }
 
-.cardServicioBody{
+.cardServicioBody {
     height: 100%;
 }
 
@@ -470,7 +467,7 @@ hr {
 }
 
 .contenedor-total-cards::-webkit-scrollbar-thumb,
-.scrollVServicios::-webkit-scrollbar-thumb{
+.scrollVServicios::-webkit-scrollbar-thumb {
     background-color: #BA181B;
     /* Color del thumb del scrollbar */
     border-radius: 8px;
@@ -703,7 +700,7 @@ hr {
         /* Borde */
         min-height: 320px;
         max-height: 320px;
-        
+
     }
 
     /* Columna derecha de la tarjeta */
@@ -741,7 +738,7 @@ hr {
 /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
 .card::after,
 .containerImg::after,
-.servicioCardBody::after{
+.servicioCardBody::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -752,7 +749,7 @@ hr {
     opacity: 0;
 }
 
-.servicioCardBody::after{
+.servicioCardBody::after {
     margin-top: -5px;
 }
 
@@ -808,12 +805,12 @@ hr {
 
 /* Estilo para el diálogo modal */
 .modal-dialog {
-    min-width: 50vw;
+    min-width: 65vw;
 }
 
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
+/* Estilo para el diálogo modal */
+.modal-dialog-verInfo{
+    min-width: 65vw;
 }
 
 /* Estilos para el botón de guardar */
@@ -821,34 +818,29 @@ hr {
     background-color: #E5383B;
 }
 
-/* Estilos para los botones de guardar y cancelar */
 .btnSave,
 .btnCancel {
-    height: 50px;
+    height: 60px;
     width: 200px;
+}
+
+.btnCancel,
+.btnCancel2 {
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
 }
 
 .btnCancel2 {
+    background-color: #5C636A;
     height: 50px;
-    width: 300px;
-    background-color: #161A1D;
-}
-
-/* Segundo botón de cancelar */
-.btnCancel3 {
-    background-color: white;
-    /* Color de fondo */
-    border: solid 2px #ECECEC;
-    /* Borde */
-    color: black;
-    width: 200px;
-    height: 50px;
-    /* Color del texto */
+    width: 250px;
 }
 
 .btnSave2 {
     height: 50px;
-    width: 300px;
+    width: 250px;
     background-color: #E5383B;
 }
 
