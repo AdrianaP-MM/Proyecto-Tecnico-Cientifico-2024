@@ -12,7 +12,6 @@ body {
     display: flex;
     /* Utiliza el modelo de caja flexible */
     flex-direction: column;
-    /* Apila los elementos verticalmente */
 }
 
 .modal-header{
@@ -350,7 +349,7 @@ body {
 
 /* Elemento de hora de llegada */
 .elemento-hora-llegada {
-    background-color: #E64547;
+    background-color: #E5383B;
     /* Color de fondo */
 }
 
@@ -372,7 +371,7 @@ body {
 
 /* Información del cliente */
 .info-cliente {
-    background-color: black;
+    background-color: #151313;
     /* Color de fondo */
     border-bottom-right-radius: 10px;
     /* Radio de borde inferior derecho */
@@ -380,7 +379,7 @@ body {
 
 /* Número de cita */
 .cita-number {
-    background-color: black;
+    background-color: #151313;
     /* Color de fondo */
     width: 50%;
     /* Ancho */
@@ -452,7 +451,7 @@ hr {
 
     max-height: 87vh;
 
-    padding-top: 50px;
+    padding-top: 70px;
     display: grid;
     column-gap: 30px;
     row-gap: 30px;
@@ -461,6 +460,8 @@ hr {
     padding-bottom: 20px;
     padding-right: 10px;
     padding-left: 10px;
+
+    background-color: #F0F0F7;
 }
 
 .contenedor-total-cards::-webkit-scrollbar {

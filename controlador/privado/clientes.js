@@ -382,6 +382,7 @@ const fillData = async (action, form = null) => {
 
 // Función para generar el HTML de cada cliente
 function createCardCliente(row) {
+    const isFto = row.fto_cliente == null ? 'default2.png' : row.fto_cliente;
     return `
         <!--Card del Cliente -->
         <div class="cliente-card card" onclick="gotoDetail(${row.id_cliente})">
@@ -389,7 +390,7 @@ function createCardCliente(row) {
                 <h4 class="open-sans-light-italic">Más información</h4>
             </div>
             <div class="container-img-card">
-                <img src="../../recursos/imagenes/img_clientes/personas.png">
+                <img src="${SERVER_URL}/images/clientes/${isFto}" class="img-cliente">
             </div>
             <div class="container-info-card position-relative p-3 justify-content-center align-items-center">
                 <div class="line-red-split position-absolute"></div>

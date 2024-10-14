@@ -5,6 +5,9 @@ html {
     width: 100%;
     background-color: #F0F0F7;
 }
+.img-cliente{
+    border-radius: 100%;
+}
 
 /* Estilos para las medidas de la imagen */
 .contenedor-izq>img {

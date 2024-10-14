@@ -272,10 +272,11 @@ const fillData = async () => {
 }
 
 function getPersonaNaturalTemplate(row) {
+    const isFto = row.fto_cliente == null ? 'default.png' : row.fto_cliente;
     return `
     <div
         class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-start align-items-center">
-        <img src="../../recursos/imagenes/user_exmpl.png">
+        <img src="${SERVER_URL}/images/clientes/${isFto}" class="img-cliente">
         <div class="col-12 d-flex justify-content-end align-items-end">
             <button type="button" id="btnEditCliente" onclick="" data-bs-toggle="modal"
                 data-bs-target="#editarClienteModal" class="btn btn-outline-primary col-10 btnEdit m-0 p-0">
@@ -377,11 +378,11 @@ function getPersonaNaturalTemplate(row) {
 }
 
 function getPersonaJuridicaTemplate(row) {
+    const isFto = row.fto_cliente == null ? 'default.png' : row.fto_cliente;
     return `
-
         <div
             class="contenedor-izq d-flex flex-column col-lg-4 col-md-8 col-12 flex-wrap justify-content-start align-items-center">
-            <img src="../../recursos/imagenes/user_exmpl2.png">
+            <img src="${SERVER_URL}/images/clientes/${isFto}" class="img-cliente">
             <div class="col-12 d-flex justify-content-end align-items-end">
                 <button type="button" id="btnEditCliente" onclick="" data-bs-toggle="modal"
                     data-bs-target="#editarClienteModal" class="btn btn-outline-primary col-10 btnEdit m-0 p-0">
