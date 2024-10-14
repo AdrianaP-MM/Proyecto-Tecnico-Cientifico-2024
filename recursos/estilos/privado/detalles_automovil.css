@@ -3,6 +3,19 @@
   display: grid;
   row-gap: 47px;
   /* Espacio entre filas */
+  background-color: #F0F0F7;
+}
+
+.contenedor-info-fechas{
+  background-color: white;
+  border: 1px solid #DADCDE;
+  border-top-right-radius: 10px;
+  /* Radio de borde superior derecho */
+  border-bottom-right-radius: 10px;
+}
+
+body, html{
+  background-color: #F0F0F7;
 }
 
 /* Botón de retorno */
@@ -21,7 +34,7 @@
 
 /* Contenedor de información del cliente */
 .contenedor-info-cliente {
-  border: 1px gray solid;
+  border: 1px solid #DADCDE;
   /* Borde */
   min-height: 20vh;
   /* Altura mínima */
@@ -32,6 +45,7 @@
   display: grid;
   row-gap: 5px;
   /* Espacio entre filas */
+  background-color: white;
 }
 
 /* Contenido de información de texto */
@@ -93,17 +107,21 @@
   /* Ancho ajustado al contenido */
 }
 
+.contenedor-drch {
+  background-color:#ffffff; /* Fondo negro */
+  border: 1px solid #DADCDE;
+  display: flex; /* Flexbox para centrar la imagen */
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  padding-left: 20px; /* Padding a la izquierda */
+  height: 100%; /* Ajustar la altura del contenedor */
+}
 
 .contenedor-drch>img {
-  max-inline-size: 100%;
-  block-size: auto;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 10px;
-  height: 100%;
-  min-height: 40vh;
-  min-width: 100%;
-  aspect-ratio: 2/1;
+  height: 100%; /* La imagen se ajusta a la altura del contenedor */
+  width: auto; /* El ancho se ajusta proporcionalmente */
+  object-fit: contain; /* Asegura que la imagen no se recorte y se mantenga dentro del contenedor */
+  object-position: center; /* Centrar la imagen */
 }
 
 /* Botón m2 */
@@ -224,7 +242,7 @@
 
 /* Diálogo modal */
 .modal-dialog {
-  min-width: 70vw;
+  max-width: 65vw;
   /* Ancho mínimo */
 }
 
@@ -237,24 +255,26 @@
 /* Contenido adicional */
 .content-add-info {
   display: grid;
-  gap: 25px;
   /* Espacio entre elementos */
 }
 
-/* Botón de cancelar */
-.btnCancel {
-  background-color: black;
-  /* Color de fondo */
+.btnSave,
+.btnCancel,
+.btnCancel2 {
+    height: 60px;
+    width: 200px;
 }
 
-/* Segundo botón de cancelar */
+.btnCancel,
 .btnCancel2 {
-  background-color: white;
-  /* Color de fondo */
-  border: solid 2px #ECECEC;
-  /* Borde */
-  color: black;
-  /* Color del texto */
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
+}
+
+.btnCancel2 {
+    background-color: #5C636A;
 }
 
 /* Botón de guardar */
@@ -263,15 +283,6 @@
   /* Color de fondo */
 }
 
-/* Botones de guardar y cancelar */
-.btnSave,
-.btnCancel,
-.btnCancel2 {
-  height: 50px;
-  /* Altura */
-  width: 200px;
-  /* Ancho */
-}
 
 /* Etiqueta flotante */
 .form-floating>label {
@@ -339,14 +350,4 @@
 .form-floating .form-control:not(:placeholder-shown)~label {
   color: red;
   /* Color del texto */
-}
-
-.modal-content {
-  margin: 0 auto;
-  min-width: 70vw;
-}
-
-#staticBackdrop2 {
-  min-height: 100vh;
-  max-height: 100vh;
 }

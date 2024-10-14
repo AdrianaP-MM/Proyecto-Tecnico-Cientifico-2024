@@ -1,3 +1,8 @@
+.maxHeight {
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav */
 .mynav li a {
     color: #000000;
@@ -8,11 +13,6 @@
     display: block;
     border-radius: 5px;
     padding: 8px 5px;
-}
-
-#saveModal {
-    min-height: 100vh;
-    max-height: 100vh;
 }
 
 /* Estilo de la etiqueta a dentro de la etiqueta li de la clase mynav cuando está activo */
@@ -51,7 +51,7 @@ hr {
 
 /* Estilo para la barra de búsqueda */
 .search {
-    background-color: #F8F8F8;
+    background-color: #F5F3F4;
     border: 0px;
     border-radius: 10px;
 }
@@ -101,11 +101,6 @@ hr {
     gap: 35px;
 }
 
-/* Altura de las marcasA */
-.marcasA {
-    height: 290px;
-}
-
 .contenedor-checkbox>li {
     border: 0px;
 }
@@ -118,6 +113,7 @@ hr {
     overflow-x: hidden;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
+    width: 22%;
 }
 
 /* Estilo del checkbox seleccionado */
@@ -168,7 +164,7 @@ hr {
 }
 
 #bdSidebar::-webkit-scrollbar-thumb {
-    background-color: #e5383b5c;
+    background-color: #d5d5d5;
     /* Color del scrollbar thumb */
     border-radius: 8px;
     /* Borde redondeado del thumb */
@@ -223,7 +219,8 @@ hr {
     border: #232323 3px solid;
     position: relative;
     border-radius: 10px;
-    min-height: 170px;
+    min-height: 290px;
+    max-height: 290px;
 }
 
 /* Contenedor para todas las tarjetas */
@@ -231,9 +228,10 @@ hr {
     overflow-x: hidden;
     overflow-y: auto;
 
+    min-height: 87vh;
     max-height: 87vh;
 
-    padding-top: 50px;
+    padding-top: 70px;
     display: grid;
     column-gap: 30px;
     row-gap: 30px;
@@ -242,6 +240,7 @@ hr {
     padding-bottom: 20px;
     padding-right: 10px;
     padding-left: 10px;
+    background-color: #F0F0F7;
 }
 
 /* Estilos para la tarjeta de auto */
@@ -482,12 +481,12 @@ hr {
 /* Contenido adicional */
 .content-add-info {
     display: grid;
-    gap: 25px;
 }
 
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
+/* Contenido adicional */
+.content-add-info2 {
+    display: grid;
+    height: fit-content;
 }
 
 /* Estilos para el botón de guardar */
@@ -505,12 +504,23 @@ hr {
     color: white;
 }
 
-
-/* Estilos para los botones de guardar y cancelar */
 .btnSave,
-.btnCancel {
-    height: 50px;
+.btnCancel,
+.btnCancel2 {
+    height: 60px;
     width: 200px;
+}
+
+.btnCancel,
+.btnCancel2 {
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
+}
+
+.btnCancel2 {
+    background-color: #5C636A;
 }
 
 /* Etiqueta flotante */
@@ -531,11 +541,6 @@ hr {
 /* Estilo para el tamaño de la tarjeta */
 .sizeCard {
     border-radius: 10px;
-}
-
-/* Estilo para el diálogo modal */
-.modal-dialog {
-    min-width: 70vw;
 }
 
 /* Contenido adicional de la imagen */
@@ -595,12 +600,7 @@ hr {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    /* Centrado vertical completo */
-}
-
-.modal-content {
-    margin: 0 auto;
-    min-width: 70vw;
+    max-width: 65vw;
 }
 
 .divReload {

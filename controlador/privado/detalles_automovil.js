@@ -286,6 +286,7 @@ const openClose = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
         MODAL.hide();
+        location.reload();
     }
 }
 

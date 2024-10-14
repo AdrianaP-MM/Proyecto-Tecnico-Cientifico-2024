@@ -114,7 +114,6 @@ async function readTrabajadores(action = 'readAll', form = null) {
   const DATA = await fetchData(TRABAJADORES_API, action, form ?? null);
   //Limpiar el contenedor de trabajadores.
   CONTAINER_TRABAJADORES_BODY.innerHTML = "";
-
   CONTAINER_TRABAJADORES_BODY.innerHTML += `
       <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
                       <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"

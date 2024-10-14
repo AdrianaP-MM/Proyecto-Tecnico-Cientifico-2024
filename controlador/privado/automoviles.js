@@ -76,8 +76,10 @@ const search = async () => {
     fillTable(FORM);
 }
 function reload() {
-    fillTable();
     INPUT_BUSQUEDA.value = '';
+    FECHA_FABRICACION_FILTRO.value = '';
+    fillTable();
+    location.reload();
 }
 
 //Inputs de AGREGAR AUTOMOVIL---------------------------------------------------------------------------------------
@@ -185,9 +187,10 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         // Se cierra la caja de diálogo.
         SAVE_MODAL.hide();
         // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
+        await sweetAlert(1, DATA.message, true);
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
+        location.reload();
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión') {
             await sweetAlert(4, DATA.error, ', debe ingresar para continuar', true); location.href = 'index.html'
@@ -222,16 +225,15 @@ const fillTable = async (form = null) => {
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, action, form);
+
+    TABLE_BODY.innerHTML = "";
+    TABLE_BODY.innerHTML += `
+        <div class="add-auto-card d-flex align-items-center justify-content-center">
+            <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+        </div>
+    `
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-
-        TABLE_BODY.innerHTML = '';
-
-        TABLE_BODY.innerHTML += `
-            <div class="add-auto-card d-flex align-items-center justify-content-center">
-                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
-            </div>
-        `
         // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
@@ -369,6 +371,7 @@ const openClose = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
         SAVE_MODAL.hide();
+        location.reload();
     }
 }
 
@@ -596,13 +599,13 @@ const fillFiltrosMarca = async () => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             FILTROMARCAS.innerHTML += `
                 <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca${row.id_marca_automovil}" onclick="handleCheckboxClick(this)">
-                                            <label class="form-check-label stretched-link" for="Marca${row.id_marca_automovil}">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                ${row.nombre_marca_automovil}
-                                                </h6>
-                                            </label>
-                                        </li>
+                    <input class="form-check-input me-2" type="checkbox" id="Marca${row.id_marca_automovil}" onclick="handleCheckboxClick(this)">
+                    <label class="form-check-label stretched-link" for="Marca${row.id_marca_automovil}">
+                        <h6 class="m-0 p-0 open-sans-regular">
+                        ${row.nombre_marca_automovil}
+                        </h6>
+                    </label>
+                </li>
             `;
         });
     } else {
@@ -672,8 +675,6 @@ const handleCheckboxClick2 = async () => {
 };
 
 const fillTableFiltroMarcas = async (selectedMarcas = []) => {
-    TABLE_BODY.innerHTML = '';
-
     // Crear un objeto FormData
     const formData = new FormData();
 
@@ -682,17 +683,16 @@ const fillTableFiltroMarcas = async (selectedMarcas = []) => {
         formData.append('searchMarca', marcaId); // Usamos el mismo nombre para que sea un array en PHP
     });
 
-
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByMarcas', formData);
+    TABLE_BODY.innerHTML = '';
+    TABLE_BODY.innerHTML += `
+    <div class="add-auto-card d-flex align-items-center justify-content-center">
+        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+    </div>
+    `;
 
     if (DATA.status) {
-        TABLE_BODY.innerHTML += `
-            <div class="add-auto-card d-flex align-items-center justify-content-center">
-                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
-            </div>
-        `;
-
         DATA.dataset.forEach(row => {
             TABLE_BODY.innerHTML += `
                 <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
@@ -701,7 +701,7 @@ const fillTableFiltroMarcas = async (selectedMarcas = []) => {
                     </div>
                     <div class="container-img-card">
                         <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
-                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                            onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
                     </div>
                     <div class="container-info-card position-relative">
                         <div class="line-red-split position-absolute"></div>
@@ -730,8 +730,6 @@ const fillTableFiltroMarcas = async (selectedMarcas = []) => {
 };
 
 const fillTableFiltroTipos = async (selectedTipos = []) => {
-    TABLE_BODY.innerHTML = '';
-
     // Crear un objeto FormData
     const formData = new FormData();
 
@@ -743,13 +741,13 @@ const fillTableFiltroTipos = async (selectedTipos = []) => {
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByTipos', formData);
 
+    TABLE_BODY.innerHTML = '';
+    TABLE_BODY.innerHTML += `
+    <div class="add-auto-card d-flex align-items-center justify-content-center">
+        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+    </div>
+`;
     if (DATA.status) {
-        TABLE_BODY.innerHTML += `
-            <div class="add-auto-card d-flex align-items-center justify-content-center">
-                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
-            </div>
-        `;
-
         DATA.dataset.forEach(row => {
             TABLE_BODY.innerHTML += `
                 <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
@@ -758,7 +756,7 @@ const fillTableFiltroTipos = async (selectedTipos = []) => {
                     </div>
                     <div class="container-img-card">
                         <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
-                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                        onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
                     </div>
                     <div class="container-info-card position-relative">
                         <div class="line-red-split position-absolute"></div>
@@ -791,8 +789,6 @@ const fillTableFiltroFecha = async () => {
     if (!checkInput(validateYear(FECHA_FABRICACION_FILTRO.value), FECHA_FABRICACION_FILTRO, ERROR_FECHA_FILTRO)) {
         return;
     }
-    
-    TABLE_BODY.innerHTML = '';
 
     // Crear un objeto FormData
     const formData = new FormData();
@@ -800,14 +796,13 @@ const fillTableFiltroFecha = async () => {
 
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(AUTOMOVILES_API, 'searchRowsByFecha', formData);
-
+    TABLE_BODY.innerHTML = '';
+    TABLE_BODY.innerHTML += `
+    <div class="add-auto-card d-flex align-items-center justify-content-center">
+        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
+    </div>
+`;
     if (DATA.status) {
-        TABLE_BODY.innerHTML += `
-            <div class="add-auto-card d-flex align-items-center justify-content-center">
-                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
-            </div>
-        `;
-
         DATA.dataset.forEach(row => {
             TABLE_BODY.innerHTML += `
                 <div class="auto-card card" onclick="gotoDetail(${row.id_automovil})">
@@ -816,7 +811,7 @@ const fillTableFiltroFecha = async () => {
                     </div>
                     <div class="container-img-card">
                         <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
-                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
+                        onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
                     </div>
                     <div class="container-info-card position-relative">
                         <div class="line-red-split position-absolute"></div>

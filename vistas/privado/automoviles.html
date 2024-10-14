@@ -26,7 +26,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- *Llamada a las hojas de estilos propios de css (CREADOS)-->
-    <link href="../../recursos/estilos/privado/automoviles.css" rel="stylesheet">
     <!--Cambiarlo por el css de la página en cuestion-->
     <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
@@ -36,6 +35,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="../../recursos/estilos/privado/automoviles.css" rel="stylesheet">
 </head>
 
 <body>
@@ -46,15 +47,6 @@
                 class="d-flex flex-column flex-shrink-0 p-3 pt-5 text-black offcanvas-md offcanvas-start col-12 col-lg-3 col-md-4"
                 data-bs-toggle="offcanvas"> <!-- Contenedor del menu lateral (filtros) -->
                 <div class="sidebar-header"> <!-- Contenedor del header del menu lateral (filtros) -->
-
-                    <div class="d-flex justify-content-center d-flex align-items-baseline">
-                        <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
-                        <h3 class="px-3 open-sans-bold">Automoviles</h3>
-                        <a href="#" class="text-black d-md-none" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
-                            <h3 class="open-sans-bold">X</h3>
-                        </a>
-                    </div>
-
                     <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
                         data-bs-content="Buscador habilitado para: placa de los automóviles">
                         <!-- Contenedor del los input de entrada -->
@@ -65,24 +57,21 @@
                                     src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
 
-
+                    <div class="d-flex justify-content-center d-flex align-items-baseline">
+                        <img src="../../recursos/imagenes/icons/carIcon1.svg" width="25px" height="25px">
+                        <h3 class="px-3 open-sans-bold">Filtros</h3>
+                        <a href="#" class="text-black d-md-none" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+                            <h3 class="open-sans-bold">X</h3>
+                        </a>
+                    </div>
 
                     <div class="d-flex justify-content-center flex-wrap align-content-center col-12" id="asd">
-
-                        <div class="d-flex mt-0 align-items-center gap-2 hvr-icon-grow-rotate divReload"
-                            onclick="reload();">
-                            <i class="hvr-icon">
-                                <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
-                            </i>
-                            <p class="m-0 p-0 open-sans-light-italic tituloIcon">Refrescar</p>
-                        </div>
-
                         <button class="btn btnMarcas col-lg-6  col-md-10 col-12 mt-2" onclick="openCRUDMarcas()">
                             <p class="open-sans-light p-0 m-0">Ver marcas</p>
                         </button>
 
                     </div>
-                    
+
                 </div>
                 <hr>
                 <div class="sidebar-body"> <!-- Contedor del cuerpo de los filtros-->
@@ -94,140 +83,39 @@
                                 onclick="rotarImagen('img1')">
                                 <span class="d-flex justify-content-between align-items-center">
                                     <h5 class="open-sans-semibold m-0 p-0 ms-2">
-                                        Marcas
+                                        Marcas de autos
                                     </h5> <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img1"
                                         class="imagen">
                                 </span>
                             </button>
                             <div class="collapse col-11 marcasA position-relative mt-3" id="Marcas">
                                 <div class="" id="contenedor-marcas">
-                                    <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start" id="filtroMarcas">
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca1">
-                                            <label class="form-check-label stretched-link" for="Marca1">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    BMW
-                                                </h6>
-                                            </label>
-                                        </li>
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca2">
-                                            <label class="form-check-label stretched-link" for="Marca2">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    MERCEDES-BENZ
-                                                </h6>
-                                            </label>
-                                        </li>
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca3">
-                                            <label class="form-check-label stretched-link" for="Marca3">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    MITSUBISHI
-                                                </h6>
-                                            </label>
-                                        </li>
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca4">
-                                            <label class="form-check-label stretched-link" for="Marca4">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    HONDA
-                                                </h6>
-                                            </label>
-                                        </li>
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca5">
-                                            <label class="form-check-label stretched-link" for="Marca5">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    FERRARI
-                                                </h6>
-                                            </label>
-                                        </li>
-                                        <li class="list-group-item p-0 m-0 px-2">
-                                            <input class="form-check-input me-2" type="checkbox" id="Marca6">
-                                            <label class="form-check-label stretched-link" for="Marca6">
-                                                <h6 class="m-0 p-0 open-sans-regular">
-                                                    KIA
-                                                </h6>
-                                            </label>
-                                        </li>
+                                    <ul class="list-group contenedor-checkbox d-flex flex-column align-items-start"
+                                        id="filtroMarcas">
                                     </ul>
                                 </div>
-                                <button type="button" id="btnReturn" onclick="showMarcas()"
-                                    class="btn btn-outline-dark btnModelos col-10 text-white position-absolute m-0 p-0 d-none">
-                                    <h6 class="open-sans-regular p-0 m-0 z-3">
-                                        Regresar
-                                    </h6>
-                                </button>
                             </div>
                         </li>
 
                         <!--TODO ----------------------------ELEMENTO TIPOS----------------------------------->
-
+                        <hr>
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
                                 data-bs-toggle="collapse" data-bs-target="#Tipos" aria-expanded="false"
                                 onclick="rotarImagen('img3')">
                                 <span class="d-flex justify-content-between align-items-center">
                                     <h5 class="open-sans-semibold m-0 p-0 ms-2">
-                                        Tipos
+                                        Tipos de autos
                                     </h5>
                                     <img src="../../recursos/imagenes/icons/icon-dropdown.svg" id="img3" class="imagen">
                                 </span>
                             </button>
                             <div class="collapse col-11 mt-3" id="Tipos">
                                 <ul class="list-group contenedor-checkbox" id="filtroTipos">
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo1">
-                                        <label class="form-check-label stretched-link" for="Tipo1">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo1
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo2">
-                                        <label class="form-check-label stretched-link" for="Tipo2">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo2
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo3">
-                                        <label class="form-check-label stretched-link" for="Tipo3">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo3
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo4">
-                                        <label class="form-check-label stretched-link" for="Tipo4">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo4
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo5">
-                                        <label class="form-check-label stretched-link" for="Tipo5">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo5
-                                            </h6>
-                                        </label>
-                                    </li>
-                                    <li class="list-group-item p-0 m-0 px-2">
-                                        <input class="form-check-input me-2" type="checkbox" id="Tipo6">
-                                        <label class="form-check-label stretched-link" for="Tipo6">
-                                            <h6 class="m-0 p-0 open-sans-regular">
-                                                Tipo6
-                                            </h6>
-                                        </label>
-                                    </li>
                                 </ul>
                             </div>
                         </li>
-
+                        <hr>
                         <!--TODO ----------------------------ELEMENTO FECHA DE FABRICACIÓN----------------------------------->
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center">
                             <button class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton"
@@ -243,14 +131,22 @@
                             <div class="collapse col-11 mt-3" id="FechaFab">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_fecha_auto_filtro"
-                                        name="input_fecha_auto_filtro" required placeholder="..." minlength="4" maxlength="4"
-                                        autocomplete="off" onkeydown="if (event.keyCode === 13) fillTableFiltroFecha()">
+                                        name="input_fecha_auto_filtro" required placeholder="..." minlength="4"
+                                        maxlength="4" autocomplete="off"
+                                        onkeydown="if (event.keyCode === 13) fillTableFiltroFecha()">
                                     <label for="input_fecha_auto_filtro">Fecha de fabricacion</label>
                                     <span id="ERROR-FECHA-FILTRO" class="text-danger"></span>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                    <div class="d-flex mt-0 align-items-center gap-2 hvr-icon-grow-rotate divReload"
+                        onclick="reload();">
+                        <i class="hvr-icon">
+                            <img src="../../recursos/imagenes/img_clientes/reload.svg" class="img">
+                        </i>
+                        <p class="m-0 p-0 open-sans-light-italic tituloIcon">Refrescar</p>
+                    </div>
                 </div>
             </div>
             <!-- TODO -----------------------------------CUERPO----------------------------------->
@@ -275,123 +171,139 @@
 
         <!--TODO -------------------------------MODAL ADD---------------------->
         <!-- Contenedor del modal de agregar automovil-->
-        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade maxHeight" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
-            <div class="modal-dialog modal-dialog-centered modal-xl my-0">
-                <form id="saveForm" class="needs-validation" novalidate autocomplete="off">
-                    <!--Formulario de guardado-->
-                    <!-- Contenedor del modal content-->
-                    <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                        <!-- Contenedor del modal body-->
-                        <div class="modal-body row ">
-                            <!-- Contenedor de la izquierda, imagen del automóvil-->
-                            <div
-                                class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
-                                <h6>Imagen del automóvil</h6>
-                                <img id="selectedImageF" class="sizeCard col-10"
-                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                                    alt="example placeholder" />
-                                <button type="button" class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
-                                    <label class="form-label text-white m-1" for="customFile2">Seleccionar
-                                        imagen</label>
-                                </button>
-                                <input type="file" class="form-control d-none" id="customFile2" name="customFile2" />
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                    <div class="modal-body">
+                        <form id="saveForm" class="needs-validation" novalidate autocomplete="off">
+                            <div class="row">
+                                <div
+                                    class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
+                                    <h6>Imagen del automóvil</h6>
+                                    <img id="selectedImageF" class="sizeCard col-10"
+                                        src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+                                        alt="example placeholder" />
+                                    <button type="button"
+                                        class="btn btn-primary btnFogot col-8 col-lg-6 open-sans-regular">
+                                        <label class="form-label text-white m-1" for="customFile2">Seleccionar
+                                            imagen</label>
+                                    </button>
+                                    <input type="file" class="form-control d-none" id="customFile2"
+                                        name="customFile2" />
+                                </div>
+
+                                <!-- Contenedor de la derecha, información del automóvil-->
+                                <div class="content-add-info col-md-7">
+                                    <input type="number" id="idAuto" name="idAuto" class="invisible position-absolute">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="input_modelo_auto"
+                                                name="input_modelo_auto" required placeholder="..." required
+                                                minlength="10" maxlength="50" autocomplete="off">
+                                            <label for="input_modelo_auto">Modelo</label>
+                                            <span id="ERROR-MODELO-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <label for="input_tipo_auto"
+                                                class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
+                                            <select id="input_tipo_auto" name="input_tipo_auto" type="text"
+                                                class="form-select" required autocomplete="off"></select>
+                                            <span id="ERROR-TIPO-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="input_fecha_auto"
+                                                name="input_fecha_auto" required placeholder="..." minlength="4"
+                                                maxlength="4" autocomplete="off">
+                                            <label for="input_fecha_auto">Fecha de fabricacion</label>
+                                            <span id="ERROR-FECHA-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <label for="input_color_auto"
+                                                class="form-label px-2 pt-1 p-0 m-0">Color</label>
+                                            <select id="input_color_auto" name="input_color_auto" type="text"
+                                                class="form-select" required autocomplete="off">
+                                                <option value>Seleccione un color</option>
+                                                <option value="Rojo">Rojo</option>
+                                                <option value="Azul">Azul</option>
+                                                <option value="Gris">Gris</option>
+                                                <option value="Blanco">Blanco</option>
+                                                <option value="Negro">Negro</option>
+                                                <option value="Amarillo">Amarillo</option>
+                                                <option value="Verde">Verde</option>
+                                                <option value="Anaranjado">Anaranjado</option>
+                                                <option value="Tornasol">Tornasol</option>
+                                                <option value="Plata">Plata</option>
+                                                <option value="Otro">Otro</option>
+                                            </select>
+                                            <span id="ERROR-COLOR-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="input_placa" name="input_placa"
+                                                required placeholder="..." minlength="9" maxlength="12"
+                                                autocomplete="off">
+                                            <label for="input_placa">Placa</label>
+                                            <span id="ERROR-PLACA-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <label for="input_marca_auto"
+                                                class="form-label px-2 pt-1 p-0 m-0">Marca</label>
+                                            <select id="input_marca_auto" name="input_marca_auto" type="text"
+                                                class="form-select" required autocomplete="off"></select>
+                                            <span id="ERROR-MARCA-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="input_duiP" name="input_duiP">
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <input id="label_dui" name="label_dui" type="text" class="form-control"
+                                                placeholder="DUI" required minlength="10" maxlength="10"
+                                                autocomplete="off">
+                                            <label for="label_dui" class="form-label">DUI</label>
+                                            <span id="ERROR-DUI-ADD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- Contenedor de la derecha, información del automóvil-->
-                            <div class="content-add-info col-md-7">
-                                <input type="number" id="idAuto" name="idAuto" class="invisible position-absolute">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="input_modelo_auto"
-                                        name="input_modelo_auto" required placeholder="..." required minlength="10"
-                                        maxlength="50" autocomplete="off">
-                                    <label for="input_modelo_auto">Modelo</label>
-                                    <span id="ERROR-MODELO-ADD" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <label for="input_tipo_auto" class="form-label px-2 pt-1 p-0 m-0">Tipo</label>
-                                    <select id="input_tipo_auto" name="input_tipo_auto" type="text" class="form-select"
-                                        required autocomplete="off"></select>
-                                    <span id="ERROR-TIPO-ADD" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="input_fecha_auto"
-                                        name="input_fecha_auto" required placeholder="..." minlength="4" maxlength="4"
-                                        autocomplete="off">
-                                    <label for="input_fecha_auto">Fecha de fabricacion</label>
-                                    <span id="ERROR-FECHA-ADD" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <label for="input_color_auto" class="form-label px-2 pt-1 p-0 m-0">Color</label>
-                                    <select id="input_color_auto" name="input_color_auto" type="text"
-                                        class="form-select" required autocomplete="off">
-                                        <option value>Seleccione un color</option>
-                                        <option value="Rojo">Rojo</option>
-                                        <option value="Azul">Azul</option>
-                                        <option value="Gris">Gris</option>
-                                        <option value="Blanco">Blanco</option>
-                                        <option value="Negro">Negro</option>
-                                        <option value="Amarillo">Amarillo</option>
-                                        <option value="Verde">Verde</option>
-                                        <option value="Anaranjado">Anaranjado</option>
-                                        <option value="Tornasol">Tornasol</option>
-                                        <option value="Plata">Plata</option>
-                                        <option value="Otro">Otro</option>
-                                    </select>
-                                    <span id="ERROR-COLOR-ADD" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="input_placa" name="input_placa" required
-                                        placeholder="..." minlength="9" maxlength="12" autocomplete="off">
-                                    <label for="input_placa">Placa</label>
-                                    <span id="ERROR-PLACA-ADD" class="text-danger"></span>
-                                </div>
-                                <div class="form-floating mb-3">
-                                    <label for="input_marca_auto" class="form-label px-2 pt-1 p-0 m-0">Marca</label>
-                                    <select id="input_marca_auto" name="input_marca_auto" type="text"
-                                        class="form-select" required autocomplete="off"></select>
-                                    <span id="ERROR-MARCA-ADD" class="text-danger"></span>
-                                </div>
-                                <input type="hidden" id="input_duiP" name="input_duiP">
-                                <div class="form-floating mb-3">
-                                    <input id="label_dui" name="label_dui" type="text" class="form-control"
-                                        placeholder="DUI" required minlength="10" maxlength="10" autocomplete="off">
-                                    <label for="label_dui" class="form-label">DUI</label>
-                                    <span id="ERROR-DUI-ADD" class="text-danger"></span>
-                                </div>
+                            <!-- Contenedor del footer del modal (contenedor de los botones)-->
+                            <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-4">
+                                <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
+                                    onclick="openClose()">Cancelar</button>
+                                <button type="submit"
+                                    class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
                             </div>
-                        </div>
-                        <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-4">
-                            <button type="button" class="btn btn-secondary btnCancel mx-5"
-                                onclick="openClose()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btnSave">Guardar</button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
 
         <!--Modal para administrar marcas-->
-        <div class="modal fade" id="marcasModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade maxHeight" id="marcasModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                <!-- Formulario de guardado (separado del buscador) -->
-                <form id="saveFormMarcas" class="needs-validation" novalidate autocomplete="off">
-                    <!-- Contenedor del modal content-->
-                    <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                        <!-- Contenedor del modal body-->
-                        <div class="modal-body column">
-                            <!-- Contenedor de la izquierda, imagen del automóvil-->
-                            <div class="d-flex flex-column justify-content-center align-items-center">
-                                <h4>Administrar marcas</h4>
-                            </div>
-                            <hr>
+                <!-- Contenedor del modal content-->
+                <div class="modal-content d-flex justify-content-center p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                    <!-- Contenedor del modal body-->
+                    <div class="modal-body column">
+                        <!-- Formulario de guardado (separado del buscador) -->
+                        <form id="saveFormMarcas" class="needs-validation" novalidate autocomplete="off">
                             <!-- Contenedor de la derecha, información del automóvil-->
-                            <div class="content-add-info">
+                            <div class="content-add-info2">
                                 <input type="number" id="input_id_marca_automovil" name="input_id_marca_automovil"
-                                    class="invisible" inert>
+                                    class="invisible d-none" inert>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_marca_automovil"
                                         name="input_marca_automovil" max="50" required placeholder="..."
@@ -399,20 +311,18 @@
                                     <label for="input_marca_automovil">Marca</label>
                                     <span id="ERROR-MARCA" class="text-danger"></span>
                                 </div>
-                                <hr>
                             </div>
                             <!-- Tabla de marcas y buscador -->
-                            <div class="containerTabla">
+                            <div class="containerTabla mt-3">
                                 <!-- Buscador separado del formulario principal -->
-                                <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
-                                    <input type="text" name="searchMarca" class="form-control" placeholder="Buscar..."
+                                <div class="input-group mb-3 shadow-sm buscador"  data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                data-bs-content="Buscador habilitado para: nombre de la marca"> <!--Buscador-->
+                                    <input type="text" name="searchMarca" class="form-control search" placeholder="Buscar..."
                                         aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchMarca"
                                         autocomplete="off">
-
                                     <div>
                                         <button type="button" onclick="searchMarcas()" class="btn btn-outline"
-                                            id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom"
-                                            data-bs-content="Buscador habilitado para: Nombre de marca">
+                                            id="searchInput">
                                             <i class="bi-search"><img
                                                     src="../../recursos/imagenes/icons/icon-search.svg"
                                                     alt="search icon"></i>
@@ -442,17 +352,17 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
-                            <button type="button" class="btn btn-secondary btnCancel"
-                                onclick="openCloseCRUDMarcas()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btnSave">Guardar</button>
-                            <button type="button" class="btn btn-secondary btnCancel"
-                                onclick="openDeleteMarca()">Eliminar</button>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                    <!-- Contenedor del footer del modal (contenedor de los botones)-->
+                    <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                        <button type="button" class="btn btn-secondary btnCancel2 mx-5" 
+                            onclick="openDeleteMarca()">Eliminar</button>
+                        <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
+                            onclick="openCloseCRUDMarcas()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

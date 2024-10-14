@@ -29,7 +29,7 @@ const resetTimer = () => {
     inactivityTime = setTimeout(async () => {
         await sweetAlert(4, 'Cierre de sesión por inactividad.');
         handleLogout(); // Cierra la sesión por inactividad
-    }, 300000); // 300000 ms = 5 minutos
+    }, 30000000); // 300000 ms = 5 minutos
 
     console.log('Temporizador reiniciado. Esperando 5 minutos de inactividad.');
 }

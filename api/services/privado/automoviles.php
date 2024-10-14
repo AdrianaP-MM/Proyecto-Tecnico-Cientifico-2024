@@ -137,7 +137,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Marca eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el automóvil';
+                    $result['error'] = 'Ocurrió un problema al eliminar la marca';
                 }
                 break;
             case 'readAll':
