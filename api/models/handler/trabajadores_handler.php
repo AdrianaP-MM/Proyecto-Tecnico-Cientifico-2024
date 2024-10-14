@@ -19,7 +19,7 @@ class TrabajadoresHandler
     protected $fecha_contratacion = null;
     protected $salario_base = null;
     protected $agno_contratacion = null;
-
+    protected $search_value = null;
 
     //Aqui se guardaran las imagenes 
     const RUTA_IMAGEN = '../../../api/images/empleados/';
@@ -34,21 +34,48 @@ class TrabajadoresHandler
 
 
     //Método para buscar trabajadores dependiendo de su nombre o dui 
+    // Método para buscar trabajadores dependiendo de su nombre o DUI
     public function searchRows()
     {
-        //Valores que se introducen la barra de busqueda 
-        $value = '%' . Validator::getSearchValue() . '%';
-        //Sentencia select de los campos para la tabla de trabajadores
-        $sql = 'SELECT id_trabajador, id_especializacion_trabajador, dui_trabajador, telefono_trabajador, correo_trabajador, nombres_trabajador, apellidos_trabajador, departamento_trabajador, NIT_trabajador, fecha_contratacion, salario_base, nombre_especializacion_trabajador, id_especializacion_trabajador
-        FROM tb_trabajadores
-        INNER JOIN tb_especializaciones_trabajadores USING(id_especializacion_trabajador)
-                WHERE nombres_trabajador LIKE ? OR dui_trabajador LIKE ?';
-        //Parametros a enviar dependiendo de los valores de la barra de busqueda
-        $params = array($value, $value);
-        //Ejecucion de la consulta SQL
+        // Iniciamos la consulta base con el JOIN
+        $sql = 'SELECT 
+                id_trabajador, 
+                dui_trabajador, 
+                telefono_trabajador, 
+                correo_trabajador, 
+                nombres_trabajador, 
+                apellidos_trabajador, 
+                departamento_trabajador, 
+                NIT_trabajador, 
+                fecha_contratacion, 
+                salario_base, 
+                nombre_especializacion_trabajador
+            FROM tb_trabajadores 
+            INNER JOIN tb_especializaciones_trabajadores USING(id_especializacion_trabajador)';
+
+        $params = [];
+
+        // Si hay un valor de búsqueda, agregamos la condición de búsqueda
+        if ($this->search_value) {
+            $sql .= ' WHERE (
+            CONCAT(nombres_trabajador, " ", apellidos_trabajador) LIKE ? OR 
+            dui_trabajador LIKE ? OR 
+            telefono_trabajador LIKE ? OR  
+            correo_trabajador LIKE ? OR  
+            NIT_trabajador LIKE ?
+        )';
+
+            // Se añade el mismo valor de búsqueda para todas las condiciones
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+            $params[] = "%{$this->search_value}%";
+        }
+
+        // Ejecutamos la consulta con o sin parámetros, según sea el caso
         return Database::getRows($sql, $params);
     }
-
 
     //Método para actualizar los datos de un trabajador
     public function updateRow()
@@ -129,21 +156,21 @@ class TrabajadoresHandler
     {
         // Construir la consulta SQL para verificar duplicados
         $sql = "SELECT id_trabajador FROM tb_trabajadores WHERE $field = ?";
-        
+
         // Parámetro para la consulta SQL
         $params = array($value);
-        
+
         // Si se está actualizando (ya hay un id_trabajador), excluir ese ID de la búsqueda
         if ($this->id_trabajador) {
             $sql .= " AND id_trabajador <> ?";
             $params[] = $this->id_trabajador; // Añadir el ID del trabajador actual como parámetro
         }
-    
+
         // Ejecuta la consulta SQL y devuelve los resultados
         return Database::getRows($sql, $params);
     }
-    
-    
+
+
 
     // Método para campos de todos los trabajadores
     public function readAll()

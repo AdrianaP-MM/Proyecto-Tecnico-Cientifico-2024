@@ -35,6 +35,8 @@ const SAVE_FORM = document.getElementById("saveForm"),
   ERROR_SALARIO = document.getElementById('ERROR-SALARIO'),
   ID_EMPLEADO = document.getElementById("idTrabajador");
 
+const INPUT_BUSQUEDA = document.getElementById('input_buscar');
+
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener("DOMContentLoaded", async () => {
   //Llamado de la funcion para agregar la plantilla de la pagina web
@@ -62,7 +64,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
 var number = 1;
 
 const openClose = async () => {
@@ -75,6 +76,7 @@ const openClose = async () => {
 
     if (RESPONSE.isConfirmed) {
       SAVE_MODAL.hide();
+      location.reload();
       const botonTres = document.getElementById("btnTres");
       if (botonTres) {
         botonTres.remove();
@@ -88,6 +90,7 @@ const openClose = async () => {
     );
     if (RESPONSE.isConfirmed) {
       SAVE_MODAL.hide();
+      location.reload();
       const botonTres = document.getElementById("btnTres");
       if (botonTres) {
         botonTres.remove();
@@ -96,120 +99,31 @@ const openClose = async () => {
   }
 };
 
-//Funcion para validar que los campos deben estar completados dentro del form
-(() => {
-  "use strict";
-
-  //Selecciona todos los campos en los que queremos validar
-  const forms = document.querySelectorAll(".needs-validation");
-
-  // Recorre cada uno, aplica la validacion y no deja que se envie
-  Array.from(forms).forEach((form) => {
-    form.addEventListener(
-      "submit",
-      (event) => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add("was-validated");
-      },
-      false
-    );
-  });
-})();
-
-// //Método del evento para cuando se envía el formulario de buscar.
-// document.getElementById("searchForm").addEventListener("submit", async (event) => {
-//   //Se evita recargar la página web después de enviar el formulario.
-//   event.preventDefault();
-//   //Constante tipo objeto con los datos del formulario de barra de busqueda.
-//   const formData = new FormData(document.getElementById("searchForm"));
-
-//   try {
-//     //Realizar una solicitud al servidor para buscar trabajadores.
-//     const searchData = await fetchData(
-//       TRABAJADORES_API,
-//       "searchRows",
-//       formData
-//     );
-
-//     //Verificar si la búsqueda fue exitosa.
-//     if (searchData.status) {
-//       //Limpiar el contenedor de trabajadores.
-//       CONTAINER_TRABAJADORES_BODY.innerHTML = "";
-
-//       //Se agrega la card para agregar usuario luego de vaciar el campo
-//       CONTAINER_TRABAJADORES_BODY.innerHTML += `
-//             <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
-//                             <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-//                                 onclick="openCreate()">
-//                         </div>
-//             `;
-
-//       //Verificar si se encontraron resultados.
-//       if (searchData.dataset.length > 0) {
-//         //Dependiendo los resultados de cada linea se muestran en el contenedor.
-//         searchData.dataset.forEach((row) => {
-//           CONTAINER_TRABAJADORES_BODY.innerHTML += `
-//                         <div class="auto-card card" onclick="openUpdate(${row.id_trabajador})"> <!--Card de empleados #1-->
-//                         <div class="content z-3">
-//                             <h4 class="open-sans-light-italic">Más información</h4> <!--Boton de mas informacion-->
-//                         </div>
-//                         <div class="container-img-card"> <!--Imagen de la empresa-->
-//                             <h1>DARG</h1> <!--Nombre de la empresa-->
-//                             <img src="../../recursos/imagenes/img_empleados/fondo_cliente.png">
-//                         </div>
-//                         <div class="container-img-card2"> <!--Imagen del empleado-->
-//                             <img src="../../recursos/imagenes/img_empleados/empleado.png">
-//                             <h1 class=" align-items-center justify-content-center">${row.nombres_trabajador} ${row.apellidos_trabajador}</h1>
-//                             <!--Nombre del empleado-->
-//                             <h3 class="">${row.dui_trabajador}</h3> <!--DUI-->
-//                             <h4 class="">${row.correo_trabajador}</h4> <!--Correo-->
-//                             <h4 class="">${row.telefono_trabajador}</h4> <!--Telefono-->
-//                         </div>
-//                         <div class="container-img-card3"> <!--Logo de la empresa-->
-//                             <img src="../../recursos/imagenes/img_empleados/logo.png">
-//                             <h2>${row.nombre_especializacion_trabajador}</h2> <!--Especialización del empleado-->
-//                         </div>
-//                         <div class="container-info-card"> <!--Informacion adicional-->
-//                         </div>
-//                     </div>
-//                         `;
-//         });
-//       } else {
-//         // Mostrar si no se encontro ningun resultado.
-//         sweetAlert(4, "No se encontraron resultados", false);
-//       }
-//     } else {
-//       // Mostrar si no se encontro ningun resultado en base de un error.
-//       sweetAlert(4, "No se encontraron resultados", false);
-//       // Puedes mostrar un mensaje de error al usuario si lo deseas.
-//     }
-//   } catch (error) {
-//     console.error("Error al buscar trabajadores:", error);
-//     //Loguea un error si este lo presenta.
-//   }
-// });
-
+// Función de búsqueda que prepara el formulario y ejecuta la búsqueda
+const search = async () => {
+  const FORM = new FormData();
+  if (INPUT_BUSQUEDA.value) {
+    FORM.append('search', INPUT_BUSQUEDA.value);
+  }
+  await readTrabajadores('searchRows', FORM);
+};
 
 //Método para hacer el select a la base de los trabajadores disponibles
-async function readTrabajadores() {
-  // Petición para obtener los datos de los trabajadores.
-  const DATA = await fetchData(TRABAJADORES_API, "readAll");
+async function readTrabajadores(action = 'readAll', form = null) {
+  // Usamos el operador ?? para pasar 'form' si está disponible, o null en caso contrario.
+  const DATA = await fetchData(TRABAJADORES_API, action, form ?? null);
+  //Limpiar el contenedor de trabajadores.
+  CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+
+  CONTAINER_TRABAJADORES_BODY.innerHTML += `
+      <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
+                      <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+                          onclick="openCreate()">
+                  </div>
+      `;
 
   // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
   if (DATA.status) {
-    //Limpiar el contenedor de trabajadores.
-    CONTAINER_TRABAJADORES_BODY.innerHTML = "";
-
-    CONTAINER_TRABAJADORES_BODY.innerHTML += `
-    <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
-                    <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-                        onclick="openCreate()">
-                </div>
-    `;
-
     // Se recorre el conjunto de registros fila por fila a través del objeto row.
     DATA.dataset.forEach((row) => {
       // Se crean y concatenan las filas de la tabla con los datos de cada registro a la card de trabajador.
@@ -252,6 +166,28 @@ SAVE_FORM.addEventListener("submit", async (event) => {
   //Se valida que los campos no esten vacios de lo contrario se le hace saber al usuario por medio del cambio en el aspecto de los campos
   const isValid = await checkFormValidity(SAVE_FORM);
 
+  if (NOMBRES.value === '' || APELLIDOS.value === '' || CORREO.value === '' || TELEFONO.value === '' ||
+    DEPARTAMENTO.value === '' || NIT.value === '' || DUI.value === '' || ESPECIALIZACION.value === '' ||
+    FECHA.value === '' || SALARIO.value === ''
+  ) {
+    await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+  }
+
+  if (!checkInput(validateName(NOMBRES.value), NOMBRES, ERROR_NOMBRE) ||
+    !checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO) ||
+    !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO) ||
+    !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO) ||
+    !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPARTAMENTO) ||
+    !checkInput(validateSelect(ESPECIALIZACION.value), ESPECIALIZACION, ERROR_ESPECIAL) ||
+    /*!checkInput(validateFecha(FECHA.value), FECHA, ERROR_FECHA) || */
+    !checkInput(validateSalary(SALARIO.value), SALARIO, ERROR_SALARIO) ||
+    !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI) ||
+    !checkInput(validateNit(NIT.value), NIT, ERROR_NIT)) {
+    // await sweetAlert(2, 'Error al validar los campos.', true);
+    // console.log(DUI.value, 'a', NIT.value)
+    return;
+  }
+
   //Se verifica si la validacion es correcta
   if (isValid) {
     // Se verifica la acción a realizar.
@@ -259,7 +195,8 @@ SAVE_FORM.addEventListener("submit", async (event) => {
     // Constante tipo objeto con los datos del formulario.
     const formData = new FormData(SAVE_FORM);
     if (ID_EMPLEADO.value) {
-      formData.append('idEmpleado', ID_EMPLEADO.value);
+      formData.append('idTrabajador', ID_EMPLEADO.value);
+      console.log(ID_EMPLEADO.value);
     }
     //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
 
@@ -268,9 +205,10 @@ SAVE_FORM.addEventListener("submit", async (event) => {
       const DATA = await fetchData(TRABAJADORES_API, action, formData);// Petición para guardar los datos del formulario
 
       if (DATA.status) { // Se comprueba si la respuesta es satisfactoria
+        await sweetAlert(1, DATA.message, true); // Se muestra un mensaje de éxito
         SAVE_MODAL.hide(); // Se cierra la caja de diálogo
-        sweetAlert(1, DATA.message, true); // Se muestra un mensaje de éxito
         readTrabajadores(); //Se lee los trabajadores en la base
+        location.reload();
       } else {
         sweetAlert(2, DATA.error, false); // Se muestra un mensaje de error
       }
@@ -381,10 +319,10 @@ const openUpdate = async (id) => {
       // Verificar y agregar botón "Eliminar"
       if (CONTAINER_BOTONES) {
         if (!document.getElementById("btnTres")) {
-          CONTAINER_BOTONES.innerHTML += `
-            <button type="button" id="btnTres" class="btn btn-secondary btnCancel mx-5"
-                    onclick="openDelete(${row.id_trabajador})">Eliminar</button>
-          `;
+          CONTAINER_BOTONES.insertAdjacentHTML('afterbegin', `
+            <button type="button" id="btnTres" class="btn btn-secondary btnCancel2 mx-5" 
+                    onclick="openDelete(${row.id_trabajador})">Eliminar</button> 
+          `);
         }
       } else {
         console.error("CONTAINER_BOTONES is null or undefined.");

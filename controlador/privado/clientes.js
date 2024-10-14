@@ -145,18 +145,19 @@ const addSave = async () => {
         !checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_ADD) ||
         !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_ADD) ||
         !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_ADD) ||
-        !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD)) {
-        await sweetAlert(2, 'Error al validar los campos.', true);
+        !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD) ||
+        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD) ||
+        !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_ADD)) {
+        // await sweetAlert(2, 'Error al validar los campos.', true);
         return;
     }
 
     if (!NRC.classList.contains('d-none')) {
         if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD)) {
-            await sweetAlert(2, 'Error al validar los campos.', true);
+            // await sweetAlert(2, 'Error al validar los campos.', true);
             return;
         }
     }
-
 
     if (isValid) {
         console.log('TodoGud'); // Código a ejecutar después de la validación
@@ -171,11 +172,12 @@ const addSave = async () => {
 
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            sweetAlert(1, 'Se ha guardado con éxito', 300);
+            await sweetAlert(1, 'Se ha guardado con éxito', 300);
             fillData('readAll');
             MODAL.hide();
             resetForm(); // Resetea el formulario
             ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+            location.reload();
         } else {
             if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
                 await sweetAlert(4, DATA.error, true); location.href = 'index.html'
@@ -188,25 +190,6 @@ const addSave = async () => {
         console.log('Que paso?: Formulario no válido');
     }
 };
-
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
 
 function reload() {
     INPUT_BUSQUEDA.value = '';
@@ -281,11 +264,11 @@ const fillData = async (action, form = null) => {
     if (action == 'readAll' || action == 'searchRows') {
         // Lógica para mostrar clientes naturales o jurídicos
         if (TIPO_CLIENTE == 'Persona natural') {
-            CLIENTES_NATURAL_CONTAINER.innerHTML = '';
             const FORM2 = form ?? new FormData();
             FORM2.append('tipo_cliente', TIPO_CLIENTE);
             const DATA2 = await fetchData(CLIENTES_API, action, FORM2);
 
+            CLIENTES_NATURAL_CONTAINER.innerHTML = "";
             createCardAdd(CLIENTES_NATURAL_CONTAINER);
             if (DATA2.status) {
                 DATA2.dataset.forEach(row => {
@@ -294,20 +277,19 @@ const fillData = async (action, form = null) => {
             } else {
                 if (DATA2.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
                     await sweetAlert(4, DATA.error, true); location.href = 'index.html'
-                    CLIENTES_NATURAL_CONTAINER.innerHTML = '';
+                    CLIENTES_NATURAL_CONTAINER.innerHTML = "";
                 }
                 else {
                     sweetAlert(4, DATA2.error, true);
                 }
             }
         } else {
-            CLIENTES_JURIDICO_CONTAINER.innerHTML = '';
             const FORM1 = form ?? new FormData();;
             FORM1.append('tipo_cliente', TIPO_CLIENTE);
             const DATA1 = await fetchData(CLIENTES_API, action, FORM1);
 
+            CLIENTES_JURIDICO_CONTAINER.innerHTML = "";
             createCardAdd(CLIENTES_JURIDICO_CONTAINER);
-
             if (DATA1.status) {
                 DATA1.dataset.forEach(row => {
                     CLIENTES_JURIDICO_CONTAINER.innerHTML += createCardCliente(row);
@@ -532,6 +514,7 @@ const openClose = async () => {
     if (RESPONSE.isConfirmed) {
         MODAL.hide();
         resetForm();
+        location.reload();
     }
 }
 

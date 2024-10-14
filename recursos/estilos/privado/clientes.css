@@ -304,7 +304,7 @@ hr {
 
 /* Estilo para el diálogo modal */
 .modal-dialog {
-    min-width: 70vw;
+    min-width: 65vw;
 }
 
 .range-container {
@@ -531,7 +531,7 @@ hr {
     width: 200px;
 }
 
-.btnCancel{
+.btnCancel {
     background-color: white;
     border-width: 1;
     border-color: #b5b5b5;

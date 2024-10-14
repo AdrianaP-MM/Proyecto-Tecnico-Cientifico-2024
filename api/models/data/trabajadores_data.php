@@ -36,7 +36,6 @@ class TrabajadoresData extends TrabajadoresHandler
         }
     }
 
-
     // Método para establecer el DUI del trabajador
     public function setDUI($value)
     {
@@ -57,10 +56,6 @@ class TrabajadoresData extends TrabajadoresHandler
             return true;
         }
     }
-
-
-
-
 
     // Método para establecer el teléfono del trabajador
     public function setTelefono($value)
@@ -239,5 +234,11 @@ class TrabajadoresData extends TrabajadoresHandler
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    public function setSearchValue($value)
+    {
+        $this->search_value = $value;
+        return true;
     }
 }

@@ -3,29 +3,32 @@ body {
   background-color: #F0F0F7;
   /* Color de fondo gris claro */
 }
+
 /* Animación */
 .title {
-    top: 30px;
-    right: 0;
-    left: 0;
-  }
+  top: 30px;
+  right: 0;
+  left: 0;
+}
 
-  .boton {
-    display: inline-block;
-    margin: 10px;
-    cursor: pointer;
-  }
-  
-  .imagen {
-    transition: transform 0.5s ease; /* Transición de transformación */
-  }
+.boton {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+}
 
-  .rotacion-90 {
-    transform: rotate(90deg); /* Rotación de 90 grados */
-  }
+.imagen {
+  transition: transform 0.5s ease;
+  /* Transición de transformación */
+}
 
-  .invalid-feedback {
-    text-align: left;
+.rotacion-90 {
+  transform: rotate(90deg);
+  /* Rotación de 90 grados */
+}
+
+.invalid-feedback {
+  text-align: left;
 }
 
 
@@ -35,34 +38,46 @@ body {
 .contenedor-checkbox,
 .contenedor-checkbox2 {
   overflow-x: hidden;
-  height: 230px; /* Altura */
-  overflow-y: auto; /* Desplazamiento vertical */
+  height: 230px;
+  /* Altura */
+  overflow-y: auto;
+  /* Desplazamiento vertical */
   display: grid;
   grid-template-columns: auto;
-  gap: 15px; /* Espacio entre elementos */
+  gap: 15px;
+  /* Espacio entre elementos */
 }
 
 .contenedor-checkbox2 {
-    gap: 35px; /* Espacio entre elementos */
-  }
-  
-  .marcasA {
-    height: 290px; /* Altura */
-  }
-  
-  .contenedor-checkbox>li {
-    border: 0px; /* Borde */
-  }
+  gap: 35px;
+  /* Espacio entre elementos */
+}
+
+.marcasA {
+  height: 290px;
+  /* Altura */
+}
+
+.contenedor-checkbox>li {
+  border: 0px;
+  /* Borde */
+}
 
 /* Barra lateral */
 #bdSidebar {
-    max-height: 88vh; /* Altura máxima */
-    min-height: 88vh; /* Altura mínima */
-    overflow-y: auto; /* Desplazamiento vertical */
-    overflow-x: hidden; /* Ocultar desplazamiento horizontal */
-    border-bottom-left-radius: 30px; /* Radio de borde inferior izquierdo */
-    border-bottom-right-radius: 30px; /* Radio de borde inferior derecho */
-  }
+  max-height: 88vh;
+  /* Altura máxima */
+  min-height: 88vh;
+  /* Altura mínima */
+  overflow-y: auto;
+  /* Desplazamiento vertical */
+  overflow-x: hidden;
+  /* Ocultar desplazamiento horizontal */
+  border-bottom-left-radius: 30px;
+  /* Radio de borde inferior izquierdo */
+  border-bottom-right-radius: 30px;
+  /* Radio de borde inferior derecho */
+}
 
 /* Estilos de scrollbar */
 .contenedor-checkbox::-webkit-scrollbar-thumb,
@@ -70,8 +85,10 @@ body {
 .contenedor-modelos-nombre::-webkit-scrollbar-thumb,
 .contenedor-checkbox2::-webkit-scrollbar-thumb,
 .contenedor-total-cards::-webkit-scrollbar-thumb {
-  background-color: #BA181B; /* Color del thumb del scrollbar */
-  border-radius: 8px; /* Borde redondeado del thumb */
+  background-color: #BA181B;
+  /* Color del thumb del scrollbar */
+  border-radius: 8px;
+  /* Borde redondeado del thumb */
 }
 
 .contenedor-checkbox::-webkit-scrollbar,
@@ -79,323 +96,461 @@ body {
 .contenedor-modelos-nombre::-webkit-scrollbar,
 .contenedor-checkbox2::-webkit-scrollbar,
 .contenedor-total-cards::-webkit-scrollbar {
-  width: 10px; /* Ancho del scrollbar */
+  width: 10px;
+  /* Ancho del scrollbar */
 }
 
 /* Buscador */
 .buscador {
-    margin-top: 30px; /* Margen superior */
-    background-color: #F8F8F8;
-    border: 0px;
-    border-radius: 10px;
-  }
+  margin-top: 30px;
+  /* Margen superior */
+  background-color: #F8F8F8;
+  border: 0px;
+  border-radius: 10px;
+}
 
-#searchInput{
+#searchInput {
   background-color: #F8F8F8;
   border: 0px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  } 
+}
 
-  #searchButton{
-    background-color: #F8F8F8;
-    border: 0px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
+#searchButton {
+  background-color: #F8F8F8;
+  border: 0px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
 
 /* Contenedor de nombres de modelos */
 .contenedor-modelos-nombre {
-    overflow-x: hidden;
-    height: 130px; /* Altura */
-    overflow-y: auto; /* Desplazamiento vertical */
-    display: grid;
-    grid-template-columns: auto;
-    gap: 10px; /* Espacio entre elementos */
-  }
+  overflow-x: hidden;
+  height: 130px;
+  /* Altura */
+  overflow-y: auto;
+  /* Desplazamiento vertical */
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  /* Espacio entre elementos */
+}
 
-  .contenedor-modelos-nombre>li {
-    border: 0px; /* Borde */
-  }
-  
-  /* Botón con fondo oscuro */
-  .btnSlBg {
-    background-color: #1B1919; /* Color de fondo */
-  }
+.contenedor-modelos-nombre>li {
+  border: 0px;
+  /* Borde */
+}
+
+/* Botón con fondo oscuro */
+.btnSlBg {
+  background-color: #1B1919;
+  /* Color de fondo */
+}
 
 /* Tarjeta para agregar automóvil */
 .add-auto-card {
-    background-color: #F5F3F4; /* Color de fondo */
-    border: #232323 3px solid; /* Borde */
+  background-color: #F5F3F4;
+  /* Color de fondo */
+  border: #232323 3px solid;
+  /* Borde */
 
-    position: relative;
-    width: 100%; /* Ancho completo */
-    max-width: 300px; /* Ancho máximo */
-    margin-bottom: 60px; /* Margen inferior */
+  position: relative;
+  width: 100%;
+  /* Ancho completo */
+  max-width: 300px;
+  /* Ancho máximo */
+  margin-bottom: 60px;
+  /* Margen inferior */
 
-    display: flex; /* Mostrar como flex */
-    align-items: center; /* Alinear elementos verticalmente */
-    justify-content: center; /* Justificar contenido */
-    cursor: pointer; /* Cursor */
-    min-height: 500px; /* Altura mínima */
-    border-radius: 10px; /* Radio de borde */
-  }
+  display: flex;
+  /* Mostrar como flex */
+  align-items: center;
+  /* Alinear elementos verticalmente */
+  justify-content: center;
+  /* Justificar contenido */
+  cursor: pointer;
+  /* Cursor */
+  min-height: 500px;
+  /* Altura mínima */
+  border-radius: 10px;
+  /* Radio de borde */
+}
 
 /* Contenedor total de tarjetas */
 .contenedor-total-cards {
-    overflow-x: hidden;
-    overflow-y: auto;
-    min-height: 87vh; /* Altura mínima */
-    max-height: 87vh; /* Altura máxima */
-    padding-top: 50px; /* Relleno superior */
-    display: grid;
-    column-gap: 1px;
-    row-gap: 1px;
-    grid-template-rows: repeat(3, 1fr); /* Distribución de filas */
-    padding-bottom: 20px; /* Relleno inferior */
-  }
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 87vh;
+  /* Altura mínima */
+  max-height: 87vh;
+  /* Altura máxima */
+  padding-top: 50px;
+  /* Relleno superior */
+  display: grid;
+  column-gap: 1px;
+  row-gap: 1px;
+  grid-template-rows: repeat(3, 1fr);
+  /* Distribución de filas */
+  padding-bottom: 20px;
+  /* Relleno inferior */
+}
 
-  .idTrabajador{
-    display: none;
-  }
+.idTrabajador {
+  display: none;
+}
 
 /* Media queries para diferentes tamaños de pantalla */
 @media (min-width: 614px) {
-    .contenedor-total-cards {
-      grid-template-rows: repeat(2, 1fr); /* Distribución de filas */
-      grid-template-columns: repeat(2, 1fr); /* Distribución de columnas */
-      padding-right: 20px; /* Relleno derecho */
-      padding-left: 20px; /* Relleno izquierdo */
-    }
+  .contenedor-total-cards {
+    grid-template-rows: repeat(2, 1fr);
+    /* Distribución de filas */
+    grid-template-columns: repeat(2, 1fr);
+    /* Distribución de columnas */
+    padding-right: 20px;
+    /* Relleno derecho */
+    padding-left: 20px;
+    /* Relleno izquierdo */
   }
+}
 
-  @media (min-width: 1318px) {
-    .contenedor-total-cards {
-      grid-template-rows: repeat(2, 1fr); /* Distribución de filas */
-      grid-template-columns: repeat(3, 1fr); /* Distribución de columnas */
-      padding-right: 20px; /* Relleno derecho */
-      padding-left: 20px; /* Relleno izquierdo */
-    }
+@media (min-width: 1318px) {
+  .contenedor-total-cards {
+    grid-template-rows: repeat(2, 1fr);
+    /* Distribución de filas */
+    grid-template-columns: repeat(3, 1fr);
+    /* Distribución de columnas */
+    padding-right: 20px;
+    /* Relleno derecho */
+    padding-left: 20px;
+    /* Relleno izquierdo */
   }
+}
 
-  @media (min-width: 768px) and (max-width: 917px) {
-    .contenedor-total-cards {
-      grid-template-rows: repeat(2, 1fr); /* Distribución de filas */
-      grid-template-columns: 1fr; /* Distribución de columnas */
-      padding-right: 90px; /* Relleno derecho */
-      padding-left: 90px; /* Relleno izquierdo */
-    }
+@media (min-width: 768px) and (max-width: 917px) {
+  .contenedor-total-cards {
+    grid-template-rows: repeat(2, 1fr);
+    /* Distribución de filas */
+    grid-template-columns: 1fr;
+    /* Distribución de columnas */
+    padding-right: 90px;
+    /* Relleno derecho */
+    padding-left: 90px;
+    /* Relleno izquierdo */
   }
+}
 
-  @media (min-width: 1830px) {
-    .contenedor-total-cards {
-      grid-template-rows: repeat(2, 1fr); /* Distribución de filas */
-      grid-template-columns: repeat(4, 1fr); /* Distribución de columnas */
-      gap: 25px; /* Espacio entre elementos */
-      padding-right: 20px; /* Relleno derecho */
-      padding-left: 20px; /* Relleno izquierdo */
-    }
+@media (min-width: 1830px) {
+  .contenedor-total-cards {
+    grid-template-rows: repeat(2, 1fr);
+    /* Distribución de filas */
+    grid-template-columns: repeat(4, 1fr);
+    /* Distribución de columnas */
+    gap: 25px;
+    /* Espacio entre elementos */
+    padding-right: 20px;
+    /* Relleno derecho */
+    padding-left: 20px;
+    /* Relleno izquierdo */
   }
+}
 
 /* Tarjeta de automóvil */
 .auto-card {
-    display: grid;
-    grid-template-rows: 3fr 1fr; /* Distribución de filas */
-    width: 100%; /* Ancho completo */
-    max-width: 300px; /* Ancho máximo */
-    margin-bottom: 60px; /* Margen inferior */
-    min-height: 500px; /* Altura mínima */
-  }
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+  /* Distribución de filas */
+  width: 100%;
+  /* Ancho completo */
+  max-width: 300px;
+  /* Ancho máximo */
+  margin-bottom: 60px;
+  /* Margen inferior */
+  min-height: 500px;
+  /* Altura mínima */
+}
 
 /* Imagen de la tarjeta de automóvil */
 .auto-card>.container-img-card>img {
-    max-inline-size: 100%;
-    block-size: auto;
-    object-fit: contain;
-    object-position: center;
-    border-top-left-radius: 10px; /* Radio de borde superior izquierdo */
-    border-top-right-radius: 10px; /* Radio de borde superior derecho */
-    height: 100%; /* Altura */
-    min-width: 100%; /* Ancho mínimo */
-    aspect-ratio: 2/1; /* Relación de aspecto */
-    position: relative; /* Posición relativa */
-  }
+  max-inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+  object-position: center;
+  border-top-left-radius: 10px;
+  /* Radio de borde superior izquierdo */
+  border-top-right-radius: 10px;
+  /* Radio de borde superior derecho */
+  height: 100%;
+  /* Altura */
+  min-width: 100%;
+  /* Ancho mínimo */
+  aspect-ratio: 2/1;
+  /* Relación de aspecto */
+  position: relative;
+  /* Posición relativa */
+}
 
 /* Título de la tarjeta de automóvil */
 .auto-card>.container-img-card>h1 {
-    text-align: center; /* Alineación de texto */
-    font-size: 20px; /* Tamaño de fuente */
-  }
+  text-align: center;
+  /* Alineación de texto */
+  font-size: 20px;
+  /* Tamaño de fuente */
+}
 
 /* Subtítulo de la tarjeta de automóvil */
 .auto-card>.container-img-card2>img {
-    position: absolute; /* Posición absoluta */
-    top: 120px; /* Posición superior */
-    left: 85px; /* Posición izquierda */
-  }
+  position: absolute;
+  /* Posición absoluta */
+  top: 120px;
+  /* Posición superior */
+  left: 85px;
+  /* Posición izquierda */
+}
 
 /* Título de la tarjeta de automóvil */
 .auto-card>.container-img-card2>h1 {
-    text-align: center; /* Alineación de texto */
-    font-size: 26px; /* Tamaño de fuente */
-  }
-  
-  /* Subtítulo de la tarjeta de automóvil */
-  .auto-card>.container-img-card2>h3 {
-    text-align: center; /* Alineación de texto */
-    font-size: 16px; /* Tamaño de fuente */
-  }
+  text-align: center;
+  /* Alineación de texto */
+  font-size: 26px;
+  /* Tamaño de fuente */
+}
+
+/* Subtítulo de la tarjeta de automóvil */
+.auto-card>.container-img-card2>h3 {
+  text-align: center;
+  /* Alineación de texto */
+  font-size: 16px;
+  /* Tamaño de fuente */
+}
 
 /* Etiqueta de la tarjeta de automóvil */
 .auto-card>.container-img-card2>h4 {
-    margin-left: 15px; /* Margen izquierdo */
-    font-size: 16px; /* Tamaño de fuente */
-  }
+  margin-left: 15px;
+  /* Margen izquierdo */
+  font-size: 16px;
+  /* Tamaño de fuente */
+}
 
 /* Contenedor de imagen de la tarjeta de automóvil */
 .auto-card>.container-img-card3 {
-    background-color: #E00D11; /* Color de fondo */
-    margin-top: 20px; /* Margen superior */
-  }
-  
-  /* Imagen de la tarjeta de automóvil */
-  .auto-card>.container-img-card3>img {
-    position: absolute; /* Posición absoluta */
-    top: 80px; /* Posición superior */
-    left: 70px; /* Posición izquierda */
-  }
+  background-color: #E00D11;
+  /* Color de fondo */
+  margin-top: 20px;
+  /* Margen superior */
+}
+
+/* Imagen de la tarjeta de automóvil */
+.auto-card>.container-img-card3>img {
+  position: absolute;
+  /* Posición absoluta */
+  top: 80px;
+  /* Posición superior */
+  left: 70px;
+  /* Posición izquierda */
+}
 
 /* Título de la tarjeta de automóvil */
 .auto-card>.container-img-card3>h2 {
-    text-align: center; /* Alineación de texto */
-    font-size: 16px; /* Tamaño de fuente */
-    color: #FFFFFF; /* Color de texto */
-  }
-  
-  /* Contenedor de información de la tarjeta */
-  .container-info-card {
-    display: grid;
-    column-gap: 10px; /* Espacio entre columnas */
-    border: 2px solid #D9D9D9; /* Borde */
-    border-bottom-left-radius: 5px; /* Radio de borde inferior izquierdo */
-    border-bottom-right-radius: 5px; /* Radio de borde inferior derecho */
-  }
+  text-align: center;
+  /* Alineación de texto */
+  font-size: 16px;
+  /* Tamaño de fuente */
+  color: #FFFFFF;
+  /* Color de texto */
+}
+
+/* Contenedor de información de la tarjeta */
+.container-info-card {
+  display: grid;
+  column-gap: 10px;
+  /* Espacio entre columnas */
+  border: 2px solid #D9D9D9;
+  /* Borde */
+  border-bottom-left-radius: 5px;
+  /* Radio de borde inferior izquierdo */
+  border-bottom-right-radius: 5px;
+  /* Radio de borde inferior derecho */
+}
 
 /* Contenedor 2 */
 .c2 {
-    background-color: #E00D11; /* Color de fondo */
-    border-bottom-left-radius: 5px; /* Radio de borde inferior izquierdo */
-    border-bottom-right-radius: 5px; /* Radio de borde inferior derecho */
-    margin-bottom: 10px; /* Margen inferior */
-    color: white; /* Color de texto */
-  }
+  background-color: #E00D11;
+  /* Color de fondo */
+  border-bottom-left-radius: 5px;
+  /* Radio de borde inferior izquierdo */
+  border-bottom-right-radius: 5px;
+  /* Radio de borde inferior derecho */
+  margin-bottom: 10px;
+  /* Margen inferior */
+  color: white;
+  /* Color de texto */
+}
 
 /* Tarjeta::after pseudo-elemento */
 .card::after {
-    content: ""; /* Contenido */
-    position: absolute; /* Posición absoluta */
-    inset: 0; /* Posición en los cuatro lados */
-    width: 100%; /* Ancho */
-    height: 100%; /* Altura */
-    background-color: #00000094; /* Color de fondo */
-    border-radius: inherit; /* Heredar radio de borde */
-    opacity: 0; /* Opacidad */
-  }
+  content: "";
+  /* Contenido */
+  position: absolute;
+  /* Posición absoluta */
+  inset: 0;
+  /* Posición en los cuatro lados */
+  width: 100%;
+  /* Ancho */
+  height: 100%;
+  /* Altura */
+  background-color: #00000094;
+  /* Color de fondo */
+  border-radius: inherit;
+  /* Heredar radio de borde */
+  opacity: 0;
+  /* Opacidad */
+}
 
 /* Tarjeta:hover::after pseudo-elemento */
 .card:hover::after {
-    opacity: 1; /* Opacidad */
-    cursor: pointer; /* Cursor */
-  }
-  
-  /* Contenido */
-  .content {
-    width: 100%; /* Ancho */
-    position: absolute; /* Posición absoluta */
-    top: 50%; /* Posición superior */
-    left: 50%; /* Posición izquierda */
-    transform: translate(-50%, -50%); /* Traslación */
-    text-align: center; /* Alineación de texto */
-  }
+  opacity: 1;
+  /* Opacidad */
+  cursor: pointer;
+  /* Cursor */
+}
+
+/* Contenido */
+.content {
+  width: 100%;
+  /* Ancho */
+  position: absolute;
+  /* Posición absoluta */
+  top: 50%;
+  /* Posición superior */
+  left: 50%;
+  /* Posición izquierda */
+  transform: translate(-50%, -50%);
+  /* Traslación */
+  text-align: center;
+  /* Alineación de texto */
+}
 
 /* Título del contenido */
 .content h4 {
-    opacity: 0; /* Opacidad */
-    margin-bottom: 12px; /* Margen inferior */
-    scale: 0.7; /* Escala */
-    color: white; /* Color de texto */
-    cursor: pointer; /* Cursor */
-  }
-  
-  /* Título del contenido al pasar el mouse */
-  .card:hover .content h4 {
-    scale: 1; /* Escala */
-    opacity: 1; /* Opacidad */
-  }
+  opacity: 0;
+  /* Opacidad */
+  margin-bottom: 12px;
+  /* Margen inferior */
+  scale: 0.7;
+  /* Escala */
+  color: white;
+  /* Color de texto */
+  cursor: pointer;
+  /* Cursor */
+}
 
-/* Efecto de crecimiento */ /* Grow */
+/* Título del contenido al pasar el mouse */
+.card:hover .content h4 {
+  scale: 1;
+  /* Escala */
+  opacity: 1;
+  /* Opacidad */
+}
+
+/* Efecto de crecimiento */
+/* Grow */
 .hvr-grow {
-    vertical-align: middle; /* Alinear verticalmente */
-    -webkit-transform: perspective(1px) translateZ(0); /* Transformación */
-    transform: perspective(1px) translateZ(0); /* Transformación */
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0); /* Sombra */
-    -webkit-transition-duration: 0.3s; /* Duración de la transición */
-    transition-duration: 0.3s; /* Duración de la transición */
-    -webkit-transition-property: transform; /* Propiedad de la transición */
-    transition-property: transform; /* Propiedad de la transición */
-    cursor: pointer; /* Cursor */
-  }
+  vertical-align: middle;
+  /* Alinear verticalmente */
+  -webkit-transform: perspective(1px) translateZ(0);
+  /* Transformación */
+  transform: perspective(1px) translateZ(0);
+  /* Transformación */
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  /* Sombra */
+  -webkit-transition-duration: 0.3s;
+  /* Duración de la transición */
+  transition-duration: 0.3s;
+  /* Duración de la transición */
+  -webkit-transition-property: transform;
+  /* Propiedad de la transición */
+  transition-property: transform;
+  /* Propiedad de la transición */
+  cursor: pointer;
+  /* Cursor */
+}
 
 /* Efecto de crecimiento al pasar el mouse */
 .hvr-grow:hover,
 .hvr-grow:focus,
 .hvr-grow:active {
-  -webkit-transform: scale(1.1); /* Transformación */
-  transform: scale(1.1); /* Transformación */
+  -webkit-transform: scale(1.1);
+  /* Transformación */
+  transform: scale(1.1);
+  /* Transformación */
 }
 
 /* Botón de olvido */
 .btnForgot {
-    background-color: #007CD7; /* Color de fondo */
-    border-top-left-radius: 0px; /* Radio de borde superior izquierdo */
-    border-top-right-radius: 0px; /* Radio de borde superior derecho */
-  }
+  background-color: #007CD7;
+  /* Color de fondo */
+  border-top-left-radius: 0px;
+  /* Radio de borde superior izquierdo */
+  border-top-right-radius: 0px;
+  /* Radio de borde superior derecho */
+}
 
 /* Contenido adicional */
 .content-add-info {
-    display: grid; /* Mostrar como grid */
-    gap: 25px; /* Espacio entre elementos */
-  }
-
-/* Botón de cancelar */
-.btnCancel {
-  background-color: black; /* Color de fondo */
+  display: grid;
+  /* Mostrar como grid */
+  gap: 25px;
+  /* Espacio entre elementos */
 }
 
 /* Botón de guardar */
 .btnSave {
-  background-color: #E5383B; /* Color de fondo */
+  background-color: #E5383B;
+  /* Color de fondo */
 }
 
 .btnSave,
-.btnCancel {
-    height: 50px;
-    width: 200px;
+.btnCancel,
+.btnCancel2 {
+  height: 60px;
+  width: 200px;
 }
+
+.btnCancel,
+.btnCancel2 {
+  background-color: white;
+  border-width: 1;
+  border-color: #b5b5b5;
+  border-radius: 5px;
+}
+
+.btnCancel2 {
+  background-color: #5C636A;
+}
+
 
 /* Estilos de formulario flotante */
 .form-floating>label {
-    color: red; /* Color rojo */
-  }
-  
-  /* Imagen en tarjeta de agregar automóvil */
-  .add-auto-card img {
-    max-width: 100%; /* Ancho máximo */
-    height: auto; /* Altura automática */
-  }
+  color: red;
+  /* Color rojo */
+}
+
+/* Imagen en tarjeta de agregar automóvil */
+.add-auto-card img {
+  max-width: 100%;
+  /* Ancho máximo */
+  height: auto;
+  /* Altura automática */
+}
 
 /* Estilos de etiqueta de formulario flotante al enfocar o escribir */
 .form-floating .form-control:focus~label,
 .form-floating .form-control:not(:placeholder-shown)~label {
-  color: red; /* Color rojo */
+  color: red;
+  /* Color rojo */
+}
+
+/* Estilo para el diálogo modal */
+.modal-dialog {
+  min-width: 65vw;
 }

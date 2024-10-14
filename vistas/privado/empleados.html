@@ -34,22 +34,16 @@
         <div class="container-fluid p-0 d-flex h-100">
             <!-- -----------------------------------CUERPO----------------------------------->
             <div class="flex-fill col-12">
-                <div class="container">
-                    <!-- <form id="searchForm" autocomplete="off">
-                            <input type="search" name="search" class="form-control " placeholder="Buscar..."
-                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchButton" autocomplete="off">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover"
-                                    data-bs-placement="bottom"
-                                    data-bs-content="Buscador habilitado para: Nombre y Dui del trabajador.">
-                                    <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg"
-                                            alt="search icon"></i>
-                                </button>
-
-                            </div>
-                        </div>
-                    </form> -->
-
+                <div class="container pt-5">
+                    <div class="input-group search shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        data-bs-content="Buscador habilitado para: nombres, apellidos, dui, telefono, correo, NIT.">
+                        <!-- Contenedor del los input de entrada -->
+                        <input type="text" class="form-control search" placeholder="Buscar..." id="input_buscar"
+                            name="input_buscar" maxlength="50" onkeydown="if (event.keyCode === 13) search()"
+                            autocomplete="off">
+                        <button type="button" class="btn btn-outline" onclick="search()"><i class="bi-search"><img
+                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                    </div>
                     <div class="p-2 d-md-none d-flex text-white btnSlBg">
                         <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
                             <i class="fa-solid fa-bars"></i>
@@ -61,161 +55,156 @@
                         <div class="add-auto-card d-flex align-items-center justify-content-center" class="agregar">
                             <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" onclick="openCreate()">
                         </div>
-
-                        <!--Modal-->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-
-                            <div class="modal-dialog modal-dialog-centered modal-xl">
-                                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
-                                    <form id="saveForm" class="needs-validation " novalidate autocomplete="off">
-                                        <!--Formulario de guardado-->
-                                        <!--input para el id del trabajador-->
-                                        <input type="number" class="d-none" id="idTrabajador" name="idTrabajador">
-
-                                        <div class="modal-body col">
-                                            <!--<div
-                                                class="content-add-img col-md-5 d-flex flex-column justify-content-center align-items-center">
-                                                <h6>Imagen del empleado</h6> 
-                                                <--! <img id="selectedImageW" class="col-10 z-3"
-                                                    src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
-                                                    alt="example placeholder" />
-                                                <div
-                                                    class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
-                                                    <label class="form-label text-white m-1"
-                                                        for="fto_trabajador">Seleccionar imagen</label>
-                                                    <input type="file" class="form-control d-none" id="fto_trabajador"
-                                                        name="fto_trabajador"
-                                                        onchange="displaySelectedImage(event, 'selectedImageW')" />
-                                                </div>
-                                            </div> -->
-
-                                            <div class="content-add-info col-md-12">
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_dui_empleados"
-                                                        name="input_dui_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off" minlength="9" maxlength="9">
-                                                    <label for="input_dui_empleados">DUI</label> <!--DUI-->
-                                                    <span id="ERROR-DUI" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_nit_empleados"
-                                                        name="input_nit_empleados" placeholder="name@example.com"
-                                                        autocomplete="off" min="17" max="17">
-                                                    <label for="input_nit_empleados">NIT</label> <!--NIT-->
-                                                    <span id="ERROR-NIT" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_nombre_empleados"
-                                                        name="input_nombre_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off" minlength="1" maxlength="50">
-                                                    <label for="input_nombre_empleados">Nombres</label> <!--Nombres-->
-                                                    <span id="ERROR-NOMBRE" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control"
-                                                        id="input_apellido_empleados" name="input_apellido_empleados"
-                                                        placeholder="name@example.com" required autocomplete="off"
-                                                        minlength="1" maxlength="50">
-                                                    <label for="input_apellido_empleados">Apellidos</label>
-                                                    <!--Apellidos-->
-                                                    <span id="ERROR-APELLIDO" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control"
-                                                        id="input_telefono_empleados" name="input_telefono_empleados"
-                                                        placeholder="name@example.com" required autocomplete="off"
-                                                        minlength="9" maxlength="9">
-                                                    <label for="input_telefono_empleados">Teléfono</label>
-                                                    <!--Telefono-->
-                                                    <span id="ERROR-TELEFONO" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="email" class="form-control" id="input_correo_empleados"
-                                                        name="input_correo_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off">
-                                                    <label for="input_correo_empleados">Correo electrónico</label>
-                                                    <!--Correo-->
-                                                    <span id="ERROR-CORREO" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <label for="departamento_trabajador"
-                                                        class="form-label px-2 pt-0 p-0 m-0">Departamento</label>
-                                                    <!--Departamento-->
-                                                    <select class="form-select pt-4 open-sans-regular"
-                                                        id="departamento_trabajador" name="departamento_trabajador"
-                                                        aria-label="Default select example" required>
-                                                        <option value>Seleccione un departamento</option>
-                                                        <option value="Ahuachapán">Ahuachapán</option>
-                                                        <option value="Cabañas">Cabañas</option>
-                                                        <option value="Chalatenango">Chalatenango</option>
-                                                        <option value="Cuscatlán">Cuscatlán</option>
-                                                        <option value="La Libertad">La Libertad</option>
-                                                        <option value="La Paz">La Paz</option>
-                                                        <option value="La Unión">La Unión</option>
-                                                        <option value="Morazán">Morazán</option>
-                                                        <option value="San Miguel">San Miguel</option>
-                                                        <option value="San Salvador">San Salvador</option>
-                                                        <option value="San Vicente">San Vicente</option>
-                                                        <option value="Santa Ana">Santa Ana</option>
-                                                        <option value="Sonsonate">Sonsonate</option>
-                                                        <option value="Usulután">Usulután</option>
-                                                    </select>
-                                                    <span id="ERROR-DEPARTAMENTO" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <label for="especializacion_trabajador"
-                                                        class="form-label px-2 pt-0  p-0 m-0">Especialización</label>
-                                                    <!--Especialización-->
-                                                    <select class="form-select pt-4 open-sans-regular"
-                                                        id="especializacion_trabajador"
-                                                        name="especializacion_trabajador" required
-                                                        aria-label="Default select example">
-                                                    </select>
-                                                    <span id="ERROR-ESPECIAL" class="text-danger"></span>
-                                                </div>
-                                                <div class="form-floating mb-0 p-0">
-                                                    <label for="fecha_contratacion"
-                                                        class="form-label px-2 pt-1 p-0 m-0">Fecha
-                                                        de contratación</label> <!--Fecha de contratación-->
-                                                    <input type="date" class="form-control" id="fecha_contratacion"
-                                                        name="fecha_contratacion" required
-                                                        onclick="configurarFechaMaxima()" autocomplete="off">
-                                                    <span id="ERROR-FECHA" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="form-floating mb-0 p-0">
-                                                    <input type="text" class="form-control" id="input_salario_empleados"
-                                                        name="input_salario_empleados" placeholder="name@example.com"
-                                                        required autocomplete="off">
-                                                    <label for="input_salario_empleados">Salario Base</label>
-                                                    <!--Salario-->
-                                                    <span id="ERROR-SALARIO" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5"
-                                            id="containerBotones">
-                                            <button type="button" id="btnUno" class="btn btn-secondary btnCancel mx-5"
-                                                onclick="openClose()">Cancelar</button> <!--Boton de cancelar-->
-                                            <button type="submit" id="btnDos"
-                                                class="btn btn-primary btnSave">Aceptar</button> <!--Boton de aceptar-->
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <!--TODO -------------------------------MODAL ADD---------------------->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
+                    <div class="modal-body col">
+                        <form id="saveForm" class="needs-validation " novalidate autocomplete="off">
+                            <!--Formulario de guardado-->
+                            <!--input para el id del trabajador-->
+                            <input type="number" class="d-none" id="idTrabajador" name="idTrabajador">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_nombre_empleados"
+                                                name="input_nombre_empleados" placeholder="name@example.com" required
+                                                autocomplete="off" minlength="1" maxlength="50">
+                                            <label for="input_nombre_empleados">Nombres</label>
+                                            <!--Nombres-->
+                                            <span id="ERROR-NOMBRE" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_dui_empleados"
+                                                name="input_dui_empleados" placeholder="name@example.com" required
+                                                autocomplete="off" minlength="9" maxlength="9">
+                                            <label for="input_dui_empleados">DUI</label> <!--DUI-->
+                                            <span id="ERROR-DUI" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="email" class="form-control" id="input_correo_empleados"
+                                                name="input_correo_empleados" placeholder="name@example.com" required
+                                                autocomplete="off">
+                                            <label for="input_correo_empleados">Correo electrónico</label>
+                                            <!--Correo-->
+                                            <span id="ERROR-CORREO" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <label for="departamento_trabajador"
+                                                class="form-label px-2 pt-0 p-0 m-0">Departamento</label>
+                                            <!--Departamento-->
+                                            <select class="form-select pt-4 open-sans-regular"
+                                                id="departamento_trabajador" name="departamento_trabajador"
+                                                aria-label="Default select example" required>
+                                                <option value>Seleccione un departamento</option>
+                                                <option value="Ahuachapán">Ahuachapán</option>
+                                                <option value="Cabañas">Cabañas</option>
+                                                <option value="Chalatenango">Chalatenango</option>
+                                                <option value="Cuscatlán">Cuscatlán</option>
+                                                <option value="La Libertad">La Libertad</option>
+                                                <option value="La Paz">La Paz</option>
+                                                <option value="La Unión">La Unión</option>
+                                                <option value="Morazán">Morazán</option>
+                                                <option value="San Miguel">San Miguel</option>
+                                                <option value="San Salvador">San Salvador</option>
+                                                <option value="San Vicente">San Vicente</option>
+                                                <option value="Santa Ana">Santa Ana</option>
+                                                <option value="Sonsonate">Sonsonate</option>
+                                                <option value="Usulután">Usulután</option>
+                                            </select>
+                                            <span id="ERROR-DEPARTAMENTO" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <label for="fecha_contratacion" class="form-label px-2 pt-1 p-0 m-0">Fecha
+                                                de contratación</label> <!--Fecha de contratación-->
+                                            <input type="date" class="form-control" id="fecha_contratacion"
+                                                name="fecha_contratacion" required onclick="configurarFechaMaxima()"
+                                                autocomplete="off">
+                                            <span id="ERROR-FECHA" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_apellido_empleados"
+                                                name="input_apellido_empleados" placeholder="name@example.com" required
+                                                autocomplete="off" minlength="1" maxlength="50">
+                                            <label for="input_apellido_empleados">Apellidos</label>
+                                            <!--Apellidos-->
+                                            <span id="ERROR-APELLIDO" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_nit_empleados"
+                                                name="input_nit_empleados" placeholder="name@example.com"
+                                                autocomplete="off" min="17" max="17">
+                                            <label for="input_nit_empleados">NIT</label> <!--NIT-->
+                                            <span id="ERROR-NIT" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_telefono_empleados"
+                                                name="input_telefono_empleados" placeholder="name@example.com" required
+                                                autocomplete="off" minlength="9" maxlength="9">
+                                            <label for="input_telefono_empleados">Teléfono</label>
+                                            <!--Telefono-->
+                                            <span id="ERROR-TELEFONO" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <label for="especializacion_trabajador"
+                                                class="form-label px-2 pt-0  p-0 m-0">Especialización</label>
+                                            <!--Especialización-->
+                                            <select class="form-select pt-4 open-sans-regular"
+                                                id="especializacion_trabajador" name="especializacion_trabajador"
+                                                required aria-label="Default select example">
+                                            </select>
+                                            <span id="ERROR-ESPECIAL" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-0 p-0">
+                                            <input type="text" class="form-control" id="input_salario_empleados"
+                                                name="input_salario_empleados" placeholder="name@example.com" required
+                                                autocomplete="off">
+                                            <label for="input_salario_empleados">Salario Base</label>
+                                            <!--Salario-->
+                                            <span id="ERROR-SALARIO" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5"
+                                id="containerBotones">
+                                <button type="button" id="btnUno" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
+                                    onclick="openClose()">Cancelar</button> <!--Boton de cancelar-->
+                                <button type="submit" id="btnDos"
+                                    class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- *Llamada a las hojas de estilos del framework e iconos -->

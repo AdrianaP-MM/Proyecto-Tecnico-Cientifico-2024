@@ -70,7 +70,7 @@ html {
 /* Estilos para el contenedor mas info header */
 .masinfo-header {
     width: fit-content;
-    border-bottom: 2px solid red;
+    /* border-bottom: 2px solid red; */
     margin-bottom: 45px;
 }
 
@@ -292,12 +292,7 @@ html {
 
 /* Estilo para el diálogo modal */
 .modal-dialog {
-    min-width: 70vw;
-}
-
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
+    min-width: 65vw;
 }
 
 /* Estilos para el botón de guardar */
@@ -305,22 +300,23 @@ html {
     background-color: #E5383B;
 }
 
-/* Estilos para los botones de guardar y cancelar */
 .btnSave,
 .btnCancel,
 .btnCancel2 {
-    height: 50px;
+    height: 60px;
     width: 200px;
 }
 
-/* Segundo botón de cancelar */
+.btnCancel,
 .btnCancel2 {
     background-color: white;
-    /* Color de fondo */
-    border: solid 2px #ECECEC;
-    /* Borde */
-    color: black;
-    /* Color del texto */
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
+}
+
+.btnCancel2 {
+    background-color: #5C636A;
 }
 
 

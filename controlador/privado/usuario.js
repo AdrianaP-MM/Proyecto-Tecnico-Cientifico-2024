@@ -136,7 +136,7 @@ CORREO.addEventListener('input', function () {
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (TELEFONO.value === '' || CORREO === '') {
+    if (TELEFONO.value === '' || CORREO.value === '') {
         await sweetAlert(2, 'Por favor, complete todos los campos.', true);
         return;
     }

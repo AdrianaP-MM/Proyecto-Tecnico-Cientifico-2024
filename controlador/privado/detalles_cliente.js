@@ -154,7 +154,9 @@ const addSave = async () => {
         !checkInput(validateName(APELLIDOS.value), APELLIDOS, ERROR_APELLIDO_UPDATE) ||
         !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_UPDATE) ||
         !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_UPDATE) ||
-        !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_UPDATE)) {
+        !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_UPDATE) ||
+        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_UPDATE) ||
+        !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_UPDATE)) {
         //await sweetAlert(2, 'Error al validar los campos.', true);
         return;
     }
@@ -179,10 +181,11 @@ const addSave = async () => {
 
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            sweetAlert(1, 'Se ha actualizado con éxito', 300);
+            await sweetAlert(1, 'Se ha actualizado con éxito', 300);
             fillData();
             MODAL.hide();
             ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+            location.reload();
         } else {
             if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
                 await sweetAlert(4, DATA.error, true); location.href = 'index.html'
@@ -196,25 +199,6 @@ const addSave = async () => {
     }
 };
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
-
 const openDelete = async () => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const RESPONSE = await confirmAction2('¿Seguro qué quieres eliminar al cliente?', 'No podrás deshacer la acción en otro apartado');
@@ -227,7 +211,7 @@ const openDelete = async () => {
 
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            sweetAlert(1, 'Se ha eliminado con éxito', 300);
+            await sweetAlert(1, 'Se ha eliminado con éxito', 300);
             fillData();
             MODAL.hide();
             location.href = '../../vistas/privado/clientes.html';
@@ -542,6 +526,7 @@ const openClose = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
         MODAL.hide();
+        location.reload();
     }
 }
 
