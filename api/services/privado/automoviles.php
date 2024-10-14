@@ -117,7 +117,7 @@ if (isset($_GET['action'])) {
             case 'updateRowMarcaAutomovil':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$automovil->setMarcaAutomovil(value: $_POST['input_marca_automovil']) or
+                    !$automovil->setMarcaAutomovil($_POST['input_marca_automovil']) or
                     !$automovil->setIdMarcaAutomovil($_POST['input_id_marca_automovil'])
                 ) {
                     $result['error'] = $automovil->getDataError();
