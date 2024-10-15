@@ -24,44 +24,19 @@
     <!--Cambiarlo por el css de la página en cuestion-->
     <link href="../../recursos/estilos/fuentes.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
     <link href="../../recursos/estilos/privado/plantilla.css" rel="stylesheet"> <!--Dejarlo NOQUITAR-->
-
-
 </head>
 
 <body>
     <!-- *Contenido principal del documento -->
     <main class="open">
-        <!-- encabezado de la pagina -->
-
-        <header>
-            <div class="container">
-                <div class="row">
-                    <div class="btnReturn pt-5 pb-4 px-4" onclick="goBack()">
-                        <h4 class="open-sans-regular text-black">
-                            <img src="../../recursos/imagenes/icons/minus.png">
-                            Regresar <!-- para regresar a la pagina anterior -->
-                        </h4>
-                    </div>
-
-                    <form id="searchForm">
-                        <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
-                            <input type="search" name="search" class="form-control " placeholder="Buscar..."
-                                aria-label="Buscar..." aria-describedby="basic-addon2" required id="search"
-                                autocomplete="off">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover"
-                                    data-bs-placement="bottom"
-                                    data-bs-content="Buscador para servicios por nombre de servicio.">
-                                    <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg"
-                                            alt="search icon"></i>
-                                </button>
-
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
+        <div class="btnReturn pt-5 pb-4 px-4" onclick="goBack()">
+            <h4 class="open-sans-regular text-black">
+                <img src="../../recursos/imagenes/icons/minus.png">
+                Regresar <!-- para regresar a la pagina anterior -->
+            </h4>
+        </div>
+        <div class="container">
+            <div class="row">
                 <div class="row">
                     <div class="col-1">
                         <h1>Servicios</h1>
@@ -73,45 +48,46 @@
                         </button>
                     </div>
                 </div>
+                <form id="searchForm">
+                    <div class="input-group buscador shadow-sm mt-5 mb-4" data-bs-toggle="popover"
+                        data-bs-trigger="hover focus" data-bs-content="Buscador habilitado para: Nombre del servicio.">
+                        <!-- Contenedor del los input de entrada -->
+                        <input type="search" class="form-control search" placeholder="Buscar..." id="search"
+                            name="search" maxlength="50" autocomplete="off">
+                        <button type="submit" class="btn btn-outline" id="searchInput"><i class="bi-search"><img
+                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
+                    </div>
+                </form>
             </div>
-        </header>
+        </div>
         <!-- Cards -->
         <div class="container">
-            <div class="row ">
-                <!--  <div class="col-auto">
-                    <button type="button" class="btn btn-dark" onclick="openCreate()">Agregar servicio</button>
-                </div> -->
+            <div class="containerCardsServicios">
+                <div id="ServicioDataContainer" class="scrollVertical">
+                </div>
             </div>
         </div>
-
-        <div class="containerCardsServicios">
-            <div id="ServicioDataContainer" class="row row-cols-1 row-cols-md-4 scrollVertical">
-
-            </div>
-        </div>
-
-
     </main>
     <!-- Modal detalle-->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content p-lg-4 p-2">
+            <div class="modal-content p-lg-5 p-1 p-md-4 pb-0 pb-lg-3">
                 <!-- Cuerpo del modal -->
                 <form id="save_form" class="needs-validation" novalidate>
                     <div class="modal-body form-floating mb-0 p-0 col-12 mb-4 custom-label-spacing">
                         <input type="number" class="d-none" id="id_tipo_servicio" name="id_tipo_servicio"
                             autocomplete="off">
                         <!-- Campo de entrada para el nombre del servicio -->
-                        <div class="form-floating mb-2 p-0">
+                        <div class="form-floating mb-3 p-0">
                             <input type="text" class="form-control" id="nombre_servicio" autocomplete="off"
                                 placeholder="" name="nombre_servicio" required>
                             <label for="nombre_servicio" class="form-label">Nombre del servicio</label>
                             <span id="nombreDetalleServicioERROR" class="text-danger"></span>
                         </div>
                         <!-- Campo de entrada para la descripción del servicio -->
-                        <div class="form-floating mb-2 p-0">
+                        <div class="form-floating mb-3 p-0">
                             <input type="text" class="form-control" id="descripcion_servicio" autocomplete="off"
                                 placeholder="" name="descripcion_servicio" required>
                             <label for="descripcion_servicio" class="form-label">Descripción del servicio</label>
@@ -122,9 +98,9 @@
                             class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
                             <div id="containerBotones">
                             </div>
-                            <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
+                            <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
                                 onclick="openClose()">Cancelar</button>
-                            <button type="submit" class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                            <button type="submit" class="btn btn-primary btnSave">Aceptar</button>
                         </div>
                     </div>
                 </form>
@@ -155,7 +131,7 @@
                                 <label for="nombre_tipo_servicio">Nombre de la categoría</label>
                                 <span id="nombreServicioERROR" class="text-danger"></span>
                                 <br>
-                                <div class="container">
+                                <div class="container justify-content-center d-flex flex-column align-items-center">
                                     <h6>Imagen de la categoría</h6>
                                     <img id="selectedImageW" class="col-10"
                                         src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
@@ -169,12 +145,14 @@
                                     </div>
                                     <div
                                         class="modal-footer d-flex justify-content-center align-items-center col-lg-12 col-12 mt-5">
-                                        <button type="button" class="btn btn-secondary btnCancel me-lg-4 me-1 me-md-3"
+                                        <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
                                             onclick="openClose()">Cancelar</button>
                                         <button type="submit"
-                                            class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                                            class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

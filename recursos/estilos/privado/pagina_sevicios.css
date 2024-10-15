@@ -87,7 +87,8 @@
         border: #232323 3px solid;
         position: relative;
         border-radius: 10px;
-        min-height: 170px;
+        min-height: 320px;
+        max-height: 320px;
     }
 
     /* Contenido de la tarjeta */
@@ -100,7 +101,7 @@
         text-align: center;
     }
 
-    /* 
+
     .content h4 {
         opacity: 0;
         margin-bottom: 12px;
@@ -123,7 +124,7 @@
         background-color: #00000094;
         border-radius: inherit;
         opacity: 0;
-    } */
+    }
 
     /* Efecto de oscurecimiento al pasar el ratón por la tarjeta */
     .card-red:hover::after {
@@ -186,6 +187,7 @@
         /* Mantiene la proporción de la imagen */
         margin-bottom: 1rem;
         /* Espacio debajo de la imagen */
+        border-radius: 5px;
     }
 
     /* Contenedor del botón de archivo */

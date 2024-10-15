@@ -13,6 +13,7 @@ const IMAGE_INPUT = document.getElementById('customFileW');
 
 // Constantes para establecer los elementos del componente Modal
 const MODAL = new bootstrap.Modal('#staticBackdrop');
+const SEARCH_INPUT = document.getElementById('search');
 
 // *Método del evento para cuando el documento ha cargado
 document.addEventListener('DOMContentLoaded', async () => {
@@ -35,6 +36,16 @@ NOMBRE.addEventListener('input', function () {
 SAVE_FORM.addEventListener('submit', async (event) => {
     event.preventDefault(); // Se evita recargar la página web después de enviar el formulario
 
+    if (NOMBRE.value == '') {
+        await sweetAlert(2, 'Por favor, ingrese el nombre de la categoria.', true);
+        return;
+    }
+
+    if (!checkInput(validateName(NOMBRE.value), NOMBRE, nombreServicioERROR)) {
+        // await sweetAlert(2, 'Error al validar los campos.', true);
+        return;
+    }
+
     const action = ID_TIPO_SERVICIO.value ? 'updateRow' : 'createRow'; // Se verifica la acción a realizar
     const formData = new FormData(SAVE_FORM); // Constante tipo objeto con los datos del formulario
     formData.append('customFileW', IMAGE_INPUT.files[0]); // Usa files[0] para obtener el archivo
@@ -44,7 +55,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
         if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
             MODAL.hide(); // Se cierra la caja de diálogo
-            sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
+            await sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
             readServicios(); // Se carga nuevamente la tabla para visualizar los cambios
 
             SAVE_FORM.reset(); // Se vacían los campos del formulario
@@ -57,6 +68,8 @@ SAVE_FORM.addEventListener('submit', async (event) => {
             if (selectedImage) {
                 selectedImage.src = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'; // La URL de la imagen original
             }
+
+            location.reload();
         } else {
             sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
         }
@@ -74,62 +87,67 @@ document
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
 
-        // Constante tipo objeto con los datos del formulario de barra de busqueda.
-        const formData = new FormData(document.getElementById("searchForm"));
-
-        // Verifica qué datos se están enviando
-        console.log("Form Data:", Array.from(formData.entries()));
-
-        try {
-            // Realizar una solicitud al servidor para buscar trabajadores.
-            const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
-
-            // Verifica la respuesta del servidor
-            console.log("Search Data:", searchData);
-
-            // Verificar si la búsqueda fue exitosa.
-            if (searchData.status) {
-                // Limpiar el contenedor de trabajadores.
-                CONTAINER_TRABAJADORES_BODY.innerHTML = "";
-
-                // Se agrega la card para agregar usuario luego de vaciar el campo
-                CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                <div class="add-auto-card d-flex justify-content-center align-items-center">
+        if (SEARCH_INPUT.value === '') {
+            await readServicios();
+        }
+        else {
+            // Constante tipo objeto con los datos del formulario de barra de busqueda.
+            const formData = new FormData(document.getElementById("searchForm"));
+            // Verifica qué datos se están enviando
+            console.log("Form Data:", Array.from(formData.entries()));
+            // Limpiar el contenedor de trabajadores.
+            CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+            // Se agrega la card para agregar usuario luego de vaciar el campo
+            CONTAINER_TRABAJADORES_BODY.innerHTML += `
+            <div class="add-auto-card d-flex justify-content-center align-items-center">
                 <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop" alt="Add Service">
+                data-bs-target="#staticBackdrop" alt="Add Service">
             </div>
             `;
 
-                // Verificar si se encontraron resultados.
-                if (searchData.dataset.length > 0) {
-                    // Dependiendo los resultados de cada línea se muestran en el contenedor.
-                    for (const row of searchData.dataset) {
-                        const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
-                        const imageExists = await checkImageExists(imageUrl);
-                        const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
+            try {
+                // Realizar una solicitud al servidor para buscar trabajadores.
+                const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
 
-                        CONTAINER_TRABAJADORES_BODY.innerHTML += `
-                        <div id="card" class="card-red shadow-sm z-2"">
-                        <div class="img-container p-3">
-                             <img src="${imgSrc}" />
-                        </div>
-                        <div class="text-container d-flex justify-content-center p-2">
-                            <h3 class="open-sans-regular text-white">${row.nombre_tipo_servicio}</h3>
-                        </div>
-                    </div>
-                        `;
+                // Verifica la respuesta del servidor
+                console.log("Search Data:", searchData);
+
+                // Verificar si la búsqueda fue exitosa.
+                if (searchData.status) {
+                    // Verificar si se encontraron resultados.
+                    if (searchData.dataset.length > 0) {
+                        // Dependiendo los resultados de cada línea se muestran en el contenedor.
+                        for (const row of searchData.dataset) {
+                            const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
+                            const imageExists = await checkImageExists(imageUrl);
+                            const imgSrc = imageExists ? imageUrl : `${SERVER_URL}/images/tipoServicio/mecanica.png`;
+
+                            CONTAINER_TRABAJADORES_BODY.innerHTML += `
+                            <div id="card" class="card-red shadow-sm z-2"" onclick="gotoDetail(${row.id_tipo_servicio})">
+                                <div class="content z-3">
+                                    <h4 class="open-sans-light-italic">Más información</h4>
+                                </div>      
+                                <div class="img-container p-3">
+                                    <img src="${imgSrc}" />
+                                </div>
+                                <div class="text-container d-flex justify-content-center p-2">
+                                    <h3 class="open-sans-regular text-white">${row.nombre_tipo_servicio}</h3>
+                                </div>
+                            </div>
+                            `;
+                        }
+                    } else {
+                        // Mostrar si no se encontró ningún resultado.
+                        sweetAlert(4, "No se encontraron resultados", false);
                     }
                 } else {
-                    // Mostrar si no se encontró ningún resultado.
+                    // Mostrar si no se encontró ningún resultado en base de un error.
                     sweetAlert(4, "No se encontraron resultados", false);
                 }
-            } else {
-                // Mostrar si no se encontró ningún resultado en base de un error.
-                sweetAlert(4, "No se encontraron resultados", false);
+            } catch (error) {
+                console.error("Error al buscar servicios:", error);
+                // Loguea un error si este lo presenta.
             }
-        } catch (error) {
-            console.error("Error al buscar servicios:", error);
-            // Loguea un error si este lo presenta.
         }
     });
 
@@ -146,7 +164,15 @@ async function checkImageExists(imageUrl) {
 async function readServicios() {
     try {
         const DATA = await fetchData(SERVICIOS_API, 'readAll'); // Petición para obtener los datos
-
+        // Limpiar el contenedor de trabajadores.
+        CONTAINER_TRABAJADORES_BODY.innerHTML = "";
+        // Se agrega la card para agregar usuario luego de vaciar el campo
+        CONTAINER_TRABAJADORES_BODY.innerHTML += `
+            <div class="add-auto-card d-flex justify-content-center align-items-center">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" alt="Add Service">
+            </div>
+        `;
         if (DATA && DATA.status) { // Se comprueba si la respuesta es satisfactoria
             for (const row of DATA.dataset) {
                 const imageUrl = `${SERVER_URL}/images/tipoServicio/${row.imagen_servicio}`;
@@ -155,8 +181,11 @@ async function readServicios() {
 
                 CONTAINER_TRABAJADORES_BODY.innerHTML += `
                     <div id="card" class="card-red shadow-sm z-2" onclick="gotoDetail(${row.id_tipo_servicio})">
+                        <div class="content z-3">
+                            <h4 class="open-sans-light-italic">Más información</h4>
+                        </div>    
                         <div class="img-container p-3">
-                             <img src="${imgSrc}" />
+                            <img src="${imgSrc}" />
                         </div>
                         <div class="text-container d-flex justify-content-center p-2">
                             <h3 class="open-sans-regular text-white">${row.nombre_tipo_servicio}</h3>
@@ -193,25 +222,6 @@ function displaySelectedImage(event, elementId) {
     }
 }
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
-
 
 // Función para ir hacia la página de detalles del servicio
 function gotoDetail(id_tipo_servicio) {
@@ -223,6 +233,7 @@ const openClose = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
         MODAL.hide();
+        location.reload();
     }
 }
 
@@ -244,6 +255,7 @@ document
 
 // Función que muestra la alerta de notificación
 const openNoti = async () => {
-    sweetAlert(1, 'Se ha guardado con éxito', 300);
+    await sweetAlert(1, 'Se ha guardado con éxito', 300);
     MODAL.hide();
+    location.reload();
 }

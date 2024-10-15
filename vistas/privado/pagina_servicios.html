@@ -33,16 +33,15 @@
 
             <div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
                 <!--//Importante-->
-                <form id="searchForm" autocomplete="off" class="col-10">
-                    <div class="input-group mb-3 shadow-sm buscador"> <!--Buscador-->
-                        <input type="search" name="search" class="form-control " placeholder="Buscar..."
-                            aria-label="Buscar..." aria-describedby="basic-addon2" required id="search" autocomplete="off">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline" id="searchInput" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Buscador para servicios por nombre de servicio.">
-                                <i class="bi-search"><img src="../../recursos/imagenes/icons/icon-search.svg" alt="search icon"></i>
-                            </button>
-                            
-                        </div>
+                <form id="searchForm" autocomplete="off" class="col-10 mb-5">
+                    <div class="input-group buscador shadow-sm" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                        data-bs-content="Buscador habilitado para: Nombre de la categoría.">
+                        <!-- Contenedor del los input de entrada -->
+                        <input type="search" class="form-control search" placeholder="Buscar..." id="search"
+                            name="search" maxlength="50"
+                            autocomplete="off">
+                        <button type="submit" class="btn btn-outline" id="searchInput"><i class="bi-search"><img
+                                    src="../../recursos/imagenes/icons/icon-search.svg"></i></button>
                     </div>
                 </form>
 
@@ -53,7 +52,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
 
         </div>
@@ -73,7 +72,8 @@
                 <div class="modal-body col-12">
                     <!-- Formulario en el modal para agregar servicio -->
                     <form id="save_form" class="needs-validation" novalidate>
-                        <input type="number" class="d-none" id="id_tipo_servicio" autocomplete="off" name="id_tipo_servicio">
+                        <input type="number" class="d-none" id="id_tipo_servicio" autocomplete="off"
+                            name="id_tipo_servicio">
                         <div
                             class="content-add-img col-12 d-flex flex-column justify-content-center align-items-center">
                             <div class="form-floating mb-0 p-0 col-12 mb-4">
@@ -90,8 +90,8 @@
                                     <div class="btn btn-primary btn-rounded btnForgot col-8 open-sans-regular mt-1">
                                         <label class="form-label text-white m-1" for="customFileW">Seleccionar
                                             imagen</label>
-                                        <input type="file" class="form-control d-none" id="customFileW" autocomplete="off"
-                                            name="customFileW"
+                                        <input type="file" class="form-control d-none" id="customFileW"
+                                            autocomplete="off" name="customFileW"
                                             onchange="displaySelectedImage(event, 'selectedImageW')" />
                                     </div>
                                     <div
@@ -99,9 +99,11 @@
                                         <button type="button" class="btn btn-light btnCancel me-lg-4 me-1 me-md-3"
                                             onclick="openClose()">Cancelar</button>
                                         <button type="submit"
-                                            class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Guardar</button>
+                                            class="btn btn-primary btnSave ms-lg-4 ms-1 ms-md-3">Aceptar</button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -1,27 +1,45 @@
 /* Estilo para la tarjeta */
 .envelope-card {
-    position: relative; /* Posición relativa */
-    background-color: #ffffff; /* Color de fondo */
-    border: 4px solid #dc3545; /* Borde */
-    padding: 20px; /* Relleno */
-    border-radius: 15px; /* Radio de borde */
-    margin-bottom: 20px; /* Margen inferior */
-    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1); /* Sombra */
-    height: 100%; /* Altura del 100% */
+    position: relative;
+    /* Posición relativa */
+    background-color: #ffffff;
+    /* Color de fondo */
+    border: 4px solid #dc3545;
+    /* Borde */
+    padding: 20px;
+    /* Relleno */
+    border-radius: 15px;
+    /* Radio de borde */
+    margin-bottom: 20px;
+    /* Sombra */
+    height: 100%;
+    /* Altura del 100% */
+    min-width: 310px;
+    max-width: 310px;
 }
 
 /* Triángulo invertido en la parte superior */
 .envelope-card::before {
-    content: ""; /* Contenido */
-    position: absolute; /* Posición absoluta */
-    top: 0; /* Posición superior */
-    left: 50%; /* Posición izquierda al 50% */
-    transform: translateX(-50%) rotate(180deg); /* Transformación para centrar y rotar */
-    width: 0; /* Ancho del triángulo */
-    height: 0; /* Altura del triángulo */
-    border-style: solid; /* Estilo de borde */
-    border-width: 0 150px 40px 150px; /* Grosor del borde */
-    border-color: transparent transparent #dc3545 transparent; /* Color del borde */
+    content: "";
+    /* Contenido */
+    position: absolute;
+    /* Posición absoluta */
+    top: 0;
+    /* Posición superior */
+    left: 50%;
+    /* Posición izquierda al 50% */
+    transform: translateX(-50%) rotate(180deg);
+    /* Transformación para centrar y rotar */
+    width: 0;
+    /* Ancho del triángulo */
+    height: 0;
+    /* Altura del triángulo */
+    border-style: solid;
+    /* Estilo de borde */
+    border-width: 0 150px 40px 150px;
+    /* Grosor del borde */
+    border-color: transparent transparent #dc3545 transparent;
+    /* Color del borde */
 }
 
 /* Media queries para diferentes tamaños de pantalla */
@@ -29,107 +47,107 @@
 /* Para pantallas medianas */
 @media (min-width: 768px) and (max-width: 1398px) {
     .envelope-card::before {
-        border-width: 0 105px 40px 105px; /* Grosor del borde */
+        border-width: 0 105px 40px 105px;
+        /* Grosor del borde */
     }
 }
 
 /* Para pantallas pequeñas */
 @media (min-width: 280px) and (max-width: 340px) {
     .envelope-card::before {
-        border-width: 0 120px 40px 120px; /* Grosor del borde */
+        border-width: 0 120px 40px 120px;
+        /* Grosor del borde */
     }
 }
 
 /* Para pantallas medianas */
 @media (min-width: 768px) and (max-width: 1198px) {
+
     /* Estilo para la fila de tarjetas */
     .row-cols-md-4 {
-        flex-wrap: nowrap; /* No permitir el ajuste de línea */
-        overflow-x: auto; /* Permitir desplazamiento horizontal */
-        scroll-snap-type: x mandatory; /* Tipo de desplazamiento */
+        flex-wrap: nowrap;
+        /* No permitir el ajuste de línea */
+        overflow-x: auto;
+        /* Permitir desplazamiento horizontal */
+        scroll-snap-type: x mandatory;
+        /* Tipo de desplazamiento */
     }
 
     /* Estilo para las columnas de la fila */
-    .row-cols-md-4 > .col {
-        flex: 0 0 auto; /* No crecer ni encoger */
-        width: calc(100% / 3); /* Ancho de la columna */
-        scroll-snap-align: start; /* Alineación de desplazamiento */
+    .row-cols-md-4>.col {
+        flex: 0 0 auto;
+        /* No crecer ni encoger */
+        width: calc(100% / 3);
+        /* Ancho de la columna */
+        scroll-snap-align: start;
+        /* Alineación de desplazamiento */
     }
 }
 
 /* Para pantallas pequeñas */
 @media (min-width: 280px) and (max-width: 767px) {
+
     /* Estilo para las columnas de una sola fila */
-    .row-cols-1 > .col {
-        margin-bottom: 10px; /* Espacio entre las tarjetas */
+    .row-cols-1>.col {
+        margin-bottom: 10px;
+        /* Espacio entre las tarjetas */
     }
 
     /* Estilo para la última tarjeta en una fila */
-    .row-cols-1 > .col:last-child {
-        margin-bottom: 0; /* Eliminar el margen inferior */
+    .row-cols-1>.col:last-child {
+        margin-bottom: 0;
+        /* Eliminar el margen inferior */
     }
 }
 
 /* Estilo para centrar verticalmente el contenido de la tarjeta */
 .card-body {
-    display: flex; /* Mostrar como flex */
-    flex-direction: column; /* Dirección de flexión */
-    justify-content: center; /* Justificar contenido */
-    height: 100%; /* Altura del 100% */
+    display: flex;
+    /* Mostrar como flex */
+    flex-direction: column;
+    /* Dirección de flexión */
+    justify-content: center;
+    /* Justificar contenido */
+    height: 100%;
+    /* Altura del 100% */
 }
 
-/* Triángulo invertido en la parte superior */
-.envelope-card::before {
-    content: "";
-    position: absolute;
-    top: 0; /* Ajuste para pegarlo a la parte superior */
-    left: 50%; /* Centramos el triángulo horizontalmente */
-    transform: translateX(-50%) rotate(180deg); /* Rotamos el triángulo 180 grados */
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 calc(50% - 75px) 40px calc(50% - 75px); /* Ancho del triángulo en porcentaje */
-    border-color: transparent transparent #dc3545 transparent;
-}
-
-
-/* Estilos para el botón de cancelar */
-.btnCancel {
-    background-color: black;
-}
-
-/* Estilos para el botón de guardar */
 .btnSave {
     background-color: #E5383B;
 }
-/* Estilos para los botones de guardar y cancelar */
+
 .btnSave,
 .btnCancel,
-.btnCancel2  {
-    height: 50px;
+.btnCancel2 {
+    height: 60px;
     width: 200px;
+}
+
+.btnCancel,
+.btnCancel2 {
+    background-color: white;
+    border-width: 1;
+    border-color: #b5b5b5;
+    border-radius: 5px;
+}
+
+.btnCancel2 {
+    background-color: #5C636A;
 }
 
 /* Botón de retorno */
 .btnReturn {
-    cursor: pointer; /* Cursor */
-    width: fit-content; /* Ancho ajustado al contenido */
+    cursor: pointer;
+    /* Cursor */
+    width: fit-content;
+    /* Ancho ajustado al contenido */
 }
 
-.btnCancel2 {
-    background-color: white;
-    /* Color de fondo */
-    border: solid 2px #ECECEC;
-    /* Borde */
-    color: black;
-    /* Color del texto */
-}
-
-label[for= exampleInputEmail1]{
+label[for=exampleInputEmail1] {
     color: #BA181B;
 }
 
-label[for= exampleInputPassword1]{
+label[for=exampleInputPassword1] {
     color: #BA181B;
 }
 
@@ -141,18 +159,26 @@ label[for= exampleInputPassword1]{
 /* Etiqueta flotante enfocada o con contenido */
 .form-floating .form-control:focus~label,
 .form-floating .form-control:not(:placeholder-shown)~label {
-    color: red; /* Color rojo */
+    color: red;
+    /* Color rojo */
     /* Color rojo */
 }
 
 /* Ajusta el espacio entre todos los labels y campos de entrada en los modales */
 .modal-dialog .form-floating {
-    margin-bottom: 1.5rem; /* Ajusta el espacio aquí */
+    margin-bottom: 1.5rem;
+    /* Ajusta el espacio aquí */
 }
 
 .modal-dialog .form-label {
-    margin-bottom: 0.5rem; /* Ajusta el espacio aquí */
+    margin-bottom: 0.5rem;
+    /* Ajusta el espacio aquí */
 }
+
+.modal-dialog{
+    min-width:55vw;
+}
+
 .btnAgregarServicio {
     background-color: white;
     width: 250px;
@@ -168,6 +194,7 @@ label[for= exampleInputPassword1]{
 .btnAgregarServicio:hover {
     background-color: #E5383B;
 }
+
 .btnAgregarServicio:hover>h6 {
     color: white;
 }
@@ -179,12 +206,39 @@ label[for= exampleInputPassword1]{
 
 .containerCardsServicios {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
-    max-width: 100%; /* Asegura que ocupe el ancho completo del contenedor padre */
-    margin-top: 20px; /* Ajusta según sea necesario */
+    max-width: 100%;
+    /* Asegura que ocupe el ancho completo del contenedor padre */
+    margin-top: 20px;
+    /* Ajusta según sea necesario */
+    min-height: 60vh;
 }
+
+/* Contenedor para todas las tarjetas */
+.scrollVertical {
+    overflow-y: auto;
+    /* Permitir desplazamiento vertical */
+    overflow-x: hidden;
+    /* Ocultar el desplazamiento horizontal */
+
+    min-height: 60vh;
+    max-height: 60vh;
+
+    padding-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    padding-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    width: 100%;
+}
+
 
 /* Asegúrate de que la fila ocupe el 100% del ancho y esté alineada */
 .row {
@@ -206,74 +260,42 @@ label[for= exampleInputPassword1]{
     border: #232323 3px solid;
     position: relative;
     border-radius: 10px;
-    min-height: 170px;
-    width: 200%;
-    height: 175%;
+    min-height: 180px;
+    width: 300px;
+    height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .card {
-    width: 100%; /* Ajusta el tamaño de la tarjeta para que se adapte al contenedor */
-}
-
-.contenedor-scroll {
     width: 100%;
-    max-width: 400px; /* Ajusta el tamaño según sea necesario */
-}
-
-/* Estilo para la tarjeta */
-.envelope-card {
-    position: relative;
-    background-color: #ffffff;
-    border: 4px solid #dc3545;
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    transition: box-shadow 0.3s ease; /* Añadido para suavizar la transición de la sombra */
-    
-}
-
-/* Efecto al mantener el clic */
-.envelope-card:active {
-    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada cuando se mantiene el clic */
-}
-
-/* Triángulo invertido en la parte superior */
-.envelope-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) rotate(180deg);
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 calc(50% - 75px) 40px calc(50% - 75px);
-    border-color: transparent transparent #dc3545 transparent;
+    /* Ajusta el tamaño de la tarjeta para que se adapte al contenedor */
 }
 
 /* Buscador */
 .buscador {
-    margin-top: 30px; /* Margen superior */
+    margin-top: 30px;
+    /* Margen superior */
     background-color: #F8F8F8;
     border: 0px;
     border-radius: 10px;
-  }
+}
 
-#searchInput{
-  background-color: #F8F8F8;
-  border: 0px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  } 
+#searchInput {
+    background-color: #F8F8F8;
+    border: 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
 
-  #searchButton{
+#searchButton {
     background-color: #F8F8F8;
     border: 0px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-  }
+}
+
+body {
+    background-color: #F0F0F7;
+}

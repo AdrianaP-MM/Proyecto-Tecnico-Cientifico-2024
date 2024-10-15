@@ -20,6 +20,7 @@ const SAVE_FORM_2 = document.getElementById('save_form_2'),
     IMG_SERVICIO = document.getElementById('selectedImageW');
 
 const IMAGE_INPUT = document.getElementById('customFileW');
+const SEARCH_INPUT = document.getElementById('search');
 
 // Función para obtener parámetros de la URL
 const getQueryParam = (name) => {
@@ -72,36 +73,32 @@ NOMBRE.addEventListener('input', function () {
 
 // Función para llenar los datos del servicio específico
 const fillServiceData = async (id_tipo_servicio = Number(getQueryParam('id_tipo_servicio'))) => {
-    // Limpia el contenedor antes de cargar nuevos datos.
-    SERVICIO_DATA_CONTAINER.innerHTML = '';
     let html;
     const FORM = new FormData();
     FORM.append('id_tipo_servicio', id_tipo_servicio);
 
     const DATA = await fetchData(SERVICIOS_API, 'readOne', FORM);
+    SERVICIO_DATA_CONTAINER.innerHTML = "";
+
+    // Se agrega la card para agregar usuario luego de vaciar el campo
+    SERVICIO_DATA_CONTAINER.innerHTML += `
+            <div class="add-auto-card d-flex justify-content-center align-items-center mx-3">
+                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+                onclick="openCreate()">
+            </div>`;
+
     if (DATA.status) {
         const html = DATA.dataset.map(row => `
-            <div class="col">
-                <div class="card envelope-card" onclick="openUpdate(${row.id_servicio})">
-                    <div class="card-body">
-                        <h5 class="card-title">${row.nombre_servicio}</h5>
-                        <p class="card-text">${row.descripcion_servicio}</p>
-                    </div>
+            <div class="card envelope-card mx-2" onclick="openUpdate(${row.id_servicio})">
+                <div class="card-body">
+                    <h5 class="card-title">${row.nombre_servicio}</h5>
+                    <p class="card-text">${row.descripcion_servicio}</p>
                 </div>
             </div>
         `).join(''); // .join('') para convertir el array en un string
 
         // Inserta el HTML generado en el contenedor especificado.
-        SERVICIO_DATA_CONTAINER.innerHTML = `<div class="contenedor-total col-12 d-flex align-items-center p-5 flex-column">
-                        <div id="cardsServicios" class="contenedor-scroll col-11 p-3">
-                            <div class="h-100 d-flex align-items-center px-4">
-                                <div class="add-auto-card d-flex justify-content-center align-items-center">
-                                    <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-                                        onclick="openCreate()">
-                                </div>
-                            </div>
-                        </div>
-                    </div> ` + html;
+        SERVICIO_DATA_CONTAINER.innerHTML += html;
     } else {
         if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
             await sweetAlert(4, DATA.error, true);
@@ -141,7 +138,7 @@ const openUpdate = async (id) => {
         }
 
         CONTAINER_BOTONES.innerHTML += `
-              <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5" id="btnDelete"
+            <button type="button" class="btn btn-secondary btnCancel2 me-5" 
                                     onclick="openDelete(${ID_TIPO_SERVICIO.value})">Eliminar</button>
         `;
     } else {
@@ -181,7 +178,7 @@ const openUpdateService = async () => {
         }
 
         CONTAINER_BOTONES.innerHTML += `
-              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDeleteServicio(${idTipoServicio})">Eliminar</button>
+            <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDeleteServicio(${idTipoServicio})">Eliminar</button>
         `;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -194,64 +191,63 @@ document
     .addEventListener("submit", async (event) => {
         // Se evita recargar la página web después de enviar el formulario.
         event.preventDefault();
-        let idTipoServicio;
-        idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
+        if (SEARCH_INPUT.value === '') {
+            await fillServiceData();
+        }
+        else {
+            let idTipoServicio;
+            idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
 
-        // Constante tipo objeto con los datos del formulario de barra de busqueda.
-        const formData = new FormData(document.getElementById("searchForm"));
-        formData.append("id_tipo_servicio", idTipoServicio);
+            // Constante tipo objeto con los datos del formulario de barra de busqueda.
+            const formData = new FormData(document.getElementById("searchForm"));
+            formData.append("id_tipo_servicio", idTipoServicio);
 
+            // Verifica qué datos se están enviando
+            console.log("Form Data:", Array.from(formData.entries()));
 
-
-        // Verifica qué datos se están enviando
-        console.log("Form Data:", Array.from(formData.entries()));
-
-        try {
-            // Realizar una solicitud al servidor para buscar trabajadores.
-            const searchData = await fetchData(SERVICIOS_API, "buscarRows", formData);
-
-            // Verifica la respuesta del servidor
-            console.log("Search Data:", searchData);
-
-            // Verificar si la búsqueda fue exitosa.
-            if (searchData.status) {
+            try {
+                // Realizar una solicitud al servidor para buscar trabajadores.
+                const searchData = await fetchData(SERVICIOS_API, "buscarRows", formData);
                 // Limpiar el contenedor de trabajadores.
                 SERVICIO_DATA_CONTAINER.innerHTML = "";
 
                 // Se agrega la card para agregar usuario luego de vaciar el campo
                 SERVICIO_DATA_CONTAINER.innerHTML += `
-                <div class="add-auto-card d-flex justify-content-center align-items-center">
-                <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow" data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop" alt="Add Service">
-            </div>
-            `;
+                    <div class="add-auto-card d-flex justify-content-center align-items-center mx-3">
+                        <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
+                        onclick="openCreate()">
+                    </div>`;
 
-                // Verificar si se encontraron resultados.
-                if (searchData.dataset.length > 0) {
-                    // Dependiendo los resultados de cada línea se muestran en el contenedor.
-                    for (const row of searchData.dataset) {
-                        SERVICIO_DATA_CONTAINER.innerHTML += `
-                        <div class="col">
-                <div class="card envelope-card" onclick="openUpdate(${row.id_servicio})">
-                    <div class="card-body">
-                        <h5 class="card-title">${row.nombre_servicio}</h5>
-                        <p class="card-text">${row.descripcion_servicio}</p>
-                    </div>
-                </div>
-            </div>
-                        `;
+                // Verifica la respuesta del servidor
+                console.log("Search Data:", searchData);
+
+                // Verificar si la búsqueda fue exitosa.
+                if (searchData.status) {
+                    // Verificar si se encontraron resultados.
+                    if (searchData.dataset.length > 0) {
+                        // Dependiendo los resultados de cada línea se muestran en el contenedor.
+                        for (const row of searchData.dataset) {
+                            SERVICIO_DATA_CONTAINER.innerHTML += `
+                            <div class="card envelope-card mx-2" onclick="openUpdate(${row.id_servicio})">
+                                <div class="card-body">
+                                    <h5 class="card-title">${row.nombre_servicio}</h5>
+                                    <p class="card-text">${row.descripcion_servicio}</p>
+                                </div>
+                            </div>
+                            `;
+                        }
+                    } else {
+                        // Mostrar si no se encontró ningún resultado.
+                        sweetAlert(4, "No se encontraron resultados", false);
                     }
                 } else {
-                    // Mostrar si no se encontró ningún resultado.
+                    // Mostrar si no se encontró ningún resultado en base de un error.
                     sweetAlert(4, "No se encontraron resultados", false);
                 }
-            } else {
-                // Mostrar si no se encontró ningún resultado en base de un error.
-                sweetAlert(4, "No se encontraron resultados", false);
+            } catch (error) {
+                console.error("Error al buscar servicios:", error);
+                // Loguea un error si este lo presenta.
             }
-        } catch (error) {
-            console.error("Error al buscar servicios:", error);
-            // Loguea un error si este lo presenta.
         }
     });
 
@@ -272,7 +268,7 @@ const openDelete = async (id) => {
 
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const response = await confirmAction2(
-        "¿Desea eliminar al trabajador de forma permanente?"
+        "¿Desea eliminar el servicio de forma permanente?"
     );
     // Se verifica la respuesta del mensaje.
     if (response.isConfirmed) {
@@ -299,12 +295,14 @@ const openDelete = async (id) => {
             if (botonTres) {
                 botonTres.remove();
             }
+
+            location.reload();
         } else {
             if (!DATA.exception) {
                 sweetAlert(2, DATA.error, false);
             }
             else {
-                sweetAlert(2, DATA.exception, false);
+                sweetAlert(2, 'El servicio esta siendo utilizado, por lo que no se puede eliminar.', false);
             }
         }
     }
@@ -333,8 +331,9 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
         if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
             SAVE_MODAL.hide(); // Se cierra la caja de diálogo
-            sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
+            await sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
             fillServiceData(); // Se carga nuevamente la tabla para visualizar los cambios
+            location.reload();
         } else {
             sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
         }
@@ -359,21 +358,16 @@ SAVE_FORM_2.addEventListener('submit', async (event) => {
 
     try {
         const responseData = await fetchData(TIPOS_API, 'updateRow', formData); // Petición para guardar los datos del formulario
-
         if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
             SAVE_MODAL_2.hide(); // Se cierra la caja de diálogo
-            sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
+            await sweetAlert(1, responseData.message, true); // Se muestra un mensaje de éxito
 
             SAVE_FORM_2.reset(); // Se vacían los campos del formulario
 
             // Limpiar el campo de archivo
             IMAGE_INPUT.value = '';
 
-            // Restablecer la imagen a la original
-            const selectedImage = document.getElementById('selectedImageW');
-            if (selectedImage) {
-                selectedImage.src = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'; // La URL de la imagen original
-            }
+            location.reload();
         } else {
             sweetAlert(2, responseData.error, false); // Se muestra un mensaje de error
         }
@@ -382,25 +376,6 @@ SAVE_FORM_2.addEventListener('submit', async (event) => {
         sweetAlert(4, 'No se pudo guardar el servicio.', false);
     }
 });
-
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated')
-        }, false)
-    })
-})()
 
 
 // Método del evento para cuando el documento ha cargado.
@@ -442,5 +417,6 @@ const openClose = async () => {
     if (RESPONSE.isConfirmed) {
         SAVE_MODAL.hide();
         SAVE_MODAL_2.hide();
+        location.reload();
     }
 }
