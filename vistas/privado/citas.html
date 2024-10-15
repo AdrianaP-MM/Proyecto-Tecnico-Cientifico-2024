@@ -107,7 +107,7 @@
                         </li>
 
                         <hr>
-                        <!-- <li class="mb-1 cursor-hover d-flex flex-column align-items-center opcionesLat">
+                        <li class="mb-1 cursor-hover d-flex flex-column align-items-center opcionesLat">
                             <button onclick="search('Finalizada')"
                                 class="btn btn-toggle rounded pointer-hover collapsed dropdown-btn py-0 boton w-100 py-2"
                                 data-bs-toggle="collapse" data-bs-target="#FechaFab" aria-expanded="false">
@@ -119,7 +119,7 @@
                                 </span>
                             </button>
                         </li>
-                        <hr> -->
+                        <hr>
                         <li class="mb-1 cursor-hover d-flex flex-column align-items-center opcionesLat">
                             <!--Quinto elemento de filtros-->
                             <button onclick="search('Cancelado')"
@@ -164,24 +164,29 @@
                                     <!--Container infomacion y campos form-->
                                     <div class="d-flex col-12 rowGap d-none justify-content-between" id="infoCita">
                                         <div class="d-flex col-3 flex-column colIzqrd ">
-                                            <div class="containerImg col-6 position-relative z-2">
-                                                <div class="content z-3">
+                                            <button type="button" class="btn btn-light btnCancel col-11"
+                                                onclick="openServicios()" id="btnOpenServicios">
+                                                <h6 class="open-sans-regular m-0 p-0">
+                                                    Servicios en proceso
+                                                </h6>
+                                            </button>
+                                            <div class="containerImg col-6 position-relative z-2" id="containerIMG">
+                                                <!-- <div class="content z-3">
                                                     <h4 class="open-sans-light-italic">Màs informaciòn</h4>
-                                                </div>
-                                                <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg"
-                                                    class="imagenCitaCarro">
+                                                </div> -->
                                             </div>
-                                            <div class="containerBtns col-12 d-flex justify-content-center align-items-center flex-column">
+                                            <div
+                                                class="containerBtns col-12 d-flex justify-content-center align-items-center flex-column">
                                                 <button type="button" class="btn btn-primary btnSave2 col-11"
                                                     onclick="updateEstado('Aceptado')" id="btnAceptarCita">
                                                     Aceptar cita
                                                 </button>
-                                                <!-- <button type="button" class="btn btn-secondary btnSave2 col-11"
-                                                    onclick="openServicios()" id="btnOpenServicios">
+                                                <button type="button" class="btn btn-primary btnSave2 col-11"
+                                                    onclick="updateEstado('Finalizada')" id="btnFinalizarCita">
                                                     <h6 class="open-sans-regular m-0 p-0">
-                                                        Servicios en proceso
+                                                        Finalizar cita
                                                     </h6>
-                                                </button> -->
+                                                </button>
                                                 <button type="button" class="btn btn-secondary btnCancel2 col-11 mt-3"
                                                     onclick="updateEstado('Cancelado')" id="btnCancelarCita">
                                                     Cancelar cita
@@ -330,16 +335,15 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <div id="infoCitaServicios">
-                                        <div class="contenedorTotalServicios">
+                                    <div id="infoCitaServicios" class="col-12">
+                                        <div class="contenedorTotalServicios col-12">
                                             <div
                                                 class="serviciosHeader d-flex justify-content-between align-items-end z-2">
-                                                <div class="h-100 d-flex align-items-center px-4">
+                                                <div class="h-100 d-flex align-items-center">
                                                     <div class="btnReturn" onclick="verInfo()"> <!-- Boton regresar -->
-                                                        <img src="../../recursos/imagenes/icons/IconGoBack.svg"
-                                                            width="30px" height="30px">
+                                                        <img src="../../recursos/imagenes/icons/minus.png">
                                                     </div>
-                                                    <h5 class="open-sans-semibold m-0 p-0 text-white">
+                                                    <h5 class="open-sans-semibold m-0 p-0 text-black ps-3">
                                                         Servicios en proceso de la cita
                                                     </h5>
                                                 </div>
@@ -493,8 +497,7 @@
                                                         aria-label="Disabled select example" disabled
                                                         id="input_servicios" name="input_servicios" required>
                                                     </select>
-                                                    <div class="invalid-feedback">Por favor selecciona un servicio.
-                                                    </div>
+                                                    <span id="ERROR-SERVICIO-SERVICIO" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -504,7 +507,7 @@
                                                     <input id="fecha_aprox_finalizacion"
                                                         class="open-sans-regular datepickerA form-control"
                                                         name="fecha_aprox_finalizacion" required autocomplete="off" />
-                                                    <div class="invalid-feedback">Por favor ingresa una fecha.</div>
+                                                    <span id="ERROR-SERVICIO-FECHA-APROX" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3" id="contenedorFechaFin">
@@ -514,7 +517,7 @@
                                                     <input id="fecha_finalizacion"
                                                         class="open-sans-regular datepickerA form-control"
                                                         name="fecha_finalizacion" required autocomplete="off" />
-                                                    <div class="invalid-feedback">Por favor ingresa una fecha.</div>
+                                                    <span id="ERROR-SERVICIO-FECHA-FIN" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -523,12 +526,10 @@
                                             <div class="mb-3">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="number" class="form-control" name="cantidad_servicio"
-                                                        id="cantidad_servicio" max="99" min="1" value="1"
+                                                        id="cantidad_servicio" max="99" min="1" value="1" maxlength="2"
                                                         class="w-50 text-center" autocomplete="off">
                                                     <label for="cantidad_servicio">Cantidad del servicio</label>
-                                                    <div class="invalid-feedback">Por favor ingresa una cantidad
-                                                        válida
-                                                    </div>
+                                                    <span id="ERROR-SERVICIO-CANTIDAD" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
@@ -538,28 +539,24 @@
                                                         autocomplete="off">
                                                     <label for="hora_aprox_finalizacion">Hora aproximada de
                                                         finalización</label>
-                                                    <div class="invalid-feedback">Por favor ingresa una hora válida
-                                                    </div>
+                                                    <span id="ERROR-SERVICIO-HORA-APROX" class="text-danger"></span>
                                                 </div>
                                             </div>
-
                                             <div class="mb-3" id="contenedorHoraFin">
                                                 <div class="form-floating mb-0 p-0">
                                                     <input type="time" class="form-control" id="hora_finalizacion"
                                                         name="hora_finalizacion" placeholder="HH:MM" required
                                                         autocomplete="off">
                                                     <label for="hora_finalizacion">Hora de finalización</label>
-                                                    <div class="invalid-feedback">Por favor ingresa una hora válida
-                                                    </div>
+                                                    <span id="ERROR-SERVICIO-HORA-FIN" class="text-danger"></span>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-                                    <div class="modal-footer justify-content-center">
+                                    <div class="modal-footer justify-content-center mt-5">
                                         <button type="button" class="btn btn-secondary btnCancel3 me-lg-5 me-3 me-md-5"
                                             onclick="openDelete()" id="btnDelete">Eliminar</button>
-                                        <button type="button" class="btn btn-secondary btnCancel me-lg-5 me-3 me-md-5"
+                                        <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
                                             onclick="openCloseServicios()">Cancelar</button>
                                         <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">
                                             Aceptar</button>

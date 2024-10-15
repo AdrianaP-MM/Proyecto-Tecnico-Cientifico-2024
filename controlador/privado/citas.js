@@ -16,24 +16,16 @@ const SERVICES_FORM = document.getElementById('servicesForm');
 const BUTTON_CANCELAR_CITA = document.getElementById('btnCancelarCita');
 const BUTTON_ACEPTAR_CITA = document.getElementById('btnAceptarCita');
 const BUTTON_UPDATE_CITA = document.getElementById('btnUpdateCita');
-// const BUTTON_SERVICIOS_CITA = document.getElementById('btnOpenServicios');
+const BUTTON_SERVICIOS_CITA = document.getElementById('btnOpenServicios');
 
 const CONTENEDOR_EXPAND = document.getElementById('containerExpand');
 const CONTENEDOR_EXPAND_INFO = document.getElementById('infoCita');
 const CONTENEDOR_EXPAND_SERVICIOS = document.getElementById('infoCitaServicios');
 
-const INPUT_FECHA_APROX_FINALIZACION = document.getElementById('fecha_aprox_finalizacion');
-const INPUT_HORA_APROX_FINALIZACION = document.getElementById('hora_aprox_finalizacion');
-const INPUT_FECHA_FINALIZACION = document.getElementById('fecha_finalizacion');
-const INPUT_HORA_FINALIZACION = document.getElementById('hora_finalizacion');
-
 const CONTENEDOR_FECHA_FINALIZACION = document.getElementById('contenedorFechaFin');
 const CONTENEDOR_HORA_FINALIZACION = document.getElementById('contenedorHoraFin');
 
 const BTN_DELETE = document.getElementById('btnDelete');
-
-const INPUT_CANTIDAD = document.getElementById('cantidad_servicio');
-const INPUT_SERVICIOS = document.getElementById('input_servicios');
 
 const CONTENEDOR_SERVICIO = document.getElementById('contenedorServicio');
 
@@ -43,7 +35,46 @@ const FORM_FACTURA = document.getElementById('formFactura');
 // const BTN_ELIMINAR_CITA = document.getElementById('btnEliminarCita');
 
 const MODAL_VER_INFO = new bootstrap.Modal('#modalVerInfo');
+const CONTAINER_IMG = document.getElementById('containerIMG');
+const BTN_FINALIZAR_CITA = document.getElementById('btnFinalizarCita');
 
+/* -------------- MODAL DE SERVICIOS FORMATOS Y VALIDACIONES */
+
+const INPUT_SERVICIOS = document.getElementById('input_servicios');
+const ERROR_SERVICIO_SERVICIO = document.getElementById('ERROR-SERVICIO-SERVICIO');
+
+INPUT_SERVICIOS.addEventListener('input', function () {
+  checkInput(validateSelect(INPUT_SERVICIOS.value), INPUT_SERVICIOS, ERROR_SERVICIO_SERVICIO);
+});
+
+const INPUT_FECHA_APROX_FINALIZACION = document.getElementById('fecha_aprox_finalizacion');
+const ERROR_SERVICIO_FECHA_APROX = document.getElementById('ERROR-SERVICIO-FECHA-APROX');
+//Solo validar valor
+
+const INPUT_FECHA_FINALIZACION = document.getElementById('fecha_finalizacion');
+const ERROR_SERVICIO_FECHA_FIN = document.getElementById('ERROR-SERVICIO-FECHA-FIN');
+//Solo validar valor
+
+const INPUT_CANTIDAD = document.getElementById('cantidad_servicio');
+const ERROR_SERVICIO_CANTIDAD = document.getElementById('ERROR-SERVICIO-CANTIDAD');
+
+INPUT_CANTIDAD.addEventListener('input', function () {
+  checkInput(validateCantidad(INPUT_CANTIDAD.value), INPUT_CANTIDAD, ERROR_SERVICIO_CANTIDAD);
+});
+
+const INPUT_HORA_APROX_FINALIZACION = document.getElementById('hora_aprox_finalizacion');
+const ERROR_SERVICIO_HORA_APROX = document.getElementById('ERROR-SERVICIO-HORA-APROX');
+
+INPUT_HORA_APROX_FINALIZACION.addEventListener('input', function () {
+  checkInput(validateHora2(INPUT_HORA_APROX_FINALIZACION.value), INPUT_HORA_APROX_FINALIZACION, ERROR_SERVICIO_HORA_APROX);
+});
+
+const INPUT_HORA_FINALIZACION = document.getElementById('hora_finalizacion');
+const ERROR_SERVICIO_HORA_FIN = document.getElementById('ERROR-SERVICIO-HORA-FIN');
+
+INPUT_HORA_FINALIZACION.addEventListener('input', function () {
+  checkInput(validateHora2(INPUT_HORA_FINALIZACION.value), INPUT_HORA_FINALIZACION, ERROR_SERVICIO_HORA_FIN);
+});
 
 // *Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -123,8 +154,8 @@ function accionDinamic(estado_cita = null, tipo_cliente = null) {
     BUTTON_CANCELAR_CITA.classList.add('d-none');
     BUTTON_ACEPTAR_CITA.classList.add('d-none');
     BUTTON_UPDATE_CITA.classList.add('d-none');
-    // BUTTON_SERVICIOS_CITA.classList.add('d-none');
-
+    BUTTON_SERVICIOS_CITA.classList.add('d-none');
+    BTN_FINALIZAR_CITA.classList.add('d-none');
     switch (estado_cita) {
       case 'En espera':
         BUTTON_CANCELAR_CITA.classList.remove('d-none');
@@ -134,7 +165,8 @@ function accionDinamic(estado_cita = null, tipo_cliente = null) {
       case 'Aceptado':
         BUTTON_CANCELAR_CITA.classList.remove('d-none');
         BUTTON_UPDATE_CITA.classList.remove('d-none');
-        // BUTTON_SERVICIOS_CITA.classList.remove('d-none');
+        BUTTON_SERVICIOS_CITA.classList.remove('d-none');
+        BTN_FINALIZAR_CITA.classList.remove('d-none');
         break;
       case 'Cancelado':
         // 
@@ -181,6 +213,34 @@ const readOne = async (id_cita) => {
     const ROW = DATA.dataset;
     formSetValues(ROW);
     id_citaW = id_cita;
+
+    // Comprobar primero si la imagen está en la base de datos.
+    if (ROW.imagen_automovil) {
+      const imagenUrl = `${SERVER_URL}/images/automoviles/${ROW.imagen_automovil}`;
+      try {
+        const response = await fetch(imagenUrl);
+        if (response.ok) {
+          // Si la imagen existe, mostrarla.
+          CONTAINER_IMG.innerHTML = `<img src="${imagenUrl}" class="imagenCitaCarro">`;
+        } else {
+          // Si no existe, mostrar la imagen predeterminada.
+          CONTAINER_IMG.innerHTML = `
+            <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg" class="imagenCitaCarro">
+          `;
+        }
+      } catch (error) {
+        // En caso de error en la verificación, mostrar la imagen predeterminada.
+        CONTAINER_IMG.innerHTML = `
+          <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg" class="imagenCitaCarro">
+        `;
+      }
+    } else {
+      // Si no hay imagen en la base de datos, mostrar la imagen predeterminada.
+      CONTAINER_IMG.innerHTML = `
+        <img src="../../recursos/imagenes/img_automoviles/carExampleCita.svg" class="imagenCitaCarro">
+      `;
+    }
+
   } else {
     sweetAlert(4, DATA.error, true);
     location.href = '../../vistas/privado/citas.html';
@@ -366,16 +426,18 @@ const addSave = async (action, form, fecha, hora) => {
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
       if (action == 'createRow') {
-        sweetAlert(1, 'Se ha guardado con éxito', 300);
+        await sweetAlert(1, 'Se ha guardado con éxito', 300);
         reload();
         MODAL.hide();
         ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+        location.reload();
       }
       else {
-        sweetAlert(1, 'Se ha actualizado con éxito', 300);
+        await sweetAlert(1, 'Se ha actualizado con éxito', 300);
         reload();
         noVerNada();
         UPDATE_FORM.classList.remove('was-validated'); // Quita la clase de validación
+        location.reload();
       }
     } else {
       if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
@@ -432,7 +494,22 @@ SERVICES_FORM.addEventListener('submit', async (event) => {
 const addServicioProceso = async (form, action = 'createRow') => {
   console.log(id_serviciow);
   const isValid = await checkFormValidity(form);
+
+  // Validaciones de campos vacíos
+  if (INPUT_SERVICIOS.value === '' || INPUT_FECHA_APROX_FINALIZACION.value === '' || /*INPUT_FECHA_FINALIZACION.value === '' ||*/
+    INPUT_CANTIDAD.value === '' || INPUT_HORA_APROX_FINALIZACION.value === '' /* || INPUT_HORA_FINALIZACION.value === ''*/) {
+    await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+    return;
+  }
   if (isValid) {
+    // Validaciones de formato (correo y contraseña)
+    if (!checkInput(validateSelect(INPUT_SERVICIOS.value), INPUT_SERVICIOS, ERROR_SERVICIO_SERVICIO) ||
+      !checkInput(validateCantidad(INPUT_CANTIDAD.value), INPUT_CANTIDAD, ERROR_SERVICIO_CANTIDAD) ||
+      !checkInput(validateHora2(INPUT_HORA_APROX_FINALIZACION.value), INPUT_HORA_APROX_FINALIZACION, ERROR_SERVICIO_HORA_APROX) /*||
+      !checkInput(validateHora2(INPUT_HORA_FINALIZACION.value), INPUT_HORA_FINALIZACION, ERROR_SERVICIO_HORA_FIN)*/) {
+      return;
+    }
+
     console.log('TodoGud'); // Código a ejecutar después de la validación
     const FORMID = new FormData(form);
     FORMID.append('id_cita', id_citaW);
@@ -499,9 +576,9 @@ const openDelete = async () => {
   }
 }
 
-const handleSuccess = (action, form) => {
+const handleSuccess = async (action, form) => {
   const message = action === 'createRow' ? 'Se ha guardado con éxito' : 'Se ha actualizado con éxito';
-  sweetAlert(1, message, 300);
+  await sweetAlert(1, message, 300);
   form.reset();
   const FORM = new FormData();
   FORM.append('id_cita', id_citaW);
@@ -509,6 +586,7 @@ const handleSuccess = (action, form) => {
   MODAL_SERVICIOS.hide();
   form.classList.remove('was-validated');
   id_serviciow = 0; // Quita la clase de validación
+  location.reload();
 };
 
 const handleError = async (DATA) => {
@@ -516,7 +594,7 @@ const handleError = async (DATA) => {
     await sweetAlert(4, DATA.error, true);
     location.href = 'index.html';
   } else {
-    sweetAlert(4, DATA.error, true);
+    sweetAlert(2, DATA.error, true);
   }
 };
 
@@ -569,10 +647,13 @@ const updateEstado = async (estado_cita) => {
   let TITLE, MESSAGE;
   if (estado_cita === 'Cancelado') {
     TITLE = '¿Seguro que quieres cancelar la cita?';
-    MESSAGE = 'Una vez cancelada solo se podrá eliminar';
+    MESSAGE = 'Una vez cancelada no podrás realizar ningún cambio.';
   } else if (estado_cita === 'Aceptado') {
     TITLE = '¿Seguro que quieres aceptar la cita?';
-    MESSAGE = 'Una vez aceptada no podrás agendar citas con la misma fecha y hora';
+    MESSAGE = 'Una vez aceptada no podrás agendar citas con la misma fecha y hora.';
+  } else if (estado_cita === 'Finalizada') {
+    TITLE = '¿Seguro que quieres finalizar la cita?';
+    MESSAGE = 'Una vez finalizada no podrás realizar ningún cambio.';
   } else {
     TITLE = '¿Seguro que quieres realizar esta acción?';
     MESSAGE = '';
@@ -644,7 +725,7 @@ const fillData = async (action = 'readAll', form = null) => {
     if (DATA.status) {
       SERVICIOS_CARDS_CONTAINER.innerHTML = createCardServicio(DATA.dataset);
     } else {
-      SERVICIOS_CARDS_CONTAINER.innerHTML = '<h5 class="open-sans-semibold"> No existen servicios en proceso </h5>'
+      SERVICIOS_CARDS_CONTAINER.innerHTML = '<h6 class="open-sans-regular"> No existen servicios en proceso </h6>'
     }
   } else {
     noVerNada();
@@ -739,7 +820,7 @@ function createCardCita(row) {
   return `
     <div class="card position-relative z-2" onclick="clicCita(${row.id_cita}, '${row.estado_cita}')">
       <div class="content z-3">
-          <h4 class="open-sans-light-italic">Màs informaciòn</h4>
+          <h4 class="open-sans-light-italic">Más información</h4>
       </div>
       <div class="line-divis position-absolute z-3"></div>
       <div class="card-izquierda">

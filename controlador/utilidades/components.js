@@ -1241,6 +1241,18 @@ function validateHora(hora) {
     return { valid: true, message: 'Hora válida.' };
 }
 
+function validateHora2(hora) {
+    // Expresión regular para validar horas en formato 24h entre 08:00 y 19:59
+    const horaRegex = /^(0[8-9]|1[0-9]):[0-5][0-9]$/;
+
+    // Validar formato
+    if (!horaRegex.test(hora)) {
+        return { valid: false, message: 'La hora debe estar entre las 08:00 AM y las 07:59 PM.' };
+    }
+
+    return { valid: true, message: 'Hora válida.' };
+}
+
 function validateNit(nit) {
     // Verificar longitud mínima y máxima
     if (nit.length < 17 || nit.length > 17) {
@@ -1279,7 +1291,6 @@ function validateName(name) {
     return { valid: true, message: 'Nombre válido.' };
 }
 
-
 function validateSalary(salary) {
     // Verificar si el salario está vacío
     if (!salary.trim()) {
@@ -1316,4 +1327,29 @@ function validateCarBrand(brand) {
     }
 
     return { valid: true, message: 'Marca válida.' };
+}
+
+function validateCantidad(cantidad) {
+    if (!cantidad.trim()) {
+        return { valid: false, message: 'El campo no puede estar vacío.' };
+    }
+
+    // Verificar si contiene solo números (sin comas, puntos o símbolos negativos)
+    const cantidadRegex = /^\d+$/;
+
+    if (!cantidadRegex.test(cantidad)) {
+        return { valid: false, message: 'Solo se permiten números positivos.' }; 
+    } 
+
+    // Verificar si la cantidad es 0
+    if (cantidad === '0' || cantidad === '00') {
+        return { valid: false, message: 'La cantidad no puede ser 0.' };
+    }
+
+    // Verificar longitud (máximo 2 dígitos)
+    if (cantidad.length > 2) {
+        return { valid: false, message: 'La cantidad no puede tener más de 2 dígitos.' };
+    }
+
+    return { valid: true, message: 'Cantidad válida.' };
 }
