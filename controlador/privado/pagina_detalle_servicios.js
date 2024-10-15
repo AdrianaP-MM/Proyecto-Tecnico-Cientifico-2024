@@ -97,7 +97,7 @@ const fillServiceData = async (id_tipo_servicio = Number(getQueryParam('id_tipo_
                             <div class="h-100 d-flex align-items-center px-4">
                                 <div class="add-auto-card d-flex justify-content-center align-items-center">
                                     <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
-                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop" alt="Add Service">
+                                        onclick="openCreate()">
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,8 @@ const openUpdate = async (id) => {
         }
 
         CONTAINER_BOTONES.innerHTML += `
-              <button id="btnDelete" type="button" class="btn btn-dark mx-2" onclick="openDelete(${ID_TIPO_SERVICIO.value})">Eliminar</button>
+              <button type="button" class="btn btn-secondary btnCancel2 me-lg-5 me-3 me-md-5" id="btnDelete"
+                                    onclick="openDelete(${ID_TIPO_SERVICIO.value})">Eliminar</button>
         `;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -299,7 +300,12 @@ const openDelete = async (id) => {
                 botonTres.remove();
             }
         } else {
-            sweetAlert(2, DATA.error, false);
+            if (!DATA.exception) {
+                sweetAlert(2, DATA.error, false);
+            }
+            else {
+                sweetAlert(2, DATA.exception, false);
+            }
         }
     }
 };
@@ -323,7 +329,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     formData.append('id_tipo_servicio', idTipoServicio);
 
     try {
-        const responseData = await fetchData(SAVE_FORM, action, formData); // Petición para guardar los datos del formulario
+        const responseData = await fetchData(SERVICIOS_API, action, formData); // Petición para guardar los datos del formulario
 
         if (responseData.status) { // Se comprueba si la respuesta es satisfactoria
             SAVE_MODAL.hide(); // Se cierra la caja de diálogo
@@ -435,5 +441,6 @@ const openClose = async () => {
     const RESPONSE = await confirmAction2('¿Seguro qué quieres regresar?', 'Los datos ingresados no serán almacenados');
     if (RESPONSE.isConfirmed) {
         SAVE_MODAL.hide();
+        SAVE_MODAL_2.hide();
     }
 }

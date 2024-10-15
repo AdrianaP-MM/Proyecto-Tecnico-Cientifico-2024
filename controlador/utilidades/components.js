@@ -1271,20 +1271,21 @@ function validateNit(nit) {
 }
 
 function validateName(name) {
-    // Verificar si el nombre está vacío
+    // Verificar si el nombre está vacío (ignorar espacios al principio y al final)
     if (!name.trim()) {
         return { valid: false, message: 'El campo no puede estar vacío.' };
     }
 
-    // Verificar longitud mínima y máxima
-    if (name.length < 1 || name.length > 50) {
+    // Verificar longitud mínima y máxima (considerando los espacios dentro)
+    const trimmedName = name.trim(); // Remueve espacios al principio y final, pero no entre palabras
+    if (trimmedName.length < 1 || trimmedName.length > 50) {
         return { valid: false, message: 'El nombre debe tener entre 1 y 50 caracteres.' };
     }
 
     // Verificar si contiene solo caracteres alfabéticos (incluyendo tildes) y espacios
-    const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/; // Incluye letras acentuadas
+    const nameRegex = /^[a-zA-ZÀ-ÿ\s]+$/; // Incluye letras acentuadas y espacios entre palabras
 
-    if (!nameRegex.test(name)) {
+    if (!nameRegex.test(trimmedName)) {
         return { valid: false, message: 'Solo se permiten letras y espacios.' };
     }
 

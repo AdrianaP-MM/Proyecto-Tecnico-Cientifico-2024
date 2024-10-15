@@ -76,6 +76,10 @@ class TipoServicioHandler
     {
         $sql = 'SELECT COUNT(*) as count FROM tb_tipos_servicios WHERE nombre_tipo_servicio = ?';
         $params = array($value);
+        if ($this->id_tipo_servicio) {
+            $sql .= ' AND id_tipo_servicio <> ?;';
+            $params[] = $this->id_tipo_servicio;
+        }
         $result = Database::getRow($sql, $params);
         // Retorna true si el count es mayor que 0, de lo contrario, false.
         return $result['count'] > 0;

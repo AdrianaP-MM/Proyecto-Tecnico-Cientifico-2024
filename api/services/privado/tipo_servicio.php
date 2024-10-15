@@ -51,14 +51,14 @@ if (isset($_GET['action'])) {
                 if (
                     !$tipoServicio->setIdTipoServicio($_POST['id_tipo_servicio']) or
                     !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio']) or
-                    !$tipoServicio->setImagenServicio($_FILES['imagen_servicio'])
+                    !$tipoServicio->setImagenServicio($_FILES['customFileW'])
                 ) {
                     $result['error'] = $tipoServicio->getDataError();
                 } elseif ($tipoServicio->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de servicio modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['imagen_servicio'], $tipoServicio::RUTA_IMAGEN, $tipoServicio->getFilename());
+                    $result['fileStatus'] = Validator::changeFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN, $tipoServicio->getFilename());
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el tipo de servicio';
                 }
