@@ -59,9 +59,13 @@ if ($dataCita = $cita->getTiempoAtencionNatural()) {
         }
     }
 } else {
+    // Se inicia el reporte con el encabezado del documento.
+    $pdf->startReport('Predicción del tiempo de atención por tipo de automóvil y servicio brindado.');
+    // Se establece un color de relleno para los encabezados.
+    $pdf->setFillColor(186, 24, 27);
+    // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 11);
     $pdf->cell(0, 10, $pdf->encodeString('No hay autos para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
 $pdf->output('I', 'reporte.pdf');
-?>
