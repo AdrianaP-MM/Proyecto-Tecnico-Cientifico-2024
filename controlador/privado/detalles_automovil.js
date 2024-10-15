@@ -233,6 +233,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     if (DATA.status) {
         MODAL.hide();
         await sweetAlert(1, DATA.message, true);
+        location.reload();
     } else {
         sweetAlert(2, DATA.error, false);
     }

@@ -6,7 +6,7 @@
   background-color: #F0F0F7;
 }
 
-.contenedor-info-fechas{
+.contenedor-info-fechas {
   background-color: white;
   border: 1px solid #DADCDE;
   border-top-right-radius: 10px;
@@ -14,7 +14,8 @@
   border-bottom-right-radius: 10px;
 }
 
-body, html{
+body,
+html {
   background-color: #F0F0F7;
 }
 
@@ -108,21 +109,34 @@ body, html{
 }
 
 .contenedor-drch {
-  background-color:#ffffff; /* Fondo negro */
+  background-color: #ffffff;
+  /* Fondo blanco */
   border: 1px solid #DADCDE;
-  display: flex; /* Flexbox para centrar la imagen */
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  padding-left: 20px; /* Padding a la izquierda */
-  height: 100%; /* Ajustar la altura del contenedor */
+  display: flex;
+  /* Flexbox para centrar la imagen */
+  justify-content: center;
+  /* Centrar horizontalmente */
+  align-items: center;
+  /* Centrar verticalmente */
+  padding-left: 20px;
+  /* Padding a la izquierda */
+  height: 100%;
+  /* Ajustar la altura del contenedor */
 }
 
 .contenedor-drch>img {
-  height: 100%; /* La imagen se ajusta a la altura del contenedor */
-  width: auto; /* El ancho se ajusta proporcionalmente */
-  object-fit: contain; /* Asegura que la imagen no se recorte y se mantenga dentro del contenedor */
-  object-position: center; /* Centrar la imagen */
+  height: 100%;
+  /* La imagen se ajusta a la altura del contenedor */
+  max-width: 100%;
+  /* El ancho máximo de la imagen es el ancho del contenedor */
+  width: auto;
+  /* El ancho se ajusta proporcionalmente */
+  object-fit: contain;
+  /* Asegura que la imagen no se recorte y se mantenga dentro del contenedor */
+  object-position: center;
+  /* Centrar la imagen */
 }
+
 
 /* Botón m2 */
 .btnm2 {
@@ -261,20 +275,20 @@ body, html{
 .btnSave,
 .btnCancel,
 .btnCancel2 {
-    height: 60px;
-    width: 200px;
+  height: 60px;
+  width: 200px;
 }
 
 .btnCancel,
 .btnCancel2 {
-    background-color: white;
-    border-width: 1;
-    border-color: #b5b5b5;
-    border-radius: 5px;
+  background-color: white;
+  border-width: 1;
+  border-color: #b5b5b5;
+  border-radius: 5px;
 }
 
 .btnCancel2 {
-    background-color: #5C636A;
+  background-color: #5C636A;
 }
 
 /* Botón de guardar */
