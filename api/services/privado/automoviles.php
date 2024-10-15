@@ -218,13 +218,28 @@ if (isset($_GET['action'])) {
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
+                // Verificar si se seleccionó una nueva imagen
+                $imagenSeleccionada = isset($_FILES['customFile2']) && $_FILES['customFile2']['error'] == UPLOAD_ERR_OK;
+
+                // Si no se seleccionó una nueva imagen, usar la imagen actual
+                if (!$imagenSeleccionada) {
+                    // Usar el nombre de la imagen actual
+                    $automovil->setImagenActual($_POST['imagenActual']);
+                } else {
+                    // Procesar la nueva imagen
+                    if (!$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename())) {
+                        $result['error'] = $automovil->getDataError();
+                        break;
+                    }
+                }
+
+                // Continuar con los demás campos
                 if (
                     !$automovil->setModeloAutomovil($_POST['input_modelo_auto']) or
                     !$automovil->setIdTipo($_POST['input_tipo_auto']) or
                     !$automovil->setColor($_POST['input_color_auto']) or
                     !$automovil->setFechaFabricacion($_POST['fechanInput']) or
                     !$automovil->setPlaca($_POST['input_placa']) or
-                    !$automovil->setImagen($_FILES['customFile2'], $automovil->getFilename()) or
                     !$automovil->setIdMarcaAutomovil($_POST['input_marca_auto']) or
                     !$automovil->setIdCliente($_POST['input_duiP']) or
                     !$automovil->setId($_POST['idAutomovil'])
@@ -233,8 +248,10 @@ if (isset($_GET['action'])) {
                 } elseif ($automovil->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Automóvil modificado correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['customFile2'], $automovil::RUTA_IMAGEN, $automovil->getFilename());
+                    // Solo cambia el archivo si se seleccionó una nueva imagen
+                    if ($imagenSeleccionada) {
+                        $result['fileStatus'] = Validator::changeFile($_FILES['customFile2'], $automovil::RUTA_IMAGEN, $automovil->getFilename());
+                    }
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el automóvil';
                 }
@@ -266,8 +283,8 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
     // Si no se envió una acción válida, se devuelve un mensaje de recurso no disponible.
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

@@ -290,8 +290,8 @@
         </div>
 
         <!--Modal para administrar marcas-->
-        <div class="modal fade maxHeight" id="marcasModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade maxHeight" id="marcasModal" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <!-- Contenedor del modal dialog-->
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <!-- Contenedor del modal content-->
@@ -315,11 +315,12 @@
                             <!-- Tabla de marcas y buscador -->
                             <div class="containerTabla mt-3">
                                 <!-- Buscador separado del formulario principal -->
-                                <div class="input-group mb-3 shadow-sm buscador"  data-bs-toggle="popover" data-bs-trigger="hover focus"
-                                data-bs-content="Buscador habilitado para: nombre de la marca"> <!--Buscador-->
-                                    <input type="text" name="searchMarca" class="form-control search" placeholder="Buscar..."
-                                        aria-label="Buscar..." aria-describedby="basic-addon2" required id="searchMarca"
-                                        autocomplete="off">
+                                <div class="input-group mb-3 shadow-sm buscador" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="Buscador habilitado para: nombre de la marca"> <!--Buscador-->
+                                    <input type="text" name="searchMarca" class="form-control search"
+                                        placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2"
+                                        required id="searchMarca" autocomplete="off">
                                     <div>
                                         <button type="button" onclick="searchMarcas()" class="btn btn-outline"
                                             id="searchInput">
@@ -352,15 +353,16 @@
                                     </table>
                                 </div>
                             </div>
+                            <!-- Contenedor del footer del modal (contenedor de los botones)-->
+                            <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
+                                <button type="button" class="btn btn-secondary btnCancel2 mx-5"
+                                    onclick="openDeleteMarca()">Eliminar</button>
+                                <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
+                                    onclick="openCloseCRUDMarcas()">Cancelar</button>
+                                <button type="submit"
+                                    class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
+                            </div>
                         </form>
-                    </div>
-                    <!-- Contenedor del footer del modal (contenedor de los botones)-->
-                    <div class="modal-footer d-flex justify-content-center align-items-center col-12 mt-5">
-                        <button type="button" class="btn btn-secondary btnCancel2 mx-5" 
-                            onclick="openDeleteMarca()">Eliminar</button>
-                        <button type="button" class="btn btn-light btnCancel me-lg-5 me-3 me-md-5"
-                            onclick="openCloseCRUDMarcas()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary btnSave me-lg-5 me-3 me-md-5">Aceptar</button>
                     </div>
                 </div>
             </div>

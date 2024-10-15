@@ -63,6 +63,13 @@ class AutomovilData extends AutomovilHandler
         }
     }
 
+    public function setImagenActual($value)
+    {
+        // Asigna el nombre de la imagen actual al atributo correspondiente
+        $this->imagen_automovil = $value;
+        return true;
+    }
+
     public function setIdMarcaAutomovil($value)
     {
         if (Validator::validateNaturalNumber($value)) {

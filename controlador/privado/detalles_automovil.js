@@ -14,6 +14,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     REPORTEAUTOMOVIL = document.getElementById('idAutoReport'),
     ID_AUTOMOVIL = document.getElementById('idAuto'),
     IMG = document.getElementById('customFile2'),
+    CURRENTIMG = document.getElementById('currentImage'),
     IMAGEN = document.getElementById('selectedImageA'),
     MODELO = document.getElementById('input_modelo_auto'),
     ERROR_MODELO_UPDATE = document.getElementById('ERROR-MODELO-UPDATE'),
@@ -86,12 +87,12 @@ const openUpdate = async () => {
         MODELO.value = ROW.modelo_automovil;
         fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto', ROW.id_tipo_automovil);
         fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto', ROW.id_marca_automovil);
-        //fillSelect(AUTOMOVILES_API, 'readColores', 'input_color_auto', ROW.id_color);
         fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP', ROW.id_cliente);
         PLACA.value = ROW.placa_automovil;
         COLOR.value = findNumberValue(ROW.color_automovil);
         FECHA_FABRICACION.value = ROW.fecha_fabricacion_automovil;
         IMAGEN.src = SERVER_URL.concat('images/automoviles/', ROW.imagen_automovil);
+        CURRENTIMG.value = ROW.imagen_automovil;
 
         // Buscar y marcar el `option` correspondiente como seleccionado
         const colorValue = findNumberValue(ROW.color_automovil);
@@ -196,13 +197,13 @@ CLIENTE.addEventListener('input', function () {
 
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
     if (MODELO.value === '' || TIPO_AUTO.value === '' || FECHA_FABRICACION.value === '' || CLIENTE.value === '' ||
         COLOR.value === '' || PLACA.value === '' || MARCA.value === ''
     ) {
-        await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+        return;
     }
 
     if (!checkInput(validateSelect(MARCA.value), MARCA, ERROR_MARCA_UPDATE) ||
@@ -216,24 +217,28 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 
     const idParam = PARAMS.get('id');
     const id = parseInt(idParam, 10);
-    console.log(id);
-    // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
-    FORM.append('idAutomovil', id)
-    // Petición para guardar los datos del formulario.
+
+    // Verificar si se seleccionó un archivo en el input de la imagen.
+    const fileInput = document.getElementById('customFile2');
+    if (fileInput.files.length === 0) {
+        // No hay imagen seleccionada, asignar la imagen actual almacenada en el input oculto.
+        const currentImage = document.getElementById('currentImage').value;
+        FORM.append('imagenActual', currentImage); // Enviar el nombre de la imagen actual para manejarlo en PHP.
+    }
+
+    FORM.append('idAutomovil', id);
+
     const DATA = await fetchData(AUTOMOVILES_API, 'updateRow', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se cierra la caja de diálogo.
         MODAL.hide();
-        // Se muestra un mensaje de éxito.
         await sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la tabla para visualizar los cambios.
-        location.reload()
     } else {
         sweetAlert(2, DATA.error, false);
     }
 });
+
+
 
 function applicateRules() {
     //FORMATO DE LOS INPUTS DE ACTUALIZAR
