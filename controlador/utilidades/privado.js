@@ -27,7 +27,7 @@ const loadTemplate = async () => {
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
 
                     <ul
-                        class="navbar-nav mb-2 mb-lg-0 nav-underline d-flex justify-content-start me-auto flex-grow-1 gap-5">
+                        class="navbar-nav mb-2 mb-lg-0 nav-underline d-flex justify-content-start me-auto flex-wrap gap-5">
 
                         <li class="nav-item animation">
                             <a class="nav-link" aria-current="page" href="../../vistas/privado/empleados.html">
