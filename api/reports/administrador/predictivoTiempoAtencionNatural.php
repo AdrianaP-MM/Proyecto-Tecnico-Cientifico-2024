@@ -59,6 +59,7 @@ if ($dataCita = $cita->getTiempoAtencionNatural()) {
         }
     }
 } else {
+    $pdf->setFont('Arial', 'B', 11);
     $pdf->cell(0, 10, $pdf->encodeString('No hay autos para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.

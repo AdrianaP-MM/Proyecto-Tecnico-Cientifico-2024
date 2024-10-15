@@ -72,6 +72,7 @@ if ($dataCita = $cita->getDemandaServicioMensual()) {
         $pdf->Ln();
     }
 } else {
+    $pdf->setFont('Arial', 'B', 11);
     $pdf->cell(0, 10, $pdf->encodeString('No hay datos para mostrar'), 1, 1);
 }
 // Se llama implícitamente al método footer() y se envía el documento al navegador web.
