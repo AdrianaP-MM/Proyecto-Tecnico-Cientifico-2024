@@ -10,6 +10,7 @@ const SAVE_MODAL_2 = new bootstrap.Modal(document.getElementById("staticBackdrop
 
 const SAVE_FORM = document.getElementById('save_form'),
     ID_TIPO_SERVICIO = document.getElementById('id_tipo_servicio'),
+    CURRENTIMG = document.getElementById('currentImage'),
     NOMBRE_SERVICIO = document.getElementById('nombre_servicio'),
     DESCRIPCION_SERVICIO = document.getElementById('descripcion_servicio');
 
@@ -146,6 +147,29 @@ const openUpdate = async (id) => {
     }
 };
 
+// Función para mostrar la imagen seleccionada en un elemento de imagen.
+function displaySelectedImage(event, elementId) {
+    // Obtiene el elemento de imagen según su ID.
+    const selectedImage = document.getElementById(elementId);
+    // Obtiene el elemento de entrada de archivo del evento.
+    const fileInput = event.target;
+
+    // Verifica si hay archivos seleccionados y al menos uno.
+    if (fileInput.files && fileInput.files[0]) {
+        // Crea una instancia de FileReader para leer el contenido del archivo.
+        const reader = new FileReader();
+
+        // Define el evento que se ejecutará cuando la lectura sea exitosa.
+        reader.onload = function (e) {
+            // Establece la fuente de la imagen como el resultado de la lectura (base64).
+            selectedImage.src = e.target.result;
+        };
+
+        // Inicia la lectura del contenido del archivo como una URL de datos.
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+
 
 // Función para abrir el modal de actualización
 const openUpdateService = async () => {
@@ -170,6 +194,7 @@ const openUpdateService = async () => {
         const row = DATA.dataset;
         NOMBRE.value = row.nombre_tipo_servicio;
         IMG_SERVICIO.src = SERVER_URL.concat('images/tipoServicio/', row.imagen_servicio);
+        CURRENTIMG.value = row.imagen_servicio;
 
 
         const botonTres = document.getElementById("btnDelete");
@@ -355,6 +380,14 @@ SAVE_FORM_2.addEventListener('submit', async (event) => {
     let idTipoServicio;
     idTipoServicio = Number(getQueryParam('id_tipo_servicio')); // Obtener ID para crear
     formData.append('id_tipo_servicio', idTipoServicio);
+
+    // Verificar si se seleccionó un archivo en el input de la imagen.
+    const fileInput = document.getElementById('customFileW');
+    if (fileInput.files.length === 0) {
+        // No hay imagen seleccionada, asignar la imagen actual almacenada en el input oculto.
+        const currentImage = document.getElementById('currentImage').value;
+        formData.append('imagenActual', currentImage); // Enviar el nombre de la imagen actual para manejarlo en PHP.
+    }
 
     try {
         const responseData = await fetchData(TIPOS_API, 'updateRow', formData); // Petición para guardar los datos del formulario

@@ -60,7 +60,7 @@ class TiposServiciosData extends TipoServicioHandler
         }
     }
 
-   
+
     // Método para obtener el error de los datos
     public function getDataError()
     {
@@ -73,7 +73,12 @@ class TiposServiciosData extends TipoServicioHandler
         return $this->filename;
     }
 
+    public function setImagenActual($value)
+    {
+        // Asigna el nombre de la imagen actual al atributo correspondiente
+        $this->imagen_servicio = $value;
+        return true;
+    }
+
 
 }
-
-?>

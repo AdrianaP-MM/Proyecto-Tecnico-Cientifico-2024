@@ -48,17 +48,33 @@ if (isset($_GET['action'])) {
 
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
+
+                // Verificar si se seleccionó una nueva imagen
+                $imagenSeleccionada = isset($_FILES['customFileW']) && $_FILES['customFileW']['error'] == UPLOAD_ERR_OK;
+
+                // Si no se seleccionó una nueva imagen, usar la imagen actual
+                if (!$imagenSeleccionada) {
+                    // Usar el nombre de la imagen actual
+                    $tipoServicio->setImagenActual($_POST['imagenActual']);
+                } else {
+                    // Procesar la nueva imagen
+                    if (!$tipoServicio->setImagenServicio($_FILES['customFileW'], $tipoServicio->getFilename())) {
+                        $result['error'] = $tipoServicio->getDataError();
+                        break;
+                    }
+                }
+
                 if (
                     !$tipoServicio->setIdTipoServicio($_POST['id_tipo_servicio']) or
-                    !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio']) or
-                    !$tipoServicio->setImagenServicio($_FILES['customFileW'])
+                    !$tipoServicio->setNombreTipoServicio($_POST['nombre_tipo_servicio'])
                 ) {
                     $result['error'] = $tipoServicio->getDataError();
                 } elseif ($tipoServicio->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de servicio modificado correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN, $tipoServicio->getFilename());
+                    if ($imagenSeleccionada) {
+                        $result['fileStatus'] = Validator::changeFile($_FILES['customFileW'], $tipoServicio::RUTA_IMAGEN, $tipoServicio->getFilename());
+                    }
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el tipo de servicio';
                 }
