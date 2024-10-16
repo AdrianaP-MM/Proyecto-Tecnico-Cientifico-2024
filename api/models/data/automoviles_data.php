@@ -43,11 +43,18 @@ class AutomovilData extends AutomovilHandler
 
     public function setMarcaAutomovil($value)
     {
-        if (Validator::validateString($value)) { // Cambiado a validación de cadena
-            $this->nombre_marca_automovil = $value;
-            return true;
+        // Primero valida si el valor cumple con los requisitos de formato.
+        if (Validator::validateString($value)) {
+            // Si el formato es válido, verifica si no hay duplicados.
+            if ($this->checkDuplicate($value)) {
+                $this->nombre_marca_automovil = $value;
+                return true;
+            } else {
+                $this->data_error = 'La marca de automóvil ya existe.';
+                return false;
+            }
         } else {
-            $this->data_error = 'La marca de automóvil es incorrecto';
+            $this->data_error = 'La marca de automóvil es incorrecta.';
             return false;
         }
     }
@@ -222,5 +229,4 @@ class AutomovilData extends AutomovilHandler
             return false;
         }
     }
-
 }

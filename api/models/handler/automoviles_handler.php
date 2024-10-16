@@ -318,18 +318,21 @@ class AutomovilHandler
     public function checkDuplicate($value)
     {
         // Consulta SQL para verificar duplicados
-        $sql = 'SELECT id_automovil FROM tb_automoviles 
-        WHERE (placa_automovil = ?)';
-        $params = array(
-            $value,
-        ); // Parámetros para la consulta SQL
+        $sql = 'SELECT nombre_marca_automovil FROM tb_marcas_automoviles 
+            WHERE nombre_marca_automovil = ?';
 
-        if ($this->id_automovil) {
-            $sql .= ' AND id_automovil <> ?;';
-            $params[] = $this->id_automovil;
+        $params = array($value);
+
+        // Ejecuta la consulta y obtiene los resultados
+        $result = Database::getRows($sql, $params);
+
+        // Si se encuentra algún resultado, significa que la marca ya existe, devuelve false
+        if (count($result) > 0) {
+            return false;
+        } else {
+            // Si no hay resultados, la marca no existe, devuelve true
+            return true;
         }
-
-        return Database::getRows($sql, $params); // Ejecución de la consulta SQL
     }
 
     public function readAll()
