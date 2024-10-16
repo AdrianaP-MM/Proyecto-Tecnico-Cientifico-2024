@@ -86,7 +86,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Tipo de servicio eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de servicio';
+                    $result['error'] = 'Ocurrió un problema al eliminar el tipo de servicio, asegurese que esta categoria de servicio no este en ningun proceso.';
                 }
                 break;
 

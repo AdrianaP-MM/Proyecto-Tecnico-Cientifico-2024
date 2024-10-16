@@ -83,7 +83,7 @@ class AutomovilData extends AutomovilHandler
             $this->id_marca_automovil = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la marca del automóvil es incorrecto';
+            $this->data_error = 'El identificador de la marca del automóvil es incorrecto. Asegúrese de seleccionar una marca';
             return false;
         }
     }
