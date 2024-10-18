@@ -224,7 +224,6 @@ function configurarFechaMaxima() {
     hoy = yyyy + '-' + mm + '-' + dd;
 
     document.getElementById("fecha_inicial").setAttribute("max", hoy);
-    document.getElementById("fecha_final").setAttribute("max", hoy);
 }
 
 document.getElementById('graficaForm').addEventListener('submit', function (event) {
