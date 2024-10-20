@@ -169,7 +169,7 @@ if (isset($_GET['action'])) {
                     $result['message'] =
                         'Autenticación correcta';
                 } else {
-                    $result['error'] = 'Credenciales incorrectas';
+                    $result['error'] = 'Credenciales incorrectas o cuenta eliminada';
                 }
                 break;
             case 'checkCorreo':

@@ -26,7 +26,7 @@ class UsuariosClientesHandler
     protected $fto_cliente = null;
 
     /*Metodos para administrar las cuentas de Usuarios*/
-    
+
     const RUTA_IMAGEN = '../../../api/images/clientes/';
 
     //Esta funcion edita los datos del usuario
@@ -47,18 +47,18 @@ class UsuariosClientesHandler
         WHERE id_cliente = ?;';
 
         $params = array(
-        $this->dui_cliente,
-        $this->telefono_cliente,
-        $this->correo_usuario,
-        $this->nombres_cliente,
-        $this->apellidos_cliente,
-        $this->departamento_cliente,
-        $this->NIT_cliente,
-        $this->NRC_cliente,
-        $this->NRF_cliente,
-        $this->rubro_comercial,
-        $this->fto_cliente,
-        $this->id_cliente
+            $this->dui_cliente,
+            $this->telefono_cliente,
+            $this->correo_usuario,
+            $this->nombres_cliente,
+            $this->apellidos_cliente,
+            $this->departamento_cliente,
+            $this->NIT_cliente,
+            $this->NRC_cliente,
+            $this->NRF_cliente,
+            $this->rubro_comercial,
+            $this->fto_cliente,
+            $this->id_cliente
         );
 
         return Database::executeRow($sql, $params);
@@ -88,11 +88,14 @@ class UsuariosClientesHandler
     //Funcion que valida el inicio de sesion
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_cliente, correo_cliente, clave_usuario_cliente 
-        FROM tb_clientes 
-        WHERE correo_cliente = ?;';
+        $sql = 'SELECT id_cliente, correo_cliente, clave_usuario_cliente, estado_cliente
+            FROM tb_clientes 
+            WHERE correo_cliente = ?;';
         $params = array($username);
         if (!($data = Database::getRow($sql, $params))) {
+            return false;
+        } elseif ($data['estado_cliente'] === 'Eliminado') {
+            // Si el estado del cliente es 'Eliminado', no permitimos el inicio de sesión
             return false;
         } elseif (password_verify($password, $data['clave_usuario_cliente'])) {
             $_SESSION['idUsuarioCliente'] = $data['id_cliente'];
