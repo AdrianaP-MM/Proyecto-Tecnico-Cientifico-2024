@@ -865,6 +865,38 @@ function formatDUI(inputElement, ERROR) {
     });
 }
 
+function formatDUIList(inputElement, ERROR) {
+    // Definir la función que da formato y valida el DUI
+    const formatAndValidate = (event) => {
+        // Obtener el valor actual del campo de texto
+        let inputValue = inputElement.value;
+
+        // Limpiar el valor de cualquier carácter que no sea un número
+        inputValue = inputValue.replace(/\D/g, '');
+
+        // Asegurar que no haya más de 9 dígitos
+        inputValue = inputValue.slice(0, 9);
+
+        // Formatear el número agregando el guión antes del último dígito si hay al menos dos dígitos
+        if (inputValue.length > 8) {
+            inputValue = inputValue.slice(0, 8) + '-' + inputValue.slice(8);
+        }
+
+        // Actualizar el valor del campo de texto con la entrada formateada
+        inputElement.value = inputValue;
+
+        // Llamar a la validación con el valor formateado
+        const validationResult = validateDUI(inputValue); // Validar el valor ya formateado
+        checkInput(validationResult, inputElement, ERROR);
+    };
+
+    // Agregar el evento de 'input' que ejecuta el formato y la validación
+    inputElement.addEventListener('input', formatAndValidate);
+
+    // Retornar la función para que pueda ser llamada manualmente si es necesario
+    return formatAndValidate;
+}
+
 function formatDireccion(inputElement) {
     inputElement.addEventListener('input', function (event) {
         // Obtener el valor actual del campo de texto

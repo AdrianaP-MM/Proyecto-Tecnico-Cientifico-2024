@@ -843,6 +843,7 @@ const fillTableFiltroFecha = async () => {
 
 /*Extra*/
 
+// Función para manejar el autocompletado del DUI
 async function readDUI() {
     try {
         const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
@@ -856,9 +857,14 @@ async function readDUI() {
             $("#label_dui").autocomplete({
                 source: duiOptions,
                 select: function (event, ui) {
+                    // Asignar DUI y cliente seleccionados
                     $('#label_dui').val(ui.item.label);
-                    $('#input_duiP').val(ui.item.value); // Guardar el id_cliente como data en el input
-                    console.log("ID Cliente seleccionado:", ui.item.value);
+                    $('#input_duiP').val(ui.item.value);
+
+                    // Formatear y validar el DUI seleccionado
+                    const formatAndValidate = formatDUIList(DUI, ERROR_DUI_ADD);
+                    formatAndValidate(); // Llama a la función para validar y formatear
+
                     return false;
                 }
             });

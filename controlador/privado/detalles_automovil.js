@@ -250,7 +250,7 @@ function applicateRules() {
     formatSalvadoreanPlate(PLACA);
     formatCarModelName(MODELO);
     formatYear(FECHA_FABRICACION);
-    formatDUI(CLIENTE_INPUT, ERROR_DUI_ADD);
+    formatDUIList(CLIENTE_INPUT, ERROR_DUI_ADD); // Solo se configura el evento
     disablePasteAndDrop(PLACA);
     disableCopy(PLACA);
 }
@@ -334,6 +334,7 @@ IMG.addEventListener('change', function (event) {
     }
 });
 
+// Función para manejar el autocompletado del DUI
 async function readDUI() {
     try {
         const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
@@ -347,9 +348,14 @@ async function readDUI() {
             $("#label_dui").autocomplete({
                 source: duiOptions,
                 select: function (event, ui) {
+                    // Asignar DUI y cliente seleccionados
                     $('#label_dui').val(ui.item.label);
-                    $('#input_duiP').val(ui.item.value); // Guardar el id_cliente como data en el input
-                    console.log("ID Cliente seleccionado:", ui.item.value);
+                    $('#input_duiP').val(ui.item.value);
+
+                    // Formatear y validar el DUI seleccionado
+                    const formatAndValidate = formatDUIList(CLIENTE_INPUT, ERROR_DUI_ADD);
+                    formatAndValidate(); // Llama a la función para validar y formatear
+
                     return false;
                 }
             });
