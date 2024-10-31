@@ -45,7 +45,6 @@ async function openCreate() {
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {
-    applicateRules();
     const id_tipo_servicio = Number(getQueryParam('id_tipo_servicio'));
     if (id_tipo_servicio) {
         // Llama a la función para llenar los datos del servicio específico.
@@ -436,12 +435,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function goBack() {
     window.history.back();
-}
-
-function applicateRules() {
-    // Agregar evento a cada campo de contraseña
-    formatLimitedInput(NOMBRE_SERVICIO);
-    formatLimitedInput(DESCRIPCION_SERVICIO);
 }
 
 // Función que muestra la alerta de confirmación
