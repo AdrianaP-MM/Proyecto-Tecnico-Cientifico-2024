@@ -27,6 +27,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     PLACA = document.getElementById('input_placa'),
     ERROR_PLACA_UPDATE = document.getElementById('ERROR-PLACA-UPDATE'),
     CLIENTE = document.getElementById('input_duiP'),
+    CLIENTE_INPUT = document.getElementById('label_dui'),
     ERROR_CLIENTE_UPDATE = document.getElementById('ERROR-DUI-UPDATE'),
     MARCA = document.getElementById('input_marca_auto'),
     ERROR_MARCA_UPDATE = document.getElementById('ERROR-MARCA-UPDATE');
@@ -79,6 +80,7 @@ const openUpdate = async () => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         MODAL.show();
+        readDUI();
         // Se prepara el formulario.
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
@@ -87,7 +89,9 @@ const openUpdate = async () => {
         MODELO.value = ROW.modelo_automovil;
         fillSelect(AUTOMOVILES_API, 'readTipos', 'input_tipo_auto', ROW.id_tipo_automovil);
         fillSelect(AUTOMOVILES_API, 'readMarcas', 'input_marca_auto', ROW.id_marca_automovil);
-        fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP', ROW.id_cliente);
+        //fillSelect(AUTOMOVILES_API, 'readClientes', 'input_duiP', ROW.id_cliente);
+        CLIENTE.value = ROW.id_cliente;
+        CLIENTE_INPUT.value = ROW.dui_cliente;
         PLACA.value = ROW.placa_automovil;
         COLOR.value = findNumberValue(ROW.color_automovil);
         FECHA_FABRICACION.value = ROW.fecha_fabricacion_automovil;
@@ -246,7 +250,7 @@ function applicateRules() {
     formatSalvadoreanPlate(PLACA);
     formatCarModelName(MODELO);
     formatYear(FECHA_FABRICACION);
-
+    formatDUI(CLIENTE_INPUT, ERROR_DUI_ADD);
     disablePasteAndDrop(PLACA);
     disableCopy(PLACA);
 }
@@ -329,6 +333,35 @@ IMG.addEventListener('change', function (event) {
         reader.readAsDataURL(file);
     }
 });
+
+async function readDUI() {
+    try {
+        const DATA = await fetchData(AUTOMOVILES_API, 'readClientes');
+
+        if (DATA && DATA.status) {
+            const duiOptions = DATA.dataset.map(item => ({
+                label: item.dui_cliente,
+                value: item.id_cliente
+            }));
+
+            $("#label_dui").autocomplete({
+                source: duiOptions,
+                select: function (event, ui) {
+                    $('#label_dui').val(ui.item.label);
+                    $('#input_duiP').val(ui.item.value); // Guardar el id_cliente como data en el input
+                    console.log("ID Cliente seleccionado:", ui.item.value);
+                    return false;
+                }
+            });
+
+        } else {
+            sweetAlert(4, DATA ? DATA.error : 'Error en la respuesta de la API', false);
+        }
+    } catch (error) {
+        console.error('Error al leer los servicios:', error);
+        sweetAlert(4, 'No se pudo obtener los datos de los servicios.', false);
+    }
+}
 
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 // (() => {

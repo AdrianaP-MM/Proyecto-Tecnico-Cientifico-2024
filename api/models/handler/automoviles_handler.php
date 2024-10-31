@@ -210,7 +210,10 @@ class AutomovilHandler
 
     public function readOne()
     {
-        $sql = 'SELECT * FROM tb_automoviles WHERE id_automovil = ?';
+        $sql = 'SELECT tb_automoviles.*, tb_clientes.dui_cliente 
+            FROM tb_automoviles
+            JOIN tb_clientes ON tb_automoviles.id_cliente = tb_clientes.id_cliente
+            WHERE tb_automoviles.id_automovil = ?';
         $params = array(
             $this->id_automovil
         );

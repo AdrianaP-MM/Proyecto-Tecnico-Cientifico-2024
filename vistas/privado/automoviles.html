@@ -306,8 +306,8 @@
                                     class="invisible d-none" inert>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="input_marca_automovil"
-                                        name="input_marca_automovil" max="50" required placeholder="..."
-                                        autocomplete="off">
+                                        name="input_marca_automovil" required placeholder="..."
+                                        autocomplete="off" maxlength="50">
                                     <label for="input_marca_automovil">Marca</label>
                                     <span id="ERROR-MARCA" class="text-danger"></span>
                                 </div>
@@ -320,7 +320,7 @@
                                     data-bs-content="Buscador habilitado para: nombre de la marca"> <!--Buscador-->
                                     <input type="text" name="searchMarca" class="form-control search"
                                         placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2"
-                                        required id="searchMarca" autocomplete="off">
+                                        required id="searchMarca" autocomplete="off" maxlength="50">
                                     <div>
                                         <button type="button" onclick="searchMarcas()" class="btn btn-outline"
                                             id="searchInput">
