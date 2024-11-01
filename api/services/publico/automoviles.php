@@ -85,49 +85,48 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrio un problema al insertar el automovil';
                 }
                 break;
-                case 'updateRow':
-                    // Validar y limpiar los datos del formulario
-                    $_POST = Validator::validateForm($_POST);
-                    $IMG = isset($_FILES['imagen_automovil']) ? $_FILES['imagen_automovil'] : null;
-                
-                    // Agregar log para verificar el ID del automóvil
-                    error_log('ID del automóvil recibido: ' . $_POST['id_automovil']);
-                
-                    // Asignar los valores al objeto de automóvil
-                    if (
-                        !$automovil->setModeloAutomovil($_POST['modelo_automovil']) or
-                        !$automovil->setIdTipo($_POST['id_tipo_automovil']) or
-                        !$automovil->setColor($_POST['color_automovil']) or
-                        !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) or
-                        !$automovil->setPlaca($_POST['placa_automovil']) or
-                        !$automovil->setIdMarcaAutomovil($_POST['id_marca_automovil']) or
-                        !$automovil->setIdCliente($_POST['id_cliente']) or
-                        !$automovil->setId($_POST['id_automovil']) or
-                        ($IMG && !$automovil->setImagen($IMG))
-                    ) {
-                        if ($IMG) {
-                            if (move_uploaded_file($IMG['tmp_name'], 'ruta/destino/' . $IMG['name'])) {
-                                echo 'Imagen subida con éxito';
-                            } else {
-                                echo 'Error al subir la imagen';
-                            }
-                        }
-                        
-                        // Si hay algún error en los datos, almacenar el mensaje de error
-                        $result['error'] = $automovil->getDataError();
-                    } elseif ($automovil->updateRow()) {
-                        // Si la actualización es exitosa, almacenar el estado de la imagen y el mensaje de éxito
-                        $result['status'] = 1;
-                        $result['message'] = 'Automóvil modificado correctamente';
-                        if ($IMG) {
-                            $result['fileStatus'] = Validator::saveFile($IMG, $automovil::RUTA_IMAGEN);
-                        }
-                    } else {
-                        // Si ocurre un problema al actualizar, almacenar el mensaje de error
-                        $result['error'] = 'Ocurrió un problema al modificar el automóvil';
-                    }
-                    break;
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
 
+                $imagenSeleccionada = isset($_FILES['imagen_automovil']) && $_FILES['imagen_automovil']['error'] == UPLOAD_ERR_OK;
+                
+
+                // Si no se seleccionó una nueva imagen, usar la imagen actual
+                if (!$imagenSeleccionada) {
+                    // Usar el nombre de la imagen actual
+                    $automovil->setImagenActual($_POST['imagenActual']);
+                } else {
+                    // Procesar la nueva imagen
+                    if (!$automovil->setImagen($_FILES['imagen_automovil'], $automovil->getFilename())) {
+                        $result['error'] = $automovil->getDataError();
+                        break;
+                    }
+                }
+
+                // Continuar con los demás campos
+                if (
+                    !$automovil->setModeloAutomovil($_POST['modelo_automovil']) ||
+                    !$automovil->setIdTipo($_POST['id_tipo_automovil']) ||
+                    !$automovil->setColor($_POST['color_automovil']) ||
+                    !$automovil->setFechaFabricacion($_POST['fecha_fabricacion_automovil']) ||
+                    !$automovil->setPlaca($_POST['placa_automovil']) ||
+                    !$automovil->setIdMarcaAutomovil($_POST['id_marca_automovil']) ||
+                    !$automovil->setIdCliente($_POST['id_cliente']) ||
+                    !$automovil->setId($_POST['id_automovil'])
+                ) {
+                    $result['error'] = $automovil->getDataError();
+                } elseif ($automovil->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Automóvil modificado correctamente';
+                    // Solo cambia el archivo si se seleccionó una nueva imagen
+                    if ($imagenSeleccionada) {
+                        $result['fileStatus'] = Validator::changeFile($_FILES['imagen_automovil'], $automovil::RUTA_IMAGEN, $automovil->getFilename());
+                    }
+                } else {
+                    // Si ocurre un problema al actualizar, almacenar el mensaje de error
+                    $result['error'] = 'Ocurrió un problema al modificar el automóvil';
+                }
+                break;
             case 'readAllMyCars':
                 if ($result['dataset'] = $automovil->readAllMyCars()) {
                     $result['status'] = 1;
