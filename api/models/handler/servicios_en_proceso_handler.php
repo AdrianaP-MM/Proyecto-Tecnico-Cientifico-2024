@@ -99,7 +99,7 @@ class ServiciosProcesoHandler
         JOIN tb_citas c ON a.id_automovil = c.id_automovil
         JOIN tb_servicios_en_proceso sp ON c.id_cita = sp.id_cita
         WHERE sp.id_servicio = ? 
-        AND a.id_cliente = ?';
+        AND a.id_cliente = ? AND c.estado_cita = "Aceptado"; ';
 
         $params = array(
             $this->id_servicio,
