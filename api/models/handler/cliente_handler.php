@@ -89,18 +89,6 @@ class ClienteHandler
                 $params[] = $this->fecha_hasta;
             }
         }
-        if ($this->autos_cantidad) {
-            $sql .= ' SELECT c.*
-                        FROM tb_clientes c
-                        INNER JOIN (
-                            SELECT id_cliente
-                            FROM tb_automoviles
-                            GROUP BY id_cliente
-                            HAVING COUNT(*) = ?
-                        ) a ON c.id_cliente = a.id_cliente;
-                    ';
-            $params[] = $this->autos_cantidad;
-        }
 
         if ($this->marcas_seleccionadas) {
             // Convertimos la cadena en un arreglo de IDs de marcas
@@ -112,8 +100,7 @@ class ClienteHandler
             // Agregamos los placeholders a la consulta
             $sql .= ' AND EXISTS (
                 SELECT 1 FROM tb_automoviles 
-                INNER JOIN tb_modelos_automoviles ON tb_automoviles.id_modelo_automovil = tb_modelos_automoviles.id_modelo_automovil
-                INNER JOIN tb_marcas_automoviles ON tb_modelos_automoviles.id_marca_automovil = tb_marcas_automoviles.id_marca_automovil
+                INNER JOIN tb_marcas_automoviles ON tb_automoviles.id_marca_automovil = tb_marcas_automoviles.id_marca_automovil
                 WHERE tb_automoviles.id_cliente = tb_clientes.id_cliente
                 AND tb_marcas_automoviles.id_marca_automovil IN (' . $placeholders . ')
             )';
@@ -121,35 +108,6 @@ class ClienteHandler
             // Agregamos los valores de las marcas seleccionadas a los parámetros
             foreach ($marcas_seleccionadas as $marca) {
                 $params[] = $marca;
-            }
-        }
-
-        if ($this->servicios_seleccionados && ($this->tipo_cliente == 'Persona natural' || $this->tipo_cliente == 'Persona juridica')) {
-            $table = ($this->tipo_cliente == 'Persona Natural') ? 'tb_detalles_consumidores_finales' : 'tb_detalles_creditos_fiscales';
-
-            // Convertimos la cadena en un arreglo de IDs de servicios
-            $servicios_seleccionados = explode(',', $this->servicios_seleccionados);
-
-            // Creamos un string con el mismo número de placeholders que servicios seleccionados
-            $placeholders = implode(',', array_fill(0, count($servicios_seleccionados), '?'));
-
-            // Agregamos los placeholders a la consulta
-            $sql .= ' AND EXISTS (
-                SELECT 1
-                FROM ' . $table . ' AS detalle
-                INNER JOIN tb_consumidores_finales AS consumidor ON detalle.id_consumidor_final = consumidor.id_consumidor_final
-                INNER JOIN tb_citas AS cita ON consumidor.id_cita = cita.id_cita
-                WHERE cita.id_automovil IN (
-                    SELECT id_automovil 
-                    FROM tb_automoviles 
-                    WHERE tb_automoviles.id_cliente = tb_clientes.id_cliente
-                )
-                AND detalle.id_servicio IN (' . $placeholders . ')
-            )';
-
-            // Agregamos los valores de los servicios seleccionados a los parámetros
-            foreach ($servicios_seleccionados as $servicio) {
-                $params[] = $servicio;
             }
         }
 
