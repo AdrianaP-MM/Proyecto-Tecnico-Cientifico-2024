@@ -2,8 +2,8 @@
 # | Custom error messages/pages                                        |
 # ----------------------------------------------------------------------
 
-ErrorDocument 403 /PROYECTO-TECNICO-CIENTIFICO-2024/recursos/errores/error_403.html
-ErrorDocument 404 /PROYECTO-TECNICO-CIENTIFICO-2024/recursos/errores/error_404.html
+ErrorDocument 403 /Proyecto-Tecnico-Cientifico-2024/recursos/errores/error_403.html
+ErrorDocument 404 /Proyecto-Tecnico-Cientifico-2024/recursos/errores/error_404.html
 
 # ----------------------------------------------------------------------
 # | Character encodings                                                |
