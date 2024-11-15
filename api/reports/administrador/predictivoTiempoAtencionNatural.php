@@ -22,11 +22,9 @@ if ($dataCita = $cita->getTiempoAtencionNatural()) {
     // Establecer color de texto a blanco
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(60, 10, $pdf->encodeString('Automóvil atendido'), 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(60, 10, $pdf->encodeString('Servicio realizado'), 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(70, 10, $pdf->encodeString('Tiempo esperado de finalización'), 0, 1, 'C', 1); // Celda de texto
+    $pdf->cell(61, 10, $pdf->encodeString('Automóvil atendido'), 1, 0, 'C', 1);
+    $pdf->cell(61, 10, $pdf->encodeString('Servicio realizado'), 1, 0, 'C', 1);
+    $pdf->cell(70, 10, $pdf->encodeString('Tiempo esperado de finalización'), 1, 1, 'C', 1); // Celda de texto
 
     $pdf->setFont('Arial', '', 11);
     $groupedByTipo = [];

@@ -48,13 +48,10 @@ if ($shouldAddPage) {
     // Se establece un color para el texto de los encabezados (por ejemplo, blanco)
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(64, 10, 'Nombre del cliente', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(50, 10, 'Modelo del automovil', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(39, 10, 'Fecha de cita', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(29, 10, 'Estado de cita', 0, 1, 'C', 1);
+    $pdf->cell(65, 10, 'Nombre del cliente', 1, 0, 'C', 1);
+    $pdf->cell(50, 10, 'Modelo del automovil', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Fecha de cita', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, 'Estado de cita', 1, 1, 'C', 1);
 
     // Se establece la fuente para los datos de las citas.
     $pdf->setFont('Arial', '', 11);

@@ -39,11 +39,9 @@ if ($dataCita = $cita->getDemandaServicioMensual()) {
         $pdf->setFillColor(186, 24, 27);
         $pdf->setTextColor(255, 255, 255);
         $pdf->setFont('Arial', 'B', 11);
-        $pdf->cell(104, 10, $pdf->encodeString('Nombre del servicio'), 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(40, 10, $pdf->encodeString('Cantidad esperada'), 0, 0, 'C', 1);
-        $pdf->cell(1, 5, '', 0, 0, 'C');
-        $pdf->cell(40, 10, $pdf->encodeString('Cantidad realizada'), 0, 1, 'C', 1);
+        $pdf->cell(104, 10, $pdf->encodeString('Nombre del servicio'), 1, 0, 'C', 1);
+        $pdf->cell(41, 10, $pdf->encodeString('Cantidad esperada'), 1, 0, 'C', 1);
+        $pdf->cell(41, 10, $pdf->encodeString('Cantidad realizada'), 1, 1, 'C', 1);
 
         // Establecer encabezado de mes
         $pdf->setFillColor(234, 234, 234);

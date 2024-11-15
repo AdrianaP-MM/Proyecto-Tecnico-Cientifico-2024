@@ -136,7 +136,9 @@ class ServiciosProcesoHandler
             JOIN 
                 tb_automoviles a ON c.id_automovil = a.id_automovil
             JOIN 
-                tb_servicios s ON sp.id_servicio = s.id_servicio;';
+                tb_servicios s ON sp.id_servicio = s.id_servicio
+            WHERE
+                c.estado_cita = "Aceptado"; ';
         return Database::getRows($sql); // Ejecución de la consulta SQL
     }
 

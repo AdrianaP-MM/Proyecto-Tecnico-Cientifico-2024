@@ -50,15 +50,11 @@ if ($shouldAddPage) {
     // Se establece un color de texto para los encabezados (por ejemplo, blanco)
     $pdf->setTextColor(255, 255, 255);
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(34, 10, 'Modelo', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(29, 10, 'Propietario', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(60, 10, 'Servicio', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(19, 10, 'Cantidad', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(39, 10, 'Fecha Cita', 0, 1, 'C', 1);
+    $pdf->cell(35, 10, 'Modelo', 1, 0, 'C', 1);
+    $pdf->cell(30, 10, 'Propietario', 1, 0, 'C', 1);
+    $pdf->cell(60, 10, 'Servicio', 1, 0, 'C', 1);
+    $pdf->cell(20, 10, 'Cantidad', 1, 0, 'C', 1);
+    $pdf->cell(40, 10, 'Fecha Cita', 1, 1, 'C', 1);
 
     // Se establece la fuente para los datos de los productos.
     $pdf->setFont('Arial', '', 11);

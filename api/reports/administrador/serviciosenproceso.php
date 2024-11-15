@@ -29,19 +29,13 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Se establece la fuente para los encabezados.
     $pdf->setFont('Arial', 'B', 9); // Aumentar el tamaño de la fuente
     // Se imprimen las celdas con los encabezados.
-    $pdf->cell(32, 8, 'Fecha Reg.', 0, 0, 'C', 1); 
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(32, 8, 'Fecha Aprox.', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(14, 8, 'Cantidad', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(24, 8, 'Estado', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(24, 8, 'Modelo Auto', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(15, 8, 'Placa', 0, 0, 'C', 1);
-    $pdf->cell(1, 5, '', 0, 0, 'C');
-    $pdf->cell(49, 8, 'Servicio', 0, 1, 'C', 1);
+    $pdf->cell(32, 8, 'Fecha Reg.', 1, 0, 'C', 1);
+    $pdf->cell(32, 8, 'Fecha Aprox.', 1, 0, 'C', 1);
+    $pdf->cell(15, 8, 'Cantidad', 1, 0, 'C', 1);
+    $pdf->cell(18, 8, 'Estado', 1, 0, 'C', 1);
+    $pdf->cell(24, 8, 'Modelo Auto', 1, 0, 'C', 1);
+    $pdf->cell(23, 8, 'Placa', 1, 0, 'C', 1);
+    $pdf->cell(50, 8, 'Servicio', 1, 1, 'C', 1);
 
     // Se establece un color de texto para los datos (por ejemplo, negro)
     $pdf->setTextColor(0, 0, 0);
@@ -51,12 +45,12 @@ if ($dataServicios = $serviciosenProcesos->mostrarServiciosenProceso()) {
     // Se recorren los registros fila por fila.
     foreach ($dataServicios as $rowServicio) {
         // Se imprimen las celdas con los datos de los servicios, dejando en blanco si no existe el dato.
-        $pdf->cell(33, 8, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
-        $pdf->cell(33, 8, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
+        $pdf->cell(32, 8, $pdf->encodeString(isset($rowServicio['fecha_registro']) ? $rowServicio['fecha_registro'] : ''), 1, 0);
+        $pdf->cell(32, 8, isset($rowServicio['fecha_aproximada_finalizacion']) ? $rowServicio['fecha_aproximada_finalizacion'] : '', 1, 0);
         $pdf->cell(15, 8, isset($rowServicio['cantidad_servicio']) ? $rowServicio['cantidad_servicio'] : '', 1, 0);
-        $pdf->cell(25, 8, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
-        $pdf->cell(25, 8, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
-        $pdf->cell(15, 8, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
+        $pdf->cell(18, 8, isset($rowServicio['estado_cita']) ? $rowServicio['estado_cita'] : '', 1, 0);
+        $pdf->cell(24, 8, isset($rowServicio['modelo_automovil']) ? $rowServicio['modelo_automovil'] : '', 1, 0);
+        $pdf->cell(23, 8, isset($rowServicio['placa_automovil']) ? $rowServicio['placa_automovil'] : '', 1, 0);
         $pdf->cell(50, 8, $pdf->encodeString(isset($rowServicio['nombre_servicio']) ? $rowServicio['nombre_servicio'] : ''), 1, 1);
     }
 } else {

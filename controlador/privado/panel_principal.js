@@ -248,7 +248,7 @@ const graficaClientesMesDepartamentos = async (mes, año, departamento) => {
     const noDatosElement = document.getElementById('noDatos');
 
     // Limpiar el contenido actual de la gráfica antes de actualizarla
-    graficaElement.innerHTML = '';
+    graficaElement.style.display = 'block'; // Asegurar que el canvas está visible
     noDatosElement.style.display = 'none'; // Ocultar mensaje
 
     // Se declaran los arreglos para guardar los datos a graficar.
@@ -623,7 +623,7 @@ const openReportTotalDeClientes = () => {
 
 const openReportServiciosPendientes = () => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
-    const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosEnProceso.php`);
+    const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosenproceso.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
     console.log(PATH.href);
