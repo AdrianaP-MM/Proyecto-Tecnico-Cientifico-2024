@@ -132,12 +132,14 @@
                                     <div class="mb-3">
                                         <div class="form-floating mb-0 p-0">
                                             <label for="fecha_contratacion" class="form-label px-2 pt-1 p-0 m-0">Fecha
-                                                de contratación</label> <!--Fecha de contratación-->
+                                                de contratación</label>
                                             <input type="date" class="form-control" id="fecha_contratacion"
-                                                name="fecha_contratacion" required onclick="configurarFechaMaxima()"
-                                                autocomplete="off">
+                                                name="fecha_contratacion" required autocomplete="off"
+                                                onkeydown="return false">
                                             <span id="ERROR-FECHA" class="text-danger"></span>
                                         </div>
+                                        
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-6">
