@@ -166,40 +166,41 @@ class CitasHandler
         CONCAT(a.modelo_automovil, " - ", a.placa_automovil) AS "Automovil",
         s.nombre_servicio AS "Servicio_Realizado",
         CONCAT(
-            FLOOR(avg_service_time / 1440), " días ",
-            FLOOR((avg_service_time % 1440) / 60), " horas y ",
-            ROUND(avg_service_time % 60), " minutos"
+        FLOOR(avg_service_time / 1440), " días ",
+        FLOOR((avg_service_time % 1440) / 60), " horas y ",
+        ROUND(avg_service_time % 60), " minutos"
         ) AS "Tiempo_Promedio",
         t.nombre_tipo_automovil AS "Tipo"
-    FROM 
-        tb_automoviles a
-    JOIN 
-        tb_citas c ON a.id_automovil = c.id_automovil
-    JOIN 
-        tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
-    JOIN 
-        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
-    JOIN 
-        tb_servicios s ON se.id_servicio = s.id_servicio
-    JOIN (
-        SELECT 
-            a.id_automovil,
-            s.id_servicio,
-            AVG(TIMESTAMPDIFF(MINUTE, se.fecha_registro, COALESCE(se.fecha_finalizacion, se.fecha_aproximada_finalizacion))) AS avg_service_time
         FROM 
-            tb_automoviles a
+        tb_automoviles a
         JOIN 
-            tb_citas c ON a.id_automovil = c.id_automovil
+        tb_citas c ON a.id_automovil = c.id_automovil
         JOIN 
-            tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+        tb_tipos_automoviles t ON a.id_tipo_automovil = t.id_tipo_automovil
         JOIN 
-            tb_servicios s ON se.id_servicio = s.id_servicio
+        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+        JOIN 
+        tb_servicios s ON se.id_servicio = s.id_servicio
+        JOIN (
+        SELECT 
+        a.id_automovil,
+        s.id_servicio,
+        AVG(TIMESTAMPDIFF(MINUTE, se.fecha_registro, COALESCE(se.fecha_finalizacion, se.fecha_aproximada_finalizacion))) AS avg_service_time
+        FROM 
+        tb_automoviles a
+        JOIN 
+        tb_citas c ON a.id_automovil = c.id_automovil
+        JOIN 
+        tb_servicios_en_proceso se ON c.id_cita = se.id_cita
+        JOIN 
+        tb_servicios s ON se.id_servicio = s.id_servicio
         WHERE 
-            se.fecha_finalizacion IS NOT NULL
+        se.fecha_finalizacion IS NOT NULL
+        AND YEAR(se.fecha_registro) = YEAR(CURDATE())
         GROUP BY 
-            a.id_automovil, s.id_servicio
-    ) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
-    GROUP BY 
+        a.id_automovil, s.id_servicio
+        ) avg_service_data ON a.id_automovil = avg_service_data.id_automovil AND s.id_servicio = avg_service_data.id_servicio
+        GROUP BY 
         a.id_automovil, s.nombre_servicio, t.nombre_tipo_automovil;';
         return Database::getRows($sql);
     }
