@@ -242,7 +242,6 @@ const graficaClientesMesDepartamentos = async (mes, año, departamento) => {
     formData.append("departamento", departamento);
 
     const DATAClienteMesDep = await fetchData(CLIENTE_API, 'readClientesRegistrados', formData);
-    console.log(DATAClienteMesDep);
 
     const graficaElement = document.getElementById('clientesMesDepartamentos');
     const noDatosElement = document.getElementById('noDatos');
@@ -302,7 +301,6 @@ const graficoBarrasTipos = async () => {
         barGraph('autosPorTipo', tipo, total, 'Tipos de automóviles', 'Total de automóviles por tipo');
     } else {
         document.getElementById('autosPorTipo').remove();
-        console.log(DATA.error);
     }
 }
 
@@ -324,7 +322,6 @@ const graficoDonaTipos = async () => {
         doughnutGraph('cantidadServicios', nombre, total, 'Cantidad de servicios en cada categoría');
     } else {
         document.getElementById('cantidadServicios').remove();
-        console.log(DATA.error);
     }
 }
 
@@ -359,9 +356,6 @@ const graficaClientesMesTipos = async (año) => {
             }
         });
 
-        // Log para verificar los datos antes de graficar
-        console.log('Clientes Naturales:', natural);
-        console.log('Clientes Jurídicos:', juridico);
 
         // Configuración de los datos para el gráfico
         const data = {
@@ -417,7 +411,6 @@ const graficaClientesMesTipos = async (año) => {
 const graficaClientesMasCitas = async () => {
     // Petición para obtener los datos del gráfico.
     const DATAClienteMasCitas = await fetchData(CLIENTE_API, 'readClientesMasCitas');
-    console.log(DATAClienteMasCitas);
 
     // Se comprueba si la respuesta es satisfactoria y si hay datos.
     if (DATAClienteMasCitas.status && DATAClienteMasCitas.dataset.length > 0) {
@@ -486,9 +479,6 @@ const graficaTop10 = async () => {
                 topConteos[9] = otrosCount + conteos.slice(10).reduce((a, b) => a + b, 0); // Suma los conteos restantes
             }
 
-            // Log para verificar los datos antes de graficar
-            console.log('Servicios:', topServicios);
-            console.log('Conteos:', topConteos);
 
             // Configuración de los datos para el gráfico
             graphPieStyling('graficaTop10', 'Top 10 servicios más solicitados y otros', topServicios, topConteos);
@@ -502,10 +492,6 @@ const graficaTop10 = async () => {
                 allServicios.push('Otros');
                 allConteos.push(otrosCount); // Incluye el conteo de "Otros"
             }
-
-            // Log para verificar los datos antes de graficar
-            console.log('Servicios:', allServicios);
-            console.log('Conteos:', allConteos);
 
             graphPieStyling('graficaTop10', 'Top 10 servicios más solicitados y otros', allServicios, allConteos);
         }
@@ -611,7 +597,6 @@ const openReportAutosPorAño = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/automovilesPorAño.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 const openReportTotalDeClientes = () => {
@@ -626,7 +611,6 @@ const openReportServiciosPendientes = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosenproceso.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 const openReportEspecializacionEmpleados = () => {
@@ -642,9 +626,6 @@ const openReportCitasEstadoYDUI = () => {
     const duiInput = document.getElementById("input_dui_report");
     const idCliente = duiInput.getAttribute('data-selected-id'); // Obtener el id_cliente del DUI seleccionado
 
-    // Imprimir en consola para depuración
-    console.log("Estado Cita:", estadoCita);
-    console.log("ID Cliente:", idCliente);
 
     // Verifica que se hayan proporcionado valores válidos
     if (!estadoCita || !idCliente) {
@@ -657,7 +638,6 @@ const openReportCitasEstadoYDUI = () => {
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 const openReportServiciosCarroFechaYTipo = () => {
@@ -667,11 +647,6 @@ const openReportServiciosCarroFechaYTipo = () => {
     const tipoAutoId = document.getElementById("input_tipo_auto").value;
     const tipoAutoNombre = document.getElementById("input_tipo_auto").options[document.getElementById("input_tipo_auto").selectedIndex].text;
 
-    // Imprimir en consola para depuración
-    console.log("Fecha Inicial:", fechaInicial);
-    console.log("Fecha Final:", fechaFinal);
-    console.log("Tipo Auto ID:", tipoAutoId);
-    console.log("Tipo Auto Nombre:", tipoAutoNombre);
 
     // Verifica que se hayan proporcionado valores válidos
     if (!fechaInicial || !fechaFinal || !tipoAutoId || !tipoAutoNombre) {
@@ -697,7 +672,6 @@ const openReportServiciosCarroFechaYTipo = () => {
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 
@@ -709,9 +683,6 @@ const openReportHistorialserviciosCliente = () => {
     const idCliente = duiInput.getAttribute('data-selected-id'); // Obtener el id_cliente del DUI seleccionado
     const tipoServicio = document.getElementById("input_tipo_servicio").value;
 
-    // Imprimir en consola para depuración
-    console.log("ID Cliente:", idCliente);
-    console.log("Tipo de Servicio:", tipoServicio);
 
     // Verifica que se hayan proporcionado valores válidos
     if (!idCliente) {
@@ -728,7 +699,6 @@ const openReportHistorialserviciosCliente = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/serviciosHistorialCliente.php?dui=${encodeURIComponent(idCliente)}&tipo=${encodeURIComponent(tipoServicio)}`);
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
-    console.log(PATH.href);
 };
 
 // Agregar un event listener para limpiar el data-selected-id cuando el DUI cambia
@@ -757,7 +727,6 @@ const openReportPrediccionTiempoNatural = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/predictivoTiempoAtencionNatural.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 const openReportPrediccionDemandaServicios = () => {
@@ -765,7 +734,6 @@ const openReportPrediccionDemandaServicios = () => {
     const PATH = new URL(`${SERVER_URL}reports/administrador/predictivoDemandaServicios.php`);
     // Se abre el reporte en una nueva pestaña.or
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 async function readDUI() {
@@ -783,7 +751,6 @@ async function readDUI() {
                 select: function (event, ui) {
                     $('#input_dui_report').val(ui.item.label);
                     $('#input_dui_report').attr('data-selected-id', ui.item.value); // Guardar el id_cliente como data en el input
-                    console.log("ID Cliente seleccionado:", ui.item.value);
                     return false;
                 }
             });
@@ -793,7 +760,6 @@ async function readDUI() {
                 select: function (event, ui) {
                     $('#input_dui_report_servicios').val(ui.item.label);
                     $('#input_dui_report_servicios').attr('data-selected-id', ui.item.value); // Guardar el id_cliente como data en el input
-                    console.log("ID Cliente seleccionado:", ui.item.value);
                     return false;
                 }
             });

@@ -366,7 +366,6 @@ INPUT_FECHA_LLEGADA_UPDATE.addEventListener('input', function () {
 });
 
 const addSave = async (action, form, fecha, hora) => {
-  console.log(INPUT_HORA.value)
   if (action === 'createRow') {
     // Validaciones de campos vacíos
     if (INPUT_FECHA_LLEGADA.value === '' || INPUT_AUTOMOVIL.value === '' || INPUT_ZONA.value === '' ||
@@ -413,7 +412,6 @@ const addSave = async (action, form, fecha, hora) => {
       }
     }
 
-    console.log('TodoGud'); // Código a ejecutar después de la validación
     //Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(form);
     FORM.append('fecha_hora_cita', convertToMySQLDatetime(fecha, hora));
@@ -492,7 +490,6 @@ SERVICES_FORM.addEventListener('submit', async (event) => {
 });
 
 const addServicioProceso = async (form, action = 'createRow') => {
-  console.log(id_serviciow);
   const isValid = await checkFormValidity(form);
 
   // Validaciones de campos vacíos
@@ -510,7 +507,6 @@ const addServicioProceso = async (form, action = 'createRow') => {
       return;
     }
 
-    console.log('TodoGud'); // Código a ejecutar después de la validación
     const FORMID = new FormData(form);
     FORMID.append('id_cita', id_citaW);
     let id_servicio_proceso;
@@ -603,7 +599,6 @@ let id_serviciow = 0;
 
 //Constante para abrir detalles cuando se le de doble click a la tabla
 const openUpdate = async (id_Servicio) => {
-  console.log(id_Servicio);
   id_serviciow = id_Servicio;
   const FORM_ID = new FormData();
   FORM_ID.append('id_servicio', id_Servicio);

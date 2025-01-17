@@ -226,9 +226,6 @@ document
             const formData = new FormData(document.getElementById("searchForm"));
             formData.append("id_tipo_servicio", idTipoServicio);
 
-            // Verifica qué datos se están enviando
-            console.log("Form Data:", Array.from(formData.entries()));
-
             try {
                 // Realizar una solicitud al servidor para buscar trabajadores.
                 const searchData = await fetchData(SERVICIOS_API, "buscarRows", formData);
@@ -241,9 +238,6 @@ document
                         <img src="../../recursos/imagenes/icons/add.svg" class="hvr-grow"
                         onclick="openCreate()">
                     </div>`;
-
-                // Verifica la respuesta del servidor
-                console.log("Search Data:", searchData);
 
                 // Verificar si la búsqueda fue exitosa.
                 if (searchData.status) {
@@ -288,7 +282,6 @@ async function checkImageExists(imageUrl) {
 
 // Función para abrir el modal de eliminación
 const openDelete = async (id) => {
-    console.log('ID recibido para eliminar:', id); // Depuración
 
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
     const response = await confirmAction2(
@@ -299,11 +292,6 @@ const openDelete = async (id) => {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const formData = new FormData();
         formData.append("id_tipo_servicio", id);
-
-        // Depuración: Mostrar todos los pares clave-valor en el formData
-        for (let pair of formData.entries()) {
-            console.log("Datos recibidos del form" + pair[0] + ': ' + pair[1]);
-        }
 
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(SERVICIOS_API, "deleteRow", formData);

@@ -231,7 +231,6 @@ const search = async () => {
     }
 
     if (MARCAS_SELECCIONADAS.length != 0) {
-        console.log(MARCAS_SELECCIONADAS);
         FORM.append('autos_marcas', MARCAS_SELECCIONADAS);
     }
 
@@ -248,7 +247,6 @@ const search = async () => {
 *   Retorno: ninguno.
 */
 const fillData = async (action, form = null) => {
-    console.log(TIPO_CLIENTE);
     if (action == 'readAll' || action == 'searchRows') {
         // Lógica para mostrar clientes naturales o jurídicos
         if (TIPO_CLIENTE == 'Persona natural') {
@@ -295,9 +293,7 @@ const fillData = async (action, form = null) => {
     }
     else {
         if (action == 'readMarcas') {
-            console.log('ReadMarcasAuto')
             CONTENEDOR_MARCAS_AUTOS.innerHTML = '';
-            console.log(TIPO_CLIENTE);
             const DATA = await fetchData(CLIENTES_API, action);
 
             if (DATA.status) {
@@ -393,8 +389,6 @@ function setIdMarcas(id) {
         // Si el id ya está en el arreglo, lo eliminamos
         MARCAS_SELECCIONADAS.splice(index, 1);
     }
-
-    console.log(MARCAS_SELECCIONADAS);
     search();
 }
 

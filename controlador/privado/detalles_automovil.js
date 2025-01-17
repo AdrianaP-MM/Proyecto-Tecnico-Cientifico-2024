@@ -123,9 +123,6 @@ const reportEstadoAutomovil = () => {
     // Obtén el ID del automóvil desde los parámetros de la URL
     const auto = PARAMS.get('id');
 
-    // Imprimir en consola para depuración
-    console.log("ID Automovil:", auto);
-
     // Verifica que se haya proporcionado un ID válido
     if (!auto) {
         alert("ID del automóvil no proporcionado.");
@@ -137,7 +134,6 @@ const reportEstadoAutomovil = () => {
 
     // Abre el reporte en una nueva pestaña
     window.open(PATH.href);
-    console.log(PATH.href);
 }
 
 // *Método del evento para cuando el documento ha cargado.

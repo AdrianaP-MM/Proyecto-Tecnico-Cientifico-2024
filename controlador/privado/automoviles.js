@@ -66,7 +66,6 @@ const search = async () => {
 
     if (INPUT_BUSQUEDA.value) {
         FORM.append('search', INPUT_BUSQUEDA.value);
-        console.log('Buscando...');
     }
     else {
         fillTable();
@@ -176,10 +175,6 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
 
-    // Imprime los campos del formulario en la consola
-    for (let [key, value] of FORM.entries()) {
-        console.log(`${key}: ${value}`);
-    }
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(AUTOMOVILES_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -649,9 +644,6 @@ const handleCheckboxClick = async () => {
         }
     });
 
-    // Imprimir los IDs seleccionados en la consola
-    console.log("IDs seleccionados de marcas:", selectedMarcas);
-
     // Llama a fillTableFiltroMarcas con un objeto que contenga los IDs seleccionados
     await fillTableFiltroMarcas(selectedMarcas);
 };
@@ -666,9 +658,6 @@ const handleCheckboxClick2 = async () => {
             selectedTipos.push(tipoId);
         }
     });
-
-    // Imprimir los IDs seleccionados en la consola
-    console.log("IDs seleccionados de tipos:", selectedTipos);
 
     // Llama a fillTableFiltroMarcas con un objeto que contenga los IDs seleccionados
     await fillTableFiltroTipos(selectedTipos);

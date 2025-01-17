@@ -93,8 +93,6 @@ document
         else {
             // Constante tipo objeto con los datos del formulario de barra de busqueda.
             const formData = new FormData(document.getElementById("searchForm"));
-            // Verifica qué datos se están enviando
-            console.log("Form Data:", Array.from(formData.entries()));
             // Limpiar el contenedor de trabajadores.
             CONTAINER_TRABAJADORES_BODY.innerHTML = "";
             // Se agrega la card para agregar usuario luego de vaciar el campo
@@ -108,9 +106,6 @@ document
             try {
                 // Realizar una solicitud al servidor para buscar trabajadores.
                 const searchData = await fetchData(SERVICIOS_API, "searchRows", formData);
-
-                // Verifica la respuesta del servidor
-                console.log("Search Data:", searchData);
 
                 // Verificar si la búsqueda fue exitosa.
                 if (searchData.status) {

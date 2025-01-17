@@ -99,7 +99,6 @@ const graficaServiciosRecibidos = async () => {
 
     const FORM = new FormData();
     FORM.append('id_cliente', Number(getQueryParam('id_cliente')));
-    console.log(TIPO_CLIENTEW);
     const endpoint = TIPO_CLIENTEW === 'natural' ? 'serviciosClienteNatural' : 'serviciosClienteJuridico';
     const DATAServiciosClientes = await fetchData(CLIENTES_API, endpoint, FORM);
 

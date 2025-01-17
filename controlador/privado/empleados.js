@@ -195,7 +195,6 @@ SAVE_FORM.addEventListener("submit", async (event) => {
     const formData = new FormData(SAVE_FORM);
     if (ID_EMPLEADO.value) {
       formData.append('idTrabajador', ID_EMPLEADO.value);
-      console.log(ID_EMPLEADO.value);
     }
     //formData.append('fto_trabajador2', "C:\fakepath\EMPLEADOIMG.png");
 
@@ -289,7 +288,6 @@ const openUpdate = async (id) => {
       TELEFONO.value = row.telefono_trabajador;
       CORREO.value = row.correo_trabajador;
       DEPARTAMENTO.value = findNumberValue(row.departamento_trabajador);
-      console.log(`Especialización Trabajador ID: ${row.id_especializacion_trabajador}`);
       // Llamada a fillSelect
 
       setTimeout(async () => {
