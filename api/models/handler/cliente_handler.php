@@ -163,7 +163,35 @@ class ClienteHandler
     }
 
     // Método para crear un nuevo cliente
-    public function createRow()
+    public function createRowNatural()
+    {
+        $sql = 'INSERT INTO tb_clientes(
+            fecha_registro_cliente, 
+            dui_cliente, 
+            telefono_cliente,
+            correo_cliente,
+            nombres_cliente, 
+            apellidos_cliente,
+            departamento_cliente,
+            NIT_cliente,
+            tipo_cliente,
+            estado_cliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'; // Consulta SQL para insertar un nuevo cliente
+        $params = array(
+            $this->fecha_registro_cliente,
+            $this->dui_cliente,
+            $this->telefono_cliente,
+            $this->correo_cliente,
+            $this->nombres_cliente,
+            $this->apellidos_cliente,
+            $this->departamento_cliente,
+            $this->NIT_cliente,
+            $this->tipo_cliente,
+            $this->estado_cliente
+        ); // Parámetros para la consulta SQL
+        return Database::executeRow($sql, $params); // Ejecución de la consulta SQL
+    }
+
+    public function createRowJuridico()
     {
         $sql = 'INSERT INTO tb_clientes(
             fecha_registro_cliente, 

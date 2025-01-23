@@ -77,10 +77,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen clientes para mostrar';
                 }
                 break;
-            case 'createRow':
+                /*Hacer un create aparte solo con juridico y otro con natural separandolos luego subir el proyecto otra vez y probar
+                luego de eso si no funciona ver que nondas con los set del juridico y compararlos con lo de la movil que si funcionan*/
+            case 'createRowNatural':
                 $_POST = Validator::validateForm($_POST);
-                //print_r($_POST);
-                // Validaciones comunes para ambos tipos de cliente
                 if (
                     !$cliente->setDUI($_POST['input_dui']) or
                     !$cliente->setNIT($_POST['input_nit']) or
@@ -94,29 +94,36 @@ if (isset($_GET['action'])) {
                     !$cliente->setEstado($_POST['estado_cliente'])
                 ) {
                     $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->createRowNatural()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Usuario natural creado correctamente';
                 } else {
-                    // Validaciones específicas para cada tipo de cliente
-                    if ($_POST['tipo_cliente'] == 'Persona natural') {
-                        if (!$cliente->createRow()) {
-                            $result['error'] = 'Ocurrió un problema al crear el Cliente natural';
-                        } else {
-                            $result['status'] = 1;
-                            $result['message'] = 'Cliente natural creado correctamente';
-                        }
-                    } else {
-                        if (
-                            !$cliente->setNRF($_POST['input_nrf']) or
-                            !$cliente->setNRC($_POST['input_nrc']) or
-                            !$cliente->setRubro($_POST['input_rubro_comercial'])
-                        ) {
-                            $result['error'] = $cliente->getDataError();
-                        } elseif (!$cliente->createRow()) {
-                            $result['error'] = 'Ocurrió un problema al crear el Cliente jurídico';
-                        } else {
-                            $result['status'] = 1;
-                            $result['message'] = 'Cliente jurídico creado correctamente';
-                        }
-                    }
+                    $result['error'] = 'Ocurrio un problema con ingresar cliente natural';
+                }
+                break;
+            case 'createRowJuridico':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setDUI($_POST['input_dui']) or
+                    !$cliente->setNIT($_POST['input_nit']) or
+                    !$cliente->setTelefono($_POST['input_telefono']) or
+                    !$cliente->setDepartamento($_POST['input_departamento']) or
+                    !$cliente->setNombre($_POST['input_nombre']) or
+                    !$cliente->setApellido($_POST['input_apellido']) or
+                    !$cliente->setCorreo($_POST['input_correo']) or
+                    !$cliente->setFechaRegistro($_POST['fecha_registro']) or
+                    !$cliente->setTipoCliente($_POST['tipo_cliente']) or
+                    !$cliente->setEstado($_POST['estado_cliente']) or
+                    !$cliente->setNRF($_POST['input_nrf']) or
+                    !$cliente->setNRC($_POST['input_nrc']) or
+                    !$cliente->setRubro($_POST['input_rubro_comercial'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->createRowJuridico()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Usuario juridico creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrio un problema con ingresar cliente juridico';
                 }
                 break;
             case 'updateRow':

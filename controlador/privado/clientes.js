@@ -165,24 +165,52 @@ const addSave = async () => {
         FORM.append('tipo_cliente', TIPO_CLIENTE);
         FORM.append('estado_cliente', 'Activo');
 
-        // Petición para guardar los datos del formulario.
-        const DATA = await fetchData(CLIENTES_API, 'createRow', FORM);
+        //Aqui empieza la division del flujo de si es cliente natural o juridico
 
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            await sweetAlert(1, 'Se ha guardado con éxito', 300);
-            fillData('readAll');
-            MODAL.hide();
-            resetForm(); // Resetea el formulario
-            ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
-            location.reload();
-        } else {
-            if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
-                await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+        if (TIPO_CLIENTE == "Persona natural") {
+
+            // Petición para guardar los datos del formulario.
+            const DATA = await fetchData(CLIENTES_API, 'createRowNatural', FORM);
+
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                await sweetAlert(1, 'Se ha guardado con éxito', 300);
+                fillData('readAll');
+                MODAL.hide();
+                resetForm(); // Resetea el formulario
+                ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+                location.reload();
+            } else {
+                if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                }
+                else {
+                    sweetAlert(4, DATA.error, true);
+                }
             }
-            else {
-                sweetAlert(4, DATA.error, true);
+
+        } if (TIPO_CLIENTE == "Persona juridica") {
+
+            // Petición para guardar los datos del formulario.
+            const DATA = await fetchData(CLIENTES_API, 'createRowJuridico', FORM);
+
+            // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+            if (DATA.status) {
+                await sweetAlert(1, 'Se ha guardado con éxito', 300);
+                fillData('readAll');
+                MODAL.hide();
+                resetForm(); // Resetea el formulario
+                ADD_FORM.classList.remove('was-validated'); // Quita la clase de validación
+                location.reload();
+            } else {
+                if (DATA.error == 'Acción no disponible fuera de la sesión, debe ingresar para continuar') {
+                    await sweetAlert(4, DATA.error, true); location.href = 'index.html'
+                }
+                else {
+                    sweetAlert(4, DATA.error, true);
+                }
             }
+
         }
     } else {
         console.log('Que paso?: Formulario no válido');
