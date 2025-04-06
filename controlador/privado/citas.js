@@ -779,7 +779,7 @@ function createCardServicio(data) {
       const defaultImage = `${SERVER_URL}/images/defaultImage.jpg`;
       html += `
         </div>
-        <img src="${SERVER_URL}/images/tipoServicio/${imagenServicio}" class="imagenCitaServiciosCarro"
+        <img src="${SERVER_URL}images/tipoServicio/${imagenServicio}" class="imagenCitaServiciosCarro"
         onerror="this.onerror=null; this.src='../../recursos/imagenes/img_servicios/mecanica.png';">
         </div>
       </div>
@@ -810,7 +810,7 @@ function createCardCita(row) {
   const formattedTime = convertMySQLTimeToHTMLTime(time);
 
   const imagenAuto = row.imagen_automovil;
-  const defaultImage = `${SERVER_URL}/images/automoviles/default.png`;
+  const defaultImage = `${SERVER_URL}images/automoviles/default.png`;
 
   return `
     <div class="card position-relative z-2" onclick="clicCita(${row.id_cita}, '${row.estado_cita}')">
@@ -847,7 +847,7 @@ function createCardCita(row) {
           </div>
 
           <div class="img-container">
-          <img src="${SERVER_URL}/images/automoviles/${imagenAuto}"
+          <img src="${SERVER_URL}images/automoviles/${imagenAuto}"
           onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
           </div>
           <div class="info-cliente text-white d-flex flex-column justify-content-center align-items-center">

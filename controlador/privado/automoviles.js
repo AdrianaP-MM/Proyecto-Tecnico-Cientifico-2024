@@ -238,7 +238,7 @@ const fillTable = async (form = null) => {
                             <h4 class="open-sans-light-italic">Màs informaciòn</h4>
                         </div>
                         <div class="container-img-card">
-                            <img src="${SERVER_URL}/images/automoviles/${row.imagen_automovil}"
+                            <img src="${SERVER_URL}images/automoviles/${row.imagen_automovil}"
                             onerror="this.onerror=null; this.src='../../api/images/automoviles/default.png';">
                         </div>
                         <div class="container-info-card position-relative">
