@@ -83,7 +83,6 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$cliente->setDUI($_POST['input_dui']) or
-                    !$cliente->setNIT($_POST['input_nit']) or
                     !$cliente->setTelefono($_POST['input_telefono']) or
                     !$cliente->setDepartamento($_POST['input_departamento']) or
                     !$cliente->setNombre($_POST['input_nombre']) or

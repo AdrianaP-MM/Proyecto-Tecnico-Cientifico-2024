@@ -173,9 +173,8 @@ class ClienteHandler
             nombres_cliente, 
             apellidos_cliente,
             departamento_cliente,
-            NIT_cliente,
             tipo_cliente,
-            estado_cliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'; // Consulta SQL para insertar un nuevo cliente
+            estado_cliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'; // Consulta SQL para insertar un nuevo cliente
         $params = array(
             $this->fecha_registro_cliente,
             $this->dui_cliente,
@@ -184,7 +183,6 @@ class ClienteHandler
             $this->nombres_cliente,
             $this->apellidos_cliente,
             $this->departamento_cliente,
-            $this->NIT_cliente,
             $this->tipo_cliente,
             $this->estado_cliente
         ); // Parámetros para la consulta SQL

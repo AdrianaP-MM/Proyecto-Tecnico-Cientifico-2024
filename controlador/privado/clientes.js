@@ -14,6 +14,7 @@ const ADD_FORM = document.getElementById('addForm');
 const PERSONA_NATURAL_DIV = document.getElementById('personaNatural');
 const PERSONA_JURIDICA_DIV = document.getElementById('personaJuridica');
 const RUBRO_COMERCIAL_DIV = document.getElementById('rubroComercial');
+const NIT_DIV = document.getElementById('nit');
 const NRC_DIV = document.getElementById('nrc');
 const NRF_DIV = document.getElementById('nrf');
 
@@ -126,16 +127,17 @@ const addSave = async () => {
     const isValid = await checkFormValidity(ADD_FORM);
 
     if (NOMBRES.value === '' || APELLIDOS.value === '' || CORREO.value === '' || TELEFONO.value === '' ||
-        DEPARTAMENTO.value === '' || NIT.value === '' || DUI.value === ''
+        DEPARTAMENTO.value === '' || DUI.value === ''
     ) {
-        await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
+        await sweetAlert(2, 'Por favor, complete todos los campos1.', true); return;
     }
 
     if ((!RUBRO_COMERCIAL.classList.contains('d-none') && RUBRO_COMERCIAL.value === '') ||
         (!NRC.classList.contains('d-none') && NRC.value === '') ||
-        (!NRF.classList.contains('d-none') && NRF.value === '')
+        (!NRF.classList.contains('d-none') && NRF.value === '') ||
+        (!NIT.classList.contains('d-none') && NIT.value === '')
     ) {
-        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
+        await sweetAlert(2, 'Por favor, complete todos los campos2.', true);
         return;
     }
 
@@ -144,14 +146,14 @@ const addSave = async () => {
         !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_ADD) ||
         !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_ADD) ||
         !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD) ||
-        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD) ||
-        !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_ADD)) {
+        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD)) {
         // await sweetAlert(2, 'Error al validar los campos.', true);
         return;
     }
 
     if (!NRC.classList.contains('d-none')) {
-        if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD)) {
+        if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD) ||
+            !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_ADD)) {
             // await sweetAlert(2, 'Error al validar los campos.', true);
             return;
         }
@@ -447,11 +449,13 @@ function showCamposJuridicos() {
     PERSONA_JURIDICA_DIV.classList.remove('d-none');
     PERSONA_NATURAL_DIV.classList.add('d-none');
     RUBRO_COMERCIAL_DIV.classList.remove('d-none');
+    NIT_DIV.classList.remove('d-none');
     RUBRO_COMERCIAL.classList.remove('d-none');
     NRC_DIV.classList.remove('d-none');
     NRC.classList.remove('d-none');
     NRF_DIV.classList.remove('d-none');
     NRF.classList.remove('d-none');
+    NIT.classList.remove('d-none');
     CONTENEDOR_RUBRO_COMERCIAL.classList.remove('d-none');
 }
 
@@ -459,11 +463,13 @@ function showCamposNaturales() {
     PERSONA_NATURAL_DIV.classList.remove('d-none');
     PERSONA_JURIDICA_DIV.classList.add('d-none');
     RUBRO_COMERCIAL_DIV.classList.add('d-none');
+    NIT_DIV.classList.add('d-none');
     RUBRO_COMERCIAL.classList.add('d-none');
     NRC_DIV.classList.add('d-none');
     NRC.classList.add('d-none');
     NRF_DIV.classList.add('d-none');
     NRF.classList.add('d-none');
+    NIT.classList.add('d-none');
     CONTENEDOR_RUBRO_COMERCIAL.classList.add('d-none');
 }
 
