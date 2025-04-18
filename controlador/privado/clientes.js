@@ -129,7 +129,7 @@ const addSave = async () => {
     if (NOMBRES.value === '' || APELLIDOS.value === '' || CORREO.value === '' || TELEFONO.value === '' ||
         DEPARTAMENTO.value === '' || DUI.value === ''
     ) {
-        await sweetAlert(2, 'Por favor, complete todos los campos1.', true); return;
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
     }
 
     if ((!RUBRO_COMERCIAL.classList.contains('d-none') && RUBRO_COMERCIAL.value === '') ||
@@ -137,7 +137,7 @@ const addSave = async () => {
         (!NRF.classList.contains('d-none') && NRF.value === '') ||
         (!NIT.classList.contains('d-none') && NIT.value === '')
     ) {
-        await sweetAlert(2, 'Por favor, complete todos los campos2.', true);
+        await sweetAlert(2, 'Por favor, complete todos los campos.', true);
         return;
     }
 
@@ -147,14 +147,14 @@ const addSave = async () => {
         !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_ADD) ||
         !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_ADD) ||
         !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_ADD)) {
-        // await sweetAlert(2, 'Error al validar los campos.', true);
+         await sweetAlert(2, 'Error al validar los campos.', true);
         return;
     }
 
     if (!NRC.classList.contains('d-none')) {
         if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_ADD) ||
             !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_ADD)) {
-            // await sweetAlert(2, 'Error al validar los campos.', true);
+             await sweetAlert(2, 'Error al validar los campos.', true);
             return;
         }
     }

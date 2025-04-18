@@ -11,6 +11,7 @@ const ADD_FORM = document.getElementById('addForm');
 
 const RUBRO_COMERCIAL_DIV = document.getElementById('rubro_comercial');
 const NRC_DIV = document.getElementById('nrc');
+const NIT_DIV = document.getElementById('nit');
 const NRF_DIV = document.getElementById('nrf');
 
 // Constantes de cada campo del formulario
@@ -136,14 +137,15 @@ const addSave = async () => {
     const isValid = await checkFormValidity(ADD_FORM);
 
     if (NOMBRES.value === '' || APELLIDOS.value === '' || CORREO.value === '' || TELEFONO.value === '' ||
-        DEPARTAMENTO.value === '' || NIT.value === '' || DUI.value === ''
+        DEPARTAMENTO.value === '' || DUI.value === ''
     ) {
         await sweetAlert(2, 'Por favor, complete todos los campos.', true); return;
     }
 
     if ((!RUBRO_COMERCIAL.classList.contains('d-none') && RUBRO_COMERCIAL.value === '') ||
         (!NRC.classList.contains('d-none') && NRC.value === '') ||
-        (!NRF.classList.contains('d-none') && NRF.value === '')
+        (!NRF.classList.contains('d-none') && NRF.value === '') ||
+        (!NIT.classList.contains('d-none') && NIT.value === '')
     ) {
         await sweetAlert(2, 'Por favor, complete todos los campos.', true);
         return;
@@ -154,15 +156,15 @@ const addSave = async () => {
         !checkInput(validateEmail(CORREO.value), CORREO, ERROR_CORREO_UPDATE) ||
         !checkInput(validatePhoneNumber(TELEFONO.value), TELEFONO, ERROR_TELEFONO_UPDATE) ||
         !checkInput(validateSelect(DEPARTAMENTO.value), DEPARTAMENTO, ERROR_DEPA_UPDATE) ||
-        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_UPDATE) ||
-        !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_UPDATE)) {
-        //await sweetAlert(2, 'Error al validar los campos.', true);
+        !checkInput(validateDUI(DUI.value), DUI, ERROR_DUI_UPDATE)) {
+        //await sweetAlert(2, 'Error al validar los campos.5', true);
         return;
     }
 
     if (!NRC.classList.contains('d-none')) {
-        if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_UPDATE)) {
-            //await sweetAlert(2, 'Error al validar los campos.', true);
+        if (!checkInput(validateSelect(RUBRO_COMERCIAL.value), RUBRO_COMERCIAL, ERROR_RUBRO_UPDATE) ||
+            !checkInput(validateNit(NIT.value), NIT, ERROR_NIT_UPDATE)) {
+            //await sweetAlert(2, 'Error al validar los campos.6', true);
             return;
         }
     }
@@ -247,6 +249,8 @@ const fillData = async () => {
             RUBRO_COMERCIAL_DIV.classList.add('d-none');
             RUBRO_COMERCIAL.classList.add('d-none');
             NRC_DIV.classList.add('d-none');
+            NIT_DIV.classList.add('d-none');
+            NIT.classList.add('d-none');
             NRC.classList.add('d-none');
             NRF_DIV.classList.add('d-none');
             NRF.classList.add('d-none');
@@ -256,6 +260,8 @@ const fillData = async () => {
             RUBRO_COMERCIAL_DIV.classList.remove('d-none');
             RUBRO_COMERCIAL.classList.remove('d-none');
             NRC_DIV.classList.remove('d-none');
+            NIT_DIV.classList.remove('d-none');
+            NIT.classList.remove('d-none');
             NRC.classList.remove('d-none');
             NRF_DIV.classList.remove('d-none');
             NRF.classList.remove('d-none');
@@ -352,12 +358,6 @@ function getPersonaNaturalTemplate(row) {
                     <h5 class="m-0 p-0 open-sans-semibold">Fecha de registro en el taller</h5>
                     <p class="m-0 p-0 open-sans-regular">
                         ${row.fecha_registro_cliente}
-                    </p>
-                </div>
-                <div class="nit2">
-                    <h5 class="m-0 p-0 open-sans-semibold">Número de NIT</h5>
-                    <p class="m-0 p-0 open-sans-regular">
-                        ${row.NIT_cliente}
                     </p>
                 </div>
             </div>

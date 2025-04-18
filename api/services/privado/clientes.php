@@ -132,7 +132,6 @@ if (isset($_GET['action'])) {
                 if (
                     !$cliente->setId($_POST['id_cliente']) or
                     !$cliente->setDUI($_POST['input_dui']) or
-                    !$cliente->setNIT($_POST['input_nit']) or
                     !$cliente->setTelefono($_POST['input_telefono']) or
                     !$cliente->setDepartamento($_POST['input_departamento']) or
                     !$cliente->setNombre($_POST['input_nombre']) or
@@ -154,6 +153,7 @@ if (isset($_GET['action'])) {
                         if (
                             !$cliente->setNRF($_POST['input_nrf']) or
                             !$cliente->setNRC($_POST['input_nrc']) or
+                            !$cliente->setNIT($_POST['input_nit']) or
                             !$cliente->setRubro($_POST['input_rubro_comercial'])
                         ) {
                             $result['error'] = $cliente->getDataError();
